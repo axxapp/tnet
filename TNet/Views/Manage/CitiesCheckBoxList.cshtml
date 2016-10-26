@@ -2,15 +2,15 @@
 @{
     Layout = null;
 }
+<link rel="stylesheet" href="@Url.Content("~/Css/iCheck/skins/all.css")" />
+<script type="text/javascript" src="@Url.Content("~/Js/iCheck/icheck.min.js")"></script>
 
 @if (Model != null && Model.Count() > 0)
 {
     <div>
-        @foreach (var item in Model)
-        {
-            <label>
-                @item.city1&nbsp;&nbsp;<input type="checkbox" class="form-control" name="idcity" value="@item.idcity" @(item.IsCheck ? "checked" : "") />
-            </label>
+        @foreach (var item in Model) {
+                    <input type="checkbox" name="idcity" id="idcity_@item.idcity" value="@item.idcity" @(item.IsCheck ? "checked" : "") />
+            <label for="idcity_@item.idcity">@item.city1</label>
         }
     </div>
 }
@@ -18,3 +18,8 @@ else
 {
     <h3>没有找到任何城市，请先<a href="@Url.Action("CityEdit","Manage")">添加城市</a></h3>
 }
+<script type="text/javascript">
+    $(function () {
+        $('input:checkbox').iCheck({ checkboxClass: 'icheckbox_square-blue' });
+    });
+</script>
