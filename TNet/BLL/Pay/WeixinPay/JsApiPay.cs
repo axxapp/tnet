@@ -8,7 +8,6 @@ using System.IO;
 using System.Text;
 using System.Net;
 using System.Web.Security;
-using Util;
 using Newtonsoft.Json.Linq;
 
 namespace WxPayAPI

@@ -20,3 +20,5 @@
 /.vs/TNet/v14/.suo
 /TNetCom/bin
 /TNetCom/obj
+/Cache/bin
+/Cache/obj

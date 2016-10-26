@@ -5,7 +5,7 @@ using System.Xml;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Util;
+using TCom.Util;
 
 namespace WxPayAPI
 {

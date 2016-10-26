@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Web;
-using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Xml;
 using TCom.Model.ToKey;
-using WeChatApp.Models;
 
-namespace Util
+namespace TCom.Util
 {
     public static class Pub
     {
@@ -133,7 +132,7 @@ namespace Util
                 if (am != null)
                 {
                     k = am.access_token;
-                }              
+                }
                 return k;
             }
         }
@@ -148,16 +147,16 @@ namespace Util
         {
             AccessToken m = null;
             string url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + secret;
-           
+
             try
             {
-                string reqStr = HttpHelp.Get(url);
+                string reqStr = Get(url);
 
                 if (!string.IsNullOrWhiteSpace(reqStr))
                 {
                     JavaScriptSerializer Serializer = new JavaScriptSerializer();
                     m = Serializer.Deserialize<AccessToken>(reqStr);
-                    m.expires = DateTime.Now.AddSeconds(m.expires_in);                    
+                    m.expires = DateTime.Now.AddSeconds(m.expires_in);
                 }
 
             }
@@ -172,19 +171,19 @@ namespace Util
 
 
 
-        /// <summary>
-        /// 本地路径转换成URL相对路径
-        /// </summary>
-        /// <param name="imagesurl1"></param>
-        /// <returns></returns>
-        public static string urlconvertor(string imagesurl1)
-        {
-            string tmpRootDir = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath.ToString());//获取程序根目录
-            string imagesurl2 = imagesurl1.Replace(tmpRootDir, ".."); //转换成相对路径
-            imagesurl2 = imagesurl2.Replace(@"\", @"/");
-            //imagesurl2 = imagesurl2.Replace(@"Aspx_Uc/", @"");
-            return imagesurl2;
-        }
+        ///// <summary>
+        ///// 本地路径转换成URL相对路径
+        ///// </summary>
+        ///// <param name="imagesurl1"></param>
+        ///// <returns></returns>
+        //public static string urlconvertor(string imagesurl1)
+        //{
+        //    string tmpRootDir = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath.ToString());//获取程序根目录
+        //    string imagesurl2 = imagesurl1.Replace(tmpRootDir, ".."); //转换成相对路径
+        //    imagesurl2 = imagesurl2.Replace(@"\", @"/");
+        //    //imagesurl2 = imagesurl2.Replace(@"Aspx_Uc/", @"");
+        //    return imagesurl2;
+        //}
 
         /// <summary>
 		/// Base64解密
@@ -221,5 +220,92 @@ namespace Util
             }
             return null;
         }
+
+
+
+        /// <summary>
+        /// post请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string Post(string url, string data, string contentType = "application/x-www-form-urlencoded")
+        {
+            try
+            {
+                Encoding encoding = Encoding.UTF8;
+                byte[] bdata = encoding.GetBytes(data);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "POST";
+                request.AllowAutoRedirect = true;
+                request.ContentType = contentType;
+                request.ContentLength = data.Length;
+                CookieContainer cookie = new CookieContainer();
+                request.CookieContainer = cookie;
+                using (Stream myRequestStream = request.GetRequestStream())
+                {
+                    myRequestStream.Write(bdata, 0, data.Length);
+                    myRequestStream.Close();
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                    {
+                        response.Cookies = cookie.GetCookies(response.ResponseUri);
+                        using (Stream myResponseStream = response.GetResponseStream())
+                        {
+                            using (StreamReader myStreamReader = new StreamReader(myResponseStream, encoding))
+                            {
+                                string retString = myStreamReader.ReadToEnd();
+                                myStreamReader.Close();
+                                myResponseStream.Close();
+                                return retString;
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+            }
+            return "";
+        }
+
+
+        /// <summary>
+        /// get请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string Get(string url, string contentType = "text/html;charset=UTF-8")
+        {
+            try
+            {
+                Encoding encoding = Encoding.UTF8;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.AllowAutoRedirect = true;
+                request.Method = "GET";
+                request.ContentType = contentType;
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (Stream myResponseStream = response.GetResponseStream())
+                    {
+                        using (StreamReader myStreamReader = new StreamReader(myResponseStream, encoding))
+                        {
+                            string retString = myStreamReader.ReadToEnd();
+                            myStreamReader.Close();
+                            myResponseStream.Close();
+                            return retString;
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+            }
+            return "";
+        }
+
+
+
     }
 }
