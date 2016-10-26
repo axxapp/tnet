@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TCom.EF;
 using TNet.Models;
-using Util;
+using TCom.Util;
 
 namespace TNet.BLL
 {

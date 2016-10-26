@@ -86,7 +86,6 @@ namespace TNet.Models
         public new int? idclass { get; set; }
 
         [CheckBoxRequiredValidation]
-        [Required]
         [Display(Name ="城市")]
         public string[] idcity { get; set; }
 
