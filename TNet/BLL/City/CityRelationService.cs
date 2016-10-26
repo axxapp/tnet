@@ -64,16 +64,11 @@ namespace TNet.BLL
             return oldCityRelation;
         }
 
-        public static bool Save(List<CityRelation> cityRelations) {
+        public static bool Save(List<CityRelation> cityRelations,string idmodule,int moduleType) {
             bool result = false;
-            if (cityRelations==null|| cityRelations.Count==0) {
-                return result;
-            }
             try
             {
                 TN db = new TN();
-                string idmodule = cityRelations.First().idmodule;
-                int? moduleType = cityRelations.First().moduletype;
 
                 List<CityRelation> currentRelations = db.CityRelations.Where(en => en.idmodule == idmodule && en.moduletype == moduleType).ToList();
                 List<CityRelation> existCityRelations  = currentRelations.Where(en => (cityRelations.Contains<CityRelation>(en, CityRelationEqualityComparer.Instance))).ToList();
