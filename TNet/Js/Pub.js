@@ -394,6 +394,25 @@
     function onCity(call) {
         if (!isCalling) {
             isCalling = true;
+           
+            //if (navigator.geolocation) {
+            //    navigator.geolocation.getCurrentPosition(function (pos) {
+
+            //        alert(pos.coords.latitude + '  ' + pos.coords.longitude);
+
+            //    }, function (err) {
+            //        alert("不支持点位err" + err.message);
+            //    }, {
+            //        enableHighAccuracy: true,
+            //        timeout: 5000,
+            //        maximumAge: 0
+
+            //    });
+
+            //} else {
+            //    alert("不支持点位");
+            //}
+
             var city = curCity();
             if (!city || city == undefined) {
                 getCityData(call);
@@ -403,9 +422,12 @@
             }
         }
     }
+
+
+
     function curCity() {
         var city = Pub.getCache("city");
-        return city ? city[0]:null;
+        return city ? city[0] : null;
     }
 
     function getCityData(call) {

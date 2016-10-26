@@ -4,7 +4,7 @@ using System.Web;
 using System.Net;
 using System.IO;
 using System.Text;
-using Util;
+using TCom.Util;
 
 namespace WxPayAPI
 {

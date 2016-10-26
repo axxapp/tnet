@@ -6,9 +6,9 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Web.Hosting;
+using TCom.Util;
 using TNet.Models.File;
 using TNet.Models.Service.Com;
-using Util;
 
 namespace TNet.Service.File
 {

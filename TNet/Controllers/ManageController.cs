@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
-using Util;
 using System.IO;
 using WeChatApp.Models;
 using TNet.Models;
@@ -17,6 +16,7 @@ using log4net;
 using System.Reflection;
 using System;
 using System.Text;
+using TCom.Util;
 
 namespace TNet.Controllers
 {
@@ -2302,7 +2302,7 @@ namespace TNet.Controllers
         public ActionResult Menu()
         {
             string url = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + Pub.accessToken;
-            string data = HttpHelp.Get(url);
+            string data = Pub.Get(url);
             ViewBag.Menu = new HtmlString(data);
             return View();
         }
@@ -2310,7 +2310,6 @@ namespace TNet.Controllers
 
         public ActionResult GetMenu()
         {
-
             return View();
         }
 
@@ -2322,10 +2321,11 @@ namespace TNet.Controllers
         public JsonResult GetMaterialList(RMaterialListParamM mode)
         {
 
-            string url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=" + Pub.accessToken;
-            JavaScriptSerializer s = new JavaScriptSerializer();
-            string responseContent = HttpHelp.Post(url, s.Serialize(mode));
-            return Json(responseContent);
+            //string url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=" + Pub.accessToken;
+            //JavaScriptSerializer s = new JavaScriptSerializer();
+            //string responseContent = HttpHelp.Post(url, s.Serialize(mode));
+            //return Json(responseContent);
+            return null;
         }
 
         /// <summary>
@@ -2335,15 +2335,15 @@ namespace TNet.Controllers
         /// <returns>存储路径</returns>
         public string GetImageById(RMaterialItemParamM mode)
         {
-            string filePath = Server.MapPath("~/Content/Images/Material/" + mode.media_id + ".jpg");
-            if (!System.IO.File.Exists(filePath))
-            {
-                HttpHelp bll = new HttpHelp();
-                string url = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=" + Pub.accessToken;
-                JavaScriptSerializer Serializer = new JavaScriptSerializer();
-                filePath = bll.DownLoad(url, Serializer.Serialize(mode), mode.media_id);
-            }
-            return Pub.urlconvertor(filePath);
+            //string filePath = Server.MapPath("~/Content/Images/Material/" + mode.media_id + ".jpg");
+            //if (!System.IO.File.Exists(filePath))
+            //{
+            //    string url = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=" + Pub.accessToken;
+            //    JavaScriptSerializer Serializer = new JavaScriptSerializer();
+            //    filePath = bll.DownLoad(url, Serializer.Serialize(mode), mode.media_id);
+            //}
+            //return Pub.urlconvertor(filePath);
+            return "";
         }
 
 
@@ -2356,7 +2356,7 @@ namespace TNet.Controllers
         {
             string url = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=" + Pub.accessToken;
             JavaScriptSerializer s = new JavaScriptSerializer();
-            string responseContent = HttpHelp.Post(url, s.Serialize(mode));
+            string responseContent = Pub.Post(url, s.Serialize(mode));
             return responseContent;
         }
 
@@ -2367,8 +2367,8 @@ namespace TNet.Controllers
         /// <returns></returns>
         public JsonResult UpdateMenu(string menu)
         {
-            string url = " https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + Pub.accessToken;
-            string responseContent = HttpHelp.Post(url, menu);
+            string url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + Pub.accessToken;
+            string responseContent = Pub.Post(url, menu);
             return Json(responseContent);
         }
     }

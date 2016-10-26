@@ -7,8 +7,8 @@ using System.Web;
 using TCom.EF;
 using TNet.Models.Manage;
 using TNet.Models.User;
-using Util;
 using TNet.Models;
+using TCom.Util;
 
 namespace TNet.BLL.User
 {
@@ -46,7 +46,7 @@ namespace TNet.BLL.User
                             if (!string.IsNullOrWhiteSpace(access_token))
                             {
                                 string url = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid + "&lang=zh_CN";
-                                string data = HttpHelp.Get(url);
+                                string data = Pub.Get(url);
                                 if (!string.IsNullOrWhiteSpace(data))
                                 {
                                     json = JObject.Parse(data);
@@ -112,7 +112,7 @@ namespace TNet.BLL.User
             if (!string.IsNullOrWhiteSpace(code))
             {
                 string url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + Pub.appid + "&secret=" + Pub.secret + "&code=" + code + "&grant_type=authorization_code";
-                string data = HttpHelp.Get(url);
+                string data = Pub.Get(url);
                 if (!string.IsNullOrWhiteSpace(data))
                 {
                     JObject json = JObject.Parse(data);

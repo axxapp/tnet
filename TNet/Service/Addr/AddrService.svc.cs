@@ -8,8 +8,8 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.Text;
 using TCom.EF;
+using TCom.Util;
 using TNet.Models.Service.Com;
-using Util;
 
 namespace TNet.Service.Addr
 {

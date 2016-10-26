@@ -7,9 +7,9 @@ using System.Text;
 using System.Linq;
 using TCom.EF;
 using TNet.Models.Order;
-using Util;
 using TNet.Models.Pay;
 using TCom.Msg;
+using TCom.Util;
 
 namespace WxPayAPI
 {

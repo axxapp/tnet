@@ -7,7 +7,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Util;
+using TCom.Util;
 using WeChatApp.Bll;
 using WeChatApp.Models;
 
@@ -30,7 +30,7 @@ namespace WeChatApp.Controllers
                 Byte[] postBytes = new Byte[stream.Length];
                 stream.Read(postBytes, 0, (Int32)stream.Length);
                 string postString = Encoding.UTF8.GetString(postBytes);
-                MsgHelp msgHelp = new MsgHelp();
+                MsgHelper msgHelp = new MsgHelper();
                 string responseContent = msgHelp.responseMsg(postString);
                 Response.Write(responseContent);
             }

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Xml;
-using WeChatApp.Bll;
-using WeChatApp.Models;
+using TCom.WX;
 
-namespace Util
+namespace TCom.Util
 {
-    public class MsgHelp
+    public class MsgHelper
     {
         /// <summary>
         /// 处理消息并回应
@@ -51,7 +50,7 @@ namespace Util
             {
                 if (Event.InnerText.Equals("subscribe"))
                 {
-                    SubscribeMsgM m = new SubscribeMsgM();
+                    WXEvent m = new WXEvent();
                     m.FromUserName = FromUserName.InnerText;
                     m.ToUserName = ToUserName.InnerText;
                     m.Event = Event.InnerText;
@@ -71,7 +70,7 @@ namespace Util
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private string doSubscribe(SubscribeMsgM m)
+        private string doSubscribe(WXEvent m)
         {
             string responseContent = string.Empty;
             responseContent = string.Format(ReplyType.Message_Text, m.FromUserName, m.ToUserName, DateTime.Now.Ticks, "谢谢关注我们");

@@ -8,10 +8,10 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.Text;
 using TCom.EF;
+using TCom.Util;
 using TNet.Models.Order;
 using TNet.Models.Service.Com;
 using TNet.Util;
-using Util;
 
 namespace TNet.Service.Order
 {

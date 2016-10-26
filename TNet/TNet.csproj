@@ -332,11 +332,8 @@
     <Compile Include="Util\CryptoHelper.cs" />
     <Compile Include="Util\HttpExtension.cs" />
     <Compile Include="Util\UrlHelperExtension.cs" />
-    <Compile Include="Util\HttpHelp.cs" />
     <Compile Include="Util\ListExtension.cs" />
-    <Compile Include="Util\MsgHelp.cs" />
     <Compile Include="Util\PagerEntity.cs" />
-    <Compile Include="Util\Pub.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\XMLToken.xml" />
@@ -1032,7 +1029,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\Addr\" />
-    <Folder Include="Models\Addr\" />
     <Folder Include="Resource\Images\Ue\" />
     <Folder Include="ueditor\net\upload\image\" />
   </ItemGroup>
