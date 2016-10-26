@@ -213,7 +213,7 @@ function uploadImg(imgData, id) {
 
 
 function checkIdc(idc) {
-    if (!(/(^\d{15}$)|(^\d{17}([0-9]|[a-zA-Z])$)/.test(idc))) {
+    if (!(/(^\d{18}$)|(^\d{17}([0-9]|[a-zA-Z])$)/.test(idc))) {
         alert('身份证号码格式不对');
         return false;
     }

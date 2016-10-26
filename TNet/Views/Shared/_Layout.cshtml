@@ -1,4 +1,5 @@
 ﻿@{
+    ViewBag.wxJsConfig = new HtmlString(TCom.Util.Pub.wxJsConfig);
     Layout = null;
 }
 <!DOCTYPE html>
@@ -18,15 +19,39 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link href="https://res.wx.qq.com/open/libs/weui/0.4.3/weui.min.css" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/WeiXin/Base.css?v=20161026")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Com/swiper-3.3.1.min.css?v=20161026")" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js?v=20161026")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/swiper-3.3.1.min.js?v=20161026")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/js.cookie.js?v=20161026")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Pub.js?v=20161026")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/WeiXin/Base.js?v=20161026")"></script>
+    <link href="@Url.Content("~/Css/WeiXin/Base.css?v=20161027")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Com/swiper-3.3.1.min.css?v=20161027")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js?v=20161027")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/swiper-3.3.1.min.js?v=20161027")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/js.cookie.js?v=20161027")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Pub.js?v=20161027")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/WeiXin/Base.js?v=20161027")"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+    <script type="text/javascript">
+        var IS_WX_JS_CONFIG_OBJ = false;
+        try {
+            @ViewBag.wxJsConfig;
+            if (WX_JS_CONFIG_OBJ) {
+                IS_WX_JS_CONFIG_OBJ = true;
+                wx.config(WX_JS_CONFIG_OBJ);
+            }
+        } catch (e) {
+        }
+        try {
+            if (IS_WX_JS_CONFIG_OBJ) {
+                wx.ready(function () {
+                    if (!Pub.wxJsRead) {
+                        Pub.wxJsRead = true;
+                        Pub.onWXLocation();
+                    }
+                });
+            } else {
+                Pub.wxJsRead = true;
+            }
+        } catch (e) {
+        }
+    </script>
     @RenderSection("Head", required: false)
-
 </head>
 <body root="@Url.Content("~/")" @ViewBag.__Is_Home_Tag ontouchstart>
     <div class="T">
@@ -91,6 +116,12 @@
                 <div class="weui_loading_leaf weui_loading_leaf_11"></div>
             </div>
             <p id="toast_l_c" class="weui_toast_content">处理中...</p>
+        </div>
+    </div>
+
+    <div class="CityHost" id="CityHost">
+        <div class="CityBox" id="CityBox" onclick="autoShowCity()">
+
         </div>
     </div>
 </body>

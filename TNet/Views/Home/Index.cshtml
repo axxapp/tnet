@@ -4,17 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Head{
-    <link href="@Url.Content("~/Css/Home/Index.css?v=20161026")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Merc/List.css?v=20161026")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Home/Index.css?v=20161027")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Merc/List.css?v=20161027")" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js ">
     </script>
 
-    <script type="text/javascript" src="@Url.Content("~/Js/Home/Home.js?v=20161026")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Home/Home.js?v=20161027")">
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/Base.js?v=20161026")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Merc/Base.js?v=20161027")">
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/BaseList.js?v=20161026")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Merc/BaseList.js?v=20161027")">
     </script>
 
 }
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="top_tool">
-            <a href="javascript:void(0)" class="city"><span id="city">北京</span><i></i></a>
+            <a href="javascript:void(0)" class="city" onclick="autoShowCity()"><span id="city" >定位中...</span><i></i></a>
         </div>
     </div>
     <div class="notice  weui_cells weui_cells_access">
@@ -92,18 +92,6 @@
 
 <div id="merc" class="pitem_host">
     <span class="loading_c">加载中...</span>
-    @*<div class="pitem">
-            <div class="pitem_l">
-                <a href="#"><img src="@Url.Content("~/Images/Merc/0.jpg")" />水果</a>
-
-                <div class="HLive"></div>
-
-            </div>
-            <div class="pitem_r">
-                <a href="#"><img src="@Url.Content("~/Images/Merc/0.jpg")" />水果</a>
-
-            </div>
-
-        </div>*@
 
 </div>
+ 

@@ -12,11 +12,50 @@ function initBase() {
     });
     Pub.auth(false);
     setTopMenuEvent();
-   
+
 }
-
+function autoShowCity() {
+    if (g_base_x_v == 0) {
+        g_base_x_v = $(document.body).scrollTop();
+    }
+    var cObj = $('#C');
+    cObj.toggle();
+    var ch = $('#CityHost');
+    ch.toggle();
+    if (cObj.is(":hidden")) {
+        setTopMenuEvent(autoShowCity, "Top_Menu_Back");
+        $(document.body).removeClass("body_bg").addClass("body_bg");
+    } else {
+        setTopMenuEvent();
+        $(document.body).removeClass("body_bg");
+        window.setTimeout(function () {
+            $(document).scrollTop(g_base_x_v);
+            g_base_x_v = 0;
+        }, 80);
+    }
+}
+function initCityList(city) {
+    var citys = Pub.getCitys();
+    var html = "";
+    if (citys) {
+        for (var i = 0; i < citys.length; i++) {
+            var co = citys[i];
+            if (co) {
+                html += '<li><a href="javascript:void(0)" onclick="onCityChange(\'' + co.city1 + '\')">' + co.city1 + '<span /></a></li>';
+            }
+        }
+    }
+    if (html) {
+        html = "<ul>" + html + "</ul>";
+    }
+    $("#CityBox").html(html);
+    $("#city").html(city ? city.city1 : "");
+}
+function onCityChange(city) {
+    Pub.setCache("location_city", city);
+    Pub.doCityReadys();
+}
 function autoShowTopMenu() {
-
     if (g_base_x_v == 0) {
         g_base_x_v = $(document.body).scrollTop();
     }

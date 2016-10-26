@@ -17,8 +17,15 @@
         checkUser: checkUser,
         isHome: isHome,
         auth: auth,
+        onWXLocation: onWXLocation,
+        wxJsRead: false,
+        cityReady: cityReady,
+        doCityReadys: doCityReadys,
+        ready: ready,
+        doReadys: doReadys,
         onCity: onCity,
         curCity: curCity,
+        getCitys:getCitys,
         setCache: setCache,
         getCache: getCache,
         delCache: delCache,
@@ -187,6 +194,7 @@
     //ajax请求-跨域解决
     function _ajax_call(request) {
         request.url = rootUrl() + request.url;
+         
         var isJson = false;
         if (request.headers == undefined) {
             request.headers = {
@@ -389,30 +397,130 @@
         return false;
     }
 
-    var isCalling = false;
+    function cityReady(call, param) {
 
+        ready(call, param, "city");
+    }
+
+    function doCityReadys() {
+        return doReadys("city");
+    }
+
+    var callFunc = { "common": new Array(), "city": new Array() };
+    function ready(callF, param, type) {
+        if (!param) {
+            param = null;
+        }
+        if (!type) {
+            type = "common";
+        }
+        for (var i = 0; i < callFunc.length; i++) {
+            if (callFunc[type][i].cf == callF) {
+                return;
+            }
+        }
+        callFunc[type].push({ cf: callF, p: param });
+
+    }
+
+    function doReadys(type) {
+        try {
+            for (var co in callFunc) {
+                if (type) {
+                    if (co != type) {
+                        continue;
+                    }
+                }
+                var cfs = callFunc[co];
+                var i = 0,j = 0, lg = cfs.length;
+                while (i++ < lg) {
+                    var fo = cfs[j++];
+                    if (type == "city") {
+                        doOnCity(fo.cf);
+                        j++;
+                    } else {
+                        //cfs.pop();
+                        //fo.cf(fo.p);
+                    }
+                } 
+            }
+        } catch (e) {
+
+        }
+    }
+    var isCalling = false;
     function onCity(call) {
+        //alert(Pub.wxJsRead);
+        cityReady(call);
+        if (!Pub.wxJsRead) {
+            //onWXLocation();
+            window.setTimeout(function () {
+                if (!Pub.wxJsRead) {
+                    Pub.wxJsRead = true;
+                    doOnCity(call);
+                }
+            }, 1000 * 3);
+            //doOnCity(call);
+        } else {
+            onWXLocation();
+        }
+    }
+
+    function onWXLocation() {
+        try {
+            //alert("onWXLocation");
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    try {
+                        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                        //var speed = res.speed; // 速度，以米/每秒计
+                        //var accuracy = res.accuracy; // 位置精度
+                        getWXLocation(latitude, longitude);
+                        //alert(latitude + "-wx.getLocation(" + longitude);
+                        return;
+                    } catch (e) {
+                    }
+                    doCityReadys();
+                }, fail: function (res) {
+                    doCityReadys();
+                }, cancel: function (res) {
+                    doCityReadys();
+                }
+            });
+        } catch (e) {
+            doCityReadys();
+        }
+    }
+
+    function getWXLocation(latitude, longitude) {
+        $.ajax({
+            url: 'http://api.map.baidu.com/geocoder/v2/?ak=btsVVWf0TM1zUBEbzFz6QqWF&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=0',
+            type: "get",
+            dataType: "jsonp",
+            jsonp: "callback",
+            success: function (data) {
+                //console.log(data);
+                //var province = data.result.addressComponent.province;
+                var city = (data.result.addressComponent.city);
+                if (city) {
+                    setCache("location_city", city);
+                }
+                doCityReadys();
+                //var district = data.result.addressComponent.district;
+                //var street = data.result.addressComponent.street;
+                //var street_number = data.result.addressComponent.street_number;
+                //var formatted_address = data.result.formatted_address;   
+            }, error: function () {
+                doCityReadys();
+            }
+        });
+    }
+
+    function doOnCity(call) {
         if (!isCalling) {
             isCalling = true;
-           
-            //if (navigator.geolocation) {
-            //    navigator.geolocation.getCurrentPosition(function (pos) {
-
-            //        alert(pos.coords.latitude + '  ' + pos.coords.longitude);
-
-            //    }, function (err) {
-            //        alert("不支持点位err" + err.message);
-            //    }, {
-            //        enableHighAccuracy: true,
-            //        timeout: 5000,
-            //        maximumAge: 0
-
-            //    });
-
-            //} else {
-            //    alert("不支持点位");
-            //}
-
             var city = curCity();
             if (!city || city == undefined) {
                 getCityData(call);
@@ -423,11 +531,38 @@
         }
     }
 
+    function getCitys() {
+        var city = Pub.getCache("city");
+        var location_city = Pub.getCache("location_city")
+        if (city) {
+            if (location_city) {
+                for (var i = 0; i < city.length; i++) {
+                    if (city[i].city1.indexOf(location_city) >= 0 || location_city.indexOf(city[i].city1) >= 0) {
+                        city[i].cur = 1;
+                    }
+                }
 
+            } 
+        }
+        return city;
+    }
 
     function curCity() {
         var city = Pub.getCache("city");
-        return city ? city[0] : null;
+        var location_city = Pub.getCache("location_city")
+        if (city) {
+            if (location_city) { 
+                for (var i = 0; i < city.length; i++) {
+                    if (city[i].city1.indexOf(location_city) >= 0 || location_city.indexOf(city[i].city1) >= 0) {
+                        //city[i].cur = 1;
+                        return city[i];
+                    }
+                }
+
+            }
+            city = city[0];
+        }
+        return city;
     }
 
     function getCityData(call) {

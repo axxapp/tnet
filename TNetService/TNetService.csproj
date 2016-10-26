@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mobel\AccessToken.cs" />
-    <Compile Include="Util\HttpHelp.cs" />
     <Compile Include="Util\Msg.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
@@ -79,7 +78,6 @@
     <Compile Include="TService.Designer.cs">
       <DependentUpon>TService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Util\Pub.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
