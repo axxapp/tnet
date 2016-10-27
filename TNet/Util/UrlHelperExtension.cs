@@ -22,13 +22,11 @@ namespace TNet.Util
             if (pageCount==1) {
                 return "";
             }
-            
-           
 
-            if (routeValues==null&& routeValues.Count>0) {
-                string key= routeValues.Keys.Where(en => en == "pageIndex").FirstOrDefault();
+            if (routeValues == null && routeValues.Count > 0) {
+                string key = routeValues.Keys.Where(en => en == "pageIndex").FirstOrDefault();
                 if (string.IsNullOrEmpty(key)) {
-                    routeValues.Add("pageIndex",pageIndex);
+                    routeValues.Add("pageIndex", pageIndex);
                 }
             }
 

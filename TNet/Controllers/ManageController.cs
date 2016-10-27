@@ -559,20 +559,23 @@ namespace TNet.Controllers {
             ViewData["mercTypeSelects"] = mercTypeSelects;
             ViewData["isetupSelects"] = isetupSelects;
             ViewData["netypeSelects"] = netypeSelects;
+            ViewData["citySelects"] = citySelects;
 
             RouteData.Values.Add("idtype", idtype);
             RouteData.Values.Add("merc", merc);
             RouteData.Values.Add("netype", netype);
             RouteData.Values.Add("isetup", isetup);
+            RouteData.Values.Add("idcity", idcity);
 
             ViewData["idtype"] = idtype;
             ViewData["merc"] = merc;
             ViewData["netype"] = netype;
             ViewData["isetup"] = isetup;
-            ViewData["citySelects"] = citySelects;
+            ViewData["isetup"] = isetup;
 
             ViewData["pageCount"] = pageCount;
             ViewData["pageIndex"] = pageIndex;
+            ViewData["idcity"] = idcity;
 
             return View(viewModels);
         }

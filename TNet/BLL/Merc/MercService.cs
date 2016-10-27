@@ -23,16 +23,16 @@ namespace TNet.BLL
             List<Merc> mercs = new List<Merc>();
             TN db = new TN();
             mercs= (from mo in db.Mercs join mt in db.MercTypes on mo.idtype equals mt.idtype
-                    //join cr in db.CityRelations on mo.idmerc.ToString() equals cr.idmodule
+                    join cr in db.CityRelations on mo.idmerc.ToString() equals cr.idmodule
                     orderby mt.sortno descending, mo.sortno descending
-                    //where (string.IsNullOrEmpty(idcity) || (cr.idcity== idcity && cr.moduletype==(int)ModuleType.Merc))
+                    where (string.IsNullOrEmpty(idcity) || (cr.idcity == idcity && cr.moduletype == (int)ModuleType.Merc))
                     select mo).Where(en => (
             (idtype == 0 || en.idtype== idtype)
             && (string.IsNullOrEmpty(merc) || en.merc1.Contains(merc))
             &&(netype==-1 || en.netype==netype)
             &&(isetup==-1 || ((isetup==0 || isetup==1) && en.isetup==(isetup == 1)) )
             )).ToList();
-            return mercs;
+            return mercs.Distinct(MercEqualityComparer.Instance).ToList();
 
         }
 

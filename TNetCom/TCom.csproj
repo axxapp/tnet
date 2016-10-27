@@ -67,6 +67,7 @@
     <Compile Include="EF\CityRelation.cs" />
     <Compile Include="EF\Discount.cs" />
     <Compile Include="EF\Ext\CityRelationEqualityComparer.cs" />
+    <Compile Include="EF\Ext\MercEqualityComparer.cs" />
     <Compile Include="EF\Img.cs" />
     <Compile Include="EF\ManageUser.cs" />
     <Compile Include="EF\MenuItem.cs" />
