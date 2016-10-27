@@ -31,6 +31,13 @@
                 @Html.HiddenFor(model => model.content)
                 <input type="hidden" name="mercImages" id="mercImages" value="" />
                 <div class="form-group">
+                    @Html.LabelFor(model => model.idcitys, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @{Html.RenderAction("CitiesCheckBoxList", "Manage", new { idmodule = Model.idnotice, moduleType = ModuleType.Notice });}
+                    </div>
+                    @Html.ValidationMessageFor(model => model.idcitys)
+                </div>
+                <div class="form-group">
                     @Html.LabelFor(model => model.publish, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
                         @Html.TextBoxFor(model => model.publish, new { @class = "form-control" })

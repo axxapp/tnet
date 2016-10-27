@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TCom.EF;
+using TNet.Util;
 
 namespace TNet.Models {
     [NotMapped]
@@ -39,7 +40,11 @@ namespace TNet.Models {
         [Required]
         [Display(Name = "内容")]
         public new string content { get; set; }
-        
+
+        [CheckBoxRequiredValidation]
+        [Display(Name = "城市")]
+        public string[] idcitys { get; set; }
+
         public void CopyFromBase(TCom.EF.Notice notice) {
             this.idnotice = notice.idnotice;
             this.publish = notice.publish;

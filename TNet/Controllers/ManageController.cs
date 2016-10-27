@@ -150,7 +150,9 @@ namespace TNet.Controllers {
             //修改后重新加载
             model.CopyFromBase(business);
 
-
+            //保存商品城市关系
+            CityRelationService.Save(model.idcitys, business.idbuss.ToString(), ModuleType.Bussiness);
+            
             BussImageService.DeleteBussImages(business.idbuss);
 
             if (!string.IsNullOrEmpty(bussImages)) {
@@ -665,19 +667,7 @@ namespace TNet.Controllers {
             }
 
             //保存商品城市关系
-            string[] idcitys = model.idcitys;
-            List<CityRelation> cityRelations = new List<CityRelation>();
-            if (idcitys != null && idcitys.Count() > 0) {
-                for (int i = 0; i < idcitys.Length; i++) {
-                    cityRelations.Add(new CityRelation() {
-                        idcity = idcitys[i],
-                        idmodule = merc.idmerc.ToString(),
-                        moduletype = (int)ModuleType.Merc,
-                        inuse = true
-                    });
-                }
-            }
-            CityRelationService.Save(cityRelations,merc.idmerc.ToString(),(int)ModuleType.Merc);
+            CityRelationService.Save(model.idcitys, merc.idmerc.ToString(),ModuleType.Merc);
             
             MercImageService.DeleteMercImages(merc.idmerc);
 
@@ -1662,6 +1652,9 @@ namespace TNet.Controllers {
                 notice = NoticeService.Edit(notice);
             }
 
+            //保存商品城市关系
+            CityRelationService.Save(model.idcitys, notice.idnotice.ToString(), ModuleType.Notice);
+
             ModelState.AddModelError("", "保存成功.");
             return View(model);
         }
@@ -1863,6 +1856,9 @@ namespace TNet.Controllers {
 
             //修改后重新加载
             model.CopyFromBase(advertise);
+
+            //保存商品城市关系
+            CityRelationService.Save(model.idcitys, advertise.idav.ToString(), ModuleType.Advertise);
 
             List<SelectItemViewModel<string>> advertiseTypes = AdvertiseTypeService.SelectItems();
             ViewData["advertiseTypes"] = advertiseTypes;

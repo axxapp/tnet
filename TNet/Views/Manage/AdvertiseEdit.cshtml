@@ -27,6 +27,13 @@
                 @Html.HiddenFor(model => model.idav)
                 @Html.HiddenFor(model => model.img)
                 <div class="form-group">
+                    @Html.LabelFor(model => model.idcitys, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @{Html.RenderAction("CitiesCheckBoxList", "Manage", new { idmodule = Model.idav, moduleType = ModuleType.Advertise });}
+                    </div>
+                    @Html.ValidationMessageFor(model => model.idcitys)
+                </div>
+                <div class="form-group">
                     @Html.LabelFor(model => model.AdvertiseType, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
                         @Html.DropDownListFor(model => model.idat, new SelectList(advertiseTypes, "DisplayValue", "DisplayText"), new { @class = "form-control" })

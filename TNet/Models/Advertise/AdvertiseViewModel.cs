@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using TCom.EF;
+using TNet.Util;
 
 namespace TNet.Models
 {
@@ -42,6 +43,10 @@ namespace TNet.Models
         [Required]
         [Display(Name = "启用")]
         public new bool inuse { get; set; }
+
+        [CheckBoxRequiredValidation]
+        [Display(Name = "城市")]
+        public string[] idcitys { get; set; }
 
         /// <summary>
         /// 广告类型
