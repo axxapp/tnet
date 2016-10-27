@@ -46,6 +46,25 @@ namespace TNet.BLL
             return city;
         }
 
+        public static bool SetDefault(string idcity) {
+            bool result = true;
+            try {
+                TN db = new TN();
+                List<City> city= db.Cities.Where(en => en.isdefault).ToList();
+                if (city!=null&&city.Count()>0) {
+                    for (int i = 0; i < city.Count; i++) {
+                        city[i].isdefault = false;
+                    }
+                }
+                db.Cities.Find(idcity).isdefault = true;
+                db.SaveChanges();
+            }
+            catch {
+                result = false;
+            }
+            return result;
+        }
+
 
         public static List<SelectItemViewModel<string>> SelectItems()
         {

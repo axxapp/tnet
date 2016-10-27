@@ -2030,6 +2030,29 @@ namespace TNet.Controllers {
         }
 
         /// <summary>
+        /// 启用或者禁用广告
+        /// </summary>
+        /// <param name="idcity"></param>
+        /// <param name="isAjax"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ManageLoginValidation]
+        public ActionResult CityDefault(string idcity, bool isAjax) {
+            ResultModel<CityViewModel> resultEntity = new ResultModel<CityViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+            try {
+                CityService.SetDefault(idcity);
+            }
+            catch (Exception ex) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = ex.ToString();
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+        /// <summary>
         /// 新增\编辑广告
         /// </summary>
         /// <param name="idav"></param>

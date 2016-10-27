@@ -33,6 +33,7 @@
                         <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, string>(en => en.city1))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, int?>(en => en.sortno))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, string>(en => en.notes))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, bool>(en => en.isdefault))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, bool>(en => en.inuse))</th>
                        
                         <th>操作</th>
@@ -46,6 +47,11 @@
                             <td>@item.sortno</td>
                             <td>
                                 @item.notes
+                            </td>
+                            <td>
+                                <div class="switch">
+                                    <input type="checkbox" onchange="enableCity('@Url.Action("CityDefault", "Manage", new { idcity = item.idcity,isAjax = true })')" name="defaultCity" @(item.isdefault ? "checked" : "")  @(item.isdefault ? "disabled" : "") />
+                                </div>
                             </td>
                             <td>
                                 <div class="switch">
@@ -72,9 +78,8 @@
 <script type="text/javascript">
     $(function () {
         $(function () {
-            $.fn.bootstrapSwitch.defaults.onText = '启用';
-            $.fn.bootstrapSwitch.defaults.offText = '禁用';
-            $("[name='enableCity']").bootstrapSwitch();
+            $("[name='enableCity']").bootstrapSwitch({onText:'启用',offText:'禁用'});
+            $("[name='defaultCity']").bootstrapSwitch({onText:'默认',offText:'非默认'});
         });
 
 
