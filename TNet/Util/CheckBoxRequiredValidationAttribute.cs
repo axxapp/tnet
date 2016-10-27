@@ -23,7 +23,7 @@ namespace TNet.Util {
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context) {
             var validationRule = new ModelClientValidationRule {
                 ErrorMessage = FormatErrorMessage(metadata.DisplayName),
-                ValidationType = "CheckBox",
+                ValidationType = "chkrequired",
             };
 
             yield return validationRule;

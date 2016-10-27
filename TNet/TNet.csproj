@@ -635,6 +635,7 @@
     <Content Include="Js\Merc\Detail.js" />
     <Content Include="Js\Merc\BaseList.js" />
     <Content Include="Js\Merc\List.js" />
+    <Content Include="Js\CustomerModelValidation\CheckoutRequiredClientValidation.js" />
     <Content Include="Js\Notice\Detail.js" />
     <Content Include="Js\Notice\List.js" />
     <Content Include="Js\Order\Base.js" />

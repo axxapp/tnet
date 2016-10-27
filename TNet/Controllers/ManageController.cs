@@ -639,6 +639,18 @@ namespace TNet.Controllers {
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult MercEdit(MercViewModel model, string mercImages = "") {
+            List<MercType> entities = MercTypeService.GetALL();
+            List<MercTypeViewModel> mercTypes = entities.Select(en => {
+                MercTypeViewModel viewModel = new MercTypeViewModel();
+                viewModel.CopyFromBase(en);
+                return viewModel;
+            }).ToList();
+
+            model.mercTypes = mercTypes;
+
+            if (!ModelState.IsValid) {
+                return View(model);
+            }
 
             Merc merc = new Merc();
             model.CopyToBase(merc);
@@ -653,12 +665,12 @@ namespace TNet.Controllers {
             }
 
             //保存商品城市关系
-            string[] idcity = model.idcity;
+            string[] idcitys = model.idcitys;
             List<CityRelation> cityRelations = new List<CityRelation>();
-            if (idcity != null && idcity.Count() > 0) {
-                for (int i = 0; i < idcity.Length; i++) {
+            if (idcitys != null && idcitys.Count() > 0) {
+                for (int i = 0; i < idcitys.Length; i++) {
                     cityRelations.Add(new CityRelation() {
-                        idcity = idcity[i],
+                        idcity = idcitys[i],
                         idmodule = merc.idmerc.ToString(),
                         moduletype = (int)ModuleType.Merc,
                         inuse = true
@@ -691,14 +703,6 @@ namespace TNet.Controllers {
 
             //修改后重新加载
             model.CopyFromBase(merc);
-            List<MercType> entities = MercTypeService.GetALL();
-            List<MercTypeViewModel> mercTypes = entities.Select(en => {
-                MercTypeViewModel viewModel = new MercTypeViewModel();
-                viewModel.CopyFromBase(en);
-                return viewModel;
-            }).ToList();
-
-            model.mercTypes = mercTypes;
 
             ModelState.AddModelError("", "保存成功.");
             return View(model);
