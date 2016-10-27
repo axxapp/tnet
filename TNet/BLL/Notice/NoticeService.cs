@@ -27,6 +27,7 @@ namespace TNet.BLL {
             oldNotice.start_time = notice.start_time;
             oldNotice.end_time = notice.end_time;
             oldNotice.content = notice.content;
+            oldNotice.sortno = notice.sortno;
 
             db.SaveChanges();
             return oldNotice;

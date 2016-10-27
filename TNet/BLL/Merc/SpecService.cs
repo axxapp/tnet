@@ -74,6 +74,7 @@ namespace TNet.BLL
             oldSpec.stuprice = spec.stuprice;
             oldSpec.moveprice = spec.moveprice;
             oldSpec.usertype = spec.usertype;
+            oldSpec.sortno = spec.sortno;
             oldSpec.notes = spec.notes;
             oldSpec.inuse = spec.inuse;
 

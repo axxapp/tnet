@@ -40,6 +40,8 @@ namespace TCom.EF
         [StringLength(50)]
         public string usertype { get; set; }
 
+        public int? sortno { get; set; }
+
         [StringLength(100)]
         public string notes { get; set; }
 

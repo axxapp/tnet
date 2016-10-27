@@ -39,6 +39,7 @@ namespace TNet.BLL
             oldBusiness.runtime = business.runtime;
             oldBusiness.notes = business.notes;
             oldBusiness.blevel = business.blevel;
+            oldBusiness.sortno = business.sortno;
             oldBusiness.inuse = business.inuse;
 
             db.SaveChanges();

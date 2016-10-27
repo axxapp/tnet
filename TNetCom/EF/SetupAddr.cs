@@ -31,6 +31,8 @@ namespace TCom.EF
         [StringLength(30)]
         public string service { get; set; }
 
+        public int? sortno { get; set; }
+
         [StringLength(10)]
         public string notes { get; set; }
 

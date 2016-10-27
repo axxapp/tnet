@@ -111,6 +111,7 @@ namespace TNet.BLL
             oldSetupAddr.notes = setupAddr.notes;
             oldSetupAddr.acceptime = setupAddr.acceptime;
             oldSetupAddr.setuptime = setupAddr.setuptime;
+            oldSetupAddr.sortno = setupAddr.sortno;
             oldSetupAddr.inuse = setupAddr.inuse;
 
             db.SaveChanges();

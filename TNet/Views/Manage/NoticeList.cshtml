@@ -33,6 +33,7 @@
                         <th>@(AttributeHelper.DisplayAttributeFor<NoticeViewModel, DateTime?>(en => en.publish_time))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<NoticeViewModel, DateTime?>(en => en.start_time))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<NoticeViewModel, DateTime?>(en => en.end_time))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<NoticeViewModel, int?>(en => en.sortno))</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -50,6 +51,7 @@
                             <td>
                                 @item.end_time.Value.ToString("yyyy-MM-dd")
                             </td>
+                            <td>@item.sortno</td>
                             <td>
                                 <a href="@Url.Action("NoticeEdit","Manage",new {idnotice=item.idnotice })" class="btn btn-default">编辑</a>
                 

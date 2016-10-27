@@ -87,6 +87,9 @@ namespace TNet.Models
         [Required]
         public new bool inuse { get; set; }
 
+        [Display(Name = "排序")]
+        public new int? sortno { get; set; }
+
         [CheckBoxRequiredValidation]
         [Display(Name = "城市")]
         public string[] idcitys { get; set; }
