@@ -1,0 +1,157 @@
+﻿@using TNet.Util;
+@using TNet.Models;
+@using TNet.Util;
+@using TNet.BLL;
+@using TCom.Model.Task;
+@model List<IssueViewModel>
+
+@{
+    Layout = "~/Views/Shared/_ManageLayout.cshtml";
+    var pageCount = Convert.ToInt32(ViewData["pageCount"]);
+    var pageIndex = Convert.ToInt32(ViewData["pageIndex"]);
+
+    DateTime? startOrDate = Convert.ToDateTime(ViewData["startOrDate"]);
+    DateTime? endOrDate = Convert.ToDateTime(ViewData["endOrDate"]);
+    string idissue = ViewData["idissue"].ToString();
+    string userNo = ViewData["userNo"].ToString();
+}
+<div class="ManageRightTitle">
+    <ol class="breadcrumb">
+        <li><a href="#">投诉管理</a></li>
+        <li><a href="#" class="active">投诉列表</a></li>
+    </ol>
+</div>
+<div class="ManageRightContent">
+    <div>
+        <form action="@Url.Action("IssueList", "Manage")" method="post">
+            <div class="row">
+                <div class="col-xs-1">
+                    <input type="text" class="form-control" placeholder="问题编号" name="idissue" value="@idissue">
+                </div>
+                <div class="col-xs-2">
+                    <input type="text" class="form-control" placeholder="用户编号" name="userNo" value="@userNo">
+                </div>
+                <div class="col-xs-2">
+                    <div id="startOrDate_datepicker" class="input-group date form_date col-sm-10 datetime_picker" data-date="" data-date-format="yyyy-mm-dd" data-link-field="startOrDate" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" type="text" value="@String.Format("{0:yyyy-MM-dd}", startOrDate.Value != DateTime.MinValue ? startOrDate : DateTime.Now)" readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    @Html.Hidden("startOrDate", String.Format("{0:yyyy-MM-dd}", startOrDate.Value != DateTime.MinValue ? startOrDate : DateTime.Now))
+                </div>
+                <div class="col-xs-2">
+                    <div id="endOrDate_datepicker" class="input-group date form_date col-sm-10 datetime_picker" data-date="" data-date-format="yyyy-mm-dd" data-link-field="endOrDate" data-link-format="yyyy-mm-dd">
+                        <input class="form-control" size="16" type="text" value="@String.Format("{0:yyyy-MM-dd}", endOrDate.Value != DateTime.MinValue ? endOrDate : DateTime.Now)" readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    @Html.Hidden("endOrDate", String.Format("{0:yyyy-MM-dd}", endOrDate.Value != DateTime.MinValue ? endOrDate : DateTime.Now))
+                </div>
+                <div class="col-xs-1">
+                    <input type="submit" value="搜索" class="btn btn-primary" placeholder=".col-xs-1" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        @Html.Raw(Url.BootstrapPagerHTML(pageCount, pageIndex, "IssueList", "Manage", ViewContext.RouteData.Values))
+    </div>
+
+    <div class="list-box">
+        @if (Model.Count > 0)
+        {
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>操作</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.issue1))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.UserName))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.context))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, DateTime?>(en => en.cretime))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, DateTime?>(en => en.booktime))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.address))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.phone))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.notes))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, bool>(en => en.inuse))</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                    @*<a href="javascript:void(0);" onclick='openModal("@item.issue1");' class="btn btn-default">派单</a>*@
+                              
+
+                                @*<a href="@Url.Action("IssueDetail","Manage",new { issue=item.issue1})" class="btn btn-default">详细</a>*@
+                            </td>
+                            <td>
+                                @item.issue1
+                            </td>
+                            <td>@item.UserName</td>
+                            <td>@item.context</td>
+                            <td>@(item.cretime == null ? "" : item.cretime.Value.ToString("yyyy-MM-dd"))</td>
+                            <td>@(item.booktime == null ? "" : item.booktime.Value.ToString("yyyy-MM-dd"))</td>
+                            <td>@item.address</td>
+                            <td>@item.phone</td>
+                            <td>@item.notes</td>
+                            <td>
+                                <div class="switch">
+                                    <input type="checkbox" onchange="enableIssue('@Url.Action("IssueEnable", "Manage", new { idissue = item.issue1, enable = !item.inuse, isAjax = true })')" name="enableIssue" @((item.inuse != null && item.inuse.Value) ? "checked" : "") />
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h2>没有找到任何诉.</h2>
+        }
+
+    </div>
+</div>
+@{Html.RenderAction("TaskAssignModal", "Manage",new { taskType=TaskType.Complaint}); }
+
+<script type="text/javascript">
+    $(function () {
+        $(function () {
+            $("[name='enableIssue']").bootstrapSwitch({ onText: '启用', offText: '禁用' });
+            $('#startOrDate_datepicker').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            });
+            $('#endOrDate_datepicker').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            });
+        });
+    });
+   
+    function enableIssue(url) {
+        var manageLoginUrl = "@Url.Action("Login","Manage")";
+        $.post(url, null, function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == "3") {
+                alert(returndata.Message);
+                window.Location.href = manageLoginUrl;
+            } else if (returndata.Code == "1") {
+                //alert("操作成功.");
+                window.location.href = window.location.href;
+            } else {
+                alert("系统出错，请稍后再试。");
+            }
+        });
+    }
+</script>

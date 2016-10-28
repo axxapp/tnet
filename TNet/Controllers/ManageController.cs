@@ -17,6 +17,7 @@ using System.Reflection;
 using System;
 using System.Text;
 using TCom.Util;
+using TCom.Model.Task;
 
 namespace TNet.Controllers {
     public class ManageController : Controller {
@@ -492,6 +493,100 @@ namespace TNet.Controllers {
             }
 
             return Content(resultEntity.SerializeToJson());
+        }
+
+        /// <summary>
+        /// 派单模式窗口
+        /// </summary>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        public ActionResult TaskAssignModal(int taskType) {
+
+            ViewData["taskType"] = taskType;
+            return View();
+        }
+
+
+        /// <summary>
+        /// 投诉列表
+        /// </summary>
+        /// <param name="startOrDate"></param>
+        /// <param name="endOrDate"></param>
+        /// <param name="idissue"></param>
+        /// <param name="userNo"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        public ActionResult IssueList(DateTime? startOrDate, DateTime? endOrDate, string idissue = "", string userNo = "", int pageIndex = 0)
+        {
+            int pageCount = 0;
+            int pageSize = 10;
+            if (startOrDate == null)
+            {
+                startOrDate = DateTime.Now.AddDays(-1);
+            }
+            if (endOrDate == null)
+            {
+                endOrDate = DateTime.Now;
+            }
+            List<IssueViewModel> entities = IssueService.GetIssuesViewModelByFilter(startOrDate, endOrDate, idissue, userNo);
+            List<IssueViewModel> viewModels = entities.Pager<IssueViewModel>(pageIndex, pageSize, out pageCount);
+
+            RouteData.Values.Add("startOrDate", startOrDate);
+            RouteData.Values.Add("endOrDate", endOrDate);
+            RouteData.Values.Add("idissue", idissue);
+            RouteData.Values.Add("userNo", userNo);
+
+            ViewData["pageCount"] = pageCount;
+            ViewData["pageIndex"] = pageIndex;
+
+            ViewData["startOrDate"] = startOrDate;
+            ViewData["endOrDate"] = endOrDate;
+            ViewData["idissue"] = idissue;
+            ViewData["userNo"] = userNo;
+
+            return View(viewModels);
+        }
+
+        /// <summary>
+        /// 启用或者禁用投拆
+        /// </summary>
+        /// <param name="idissue"></param>
+        /// <param name="enable"></param>
+        /// <param name="isAjax"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ManageLoginValidation]
+        public ActionResult IssueEnable(string idissue, bool enable, bool isAjax)
+        {
+            ResultModel<IssueViewModel> resultEntity = new ResultModel<IssueViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+            try
+            {
+                Issue issue = IssueService.Get(idissue);
+                issue.inuse = enable;
+                IssueService.Edit(issue);
+            }
+            catch (Exception ex)
+            {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = ex.ToString();
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+        /// <summary>
+        /// 投拆详细
+        /// </summary>
+        /// <param name="idissue"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        public ActionResult IssueDetail(string idissue)
+        {
+            IssueViewModel model = IssueService.GetViewModel(idissue);
+            return View(model);
         }
 
         /// <summary>
@@ -1456,6 +1551,78 @@ namespace TNet.Controllers {
         }
 
         /// <summary>
+        /// 组合报装订单任务信息
+        /// </summary>
+        /// <param name="bindOrderNo"></param>
+        /// <param name="notes"></param>
+        /// <returns></returns>
+        private Task MadeUpSetupTask(string bindOrderNo,string notes) {
+            MyOrder order = MyOrderService.GetOrder(Convert.ToInt64(bindOrderNo));
+            User user = null;
+            if (order != null)
+            {
+                user = UserBll.Get(order.iduser);
+            }
+
+            Task task = new Task();
+            task.idtask = Pub.ID().ToString();
+            task.orderno = bindOrderNo;
+            task.cretime = DateTime.Now;
+            task.iduser = (user != null ? user.iduser.ToString() : "");
+            task.name = (user != null ? user.name : "");
+            task.contact = (user != null ? user.name : "");
+            task.phone = (user != null ? user.phone : "");
+            task.idsend = ((ManageUser)Session["ManageUser"]).ManageUserId.ToString();
+            task.send = ((ManageUser)Session["ManageUser"]).UserName;
+            task.inuse = true;
+            task.notes = notes;
+            task.text = "报装";
+            task.title = order != null ? order.merc + "-报装" : "报装";
+            task.accpeptime = DateTime.Now;
+            task.status = TCom.Model.Task.TaskStatus.WaitPress;
+            task.tasktype = TCom.Model.Task.TaskType.Setup;
+
+            return task;
+        }
+
+        /// <summary>
+        /// 组合投诉任务信息
+        /// </summary>
+        /// <param name="bindOrderNo"></param>
+        /// <param name="notes"></param>
+        /// <returns></returns>
+        private Task MadeUpComplaintTask(string bindOrderNo, string notes)
+        {
+            Issue issue = IssueService.Get(bindOrderNo);
+            User user = null;
+            if (issue != null)
+            {
+                user = UserBll.Get(Convert.ToInt64(issue.iduser));
+            }
+
+            Task task = new Task();
+            task.idtask = Pub.ID().ToString();
+            task.orderno = bindOrderNo;
+            task.cretime = DateTime.Now;
+            task.iduser = (user != null ? user.iduser.ToString() : "");
+            task.name = (user != null ? user.name : "");
+            task.contact = (user != null ? user.name : "");
+            task.phone = (user != null ? user.phone : "");
+            task.idsend = ((ManageUser)Session["ManageUser"]).ManageUserId.ToString();
+            task.send = ((ManageUser)Session["ManageUser"]).UserName;
+            task.inuse = true;
+            task.notes = notes;
+            task.text = "投诉";
+            task.title = issue.context;
+            task.accpeptime = DateTime.Now;
+            
+            task.status = TCom.Model.Task.TaskStatus.WaitPress;
+            task.tasktype = TCom.Model.Task.TaskType.Complaint;
+
+            return task;
+        }
+
+        /// <summary>
         /// 指派任务
         /// </summary>
         /// <param name="bindOrderNo"></param>
@@ -1463,37 +1630,27 @@ namespace TNet.Controllers {
         /// <param name="isAjax"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AssignTask(string bindOrderNo, string manageUserIds, bool isAjax, string notes = "") {
+        public ActionResult AssignTask(string bindOrderNo,int taskType, string manageUserIds, bool isAjax, string notes = "") {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            string successMesage = string.Empty;
+            string errorMessage = string.Empty;
+
             ResultModel<ManageUserViewModel> resultEntity = new ResultModel<ManageUserViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
-            resultEntity.Message = "报装订单指派工人成功";
+            
             try {
-                MyOrder order = MyOrderService.GetOrder(Convert.ToInt64(bindOrderNo));
-                User user = null;
-                if (order != null) {
-                    user = UserBll.Get(order.iduser);
-                }
 
-                Task task = new Task();
-                task.idtask = Pub.ID().ToString();
-                task.orderno = bindOrderNo;
-                task.cretime = DateTime.Now;
-                task.iduser = (user != null ? user.iduser.ToString() : "");
-                task.name = (user != null ? user.name : "");
-                task.contact = (user != null ? user.name : "");
-                task.phone = (user != null ? user.phone : "");
-                task.idsend = ((ManageUser)Session["ManageUser"]).ManageUserId.ToString();
-                task.send = ((ManageUser)Session["ManageUser"]).UserName;
-                task.inuse = true;
-                task.notes = notes;
-                task.text = "报装";
-                task.title = order != null ? order.merc + "-报装" : "报装";
-                if (order != null) {
-                    task.accpeptime = order.cretime;
+                Task task = null;
+                if (taskType == TaskType.Setup) {
+                    task = MadeUpSetupTask(bindOrderNo, notes);
+                    successMesage = "报装订单指派工人成功";
+                    errorMessage = "报装订单指派工人失败";
+                } else if (taskType == TaskType.Complaint) {
+                    task = MadeUpComplaintTask(bindOrderNo, notes);
+                    successMesage = "投诉指派工人成功";
+                    errorMessage = "投诉指派工人失败";
                 }
-                task.status = TCom.Model.Task.TaskStatus.WaitPress;
-                task.tasktype = TCom.Model.Task.TaskType.Setup;
+                resultEntity.Message = successMesage;
 
                 Task newTask = TaskService.Add(task);
                 List<ManageUser> manageUsers = ManageUserService.GetALL();
@@ -1518,7 +1675,7 @@ namespace TNet.Controllers {
             catch (Exception ex) {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
-                resultEntity.Message = "报装订单指派工人失败";
+                resultEntity.Message = errorMessage;
             }
             return Content(resultEntity.SerializeToJson());
         }

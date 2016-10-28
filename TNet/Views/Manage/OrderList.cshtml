@@ -207,7 +207,7 @@
             }
         });
         var url = "@Url.Action("AssignTask", "Manage")";
-        var data = { bindOrderNo: $("#currentSetOrderNo").val(), manageUserIds: selectedManageUserIds, isAjax: true, notes: $("#txtNotes").val() };
+        var data = { bindOrderNo: $("#currentSetOrderNo").val(), manageUserIds: selectedManageUserIds, taskType:@TCom.Model.Task.TaskType.Setup , isAjax: true, notes: $("#txtNotes").val() };
         $.post(url, data, function (returndata) {
             returndata = eval("(" + returndata + ")");
             if (returndata.Code == 1) {

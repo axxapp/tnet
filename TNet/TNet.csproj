@@ -184,6 +184,7 @@
     <Compile Include="BLL\City\CityRelationService.cs" />
     <Compile Include="BLL\City\CityService.cs" />
     <Compile Include="BLL\IdentifyService.cs" />
+    <Compile Include="BLL\Issue\IssueService.cs" />
     <Compile Include="BLL\Manage\ManageUserService.cs" />
     <Compile Include="BLL\Manage\MenuItemService.cs" />
     <Compile Include="BLL\Merc\MercImageService.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Models\City\CityViewModel.cs" />
     <Compile Include="Models\File\UploadData.cs" />
     <Compile Include="Models\File\UploadDataResult.cs" />
+    <Compile Include="Models\Issue\IssueViewModel.cs" />
     <Compile Include="Models\Manage\ManageUserType.cs" />
     <Compile Include="Models\Manage\ManageUserViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -1132,6 +1134,8 @@
     <Content Include="Views\Manage\CityList.cshtml" />
     <Content Include="Views\Manage\CityEdit.cshtml" />
     <Content Include="Views\Manage\CitiesCheckBoxList.cshtml" />
+    <Content Include="Views\Manage\IssueList.cshtml" />
+    <Content Include="Views\Manage\TaskAssignModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />
