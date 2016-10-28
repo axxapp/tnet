@@ -28,13 +28,13 @@
                 @Html.HiddenFor(model => model.longitude)
                 @Html.HiddenFor(model => model.latitude)
                 <input type="hidden" name="bussImages" id="bussImages" value="" />
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.idcitys, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
                         @{Html.RenderAction("CitiesCheckBoxList", "Manage", new { idmodule = (Model.idbuss > 0 ? Model.idbuss.ToString() : ""), moduleType = ModuleType.Bussiness });}
                     </div>
                     @Html.ValidationMessageFor(model => model.idcitys)
-                </div>
+                </div>*@
                 <div class="form-group">
                     @Html.LabelFor(model => model.buss, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">

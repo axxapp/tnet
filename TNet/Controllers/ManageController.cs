@@ -1591,25 +1591,38 @@ namespace TNet.Controllers {
         /// <summary>
         /// 公告通知列表
         /// </summary>
+        /// <param name="title"></param>
+        /// <param name="idcity"></param>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult NoticeList(int pageIndex = 0) {
+        public ActionResult NoticeList(string title="",string idcity="", int pageIndex = 0) {
             int pageCount = 0;
             int pageSize = 10;
-            List<Notice> entities = NoticeService.GetALL();
+            List<Notice> entities = NoticeService.Search(title, idcity);
             List<Notice> pageList = entities.Pager<Notice>(pageIndex, pageSize, out pageCount);
-
-
+            
             List<NoticeViewModel> viewModels = pageList.Select(model => {
                 NoticeViewModel viewModel = new NoticeViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
             }).ToList();
 
+            //获取城市列表
+            List<SelectItemViewModel<string>> citySelects = CityService.SelectItems();
+            citySelects.Insert(0, new SelectItemViewModel<string>() {
+                DisplayText = "所有城市",
+                DisplayValue = ""
+            });
+
+            ViewData["citySelects"] = citySelects;
+            ViewData["idcity"] = idcity;
+            ViewData["title"] = title;
             ViewData["pageCount"] = pageCount;
             ViewData["pageIndex"] = pageIndex;
 
+            RouteData.Values.Add("idcity", idcity);
+            RouteData.Values.Add("title", title);
             return View(viewModels);
         }
 
@@ -1761,17 +1774,24 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AdvertiseList(DateTime? sdate, DateTime? edate, string idat = "", string title = "", int pageIndex = 0) {
+        public ActionResult AdvertiseList(DateTime? sdate, DateTime? edate, string idat = "",string idcity="", string title = "", int pageIndex = 0) {
             int pageCount = 0;
             int pageSize = 10;
 
-            List<AdvertiseViewModel> entities = AdvertiseService.SearchViewModels(sdate, edate, idat, title);
+            List<AdvertiseViewModel> entities = AdvertiseService.SearchViewModels(sdate, edate, idat,idcity, title);
             List<AdvertiseViewModel> viewModels = entities.Pager<AdvertiseViewModel>(pageIndex, pageSize, out pageCount);
+            //获取城市列表
+            List<SelectItemViewModel<string>> citySelects = CityService.SelectItems();
+            citySelects.Insert(0, new SelectItemViewModel<string>() {
+                DisplayText = "所有城市",
+                DisplayValue = ""
+            });
 
             RouteData.Values.Add("sdate", sdate);
             RouteData.Values.Add("edate", edate);
             RouteData.Values.Add("idat", idat);
             RouteData.Values.Add("title", title);
+            RouteData.Values.Add("idcity", idcity);
 
             ViewData["pageCount"] = pageCount;
             ViewData["pageIndex"] = pageIndex;
@@ -1780,7 +1800,9 @@ namespace TNet.Controllers {
             ViewData["edate"] = edate;
             ViewData["idat"] = idat;
             ViewData["title"] = title;
-
+            ViewData["idcity"] = idcity;
+            ViewData["citySelects"] = citySelects;
+            
             List<SelectItemViewModel<string>> advertiseTypes = AdvertiseTypeService.SelectItems();
             ViewData["advertiseTypes"] = advertiseTypes;
 

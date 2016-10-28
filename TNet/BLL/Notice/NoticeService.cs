@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TCom.EF;
+using TNet.Models;
 
 namespace TNet.BLL {
     public class NoticeService {
@@ -10,6 +11,20 @@ namespace TNet.BLL {
         public static List<Notice> GetALL() {
             TN db = new TN();
             return db.Notices.OrderByDescending(en=>en.publish_time).ToList();
+        }
+
+
+        public static List<Notice> Search(string title="",string idcity="") {
+            List<Notice> notices = new List<Notice>();
+            TN db = new TN();
+            notices = (from no in db.Notices
+                     join cr in db.CityRelations on new { idnotice = no.idnotice, moduletype = (int)ModuleType.Notice } equals new { idnotice = cr.idmodule, moduletype = (cr.moduletype == null ? 0 : cr.moduletype.Value) }
+                       orderby no.sortno descending
+                     where (string.IsNullOrEmpty(idcity) || (cr.idcity == idcity))
+                     select no).Where(en => (
+              (string.IsNullOrEmpty(title) || en.title.Contains(title))
+             )).ToList();
+            return notices.Distinct(NoticeEqualityComparer.Instance).ToList();
         }
 
         public static Notice Get(string idnotice) {
