@@ -31,3 +31,8 @@
     display: block;
     height: 45px;
 }
+
+.Content img{
+     background-image:url(../../Images/default_bg.png);
+     background-size:contain;
+}

@@ -158,60 +158,6 @@ function toHome() {
 
 
 
-
-function selectImg(id, e) {
-    //if (e.target.files) {
-    //    var f = e.target.files[0];
-    //    // for (var i = 0, f; f = files[i]; i++) {
-    //    //if (!f.type.match('image.*')) continue;
-    //    var reader = new FileReader();
-    //    reader.onload = (function (theFile) {
-    //        return function (e) {
-    //            //var img = document.createElement('img');
-    //            $("#" + id).attr("title", theFile.name);
-    //            $("#" + id).attr("src", e.target.result);
-    //            //img.title = theFile.name;
-    //            //img.src = e.target.result;
-    //            //document.body.appendChild(img);   
-    //        }
-    //    })(f);
-    //    reader.readAsDataURL(f);
-    //    // }
-    //}
-    lrz(e.files[0], {
-        width: 800
-    }).then(function (rst) {
-        // 处理成功会执行
-        // console.log(rst);       
-        uploadImg(rst.base64, id);
-    }).catch(function (err) {
-        // 处理失败会执行
-    }).always(function () {
-        // 不管是成功失败，都会执行
-    });
-}
-
-
-function uploadImg(imgData, id) {
-    Pub.post({
-        url: "Service/File/Upload",
-        data: JSON.stringify({ data: imgData }),
-        loadingMsg: "上传图片中...",
-        success: function (data) {
-            if (Pub.wsCheck(data)) {
-                $("#" + id).attr("src", imgData);
-                $("#" + id).attr("title", data.Data.name);
-                return;
-            }
-            Pub.showError("上传失败");
-        },
-        error: function (xhr, status, e) {
-            Pub.showError("上传失败");
-        }
-    });
-}
-
-
 function checkIdc(idc) {
     if (!(/(^\d{18}$)|(^\d{17}([0-9]|[a-zA-Z])$)/.test(idc))) {
         alert('身份证号码格式不对');

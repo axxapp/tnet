@@ -3,8 +3,7 @@ var noticeList_pos = 0, notice_tag = 0, notice_load = false;
 
 
 function __init(city) {
-    initCityList(city);
-    
+    initCityList(city);    
     getMercList(city);
     getNotice(city);
 }

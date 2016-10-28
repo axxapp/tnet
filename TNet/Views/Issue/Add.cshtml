@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "新增投诉建议";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Head{
+
+    <link href="@Url.Content("~/Css/Issue/Add.css?v=20161029")" rel="stylesheet" type="text/css" />
+
+
+    <script type="text/javascript" src="@Url.Content("~/Js/Issue/Add.js?v=20161029")">
+
+    </script>
+
+}
+
+
+<div class="Addr_Edit">
+    <div class="Context_Host">
+        <textarea id="context" maxlength="200" placeholder="输入您的问题吧..."></textarea>
+    </div>
+    <div class="vline"></div>
+    <div class="title">图片:</div>
+    <div class="resource">
+
+        <div class="resource_img">
+            <div>
+                <a href="javascript:void(0)">
+                    <img id="idc_img1" src="@Url.Content("~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img1', this) }">
+                </a>
+                <a href="javascript:void(0)">
+                    <img id="idc_img2" src="@Url.Content("~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img2', this) }">
+                </a>
+                <a href="javascript:void(0)">
+                    <img id="idc_img3" src="@Url.Content("~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img3', this) }">
+                </a>
+            </div>
+            <div>
+                <a href="javascript:void(0)">
+                    <img id="idc_img4" src="@Url.Content("~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img4', this) }">
+                </a>
+                <a href="javascript:void(0)">
+                    <img id="idc_img5" src="@Url.Content("~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img5', this) }">
+                </a>
+                <a href="javascript:void(0)">
+                    <img id="idc_img6" src="@Url.Content("~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img6', this) }">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="vline"></div>
+    <div class="title">预约:</div>
+    <div class="book_host">
+        <div class="Edit_Item">
+            <div class="Edit_Name">电话:</div>
+            <div class="Edit_Value">
+                <div class="in">
+                    <input id="phone" type="tel" maxlength="13" placeholder="输入电话..." />
+                </div>
+            </div>
+        </div>
+
+        <div class="Edit_Item">
+            <div class="Edit_Name">预约:</div>
+            <div class="Edit_Value">
+                <div class="in">
+                    <input id="booktime" type="text" maxlength="10" required placeholder="预约时间 yyyy-mm-dd..." />
+                </div>
+            </div>
+        </div>
+        <div class="Edit_Item">
+            <div class="Edit_Name">备注:</div>
+            <div class="Edit_Value">
+                <div class="in">
+                    <input id="notes" type="text" maxlength="25" placeholder="输入备注..." />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="TaskOps">
+    <a href="javascript:void(0)" class="add" onclick="Save()">保存</a>
+</div>
+
+
+

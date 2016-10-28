@@ -110,3 +110,48 @@ function getTimeYYMMHH(t) {
     }
     return t;
 }
+
+
+
+
+
+//选择图片
+function __FileSelectImg(id, e) {    
+    try {
+
+        lrz(e.files[0], {
+            width: 800
+        }).then(function (rst) {
+            // 处理成功会执行
+            // console.log(rst);       
+            FileUploadImg(rst.base64, id);
+        }).catch(function (err) {
+            // 处理失败会执行
+        }).always(function () {
+            // 不管是成功失败，都会执行
+        });
+    } catch (e) {
+
+    }
+}
+
+//上传图片
+function FileUploadImg(imgData, id) {
+    Pub.post({
+        url: "Service/File/Upload",
+        data: JSON.stringify({ data: imgData }),
+        loadingMsg: "上传图片中...",
+        success: function (data) {
+            if (Pub.wsCheck(data)) {
+                $("#" + id).attr("src", imgData);
+                $("#" + id).attr("title", data.Data.name);
+                return;
+            }
+            Pub.showError("上传失败");
+        },
+        error: function (xhr, status, e) {
+            Pub.showError("上传失败");
+        }
+    });
+}
+

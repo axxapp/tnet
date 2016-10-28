@@ -48,7 +48,7 @@ function getData() {
                                 html += '<div class="ttitle">地址:</div>';
                                 html += '<div class="tvalue">' + o.addr + '</div>';
                                 html += '</div>';
-                                html += '<div class="press">';
+                                html += '<div class="taskPress">';
                                 //html += '<div class="press_time">';
                                 var ts = [
                                     { t: "受理", v: o.accpeptime },

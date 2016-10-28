@@ -25,9 +25,10 @@
         doReadys: doReadys,
         onCity: onCity,
         curCity: curCity,
-        getCitys:getCitys,
+        getCitys: getCitys,
         setCache: setCache,
         getCache: getCache,
+        hasCityListen: hasCityListen,
         delCache: delCache,
         setUser: function (v, e) {
             return setCache('tn_u', v, e);
@@ -194,7 +195,7 @@
     //ajax请求-跨域解决
     function _ajax_call(request) {
         request.url = rootUrl() + request.url;
-         
+
         var isJson = false;
         if (request.headers == undefined) {
             request.headers = {
@@ -365,38 +366,45 @@
     }
 
     function auth(go) {
-        var tn_u = Pub.getUser();
-        var ru = rootUrl();
-        var realu = "";
-        //if (!isHome()) {
-        realu = window.location.href + "";
-        //}
-        var u = "";
-        var uurl = "";
-        if (!tn_u) {
-            uurl = encodeURIComponent(full_root_url + "user?ru=" + encodeURIComponent(realu));
-            u = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc530ec3ce6a52233&redirect_uri=' + uurl + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
-            if (go) {
-                if (window.navigator.userAgent.indexOf("MicroMesseng") > 0) {
-                    window.location.href = u;
+        try {
+            var tn_u = Pub.getUser();
+            var ru = rootUrl();
+            var realu = "";
+            //if (!isHome()) {
+            realu = window.location.href + "";
+            //}
+            var u = "";
+            var uurl = "";
+            if (!tn_u) {
+                uurl = encodeURIComponent(full_root_url + "user?ru=" + encodeURIComponent(realu));
+                u = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc530ec3ce6a52233&redirect_uri=' + uurl + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
+                if (go) {
+                    if (window.navigator.userAgent.indexOf("MicroMesseng") > 0) {
+                        window.location.href = u;
+                    }
+                    // 
+                    return true;
                 }
-                // 
-                return true;
+                //return false;
+            } else {
+                u = full_root_url + "user" + "?idweixin=" + tn_u.idweixin;
             }
-            //return false;
-        } else {
-            u = full_root_url + "user" + "?idweixin=" + tn_u.idweixin;
-        }
-        $(".Top_User").attr("href", u);
-        //alert(u);
-        if (tn_u && tn_u.avatar) {
-            var uo = $("#Top_User");
-            uo.css("background-image", "url(" + tn_u.avatar + ")");
-            uo.css("background-size", "1.5em");
+            $(".Top_User").attr("href", u);
+
+            if (tn_u && tn_u.avatar) {
+                var uo = $("#Top_User");
+                uo.css("background-image", "url(" + tn_u.avatar + ")");
+                uo.css("background-size", "1.5em");
+            }
+        } catch (e) {
+
         }
         return false;
     }
-
+    var callFunc = { "common": new Array(), "city": new Array() };
+    function hasCityListen() {
+        return callFunc.city.length;
+    }
     function cityReady(call, param) {
 
         ready(call, param, "city");
@@ -406,7 +414,7 @@
         return doReadys("city");
     }
 
-    var callFunc = { "common": new Array(), "city": new Array() };
+
     function ready(callF, param, type) {
         if (!param) {
             param = null;
@@ -432,7 +440,7 @@
                     }
                 }
                 var cfs = callFunc[co];
-                var i = 0,j = 0, lg = cfs.length;
+                var i = 0, j = 0, lg = cfs.length;
                 while (i++ < lg) {
                     var fo = cfs[j++];
                     if (type == "city") {
@@ -442,7 +450,7 @@
                         //cfs.pop();
                         //fo.cf(fo.p);
                     }
-                } 
+                }
             }
         } catch (e) {
 
@@ -454,8 +462,11 @@
         cityReady(call);
         if (!Pub.wxJsRead) {
             //onWXLocation();
+            //alert("定位中...");
+            Pub.showLoading("定位中...");
             window.setTimeout(function () {
                 if (!Pub.wxJsRead) {
+                    Pub.hieLoading();
                     Pub.wxJsRead = true;
                     doOnCity(call);
                 }
@@ -468,10 +479,13 @@
 
     function onWXLocation() {
         try {
+            //alert("定位中...");
             //alert("onWXLocation");
+            Pub.showLoading("定位中...");
             wx.getLocation({
                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {
+                    Pub.hieLoading();
                     try {
                         var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
                         var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
@@ -484,12 +498,15 @@
                     }
                     doCityReadys();
                 }, fail: function (res) {
+                    Pub.hieLoading();
                     doCityReadys();
                 }, cancel: function (res) {
+                    Pub.hieLoading();
                     doCityReadys();
                 }
             });
         } catch (e) {
+            Pub.hieLoading();
             doCityReadys();
         }
     }
@@ -542,7 +559,7 @@
                     }
                 }
 
-            } 
+            }
         }
         return city;
     }
@@ -551,7 +568,7 @@
         var city = Pub.getCache("city");
         var location_city = Pub.getCache("location_city")
         if (city) {
-            if (location_city) { 
+            if (location_city) {
                 for (var i = 0; i < city.length; i++) {
                     if (city[i].city1.indexOf(location_city) >= 0 || location_city.indexOf(city[i].city1) >= 0) {
                         //city[i].cur = 1;

@@ -20,6 +20,7 @@ namespace TCom.EF
         public virtual DbSet<CityRelation> CityRelations { get; set; }
         public virtual DbSet<Discount> Discounts { get; set; }
         public virtual DbSet<Img> Imgs { get; set; }
+        public virtual DbSet<Issue> Issues { get; set; }
         public virtual DbSet<ManageUser> ManageUsers { get; set; }
         public virtual DbSet<MenuItem> MenuItems { get; set; }
         public virtual DbSet<Merc> Mercs { get; set; }
@@ -150,6 +151,26 @@ namespace TCom.EF
 
             modelBuilder.Entity<Img>()
                 .Property(e => e.outpro)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Issue>()
+                .Property(e => e.issue1)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Issue>()
+                .Property(e => e.iduser)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Issue>()
+                .Property(e => e.phone)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Issue>()
+                .Property(e => e.notes)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Issue>()
+                .Property(e => e.idtask)
                 .IsUnicode(false);
 
             modelBuilder.Entity<ManageUser>()
