@@ -9,7 +9,7 @@ using TCom.EF;
 namespace TNet.Models
 {
     [NotMapped]
-    public class IssueViewModel:Issue
+    public class IssueViewModel:TCom.EF.Issue
     {
         [Display(Name = "问题编号")]
         [StringLength(60)]
@@ -69,7 +69,7 @@ namespace TNet.Models
                 return user == null ? "" : user.name;
             } }
 
-        public void CopyFromBase(Issue issue)
+        public void CopyFromBase(TCom.EF.Issue issue)
         {
             this.issue1 = issue.issue1;
             this.iduser = issue.iduser;
@@ -86,7 +86,7 @@ namespace TNet.Models
             this.inuse = issue.inuse;
         }
 
-        public void CopyToBase(Issue issue)
+        public void CopyToBase(TCom.EF.Issue issue)
         {
             issue.issue1 = this.issue1;
             issue.iduser = this.iduser;

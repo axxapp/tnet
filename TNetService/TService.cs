@@ -221,7 +221,7 @@ namespace TNetService
                         }
 
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                        // Pub.e("error=" + e.InnerException + "_+_+_+_+_+" + e.Message);

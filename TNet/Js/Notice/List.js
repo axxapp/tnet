@@ -1,6 +1,6 @@
 ﻿function __init() {
     var city = Pub.curCity();
-    //alert(city.code);
+    //alert(JSON.stringify( city));
     getData(city);
 }
 //获取

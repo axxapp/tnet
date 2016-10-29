@@ -1,4 +1,7 @@
 ﻿
+body,html{
+    background-color:#ffffff;
+}
 .pitem_host {
     position: relative;
     display: block;

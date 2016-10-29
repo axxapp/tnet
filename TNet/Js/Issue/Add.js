@@ -2,18 +2,26 @@
 
 //保存
 function Save() {
-    var phone = $.trim($("#phone").val());
+    var context = Pub.str($("#context").val());
+    var _c = $.trim(context);
+    if (!_c || _c == "") {
+        alert("请输入内容");
+        //$("#context").focus();
+        return;
+    }
+    var phone = Pub.str($("#phone").val(), true);
     if (!phone || phone == "") {
         alert("请输入电话号码");
+        //$("#phone").focus();
         return;
     }
-    var context = $.trim($("#context").val());
-    if (!context || context == "") {
-        alert("请输入内容");
-        return;
+   
+    var booktime = Pub.str($("#booktime").val(), true);
+    var notes = Pub.str($("#notes").val());
+    var _n = $.trim(notes);
+    if (!_n || _n == "") {
+        notes = "";
     }
-    var booktime = $.trim($("#booktime").val());
-    var notes = $.trim($("#notes").val());
     var u = Pub.getUser();
     var imgs = [];
     for (var i = 1; i <= 6; i++) {
@@ -39,7 +47,7 @@ function Save() {
                 //alert(JSON.stringify(data));
                 if (Pub.wsCheck(data)) {
                     alert("受理成功,我们会尽快处理");
-                    window.location.hash = Pub.url("Issue/List");
+                    window.location.href = Pub.url("Issue/List");
                     return;
                 }
                 alert("受理失败,请稍后重试");

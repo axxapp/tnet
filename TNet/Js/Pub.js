@@ -536,7 +536,7 @@
     }
 
     function doOnCity(call) {
-       
+
         if (!isCalling) {
             isCalling = true;
             var city = curCity();
@@ -584,12 +584,10 @@
     }
 
     function getCityData(call) {
-        
         Pub.get({
             url: "Service/City/List",
             loadingMsg: "加载中...",
             success: function (data) {
-                //alert("getCityData"+JSON.stringify(data))
                 if (Pub.wsCheck(data)) {
                     if (data.Data) {
                         Pub.setCache("city", data.Data);
@@ -665,11 +663,14 @@
         return false;
     }
     //处理ios半输入状态字乱码问题
-    function getStr(str) {
+    function getStr(str,removeSp) {
         if (str) {
             var s = String.fromCharCode(8198);
             var r = new RegExp("[" + s + "]", "gi");
             str = str.replace(r, "");
+        }
+        if (removeSp) {
+            str = $.trim(str);
         }
         return str;
     }
