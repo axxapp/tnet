@@ -30,5 +30,7 @@ namespace TCom.EF
         [Column(TypeName = "text")]
         [Required]
         public string content { get; set; }
+
+        public int? sortno { get; set; }
     }
 }

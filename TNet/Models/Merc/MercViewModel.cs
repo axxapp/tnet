@@ -73,7 +73,7 @@ namespace TNet.Models
 
         [Display(Name = "可否报装")]
         public new bool isetup { get; set; }
-
+        
         [Display(Name = "启用")]
         [Required]
         public new  bool inuse { get; set; }
@@ -84,6 +84,10 @@ namespace TNet.Models
 
         [Display(Name = "类型")]
         public new int? idclass { get; set; }
+
+        [CheckBoxRequiredValidation]
+        [Display(Name ="城市")]
+        public string[] idcitys { get; set; }
 
         /// <summary>
         /// 城市

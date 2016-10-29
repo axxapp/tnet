@@ -41,6 +41,7 @@
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, DateTime?>(en => en.busstime))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, double?>(en => en.price))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.runtime))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, int?>(en => en.sortno))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.notes))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, int?>(en => en.blevel))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, bool>(en => en.inuse))</th>
@@ -69,6 +70,7 @@
                             </td>
                             <td>@item.price</td>
                             <td>@item.runtime</td>
+                            <td>@item.sortno</td>
                             <td>@item.notes</td>
                             <td>@item.blevel</td>
                             <td>

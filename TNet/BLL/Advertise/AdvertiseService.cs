@@ -50,26 +50,29 @@ namespace TNet.BLL
             return viewModels;
         }
 
-        public static List<AdvertiseViewModel> SearchViewModels(DateTime? sdate, DateTime? edate, string idat = "", string title = "")
+        public static List<AdvertiseViewModel> SearchViewModels(DateTime? sdate, DateTime? edate, string idat = "",string idcity="", string title = "")
         {
             List<AdvertiseViewModel> viewModels = new List<AdvertiseViewModel>();
             List<Advertise> advertises = new List<Advertise>();
-            advertises=Search(sdate, edate, idat, title);
+            advertises=Search(sdate, edate, idat, idcity, title);
             viewModels=ConvertToViewModel(advertises);
             return viewModels;
         }
 
-        public static List<Advertise> Search(DateTime? sdate,DateTime? edate,string idat = "",string title="")
+        public static List<Advertise> Search(DateTime? sdate,DateTime? edate,string idat = "",string idcity="",string title="")
         {
             List<Advertise> advertises = new List<Advertise>();
             TN db = new TN();
-            advertises = (from ad in db.Advertises join at in db.AdvertiseTypes on ad.idat equals at.idat orderby ad.sortno descending, ad.sortno descending select ad).Where(en => (
+            advertises = (from ad in db.Advertises join at in db.AdvertiseTypes on ad.idat equals at.idat
+                          join cr in db.CityRelations on new {idav= ad.idav, moduletype=(int) ModuleType.Advertise } equals new { idav = cr.idmodule, moduletype = (cr.moduletype==null?0:cr.moduletype.Value) }
+                          where (string.IsNullOrEmpty(idcity) || (cr.idcity == idcity))
+                          orderby ad.sortno descending, ad.sortno descending select ad).Where(en => (
               (sdate == null || SqlFunctions.DateDiff("dd", sdate.Value, en.cretime) >= 0)
               && (edate == null || SqlFunctions.DateDiff("dd", edate.Value, en.cretime) <= 0)
              && (string.IsNullOrEmpty(title) || en.title.Contains(title))
              && (string.IsNullOrEmpty(idat) || en.idat == idat)
              )).ToList();
-            return advertises;
+            return advertises.Distinct(AdvertiseEqualityComparer.Instance).ToList();
 
         }
 

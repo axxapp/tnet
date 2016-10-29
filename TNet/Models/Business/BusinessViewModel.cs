@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TCom.EF;
+using TNet.Util;
 
 namespace TNet.Models
 {
@@ -85,6 +86,13 @@ namespace TNet.Models
         [Display(Name = "启用")]
         [Required]
         public new bool inuse { get; set; }
+
+        [Display(Name = "排序")]
+        public new int? sortno { get; set; }
+
+        [CheckBoxRequiredValidation]
+        [Display(Name = "城市")]
+        public string[] idcitys { get; set; }
 
         public void CopyFromBase(Business business)
         {

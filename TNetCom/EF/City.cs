@@ -26,7 +26,7 @@ namespace TCom.EF
 
         public int? sortno { get; set; }
 
-        public bool? isdefault { get; set; }
+        public bool isdefault { get; set; }
 
         public bool inuse { get; set; }
     }

@@ -27,6 +27,9 @@ namespace TNet.Models
         [Display(Name = "排序")]
         public new int? sortno { get; set; }
 
+        [Display(Name = "默认")]
+        public new bool isdefault { get; set; }
+
         [Display(Name = "启用")]
         public new bool inuse { get; set; }
 
@@ -42,6 +45,7 @@ namespace TNet.Models
             this.notes = city.notes;
             this.sortno = city.sortno;
             this.inuse = city.inuse;
+            this.isdefault = city.isdefault;
         }
 
         public void CopyToBase(City city)
@@ -51,6 +55,7 @@ namespace TNet.Models
             city.notes = this.notes;
             city.sortno = this.sortno;
             city.inuse = this.inuse;
+            this.isdefault = city.isdefault;
         }
     }
 }

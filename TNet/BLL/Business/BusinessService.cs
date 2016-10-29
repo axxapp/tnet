@@ -16,7 +16,10 @@ namespace TNet.BLL
 
         public static Business GetBusiness(long idbuss)
         {
-            return GetALL().Where(en => en.idbuss == idbuss).FirstOrDefault();
+            TN db = new TN();
+            List< Business> business= db.Businesses.Where(en => en.idbuss == idbuss).ToList();
+            return (business != null && business.Count > 0) ? business.First() : null;
+
         }
 
         public static Business Edit(Business business)
@@ -39,6 +42,7 @@ namespace TNet.BLL
             oldBusiness.runtime = business.runtime;
             oldBusiness.notes = business.notes;
             oldBusiness.blevel = business.blevel;
+            oldBusiness.sortno = business.sortno;
             oldBusiness.inuse = business.inuse;
 
             db.SaveChanges();

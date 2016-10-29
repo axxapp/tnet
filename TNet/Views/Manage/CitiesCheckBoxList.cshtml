@@ -4,22 +4,23 @@
 }
 <link rel="stylesheet" href="@Url.Content("~/Css/iCheck/skins/all.css")" />
 <script type="text/javascript" src="@Url.Content("~/Js/iCheck/icheck.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Js/iCheck/icheck.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Js/CustomerModelValidation/CheckoutRequiredClientValidation.js")"></script>
 
-@if (Model != null && Model.Count() > 0)
-{
+@if (Model != null && Model.Count() > 0) {
     <div>
         @foreach (var item in Model) {
-                    <input type="checkbox" name="idcity" id="idcity_@item.idcity" value="@item.idcity" @(item.IsCheck ? "checked" : "") />
-            <label for="idcity_@item.idcity">@item.city1</label>
+            <input data-val="true" data-val-chkrequired="请至少勾选一个城市" type="checkbox" name="idcitys" id="idcitys_@item.idcity" value="@item.idcity" @(item.IsCheck ? "checked" : "") />
+                    <label for="idcitys_@item.idcity">@item.city1</label>
         }
     </div>
 }
-else
-{
+else {
     <h3>没有找到任何城市，请先<a href="@Url.Action("CityEdit","Manage")">添加城市</a></h3>
 }
 <script type="text/javascript">
     $(function () {
-        $('input:checkbox').iCheck({ checkboxClass: 'icheckbox_square-blue' });
+        $('input:checkbox[name="idcitys"]').iCheck({ checkboxClass: 'icheckbox_square-blue' });
+        
     });
 </script>

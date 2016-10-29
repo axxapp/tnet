@@ -1,4 +1,5 @@
-﻿@model TNet.Models.BusinessViewModel
+﻿@using TNet.Models;
+@model TNet.Models.BusinessViewModel
 @{
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     ViewBag.Title = "编辑商圈";
@@ -24,9 +25,16 @@
         <div class="merc-edit-box ">
             <fieldset>
                 @Html.HiddenFor(model => model.idbuss)
-             @Html.HiddenFor(model => model.longitude)
+                @Html.HiddenFor(model => model.longitude)
                 @Html.HiddenFor(model => model.latitude)
                 <input type="hidden" name="bussImages" id="bussImages" value="" />
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.idcitys, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @{Html.RenderAction("CitiesCheckBoxList", "Manage", new { idmodule = (Model.idbuss > 0 ? Model.idbuss.ToString() : ""), moduleType = ModuleType.Bussiness });}
+                    </div>
+                    @Html.ValidationMessageFor(model => model.idcitys)
+                </div>*@
                 <div class="form-group">
                     @Html.LabelFor(model => model.buss, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
@@ -103,6 +111,13 @@
                         @Html.TextBoxFor(model => model.runtime, new { @class = "form-control" })
                     </div>
                     @Html.ValidationMessageFor(model => model.runtime)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.sortno, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(model => model.sortno, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.sortno)
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.notes, new { @class = "col-sm-2 control-label" })

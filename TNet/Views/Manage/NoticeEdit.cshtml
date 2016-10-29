@@ -3,8 +3,7 @@
 @{
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     ViewBag.Title = "编辑公告通知";
-    if (string.IsNullOrEmpty(Model.idnotice))
-    {
+    if (string.IsNullOrEmpty(Model.idnotice)) {
         ViewBag.Title = "新增公告通知";
     }
 }
@@ -30,6 +29,13 @@
                 @Html.HiddenFor(model => model.idnotice)
                 @Html.HiddenFor(model => model.content)
                 <input type="hidden" name="mercImages" id="mercImages" value="" />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.idcitys, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @{Html.RenderAction("CitiesCheckBoxList", "Manage", new { idmodule = Model.idnotice, moduleType = ModuleType.Notice });}
+                    </div>
+                    @Html.ValidationMessageFor(model => model.idcitys)
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.publish, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
@@ -62,10 +68,15 @@
                     @Html.HiddenFor(model => model.end_time, new { @class = "form-control", Value = String.Format("{0:yyyy-MM-dd}", Model.end_time) })
                     @Html.ValidationMessageFor(model => model.end_time)
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.sortno, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(model => model.sortno, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.sortno)
+                </div>
                 <div class="form-group" style="margin:0px">
                     @Html.LabelFor(model => model.content, new { @class = "col-sm-2 control-label" })
-
-
                 </div>
                 <div class="form-group" style="margin:0px">
                     <div class="col-sm-2"></div>

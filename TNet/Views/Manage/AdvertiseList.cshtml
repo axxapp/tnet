@@ -14,6 +14,8 @@
     DateTime? edate = Convert.ToDateTime(ViewData["edate"]);
     string idat = ViewData["idat"].ToString();
     string title = ViewData["title"].ToString();
+    string idcity = ViewData["idcity"].ToString();
+    List<SelectItemViewModel<string>> citySelects = (List<SelectItemViewModel<string>>)ViewData["citySelects"];
 
     List<SelectItemViewModel<string>> advertiseTypes = (List<SelectItemViewModel<string>>)ViewData["advertiseTypes"];
 
@@ -29,13 +31,16 @@
         <a class="btn btn-primary" @*target="_blank"*@ href="@Url.Action("AdvertiseEdit","Manage")">新增广告</a>
     </div>
     <div style="margin-top:10px;">
-        <form action="@Url.Action("AdvertiseList","Manage")" method="post">
+        <form action="@Url.Action("AdvertiseList","Manage",new { pageIndex=0})" method="post">
             <div class="row">
                 <div class="col-xs-2">
-                    @Html.DropDownList("orderTypes", new SelectList(advertiseTypes, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idat })
+                    <input type="text" class="form-control" placeholder="标题" name="title" value="@title">
                 </div>
                 <div class="col-xs-2">
-                    <input type="text" class="form-control" placeholder="标题" name="title" value="@title">
+                    @Html.DropDownList("idcity", new SelectList(citySelects, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idcity })
+                </div>
+                <div class="col-xs-2">
+                    @Html.DropDownList("orderTypes", new SelectList(advertiseTypes, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idat })
                 </div>
                 <div class="col-xs-1">
                     <input type="submit" value="搜索" class="btn btn-primary" placeholder=".col-xs-1" />

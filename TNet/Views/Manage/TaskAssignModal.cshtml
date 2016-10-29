@@ -1,0 +1,88 @@
+﻿@using TCom.Model.Task;
+@{
+    Layout = null;
+    int taskType = Convert.ToInt32( ViewData["taskType"]);
+}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title" id="currentSetManageUser"></h4>
+                <input type="hidden" id="currentSetOrderNo" value="" />
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <input type="hidden" id="currentSetManageUserId" value="" />
+                        <input type="text" class="form-control" placeholder="用户名或者空" name="searchUserName" value="" id="searchUserName" />
+                    </div>
+                    <div class="col-xs-3">
+                        <input type="submit" value="搜索" class="btn btn-primary" placeholder=".col-xs-1" id="btnSearch" />
+                    </div>
+                </div>
+                <div id="searchResults" class="userSearchResults"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSearch").click(function () {
+            searchUsers();
+        });
+    });
+    function assignTask() {
+        var selectedManageUsers = $('input[name="chkManageUser"]:checked');
+        if (selectedManageUsers.length == 0) {
+            alert("还没选中任何工人,请先选中。");
+            return;
+        }
+        var selectedManageUserIds = "";
+        $(selectedManageUsers).each(function (i, d) {
+            if (i == 0) {
+                selectedManageUserIds += $(d).val();
+            }
+            else {
+                selectedManageUserIds += "," + $(d).val();
+            }
+        });
+        var url = "@Url.Action("AssignTask", "Manage")";
+        var data = { bindOrderNo: $("#currentSetOrderNo").val(), manageUserIds: selectedManageUserIds, taskType:@taskType, isAjax: true, notes: $("#txtNotes").val() };
+        $.post(url, data, function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == 1) {
+                closeModal();
+                alert(returndata.Message);
+            }
+            else if (returndata.Code == 2) {
+                alert(returndata.Message);
+            }
+        });
+    }
+
+    function searchUsers() {
+        var url = "@Url.Action("SearchManageUsers","Manage")";
+        var data = { userName: $("#searchUserName").val(), bindOrderNo: $("#currentSetOrderNo").val(), isAjax: true };
+        $.get(url, data, function (returndata) {
+            $("#searchResults").html(returndata);
+        })
+    }
+    function openModal(bindOrderNo) {
+        $("#currentSetManageUser").text("为订单:" + bindOrderNo + "指派工人");
+        $("#currentSetOrderNo").val(bindOrderNo);
+        $('#myModal').modal({
+            keyboard: false
+        })
+    }
+    function closeModal() {
+        $('#myModal').modal('hide')
+    }
+   
+
+</script>

@@ -54,6 +54,9 @@ namespace TNet.Models
         [Display(Name = "启用")]
         public new bool inuse { get; set; }
 
+        [Display(Name = "排序")]
+        public new int? sortno { get; set; }
+
         [Display(Name ="报装")]
         public SetupViewModel setup { get; set; }
 

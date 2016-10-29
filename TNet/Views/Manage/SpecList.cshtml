@@ -42,6 +42,7 @@
                         <th>@(AttributeHelper.DisplayAttributeFor<SpecViewModel, double?>(en => en.stuprice))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<SpecViewModel, double?>(en => en.moveprice))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<SpecViewModel, String>(en => en.usertype))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<SpecViewModel, int?>(en => en.sortno))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<SpecViewModel, String>(en => en.notes))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<SpecViewModel, bool>(en => en.inuse))</th>
                         <th>操作</th>
@@ -63,6 +64,7 @@
                             <td>@item.stuprice</td>
                             <td>@item.moveprice</td>
                             <td>@item.usertype</td>
+                            <td>@item.sortno</td>
                             <td>@item.notes</td>
                             <td>
                                 <div class="switch">

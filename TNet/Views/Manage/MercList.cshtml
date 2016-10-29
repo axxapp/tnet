@@ -13,6 +13,7 @@
     string merc = ViewData["merc"].ToString();
     int netype = Convert.ToInt32(ViewData["netype"]);
     int isetup = Convert.ToInt32(ViewData["isetup"]);
+    string idcity = ViewData["idcity"].ToString();
     List<SelectItemViewModel<string>> mercTypeSelects =(List<SelectItemViewModel<string>>) ViewData["mercTypeSelects"];
     List<SelectItemViewModel<int>> isetupSelects = (List<SelectItemViewModel<int>>)ViewData["isetupSelects"];
     List<SelectItemViewModel<int>> netypeSelects = (List<SelectItemViewModel<int>>)ViewData["netypeSelects"];
@@ -29,13 +30,13 @@
         <a class="btn btn-primary" @*target="_blank"*@ href="@Url.Action("MercEdit","Manage")">新增产品</a>
     </div>
     <div style="margin-top:10px;">
-        <form action="@Url.Action("MercList","Manage")" method="post">
+        <form action="@Url.Action("MercList","Manage",new { pageIndex=0})" method="post">
             <div class="row">
                 <div class="col-xs-2">
                     <input type="text" class="form-control" placeholder="产品名称" name="merc" value="@merc">
                 </div>
                 <div class="col-xs-2">
-                    @Html.DropDownList("idcity", new SelectList(citySelects, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idtype })
+                    @Html.DropDownList("idcity", new SelectList(citySelects, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idcity })
                 </div>
                 <div class="col-xs-2">
                    @Html.DropDownList("idtype", new SelectList(mercTypeSelects, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idtype })

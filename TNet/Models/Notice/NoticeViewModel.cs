@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TCom.EF;
+using TNet.Util;
 
 namespace TNet.Models {
     [NotMapped]
@@ -40,6 +41,14 @@ namespace TNet.Models {
         [Display(Name = "内容")]
         public new string content { get; set; }
         
+        [Display(Name = "排序")]
+        public new int? sortno { get; set; }
+
+        [CheckBoxRequiredValidation]
+        [Display(Name = "城市")]
+        public string[] idcitys { get; set; }
+
+
         public void CopyFromBase(TCom.EF.Notice notice) {
             this.idnotice = notice.idnotice;
             this.publish = notice.publish;
@@ -48,6 +57,7 @@ namespace TNet.Models {
             this.start_time = notice.start_time;
             this.end_time = notice.end_time;
             this.content = notice.content;
+            this.sortno = notice.sortno;
         }
 
         public void CopyToBase(TCom.EF.Notice notice) {
@@ -58,6 +68,7 @@ namespace TNet.Models {
             notice.start_time = this.start_time;
             notice.end_time = this.end_time;
             notice.content = this.content;
+            notice.sortno = this.sortno;
         }
 
     }
