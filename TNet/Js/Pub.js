@@ -468,7 +468,7 @@
                 if (!Pub.wxJsRead) {
                     Pub.hieLoading();
                     Pub.wxJsRead = true;
-                    doOnCity(call);
+                    doCityReadys();
                 }
             }, 1000 * 3);
             //doOnCity(call);
@@ -536,6 +536,7 @@
     }
 
     function doOnCity(call) {
+       
         if (!isCalling) {
             isCalling = true;
             var city = curCity();
@@ -583,17 +584,19 @@
     }
 
     function getCityData(call) {
+        
         Pub.get({
             url: "Service/City/List",
             loadingMsg: "加载中...",
             success: function (data) {
+                //alert("getCityData"+JSON.stringify(data))
                 if (Pub.wsCheck(data)) {
                     if (data.Data) {
                         Pub.setCache("city", data.Data);
                     }
                 }
                 var city = curCity();
-                call(city ? city[0] : null);
+                call(city);
                 isCalling = false;
 
             },
