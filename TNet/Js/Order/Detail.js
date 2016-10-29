@@ -1,4 +1,4 @@
-﻿
+﻿var order_data = null;
 //获取订单
 function getData() {
     var orderno = $("#OC").attr("orderno");
@@ -21,6 +21,7 @@ function getData() {
                     if (data.Data) {
                         var html = "";
                         try {
+                            order_data = data.Data;
                             var o = data.Data.Order;
                             var tag = "";
                             if (o.otype == 2) {
@@ -30,6 +31,17 @@ function getData() {
                                 $("#idc").html(o.idc);
                                 $("#idc_img1").attr("src", Pub.url(o.idc_img1, "Images/default_bg.png"));
                                 $("#idc_img2").attr("src", Pub.url(o.idc_img2, "Images/default_bg.png"));
+                                if (o.idc_img1) {
+                                    $("#idc_img1").click(function (event) {
+                                        lookImg(event.target);
+                                    });
+                                }
+                                if (o.idc_img2) {
+                                    $("#idc_img2").click(function (event) {
+                                        lookImg(event.target);
+                                    });
+                                }
+
 
                             }
                             $("#merc").attr("href", Pub.rootUrl() + "Merc/Detail/" + o.idmerc + tag);
@@ -74,7 +86,25 @@ function getData() {
         });
     }
 }
- 
+
 
 
 $(document).ready(getData);
+
+
+
+function lookImg(obj) {
+    var o = order_data.Order;
+    var ms = [];
+    if (o.idc_img1) {
+        ms.push(Pub.fullUrl(o.idc_img1))
+    }
+    if (o.idc_img2) {
+        ms.push(Pub.fullUrl(o.idc_img2))
+    }
+    var img = Pub.fullUrl($(obj).attr('src'));
+    PreviewImage({
+        current: img,
+        urls: ms
+    });
+}

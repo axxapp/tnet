@@ -1,5 +1,5 @@
 ﻿Pub.checkUser(true);
-
+var issue_data = null;
 //获取问题
 function getData() {
     var u = Pub.getUser();
@@ -15,8 +15,10 @@ function getData() {
                         try {
                             var html = "";
                             try {
+                                issue_data = data.Data;
                                 for (var i = 0; i < data.Data.length; i++) {
                                     var o = data.Data[i];
+
                                     var uo = o.Issue;
                                     var so = o.Task ? o.Task.statusObj : null;
                                     if (html) {
@@ -56,7 +58,7 @@ function getData() {
                                             if (z++ == 0) {
                                                 html += '<div class="taskimg_box">';
                                             }
-                                            html += '<img src="' + Pub.url(o.Imgs[j], "Images/default_bg.png") + '"/>';
+                                            html += '<img src="' + Pub.url(o.Imgs[j], "Images/default_bg.png") + '" onclick="lookImg(this,' + i + ')"/>';
                                             if (z == 4) {
                                                 z = 0;
                                                 html += "</div>";
@@ -153,4 +155,24 @@ function getPress(ts) {
 
 function load_fail(msg) {
     Pub.noData("#order_host", msg, getData);
+}
+
+
+
+function lookImg(obj, j) {
+    var imgs = issue_data[j].Imgs;
+    var ms = [];
+    if (!imgs || imgs.length <= 0) {
+        imgs = ["Images/default_bg.png"];
+    }
+    if (imgs) {
+        for (var i = 0; i < imgs.length; i++) {
+            ms.push(Pub.fullUrl(imgs[i]));
+        }
+    }
+    var img = Pub.fullUrl($(obj).attr('src'));
+    PreviewImage({
+        current: img,
+        urls: ms
+    });
 }

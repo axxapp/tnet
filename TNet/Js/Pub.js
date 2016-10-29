@@ -7,6 +7,7 @@
         jsonDate: jsonDate,
         rootUrl: rootUrl,
         url: url,
+        fullUrl: fullUrl,
         urlParam: urlParam,
         wsCheck: wsCheck,//服务检查
         showLoading: showLoading,// 
@@ -146,6 +147,25 @@
         }
         return root_url;
     }
+
+    function fullUrl(url) {
+        if (url) {
+            var _url = url.toUpperCase();
+            var ru = rootUrl().toUpperCase();
+            if ((i = _url.indexOf("/")) ==  0) {
+                _url = _url.substring(i);
+                url = url.substring(i);
+            }
+            if ((i = ru.indexOf("/")) == 0) {
+                ru = ru.substring(i);
+            }
+            if ((i = _url.indexOf(ru)) == 0) { 
+                url = url.substring(ru.length);
+            } 
+            return full_root_url + url;
+        }
+    }
+
     function url(rurl, durl) {
         if (rurl) {
             try {
@@ -663,7 +683,7 @@
         return false;
     }
     //处理ios半输入状态字乱码问题
-    function getStr(str,removeSp) {
+    function getStr(str, removeSp) {
         if (str) {
             var s = String.fromCharCode(8198);
             var r = new RegExp("[" + s + "]", "gi");

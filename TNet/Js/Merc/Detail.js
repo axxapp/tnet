@@ -25,8 +25,6 @@ function getDetailData() {
                             if (data.Data.Merc.descs) {
                                 $(".Merc_Detail").html(data.Data.Merc.descs);
                             }
-                            
-                            
                             var imgs = data.Data.Imgs;
                             if (!imgs || imgs.length <= 0) {
                                 imgs = ["Images/default_bg.png"];
@@ -36,7 +34,7 @@ function getDetailData() {
                                 for (var i = 0; i < imgs.length; i++) {
                                     var ur = Pub.url(imgs[i], "Images/default_bg.png");
                                     var bur = Pub.url("Images/default_bg.png");
-                                    imgHtml += "<div class='swiper-slide'><img src='" + bur + "' data-src='" + ur + "' class='swiper-lazy' /><div class='swiper-lazy-preloader swiper-lazy-preloader-white'></div></div>";
+                                    imgHtml += "<div class='swiper-slide'><img src='" + bur + "' data-src='" + ur + "' onclick='lookImg(this)' class='swiper-lazy' /><div class='swiper-lazy-preloader swiper-lazy-preloader-white'></div></div>";
                                 }
                                 if (imgHtml) {
                                     $('.swiper-wrapper').html(imgHtml);
@@ -186,3 +184,20 @@ function initParam() {
 $(document).ready(initParam);
 
 
+function lookImg(obj) {
+    var imgs = mercData.Data.Imgs;
+    var ms = [];
+    if (!imgs || imgs.length <= 0) {
+        imgs = ["Images/default_bg.png"];
+    }
+    if (imgs) {
+        for (var i = 0; i < imgs.length; i++) {
+            ms.push(Pub.fullUrl(imgs[i]));
+        }
+    }
+    var img = Pub.fullUrl($(obj).attr('src'));
+    PreviewImage({
+        current: img,
+        urls: ms
+    });
+}
