@@ -490,6 +490,10 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
+                .Property(e => e.alias)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
                 .Property(e => e.name)
                 .IsUnicode(false);
 

@@ -224,7 +224,7 @@
     <Compile Include="Models\City\CityRelationViewModel.cs" />
     <Compile Include="Models\City\CityViewModel.cs" />
     <Compile Include="Models\File\UploadData.cs" />
-    <Compile Include="Models\File\UploadDataResult.cs" /> 
+    <Compile Include="Models\File\UploadDataResult.cs" />
     <Compile Include="Models\Issue\IssueItem.cs" />
     <Compile Include="Models\Issue\IssueViewModel.cs" />
     <Compile Include="Models\Manage\ManageUserType.cs" />
@@ -278,6 +278,7 @@
     <Compile Include="Models\Service\Result.cs" />
     <Compile Include="Models\Issue\IssueData.cs" />
     <Compile Include="Models\Task\TaskItem.cs" />
+    <Compile Include="Models\User\UserData.cs" />
     <Compile Include="Models\User\UserInfo.cs" />
     <Compile Include="Models\User\UserViewModel.cs" />
     <Compile Include="Models\Weixin\ReceiveMsg.cs" />
@@ -327,6 +328,10 @@
     <Compile Include="Service\Task\ITaskService.cs" />
     <Compile Include="Service\Task\TaskService.svc.cs">
       <DependentUpon>TaskService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\User\IUserService.cs" />
+    <Compile Include="Service\User\UserService.svc.cs">
+      <DependentUpon>UserService.svc</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="ueditor\net\Config.cs" />
@@ -475,6 +480,7 @@
     <Content Include="Css\Notice\Detail.css" />
     <Content Include="Css\Notice\List.css" />
     <Content Include="Css\Task\Base.css" />
+    <Content Include="Css\User\Update.css" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.js" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.min.js" />
     <Content Include="Css\Merc\Base.css" />
@@ -738,6 +744,8 @@
     <Content Include="Css\Bootstrap\bootstrap-theme.css.map" />
     <Content Include="Css\Bootstrap\bootstrap.css.map" />
     <Content Include="Css\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Js\User\Index.js" />
+    <Content Include="Js\User\Update.js" />
     <Content Include="MP_verify_ihu7x0BozQLNCJ1q.txt" />
     <None Include="Js\Com\jquery.validate-vsdoc.js" />
     <Content Include="Js\Com\jquery.validate.js" />
@@ -801,6 +809,7 @@
     <Content Include="Service\Issue\IssueService.svc" />
     <Content Include="Service\Notice\NoticeService.svc" />
     <Content Include="Service\Task\TaskService.svc" />
+    <Content Include="Service\User\UserService.svc" />
     <Content Include="ueditor\dialogs\anchor\anchor.html" />
     <Content Include="ueditor\dialogs\attachment\attachment.css" />
     <Content Include="ueditor\dialogs\attachment\attachment.html" />
@@ -1151,6 +1160,7 @@
     <Content Include="Views\Issue\Add.cshtml" />
     <Content Include="Views\Manage\IssueList.cshtml" />
     <Content Include="Views\Manage\TaskAssignModal.cshtml" />
+    <Content Include="Views\User\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

@@ -1,0 +1,159 @@
+﻿body {
+}
+
+.wx_user_info {
+    display: block;
+    height: 100px;
+    line-height: 100px;
+}
+
+    .wx_user_info img {
+        display: inline-block;
+        float: left;
+        width: 60px;
+        height: 60px;
+        margin: 20px 10px 20px 20px;
+        border-radius: 30px;
+        background-color: #d9d9d9;
+        background-size: cover;
+        border: solid 2px #d9d9d9;
+    }
+
+    .wx_user_info span {
+        display: inline-block;
+        height: 60px;
+        line-height: 60px;
+        margin: 20px 10px 20px 0px;
+        float: left;
+    }
+
+
+
+
+.Addr_Edit {
+    padding: 20px 0px 100px 0px;
+    display: block;
+}
+
+.Edit_Item {
+    display: block;
+    height: 60px;
+    padding: 8px;
+    position: relative;
+}
+
+    .Edit_Item .Edit_Name {
+        float: left;
+        width: 50px;
+        height: 100%;
+        padding: 0px 0px 0px 8px;
+    }
+
+
+    .Edit_Item .Edit_Value {
+        position: absolute;
+        top: 0px;
+        left: 65px;
+        right: 10px;
+        height: 100%;
+    }
+
+        .Edit_Item .Edit_Value div.in {
+            display: block;
+            border: solid #d6d6d6 1px;
+            border-radius: 5px;
+            height: 40px;
+            padding: 0px 10px 0px 10px;
+            background-color: #ffffff;
+        }
+
+        .Edit_Item .Edit_Value input[type="text"], .Edit_Item .Edit_Value input[type="tel"] {
+            display: block;
+            width: 100%;
+            height: 40px;
+            border: none;
+            outline: none;
+        }
+
+        .Edit_Item .Edit_Value div.addr_box, .Edit_Item .Edit_Value div.ck {
+            display: block;
+            height: 40px;
+            line-height: 40px;
+        }
+
+
+
+
+
+.Ops {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+    z-index: 9999;
+    background-color: #ffffff;
+    border-top: solid #cbcbcb 1px;
+    padding: 0px;
+    background: #FAFAFA;
+    background: linear-gradient(#FAFAFA,#F4F4F4);
+    box-shadow: 0 -1px 0 rgba(0,0,0,.1) inset,0 -2px 8px rgba(0,0,0,.06);
+}
+
+
+    .Ops a.save {
+        padding: 0px;
+        margin: 0px;
+        display: block;
+        width: 100%;
+        height: 100%;
+        line-height: 60px;
+        text-align: center;
+        text-decoration: none;
+        color: #222222;
+        font-weight: bold;
+        float: left;
+    }
+
+
+.weui_cells {
+    font-size: unset;
+}
+
+
+.weui_cells {
+    background-color: transparent;
+    margin-top: 0px;
+}
+
+.sex_box {
+    margin-top: 0px;
+}
+
+.weui_check_label {
+    float: left;
+}
+
+.weui_cell {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+    .weui_cell::before {
+        display: none;
+    }
+
+    .weui_cell::after {
+        display: none;
+    }
+
+.weui_cell_hd {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+.sex_host{
+    padding-top:0px;
+}
+.sex_host .Edit_Name{
+     padding-top:10px;
+}

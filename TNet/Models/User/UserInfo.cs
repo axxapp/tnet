@@ -13,6 +13,7 @@ namespace TNet.Models.User
             this.idweixin = u.idweixin;
             this.iduser = u.iduser+"";
             this.name = u.name;
+            this.alias = u.alias;
             this.phone = u.phone;
             this.sex = u.sex;
             this.comp = u.comp;
@@ -26,6 +27,8 @@ namespace TNet.Models.User
         public string iduser { get; set; }
 
         public string name { get; set; }
+
+        public string alias { get; set; }
 
         public string phone { get; set; }
 

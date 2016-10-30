@@ -6,58 +6,13 @@
 
 
 @section Head{
-    <link href="@Url.Content("~/Css/User/Index.css?v=20161030")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/User/Index.css?v=20161031")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Js/User/Index.js?v=20161031")">
+    </script>
     <script type="text/javascript">
         var ru = "@ViewBag.ru";
-        var tn_u = @ViewBag.u;
+        var tn_u = @ViewBag.u; 
         Pub.setUser(tn_u);
-        function initParam(){
-            if (ru) {
-                $(".Jump").show();
-                window.location.href = ru;
-            }else{
-                $("#base").show();
-
-                $(".avatar").css("background-image","url("+tn_u.avatar+")");
-                $(".name").html(tn_u.name);
-                setV("phone",tn_u.phone);
-                setV("comp",tn_u.comp);
-                if(tn_u.sex != null && tn_u.sex != undefined && tn_u.sex != -1){
-                    setV("sex",tn_u.sex?"男":"女");
-                }
-                setV("cretime",tn_u.cretime);
-                setV("notes",tn_u.notes);
-
-                if(tn_u.mu){
-                    $("#muser").show();
-
-                    setV("muphone",tn_u.mu.phone);
-                    setV("muname",tn_u.mu.name);
-
-                    if(tn_u.mu.recvOrder){
-                        $("#recv_order").attr("checked",'true');
-                    }
-
-                    if(tn_u.mu.recvSetup){
-                        $("#recv_setup").attr("checked",'true');
-                    }
-
-                    if(tn_u.mu.sendSetup){
-                        $("#send_setup").attr("checked",'true');
-                    }
-
-                }
-
-            }
-        }
-
-        function setV(id,v){
-            if(!v){
-                v = "...";
-            }
-            $("#"+id).html(v);
-        }
-        $(document.body).ready(initParam);
     </script>
 }
 <div class="Jump">跳转中...</div>
@@ -73,7 +28,7 @@
 
         <div class="weui_cell Title_Cells">
             <div class="weui_cell_bd weui_cell_primary">
-                <p>基本信息:</p>
+                <p><a  class="update" href="~/User/Update">基本信息:</a></p>
             </div>
             <div class="weui_cell_ft">
 

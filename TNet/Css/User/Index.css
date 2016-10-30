@@ -110,3 +110,10 @@ div.Title_Cells {
     padding-bottom: 80px;
 }
 
+.update{
+     display:block;
+     height:100%;
+     line-height:50px;
+     text-decoration:none;
+     color:#757575;
+}
