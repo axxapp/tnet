@@ -16,14 +16,14 @@ namespace TNet.BLL
             return db.Tasks.OrderByDescending(en => en.cretime).ToList();
         }
 
-        private static IQueryable<Task> CommonSearch(DateTime? startDate, DateTime? endDate, string orderno = "", string idsend = "", string idrevc = "")
+        private static IQueryable<Task> CommonSearch(DateTime? startDate, DateTime? endDate, string orderno = "", int taskType = 0, string idsend = "", string idrevc = "")
         {
             TN db = new TN();
             return (from ta in db.Tasks
-                                   join ord in db.MyOrders on ta.orderno equals ord.orderno.ToString()
+                                   //join ord in db.MyOrders on ta.orderno equals ord.orderno.ToString()
                                    join tre in db.TaskRecvers on ta.idtask equals tre.idtask
                                    where
-                                    (!string.IsNullOrEmpty(orderno) && ord.orderno.ToString() == orderno)
+                                    (!string.IsNullOrEmpty(orderno) && ta.orderno== orderno)
                                     ||
                                     (
                                     string.IsNullOrEmpty(orderno)
@@ -31,6 +31,7 @@ namespace TNet.BLL
                                     && (endDate == null || SqlFunctions.DateDiff("dd", endDate.Value, ta.cretime) <= 0)
                                     && (string.IsNullOrEmpty(idsend) || ta.idsend == idsend)
                                     && (string.IsNullOrEmpty(idrevc) || tre.mcode == idrevc)
+                                    &&(taskType==0|| ta.tasktype== taskType)
                                     )
                                    orderby ta.cretime descending
                                    select ta);
@@ -38,14 +39,14 @@ namespace TNet.BLL
         }
 
 
-        private static List<Task> SearchList(DateTime? startDate, DateTime? endDate, string orderno = "", string idsend = "", string idrevc = "")
+        private static List<Task> SearchList(DateTime? startDate, DateTime? endDate, string orderno = "", int taskType = 0, string idsend = "", string idrevc = "")
         {
-            return CommonSearch(startDate, endDate, orderno, idsend, idrevc).ToList();;
+            return CommonSearch(startDate, endDate, orderno, taskType,idsend, idrevc).ToList();;
         }
 
-        public static List<TaskViewModel> Search(DateTime? startDate, DateTime? endDate, string orderno = "", string idsend = "", string idrevc = "")
+        public static List<TaskViewModel> Search(DateTime? startDate, DateTime? endDate, string orderno = "",int taskType=0, string idsend = "", string idrevc = "")
         {
-            IQueryable<Task> queryable= CommonSearch(startDate, endDate, orderno, idsend, idrevc);
+            IQueryable<Task> queryable= CommonSearch(startDate, endDate, orderno, taskType, idsend, idrevc);
             List<Task> entities = queryable.ToList();
             List<TaskViewModel> viewModels = new List<TaskViewModel>();
             viewModels = entities.Select(mod =>

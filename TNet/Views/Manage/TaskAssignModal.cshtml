@@ -74,7 +74,14 @@
         })
     }
     function openModal(bindOrderNo) {
-        $("#currentSetManageUser").text("为订单:" + bindOrderNo + "指派工人");
+        if("@taskType"=="@(TaskType.Setup)"){
+            $("#currentSetManageUser").text("为订单:" + bindOrderNo + "指派工人");
+        }
+        else if ("@taskType"=="@(TaskType.Complaint)")
+        {
+            $("#currentSetManageUser").text("为投诉单:" + bindOrderNo + "指派工人");
+        }
+       
         $("#currentSetOrderNo").val(bindOrderNo);
         $('#myModal').modal({
             keyboard: false
@@ -83,6 +90,6 @@
     function closeModal() {
         $('#myModal').modal('hide')
     }
-   
+
 
 </script>

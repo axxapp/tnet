@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using TCom.EF;
 using System.Collections;
+using TCom.Model.Task;
 
 namespace TNet.Models
 {
@@ -94,7 +95,28 @@ namespace TNet.Models
 
         [Display(Name ="任务接收者")]
         public List<TaskRecverViewModel> TaskRecvers { get; set; }
-        
+
+        [Display(Name = "派单类型")]
+        public string tasktypeName { get {
+               return TaskViewModel.TaskTypes.Where(en => en.DisplayValue == tasktype).First().DisplayText;
+            } }
+
+        /// <summary>
+        /// 派单类型下拉选项
+        /// </summary>
+        [Display(Name= "派单类型")]
+        public static List<SelectItemViewModel<int>> TaskTypes { get{
+                List<SelectItemViewModel<int>> list = new List<SelectItemViewModel<int>>();
+                foreach (var item in TaskType.s)
+                {
+                    list.Add(new SelectItemViewModel<int>() {
+                         DisplayValue=item.Key,
+                         DisplayText=item.Value
+                    });
+                }
+                return list;
+            } }
+
         public bool Equals(TaskViewModel x, TaskViewModel y)
         {
             return x.idtask == y.idtask;

@@ -402,7 +402,7 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult TaskList(DateTime? startDate, DateTime? endDate, string orderno = "", string idsend = "", string idrevc = "", int pageIndex = 0) {
+        public ActionResult TaskList(DateTime? startDate, DateTime? endDate, string orderno = "",int taskType=0, string idsend = "", string idrevc = "", int pageIndex = 0) {
             int pageCount = 0;
             int pageSize = 10;
             if (startDate == null) {
@@ -412,7 +412,7 @@ namespace TNet.Controllers {
                 endDate = DateTime.Now;
             }
 
-            List<TaskViewModel> entities = TaskService.Search(startDate, endDate, orderno, idsend, idrevc);
+            List<TaskViewModel> entities = TaskService.Search(startDate, endDate, orderno, taskType, idsend, idrevc);
             List<TaskViewModel> viewModels = entities.Pager<TaskViewModel>(pageIndex, pageSize, out pageCount);
 
             List<ManageUser> manageUsers = new List<ManageUser>();
@@ -440,6 +440,13 @@ namespace TNet.Controllers {
                 DisplayValue = ""
             });
 
+            List<SelectItemViewModel<int>> taskTypesSelectItems = TaskViewModel.TaskTypes;
+            taskTypesSelectItems.Insert(0, new SelectItemViewModel<int>()
+            {
+                DisplayText = "选择派单类型",
+                DisplayValue = 0
+            });
+
             RouteData.Values.Add("startDate", startDate);
             RouteData.Values.Add("endDate", endDate);
             RouteData.Values.Add("orderno", orderno);
@@ -456,6 +463,7 @@ namespace TNet.Controllers {
             ViewData["idrevc"] = idrevc;
             ViewData["idsendSelectItems"] = idsendSelectItems;
             ViewData["idrevcSelectItems"] = idrevcSelectItems;
+            ViewData["taskTypesSelectItems"] = taskTypesSelectItems;
             return View(viewModels);
         }
         /// <summary>
