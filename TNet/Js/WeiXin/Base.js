@@ -12,11 +12,50 @@ function initBase() {
     });
     Pub.auth(false);
     setTopMenuEvent();
-   
+
 }
-
+function autoShowCity() {
+    if (g_base_x_v == 0) {
+        g_base_x_v = $(document.body).scrollTop();
+    }
+    var cObj = $('#C');
+    cObj.toggle();
+    var ch = $('#CityHost');
+    ch.toggle();
+    if (cObj.is(":hidden")) {
+        setTopMenuEvent(autoShowCity, "Top_Menu_Back");
+        $(document.body).removeClass("body_bg").addClass("body_bg");
+    } else {
+        setTopMenuEvent();
+        $(document.body).removeClass("body_bg");
+        window.setTimeout(function () {
+            $(document).scrollTop(g_base_x_v);
+            g_base_x_v = 0;
+        }, 80);
+    }
+}
+function initCityList(city) {
+    var citys = Pub.getCitys();
+    var html = "";
+    if (citys) {
+        for (var i = 0; i < citys.length; i++) {
+            var co = citys[i];
+            if (co) {
+                html += '<li><a href="javascript:void(0)" onclick="onCityChange(\'' + co.city1 + '\')">' + co.city1 + '<span /></a></li>';
+            }
+        }
+    }
+    if (html) {
+        html = "<ul>" + html + "</ul>";
+    }
+    $("#CityBox").html(html);
+    $("#city").html(city ? city.city1 : "");
+}
+function onCityChange(city) {
+    Pub.setCache("location_city", city);
+    Pub.doCityReadys();
+}
 function autoShowTopMenu() {
-
     if (g_base_x_v == 0) {
         g_base_x_v = $(document.body).scrollTop();
     }
@@ -70,4 +109,62 @@ function getTimeYYMMHH(t) {
         t = "";
     }
     return t;
+}
+
+
+
+
+
+//选择图片
+function __FileSelectImg(id, e) {    
+    try {
+
+        lrz(e.files[0], {
+            width: 800
+        }).then(function (rst) {
+            // 处理成功会执行
+            // console.log(rst);       
+            FileUploadImg(rst.base64, id);
+        }).catch(function (err) {
+            // 处理失败会执行
+        }).always(function () {
+            // 不管是成功失败，都会执行
+        });
+    } catch (e) {
+
+    }
+}
+
+//上传图片
+function FileUploadImg(imgData, id) {
+    Pub.post({
+        url: "Service/File/Upload",
+        data: JSON.stringify({ data: imgData }),
+        loadingMsg: "上传图片中...",
+        success: function (data) {
+            if (Pub.wsCheck(data)) {
+                $("#" + id).attr("src", imgData);
+                $("#" + id).attr("title", data.Data.name);
+                return;
+            }
+            Pub.showError("上传失败");
+        },
+        error: function (xhr, status, e) {
+            Pub.showError("上传失败");
+        }
+    });
+}
+
+
+function PreviewImage(imgs) {
+    wx.previewImage(imgs);
+
+
+    //{
+
+    //    current: '', // 当前显示图片的http链接
+
+    //    urls: [] // 需要预览的图片http链接列表
+
+    //}
 }

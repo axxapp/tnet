@@ -6,7 +6,6 @@ function getAddrList() {
     if (u != null) {
         Pub.get({
             url: "Service/Addr/All/" + u.iduser,
-
             loadingMsg: "加载中...",
             success: function (data) {
                 var html = "";

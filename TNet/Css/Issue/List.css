@@ -1,6 +1,7 @@
 ﻿.order_host {
     display: block;
     height: auto;
+    padding:0px 0px 120px 0px;
 }
 
 
@@ -8,6 +9,7 @@
     display: block;
     height: auto;
     position: relative;
+    padding:0px 0px 10px 0px;
 }
 
 .order {
@@ -60,7 +62,6 @@
 
 .tvalue {
     float: left;
-    
     height: 20px;
     line-height: 20px;
     color: #222222;
@@ -152,3 +153,53 @@
     .taskPress .p_t_select {
         color: #84a3e3;
     }
+
+.TaskOps {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+    z-index: 9999;
+    background-color: #ffffff;
+    border-top: solid #cbcbcb 1px;
+    padding: 0px;
+    background: #FAFAFA;
+    background: linear-gradient(#FAFAFA,#F4F4F4);
+    box-shadow: 0 -1px 0 rgba(0,0,0,.1) inset,0 -2px 8px rgba(0,0,0,.06);
+}
+
+
+    .TaskOps a.add {
+        padding: 0px;
+        margin: 0px;
+        display: block;
+        width: 100%;
+        height: 100%;
+        line-height: 60px;
+        text-align: center;
+        text-decoration: none;
+        color: #222222;
+        font-weight: bold;
+        float: left;
+    }
+
+.taskimg {
+    display: block;
+    height: auto;
+}
+
+.taskimg_box {
+    display: block;
+    height: 100px;
+    padding:10px 20px 0px 20px;
+}
+
+.taskimg img {
+    border: dotted #d6d6d6 1px;
+    outline: none;
+    float: left;
+    width: 80px;
+    height: 80px;
+    margin: 10px 10px 10px 0px;
+}

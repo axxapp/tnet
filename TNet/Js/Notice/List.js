@@ -1,7 +1,7 @@
 ﻿function __init() {
-    Pub.onCity(function (city) {
-        getData(city);
-    });
+    var city = Pub.curCity();
+    //alert(JSON.stringify( city));
+    getData(city);
 }
 //获取
 function getData(city) {

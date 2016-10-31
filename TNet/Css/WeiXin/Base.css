@@ -37,7 +37,7 @@ a {
         box-sizing: border-box;
     }
 
-input[type="text"] {
+input[type="text"],input[type="tel"],textarea {
     -webkit-tap-highlight-color: transparent;
     background-color: #ffffff;
 }
@@ -646,5 +646,76 @@ span.loading_l {
 i.weui_icon_toast_e:before {
     content: "\EA03";
 }
+
+
+
+
+
+
+
+.CityHost {
+    display: none;
+    font-size: 23px;
+    width: 100%;
+    height: 100%;
+}
+
+.CityBox {
+    display: block;
+    position: fixed;
+    width: 100%;
+    top: 2.5em;
+    left: 0px;
+    height: 100%;
+    background-color: #222222;
+    z-index: 999;
+    font-size: 23px;
+}
+
+    .CityBox ul {
+        display: block;
+        list-style: none;
+        height: 2.5em;
+        line-height: 2.5em;
+    }
+
+        .CityBox ul li {
+            list-style: none;
+            height: 100%;
+            border-top: solid #3B3B3B 1px;
+        }
+
+            .CityBox ul li a {
+                color: #ffffff;
+                text-decoration: none;
+                display: block;
+                background-size: 0.5em;
+                padding: 0px 0px 0px 20px;
+                font-size: 1.4rem;
+                position: relative;
+            }
+
+            .CityBox ul li:hover {
+                background-color: #2d2d2d;
+            }
+
+            .CityBox ul li a:hover, .CityBox ul li a:active {
+                background-color: none;
+            }
+
+            .CityBox ul li a span {
+                background: url(../../Images/Com/arrow.png) no-repeat;
+                background-size: contain;
+                content: " ";
+                height: .8rem;
+                width: .4rem;
+                opacity: .3;
+                position: absolute;
+                top: 50%;
+                right: .8rem;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }
+
 
 
