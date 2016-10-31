@@ -208,6 +208,7 @@
     <Compile Include="BLL\Pay\WeixinPay\WxPayApi.cs" />
     <Compile Include="Controllers\BussController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IssueController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MercController.cs" />
     <Compile Include="Controllers\NoticeController.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Models\City\CityViewModel.cs" />
     <Compile Include="Models\File\UploadData.cs" />
     <Compile Include="Models\File\UploadDataResult.cs" />
+    <Compile Include="Models\Issue\IssueItem.cs" />
     <Compile Include="Models\Issue\IssueViewModel.cs" />
     <Compile Include="Models\Manage\ManageUserType.cs" />
     <Compile Include="Models\Manage\ManageUserViewModel.cs" />
@@ -274,7 +276,9 @@
     <Compile Include="Models\SelectItemViewModel.cs" />
     <Compile Include="Models\Service\R.cs" />
     <Compile Include="Models\Service\Result.cs" />
+    <Compile Include="Models\Issue\IssueData.cs" />
     <Compile Include="Models\Task\TaskItem.cs" />
+    <Compile Include="Models\User\UserData.cs" />
     <Compile Include="Models\User\UserInfo.cs" />
     <Compile Include="Models\User\UserViewModel.cs" />
     <Compile Include="Models\Weixin\ReceiveMsg.cs" />
@@ -301,6 +305,10 @@
       <DependentUpon>FileService.svc</DependentUpon>
     </Compile>
     <Compile Include="Service\File\IFileService.cs" />
+    <Compile Include="Service\Issue\IIssueService.cs" />
+    <Compile Include="Service\Issue\IssueService.svc.cs">
+      <DependentUpon>IssueService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Service\Merc\IMercService.cs" />
     <Compile Include="Service\Merc\MercService.svc.cs">
       <DependentUpon>MercService.svc</DependentUpon>
@@ -320,6 +328,10 @@
     <Compile Include="Service\Task\ITaskService.cs" />
     <Compile Include="Service\Task\TaskService.svc.cs">
       <DependentUpon>TaskService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\User\IUserService.cs" />
+    <Compile Include="Service\User\UserService.svc.cs">
+      <DependentUpon>UserService.svc</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="ueditor\net\Config.cs" />
@@ -463,9 +475,12 @@
     <Content Include="Css\iCheck\skins\square\yellow.css" />
     <Content Include="Css\iCheck\skins\square\yellow.png" />
     <Content Include="Css\iCheck\skins\square\_all.css" />
+    <Content Include="Css\Issue\Add.css" />
+    <Content Include="Css\Issue\List.css" />
     <Content Include="Css\Notice\Detail.css" />
     <Content Include="Css\Notice\List.css" />
     <Content Include="Css\Task\Base.css" />
+    <Content Include="Css\User\Update.css" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.js" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.min.js" />
     <Content Include="Css\Merc\Base.css" />
@@ -626,6 +641,8 @@
     <Content Include="Css\Manage\Login.css" />
     <Content Include="Js\iCheck\icheck.js" />
     <Content Include="Js\iCheck\icheck.min.js" />
+    <Content Include="Js\Issue\Add.js" />
+    <Content Include="Js\Issue\List.js" />
     <Content Include="Js\Lrz\1.chunk.js" />
     <Content Include="Js\Lrz\2.chunk.js" />
     <Content Include="Js\Lrz\lrz.all.bundle.js" />
@@ -727,6 +744,9 @@
     <Content Include="Css\Bootstrap\bootstrap-theme.css.map" />
     <Content Include="Css\Bootstrap\bootstrap.css.map" />
     <Content Include="Css\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Js\User\Index.js" />
+    <Content Include="Js\User\Update.js" />
+    <Content Include="MP_verify_ihu7x0BozQLNCJ1q.txt" />
     <None Include="Js\Com\jquery.validate-vsdoc.js" />
     <Content Include="Js\Com\jquery.validate.js" />
     <Content Include="Js\Com\jquery.validate.min.js" />
@@ -786,8 +806,10 @@
     <Content Include="Resource\Images\r\636124336761960.jpeg" />
     <Content Include="Resource\Images\r\636124336822190.jpeg" />
     <Content Include="Service\City\CityService.svc" />
+    <Content Include="Service\Issue\IssueService.svc" />
     <Content Include="Service\Notice\NoticeService.svc" />
     <Content Include="Service\Task\TaskService.svc" />
+    <Content Include="Service\User\UserService.svc" />
     <Content Include="ueditor\dialogs\anchor\anchor.html" />
     <Content Include="ueditor\dialogs\attachment\attachment.css" />
     <Content Include="ueditor\dialogs\attachment\attachment.html" />
@@ -1134,8 +1156,11 @@
     <Content Include="Views\Manage\CityList.cshtml" />
     <Content Include="Views\Manage\CityEdit.cshtml" />
     <Content Include="Views\Manage\CitiesCheckBoxList.cshtml" />
+    <Content Include="Views\Issue\List.cshtml" />
+    <Content Include="Views\Issue\Add.cshtml" />
     <Content Include="Views\Manage\IssueList.cshtml" />
     <Content Include="Views\Manage\TaskAssignModal.cshtml" />
+    <Content Include="Views\User\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

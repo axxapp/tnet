@@ -15,6 +15,9 @@ namespace TCom.EF
 
         public long iduser { get; set; }
 
+        [StringLength(50)]
+        public string alias { get; set; }
+
         [Required]
         [StringLength(50)]
         public string name { get; set; }

@@ -13,6 +13,8 @@ using TNet.Service.Pay;
 using TNet.Service.Task;
 using TNet.Service.Notice;
 using TNet.Service.City;
+using TNet.Service.Issue;
+using TNet.Service.User;
 
 namespace TNet.Service.Com
 {
@@ -47,6 +49,11 @@ namespace TNet.Service.Com
 
             RouteTable.Routes.Add(new ServiceRoute("Service/City/", new WebServiceHostFactory(), typeof(CityService)));
 
+            RouteTable.Routes.Add(new ServiceRoute("Service/Issue/", new WebServiceHostFactory(), typeof(IssueService)));
+
+            RouteTable.Routes.Add(new ServiceRoute("Service/User/", new WebServiceHostFactory(), typeof(UserService)));
+
+            
         }
     }
 }

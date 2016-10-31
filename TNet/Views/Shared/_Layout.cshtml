@@ -1,4 +1,5 @@
 ﻿@{
+    ViewBag.wxJsConfig = new HtmlString(TCom.Util.Pub.wxJsConfig);
     Layout = null;
 }
 <!DOCTYPE html>
@@ -6,58 +7,32 @@
 <head>
     <title>@ViewBag.Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta content="yes" name="apple-mobile-web-app-capable" />
     <meta content="yes" name="apple-touch-fullscreen" />
     <meta content="telephone=no" name="format-detection" />
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="#ffffff" name="msapplication-TileColor" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta http-equiv="Expires" CONTENT="0" />
+    <meta http-equiv="Cache-Control" CONTENT="no-cache" />
+    <meta http-equiv="Pragma" CONTENT="no-cache" />
     <link href="https://res.wx.qq.com/open/libs/weui/0.4.3/weui.min.css" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/WeiXin/Base.css?v=20161026")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Com/swiper-3.3.1.min.css?v=20161026")" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js?v=20161026")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/swiper-3.3.1.min.js?v=20161026")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/js.cookie.js?v=20161026")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Pub.js?v=20161026")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/WeiXin/Base.js?v=20161026")"></script>
-    @RenderSection("Head", required: false)
+    <link href="@Url.Content("~/Css/WeiXin/Base.css?v=20161031")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Com/swiper-3.3.1.min.css?v=20161031")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js?v=20161031")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/swiper-3.3.1.min.js?v=20161031")"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/Js/Com/js.cookie.js?v=20161031")"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/Js/Pub.js?v=20161031")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/WeiXin/Base.js?v=20161031")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Lrz/lrz.bundle.js?v=20161031")"></script>
 
+    @RenderSection("Head", required: false)
 </head>
 <body root="@Url.Content("~/")" @ViewBag.__Is_Home_Tag ontouchstart>
-    <div class="T">
-        <div class="before"></div>
-        <div class="TT">
-            <a class="Top_Menu" id="Top_Menu" href="javascript:void(0)">
-                <span id="Top_Menu_Ico"></span>
-            </a>
-            <div class="TL">
-                <a class="Top_User" id="Top_User" href="#"></a>
-                <a class="Top_Cart" href="@Url.Content("~/Order/List")"></a>
-            </div>
-        </div>
-    </div>
-    <div id="C" class="C">
-        <div class="CC" id="CC">
-            @RenderBody()
-        </div>
-    </div>
-    <div class="Top_Main_Menu_Host" id="Top_Main_Menu_Host">
-        <div class="Top_Main_Menu" id="Top_Main_Menu" onclick="autoShowTopMenu()">
-            <ul>
-                <li><a href="@Url.Content("~/")"> 首页<span /></a></li>
-                <li><a href="@Url.Content("~/Merc/List")">宽带<span /></a></li>
-                <li><a href="@Url.Content("~/Merc/List/Setup")">报装<span /></a></li>
-                <li><a href="@Url.Content("~/Buss/Index")">商圈<span /></a></li>
-                <li><a href="@Url.Content("~/Order/List")">订单<span /></a></li>
-            </ul>
-        </div>
-    </div>
-
     <div id="toast" style="display: none;">
         @*<div class="weui_mask_transparent" id="toast_msg_host"></div>*@
         <div class="weui_toast">
@@ -91,6 +66,69 @@
                 <div class="weui_loading_leaf weui_loading_leaf_11"></div>
             </div>
             <p id="toast_l_c" class="weui_toast_content">处理中...</p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //Pub.delCache("city");
+        var IS_WX_JS_CONFIG_OBJ = false;
+        try {
+            @ViewBag.wxJsConfig;
+            if (WX_JS_CONFIG_OBJ) {
+                IS_WX_JS_CONFIG_OBJ = true;
+                wx.config(WX_JS_CONFIG_OBJ);
+            }
+        } catch (e) {
+        }
+        try {
+            $(document.body).ready(function () {
+                if (IS_WX_JS_CONFIG_OBJ) {
+                    wx.ready(function () {
+                        if (!Pub.wxJsRead) {
+                            Pub.wxJsRead = true;
+                            //alert(Pub.hasCityListen());
+                            if (Pub.hasCityListen()) {
+                                Pub.onWXLocation();
+                            }
+                        }
+                    });
+                } else {
+                    Pub.wxJsRead = true;
+                }
+            });
+
+        } catch (e) {
+        }
+    </script>
+    <div class="T">
+        <div class="before"></div>
+        <div class="TT">
+            <a class="Top_Menu" id="Top_Menu" href="javascript:void(0)">
+                <span id="Top_Menu_Ico"></span>
+            </a>
+            <div class="TL">
+                <a class="Top_User" id="Top_User" href="#"></a>
+                <a class="Top_Cart" href="@Url.Content("~/Order/List")"></a>
+            </div>
+        </div>
+    </div>
+    <div id="C" class="C">
+        <div class="CC" id="CC">
+            @RenderBody()
+        </div>
+    </div>
+    <div class="Top_Main_Menu_Host" id="Top_Main_Menu_Host">
+        <div class="Top_Main_Menu" id="Top_Main_Menu" onclick="autoShowTopMenu()">
+            <ul>
+                <li><a href="@Url.Content("~/")">首页<span /></a></li>
+                <li><a href="@Url.Content("~/Merc/List")">宽带<span /></a></li>
+                <li><a href="@Url.Content("~/Merc/List/Setup")">报装<span /></a></li>
+                <li><a href="@Url.Content("~/Buss/Index")">商圈<span /></a></li>
+                <li><a href="@Url.Content("~/Order/List")">订单<span /></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="CityHost" id="CityHost">
+        <div class="CityBox" id="CityBox" onclick="autoShowCity()">
         </div>
     </div>
 </body>

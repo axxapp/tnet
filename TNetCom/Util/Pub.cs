@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Web;
@@ -14,6 +16,7 @@ namespace TCom.Util
     public static class Pub
     {
         static AccessToken am;
+        static JsAccessToKey jsam;
         static long t = DateTime.Now.Ticks / 10000;
         volatile static int un = 0;
         static int tid = Thread.CurrentThread.ManagedThreadId;
@@ -171,6 +174,142 @@ namespace TCom.Util
 
 
 
+
+        public static string wxJsConfig
+        {
+            get
+            {
+                string ns = getRound();
+                string ts = DateTime.Now.Ticks/10000 + "";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
+                int j = 0;
+                if ((j = url.IndexOf('#')) != -1)
+                {
+                    url = url.Substring(0, j);
+                }
+                SortedDictionary<string, string> dict = new SortedDictionary<string, string>();
+                dict["noncestr"] = ns;
+                dict["jsapi_ticket"] = jsAccessToken;
+                dict["timestamp"] = ts;
+                dict["url"] = url;
+                string sign = "";
+                foreach (var k in dict.Keys)
+                {
+                    if(sign != "")
+                    {
+                        sign += "&";
+                    }
+                    sign += k + "="+dict[k];
+                }              
+                sign = Sha1(sign);
+                string v = "var WX_JS_CONFIG_OBJ={" +
+                        "debug: false," +
+                        "appId: '" + appid + "'," + // 必填，公众号的唯一标识
+                        "timestamp: " + ts + "," + // 必填，生成签名的时间戳
+                        "nonceStr: '" + ns + "'," + // 必填，生成签名的随机串
+                        "signature: '" + sign + "'," +// 必填，签名，见附录1
+                        "jsApiList: [" +
+                                       "'checkJsApi',                   " +
+                                       "'onMenuShareTimeline',          " +
+                                       "'onMenuShareAppMessage',        " +
+                                       "'onMenuShareQQ',                " +
+                                       "'onMenuShareWeibo',             " +
+                                       "'onMenuShareQZone',             " +
+                                       "'hideMenuItems',                " +
+                                       "'showMenuItems',                " +
+                                       "'hideAllNonBaseMenuItem',       " +
+                                       "'showAllNonBaseMenuItem',       " +
+                                       "'translateVoice',               " +
+                                       "'startRecord',                  " +
+                                       "'stopRecord',                   " +
+                                       "'onVoiceRecordEnd',             " +
+                                       "'playVoice',                    " +
+                                       "'onVoicePlayEnd',               " +
+                                       "'pauseVoice',                   " +
+                                       "'stopVoice',                    " +
+                                       "'uploadVoice',                  " +
+                                       "'downloadVoice',                " +
+                                       "'chooseImage',                  " +
+                                       "'previewImage',                 " +
+                                       "'uploadImage',                  " +
+                                       "'downloadImage',                " +
+                                       "'getNetworkType',               " +
+                                       "'openLocation',                 " +
+                                       "'getLocation',                  " +
+                                       "'hideOptionMenu',               " +
+                                       "'showOptionMenu',               " +
+                                       "'closeWindow',                  " +
+                                       "'scanQRCode',                   " +
+                                       "'chooseWXPay',                  " +
+                                       "'openProductSpecificView',      " +
+                                       "'addCard',                      " +
+                                       "'chooseCard',                   " +
+                                       "'openCard'                      " +
+                           "]" + // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                     "};";
+                return v;
+            }
+
+        }
+
+        private static string getRound()
+        {
+            StringBuilder sb = new StringBuilder(100);
+            Random rd = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < 10; i++)
+            {
+                sb.Append(rd.Next(10000000));
+            }
+            return sb.ToString();
+        }
+
+        public static string jsAccessToken
+        {
+            get
+            {
+                string k = "";
+                if (jsam == null)
+                {
+                    jsam = getJsAccessToken();
+                }
+                else
+                {
+                    DateTime t = am.expires.AddMinutes(-5);
+                    if (DateTime.Now >= t)
+                    {
+                        jsam = getJsAccessToken();
+
+                    }
+                }
+                if (jsam != null)
+                {
+                    k = jsam.ticket;
+                }
+                return k;
+            }
+        }
+
+        private static JsAccessToKey getJsAccessToken()
+        {
+            JsAccessToKey m = null;
+            string url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + accessToken + "&type=jsapi";
+            try
+            {
+                string reqStr = Get(url);
+                if (!string.IsNullOrWhiteSpace(reqStr))
+                {
+                    JavaScriptSerializer Serializer = new JavaScriptSerializer();
+                    m = Serializer.Deserialize<JsAccessToKey>(reqStr);
+                    m.expires = DateTime.Now.AddSeconds(m.expires_in);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return m;
+        }
+
+
         ///// <summary>
         ///// 本地路径转换成URL相对路径
         ///// </summary>
@@ -305,6 +444,18 @@ namespace TCom.Util
             return "";
         }
 
+
+
+        public static string Sha1(string str)
+        {
+            byte[] data = UTF8Encoding.Default.GetBytes(str);
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            // This is one implementation of the abstract class SHA1.
+            data = sha.ComputeHash(data);
+            string result = BitConverter.ToString(data);
+            result = result.Replace("-", "");
+            return result;
+        }
 
 
     }

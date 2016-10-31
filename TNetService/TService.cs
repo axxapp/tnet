@@ -14,8 +14,6 @@ using System.Text;
 using System.Threading;
 using TCom.Msg;
 using TNetService.BLL;
-using Util;
-
 namespace TNetService
 {
     partial class TService : ServiceBase
@@ -83,7 +81,7 @@ namespace TNetService
                     {
                         EndPoint point = new IPEndPoint(IPAddress.Any, 0);
                         int length = service.ReceiveFrom(buffer, ref point);
-                        Pub.e("UDP=" + length);
+                        //Pub.e("UDP=" + length);
                     }
                     catch (Exception)
                     {
@@ -196,12 +194,12 @@ namespace TNetService
                                                 }
                                                 if (db.SaveChanges() > 0)
                                                 {
-                                                    Pub.e("Msg-SaveChanges:" + 1);
+                                                   // Pub.e("Msg-SaveChanges:" + 1);
                                                 }
                                                 else
                                                 {
                                                     isPub = false;
-                                                    Pub.e("Msg-SaveChanges:" + 0);
+                                                    //Pub.e("Msg-SaveChanges:" + 0);
                                                 }
                                             }
 
@@ -223,16 +221,16 @@ namespace TNetService
                         }
 
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
-                        Pub.e("error=" + e.InnerException + "_+_+_+_+_+" + e.Message);
+                       // Pub.e("error=" + e.InnerException + "_+_+_+_+_+" + e.Message);
                         //throw e;
                     }
                     _event.Reset();
-                    Pub.e("WaitOne=" + DateTime.Now);
+                   // Pub.e("WaitOne=" + DateTime.Now);
                     _event.WaitOne(1000 * 60 * 10);
-                    Pub.e("WaitOne-f=" + DateTime.Now);
+                   // Pub.e("WaitOne-f=" + DateTime.Now);
                 }
                 _event = null;
             }
