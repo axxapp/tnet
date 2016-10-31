@@ -29,6 +29,15 @@ namespace TCom.Msg
         }
 
 
+        /// <summary>
+        /// 支付完成派单
+        /// </summary>
+        /// <param name="idweixin"></param>
+        /// <param name="mo"></param>
+        /// <param name="iduser"></param>
+        /// <param name="uname"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
 
         public static bool FinishPay(string idweixin, EF.MyOrder mo, string iduser, string uname, TCom.EF.TN db)
         {
@@ -53,6 +62,39 @@ namespace TCom.Msg
 
         }
 
+
+
+
+        /// <summary>
+        /// 支付完成派单
+        /// </summary>
+        /// <param name="idweixin"></param>
+        /// <param name="mo"></param>
+        /// <param name="iduser"></param>
+        /// <param name="uname"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+
+        public static bool SetupOrder(EF.MyOrder mo, EF.User user, TCom.EF.TN db)
+        {
+            int otype = mo.otype != null ? mo.otype.Value : 0;
+            JObject jo = new JObject();
+            jo["touser"] = user.idweixin;
+            jo["template_id"] = "GeHNTXa7V_S5Q4uGaFYq1vzXmZZTAfy8wKJyT4muV28";
+            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
+                + "&updateUser=1";
+            JObject jdo = new JObject();
+            jdo["first"] = getJobj(mo.merc + "(" + mo.spec + ")");
+            jdo["keyword1"] = getJobj("报装");
+            jdo["keyword2"] = getJobj(mo.orderno + "");
+            jdo["keyword3"] = getJobj(user.name);
+            jdo["keyword4"] = getJobj(user.phone);
+            jdo["keyword5"] = getJobj("已线上缴费,现场无需收费.");
+            jdo["remark"] = getJobj("用户希望服务人员到达" + mo.addr + "进行服务，点击查看详情...");
+            jo["data"] = jdo;
+            return crateMsg(user.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
+
+        }
 
 
         public static bool crateMsg(string idweixin, string msg, int msgType, string orderno, int otype, TCom.EF.TN db)

@@ -192,6 +192,14 @@ namespace TNetService
                                                         m.status = 1;
                                                     }
                                                 }
+                                                else if (m.type == MsgType.SetupOrder)
+                                                {
+                                                    JObject j = Msg.Send(m.msg1);
+                                                    if (j != null && j.Value<int>("errcode") == 0)
+                                                    {
+                                                        m.status = 1;
+                                                    }
+                                                }
                                                 if (db.SaveChanges() > 0)
                                                 {
                                                    // Pub.e("Msg-SaveChanges:" + 1);
@@ -208,10 +216,10 @@ namespace TNetService
                                 }
 
                             }
-                            catch (Exception)
+                            catch (Exception e)
                             {
 
-                                throw;
+                                throw e;
                             }
 
                             if (isPub)
