@@ -18,6 +18,7 @@ using System;
 using System.Text;
 using TCom.Util;
 using TCom.Model.Task;
+using TCom.Msg; 
 
 namespace TNet.Controllers {
     public class ManageController : Controller {
@@ -1564,7 +1565,7 @@ namespace TNet.Controllers {
         /// <param name="bindOrderNo"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        private Task MadeUpSetupTask(string bindOrderNo,string notes) {
+        private TaskViewModel MadeUpSetupTask(string bindOrderNo,string notes) {
             MyOrder order = MyOrderService.GetOrder(Convert.ToInt64(bindOrderNo));
             User user = null;
             if (order != null)
@@ -1590,7 +1591,12 @@ namespace TNet.Controllers {
             task.status = TCom.Model.Task.TaskStatus.WaitPress;
             task.tasktype = TCom.Model.Task.TaskType.Setup;
 
-            return task;
+            TaskViewModel taskViewModel = new TaskViewModel();
+            taskViewModel.CopyFromBase(task);
+            taskViewModel.user = user;
+            taskViewModel.Order = order;
+
+            return taskViewModel;
         }
 
         /// <summary>
@@ -1599,7 +1605,7 @@ namespace TNet.Controllers {
         /// <param name="bindOrderNo"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        private Task MadeUpComplaintTask(string bindOrderNo, string notes)
+        private TaskViewModel MadeUpComplaintTask(string bindOrderNo, string notes)
         {
             Issue issue = IssueService.Get(bindOrderNo);
             User user = null;
@@ -1607,7 +1613,7 @@ namespace TNet.Controllers {
             {
                 user = UserBll.Get(Convert.ToInt64(issue.iduser));
             }
-
+            
             Task task = new Task();
             task.idtask = Pub.ID().ToString();
             task.orderno = bindOrderNo;
@@ -1627,7 +1633,11 @@ namespace TNet.Controllers {
             task.status = TCom.Model.Task.TaskStatus.WaitPress;
             task.tasktype = TCom.Model.Task.TaskType.Complaint;
 
-            return task;
+            TaskViewModel taskViewModel = new TaskViewModel();
+            taskViewModel.CopyFromBase(task);
+            taskViewModel.user = user;
+
+            return taskViewModel;
         }
 
         /// <summary>
@@ -1648,17 +1658,20 @@ namespace TNet.Controllers {
             
             try {
 
-                Task task = null;
+                TaskViewModel taskViewModel = null;
+                Task task = new Task();
                 if (taskType == TaskType.Setup) {
-                    task = MadeUpSetupTask(bindOrderNo, notes);
+                    taskViewModel = MadeUpSetupTask(bindOrderNo, notes);
                     successMesage = "报装订单指派工人成功";
                     errorMessage = "报装订单指派工人失败";
                 } else if (taskType == TaskType.Complaint) {
-                    task = MadeUpComplaintTask(bindOrderNo, notes);
+                    taskViewModel = MadeUpComplaintTask(bindOrderNo, notes);
                     successMesage = "投诉指派工人成功";
                     errorMessage = "投诉指派工人失败";
                 }
                 resultEntity.Message = successMesage;
+
+                taskViewModel.CopyToBase(task);
 
                 Task newTask = TaskService.Add(task);
                 List<ManageUser> manageUsers = ManageUserService.GetALL();
@@ -1677,6 +1690,12 @@ namespace TNet.Controllers {
                         });
                     }
                     TaskRecverService.AddMuil(taskRecvers);
+                    if (taskType == TaskType.Setup)
+                    {
+                        TN db = null;
+                        MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, db);
+                    }
+                        
                 }
 
             }
