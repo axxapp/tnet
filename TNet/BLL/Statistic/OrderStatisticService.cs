@@ -26,7 +26,7 @@ namespace TNet.BLL {
                      ParameterName="@days"
                 }
             }; 
-            string sql = "select CONVERT(varchar(100), cretime, 23) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(dd,cretime,@date)<=@days and DATEDIFF(dd,cretime,@date)>=0 group by CONVERT(varchar(100), cretime, 23)";
+            string sql = "select CONVERT(varchar(100), cretime, 23) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(dd,cretime,@date)<=@days and DATEDIFF(dd,cretime,@date)>=0 group by CONVERT(varchar(100), cretime, 23) order by CONVERT(varchar(100), cretime, 23) desc";
             list=db.Database.SqlQuery<OrderStatisticByDateViewModel>(sql,paras).ToList();
             return list;
 
@@ -49,7 +49,7 @@ namespace TNet.BLL {
                      ParameterName="@months"
                 }
             };
-            string sql = "select (DateName(year,cretime)+'-'+DateName(month,cretime)) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(MM,cretime,@date)<=@months and DATEDIFF(MM,cretime,@date)>=0 group by (DateName(year, cretime) + '-' + DateName(month, cretime))";
+            string sql = "select (DateName(year,cretime)+'-'+DateName(month,cretime)) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(MM,cretime,@date)<=@months and DATEDIFF(MM,cretime,@date)>=0 group by (DateName(year, cretime) + '-' + DateName(month, cretime)) order by (DateName(year, cretime) + '-' + DateName(month, cretime)) desc";
             list = db.Database.SqlQuery<OrderStatisticByDateViewModel>(sql, paras).ToList();
             return list;
 
@@ -72,7 +72,7 @@ namespace TNet.BLL {
                      ParameterName="@years"
                 }
             };
-            string sql = "select DateName(year,cretime) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(MM,cretime,@date)<=@years and DATEDIFF(MM,cretime,@date)>=0 group by DateName(year, cretime)";
+            string sql = "select DateName(year,cretime) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(MM,cretime,@date)<=@years and DATEDIFF(MM,cretime,@date)>=0 group by DateName(year, cretime) order by DateName(year, cretime) desc";
             list = db.Database.SqlQuery<OrderStatisticByDateViewModel>(sql, paras).ToList();
             return list;
 

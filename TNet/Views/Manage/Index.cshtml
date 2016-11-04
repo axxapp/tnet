@@ -8,12 +8,20 @@
 @*<script src="@Url.Content("~/Js/Highcharts-5.0.2/themes/sand-signika.js")"></script>*@
 <script type="text/javascript">
     $(function () {
-        var url = "@Url.Action("OrderStatisticByDay", "Manage",new {isAjax=true})";
-        var data = { date:"@DateTime.Now.ToString("yyyy-MM-dd")",days:30 };
-        bindCharts(url, data, chartsSetting);
+        var byDayUrl = "@Url.Action("OrderStatisticByDay", "Manage",new {isAjax=true})";
+        var byDayData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", days: 30 };
+        bindCharts(byDayUrl, byDayData, "byDayContainer", chartsSetting);
+
+        var byMonthUrl = "@Url.Action("OrderStatisticByMonth", "Manage",new {isAjax=true})";
+        var byMonthData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", months: 12 };
+        bindCharts(byMonthUrl, byMonthData, "byMonthContainer", chartsSetting);
+
+        var byYearUrl = "@Url.Action("OrderStatisticByYear", "Manage",new {isAjax=true})";
+        var byYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
+        bindCharts(byYearUrl, byYearData, "byYearContainer", chartsSetting);
     });
 
-    function bindCharts(url,data, chartsSettingFun) {
+    function bindCharts(url, data, container, chartsSettingFun) {
         $.post(url, data, function (returndata) {
             returndata = eval("(" + returndata + ")");
             if (returndata.Code == 1) {
@@ -27,7 +35,7 @@
                         numData.push(item["OrderNumer"]);
                         amountData.push(item["OrderAmount"]);
                     }
-                    chartsSettingFun(categories, numData, amountData);
+                    chartsSettingFun(container, categories, numData, amountData);
                 }
                 else {
                     alert("没有任何订单。");
@@ -40,13 +48,13 @@
         });
     }
 
-    function chartsSetting(categories, numData, amountData) {
-        $('#container').highcharts({
+    function chartsSetting(container, categories, numData, amountData) {
+        $('#' + container).highcharts({
             chart: {
                 type: 'column'
             },
             title: {
-                text: '按日统计订单数量/金额'
+                text: '统计订单数量/金额'
             },
             xAxis: {
                 categories: categories,
@@ -91,14 +99,14 @@
                     rotation: 0,
                     color: '#000000',
                     align: 'right',
-                    format: '{point.y:.1f}', // one decimal
+                    format: '{point.y:.0f}', // one decimal
                     y: 10, // 10 pixels down from the top
                     style: {
                         fontSize: '13px',
                         fontFamily: 'Verdana, sans-serif'
                     }
                 },
-                pointPadding: 0.35,
+                pointPadding: 0.2,
                 pointPlacement: 0.0
             }, {
                 name: '订单金额',
@@ -109,14 +117,14 @@
                     rotation: 0,
                     color: '#000000',
                     align: 'right',
-                    format: '￥{point.y:.1f}', // one decimal
+                    format: '￥{point.y:.2f}', // one decimal
                     y: 10, // 10 pixels down from the top
                     style: {
                         fontSize: '13px',
                         fontFamily: 'Verdana, sans-serif'
                     }
                 },
-                pointPadding: 0.4,
+                pointPadding: 0.3,
                 pointPlacement: 0.0,
                 tooltip: {
                     valuePrefix: '￥'
@@ -134,7 +142,28 @@
     </ol>
 </div>
 <div class="ManageRightContent">
-    <div id="container" style="min-width:400px;height:400px;"></div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#byDay" id="byday-tab" role="tab" data-toggle="tab">按日统计</a>
+        </li>
+        <li role="presentation">
+            <a href="#byMonth" id="bymonth-tab" role="tab" data-toggle="tab">按月统计</a>
+        </li>
+        <li role="presentation">
+            <a href="#byYear" id="byyear-tab" role="tab" data-toggle="tab">按年统计</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="byDay">
+            <div id="byDayContainer" style="min-width:400px;height:400px;"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="byMonth">
+            <div id="byMonthContainer" style="min-width:400px;height:400px;"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="byYear">
+            <div id="byYearContainer" style="min-width:400px;height:400px;"></div>
+        </div>
+    </div>
 </div>
 
 
