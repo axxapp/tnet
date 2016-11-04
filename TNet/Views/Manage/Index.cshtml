@@ -8,12 +8,13 @@
 @*<script src="@Url.Content("~/Js/Highcharts-5.0.2/themes/sand-signika.js")"></script>*@
 <script type="text/javascript">
     $(function () {
-        var url = "@Url.Action("OrderStatisticByDay", "Manage",new { isAjax =true,date=DateTime.Now, days =30})";
-        bindCharts(url, chartsSetting);
+        var url = "@Url.Action("OrderStatisticByDay", "Manage",new {isAjax=true})";
+        var data = { date:"@DateTime.Now.ToString("yyyy-MM-dd")",days:30 };
+        bindCharts(url, data, chartsSetting);
     });
 
-    function bindCharts(url, chartsSettingFun) {
-        $.post(url, null, function (returndata) {
+    function bindCharts(url,data, chartsSettingFun) {
+        $.post(url, data, function (returndata) {
             returndata = eval("(" + returndata + ")");
             if (returndata.Code == 1) {
                 if (returndata.Content != null && returndata.Content.length > 0) {

@@ -76,6 +76,57 @@ namespace TNet.Controllers {
             return Content(resultEntity.SerializeToJson());
         }
 
+        [ManageLoginValidation]
+        public ActionResult OrderStatisticByMonth(bool isAjax, DateTime? date, long months = 12) {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<OrderStatisticByDateViewModel> resultEntity = new ResultModel<OrderStatisticByDateViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+
+            if (date == null) {
+                date = DateTime.Now;
+            }
+
+            try {
+                List<OrderStatisticByDateViewModel> entities = OrderStatisticService.StatisticByMonthForwardMonths(date.Value, months);
+                resultEntity.Content = entities;
+            }
+            catch (Exception ex) {
+                log.Error(ex.ToString());
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "失败";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+
+        [ManageLoginValidation]
+        public ActionResult OrderStatisticByYear(bool isAjax, DateTime? date, long years = 5) {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<OrderStatisticByDateViewModel> resultEntity = new ResultModel<OrderStatisticByDateViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+
+            if (date == null) {
+                date = DateTime.Now;
+            }
+
+            try {
+                List<OrderStatisticByDateViewModel> entities = OrderStatisticService.StatisticByYearForwardYears(date.Value, years);
+                resultEntity.Content = entities;
+            }
+            catch (Exception ex) {
+                log.Error(ex.ToString());
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "失败";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
         /// <summary>
         /// 后台管理首页
         /// </summary>
