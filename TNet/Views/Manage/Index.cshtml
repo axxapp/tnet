@@ -7,99 +7,123 @@
 <script src="@Url.Content("~/Js/Highcharts-5.0.2/modules/data.js")"></script>
 @*<script src="@Url.Content("~/Js/Highcharts-5.0.2/themes/sand-signika.js")"></script>*@
 <script type="text/javascript">
-$(function () {
-    $('#container').highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '按日统计订单数量/金额'
-        },
-        xAxis: {
-            categories: [
-                '2016-11-03',
-                '2016-11-02',
-                '2016-11-01',
-                '2016-11-01',
-                '2016-11-01',
-                '2016-11-01',
-                '2016-11-01'
-            ],
-            labels: {
-                rotation: -45,
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-        },
-        yAxis: [{
-            min: 0,
-            title: {
-                text: '数量'
-            }
-        }, {
-            title: {
-                text: '金额 (￥)'
-            },
-            opposite: true
-        }],
-        legend: {
-            shadow: false
-        },
-        tooltip: {
-            shared: true
-        },
-        plotOptions: {
-            column: {
-                grouping: false,
-                shadow: false,
-                borderWidth: 0
-            }
-        },
-        series: [{
-            name: '订单数',
-            color: 'rgba(124, 181, 236,.9)',
-            data: [150, 73, 20, 10, 50, 200, 300],
-            dataLabels: {
-                enabled: true,
-                rotation: 0,
-                color: '#000000',
-                align: 'right',
-                format: '{point.y:.1f}', // one decimal
-                y: 10, // 10 pixels down from the top
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            },
-            pointPadding: 0.35,
-            pointPlacement: 0.0
-        }, {
-            name: '订单金额',
-            color: 'rgba(186,60,61,.9)',
-            data: [50000, 60000, 70000, 95000, 100000, 80000, 30000],
-            dataLabels: {
-                enabled: true,
-                rotation: 0,
-                color: '#000000',
-                align: 'right',
-                format: '￥{point.y:.1f}', // one decimal
-                y: 10, // 10 pixels down from the top
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            },
-            pointPadding: 0.4,
-            pointPlacement: 0.0,
-            tooltip: {
-                valuePrefix: '￥'
-            },
-            yAxis: 1
-        }]
+    $(function () {
+        var url = "@Url.Action("OrderStatisticByDay", "Manage",new { isAjax =true,date=DateTime.Now, days =30})";
+        bindCharts(url, chartsSetting);
     });
-});
+
+    function bindCharts(url, chartsSettingFun) {
+        $.post(url, null, function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == 1) {
+                if (returndata.Content != null && returndata.Content.length > 0) {
+                    var categories = new Array();
+                    var numData = new Array();
+                    var amountData = new Array();
+                    for (var i = 0; i < returndata.Content.length; i++) {
+                        var item = returndata.Content[i];
+                        categories.push(item["Date"]);
+                        numData.push(item["OrderNumer"]);
+                        amountData.push(item["OrderAmount"]);
+                    }
+                    chartsSettingFun(categories, numData, amountData);
+                }
+                else {
+                    alert("没有任何订单。");
+                }
+            }
+            else {
+                alert("加载统计失败。");
+            }
+
+        });
+    }
+
+    function chartsSetting(categories, numData, amountData) {
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '按日统计订单数量/金额'
+            },
+            xAxis: {
+                categories: categories,
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: [{
+                min: 0,
+                title: {
+                    text: '数量'
+                }
+            }, {
+                title: {
+                    text: '金额 (￥)'
+                },
+                opposite: true
+            }],
+            legend: {
+                shadow: false
+            },
+            tooltip: {
+                shared: true
+            },
+            plotOptions: {
+                column: {
+                    grouping: false,
+                    shadow: false,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '订单数',
+                color: 'rgba(124, 181, 236,.9)',
+                data: numData,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#000000',
+                    align: 'right',
+                    format: '{point.y:.1f}', // one decimal
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                pointPadding: 0.35,
+                pointPlacement: 0.0
+            }, {
+                name: '订单金额',
+                color: 'rgba(186,60,61,.9)',
+                data: amountData,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#000000',
+                    align: 'right',
+                    format: '￥{point.y:.1f}', // one decimal
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                pointPadding: 0.4,
+                pointPlacement: 0.0,
+                tooltip: {
+                    valuePrefix: '￥'
+                },
+                yAxis: 1
+            }]
+        });
+    }
 </script>
 
 <div class="ManageRightTitle">

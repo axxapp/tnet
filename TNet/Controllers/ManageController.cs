@@ -18,7 +18,7 @@ using System;
 using System.Text;
 using TCom.Util;
 using TCom.Model.Task;
-using TCom.Msg; 
+using TCom.Msg;
 
 namespace TNet.Controllers {
     public class ManageController : Controller {
@@ -48,6 +48,32 @@ namespace TNet.Controllers {
         public ActionResult SignOut() {
             Session["ManageUser"] = null;
             return RedirectToAction("Login", "Manage");
+        }
+
+
+        [ManageLoginValidation]
+        public ActionResult OrderStatisticByDay(bool isAjax, DateTime? date, long days = 7) {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<OrderStatisticByDateViewModel> resultEntity = new ResultModel<OrderStatisticByDateViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+
+            if (date == null) {
+                date = DateTime.Now;
+            }
+
+            try {
+                List<OrderStatisticByDateViewModel> entities = OrderStatisticService.StatisticByDayForwardDays(date.Value, days);
+                resultEntity.Content = entities;
+            }
+            catch (Exception ex) {
+                log.Error(ex.ToString());
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "失败";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
         }
 
         /// <summary>
@@ -154,7 +180,7 @@ namespace TNet.Controllers {
 
             //保存商品城市关系
             CityRelationService.Save(model.idcitys, business.idbuss.ToString(), ModuleType.Bussiness);
-            
+
             BussImageService.DeleteBussImages(business.idbuss);
 
             if (!string.IsNullOrEmpty(bussImages)) {
@@ -403,7 +429,7 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult TaskList(DateTime? startDate, DateTime? endDate, string orderno = "",int taskType=0, string idsend = "", string idrevc = "", int pageIndex = 0) {
+        public ActionResult TaskList(DateTime? startDate, DateTime? endDate, string orderno = "", int taskType = 0, string idsend = "", string idrevc = "", int pageIndex = 0) {
             int pageCount = 0;
             int pageSize = 10;
             if (startDate == null) {
@@ -442,8 +468,7 @@ namespace TNet.Controllers {
             });
 
             List<SelectItemViewModel<int>> taskTypesSelectItems = TaskViewModel.TaskTypes;
-            taskTypesSelectItems.Insert(0, new SelectItemViewModel<int>()
-            {
+            taskTypesSelectItems.Insert(0, new SelectItemViewModel<int>() {
                 DisplayText = "选择派单类型",
                 DisplayValue = 0
             });
@@ -526,16 +551,13 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult IssueList(DateTime? startOrDate, DateTime? endOrDate, string idissue = "", string userNo = "", int pageIndex = 0)
-        {
+        public ActionResult IssueList(DateTime? startOrDate, DateTime? endOrDate, string idissue = "", string userNo = "", int pageIndex = 0) {
             int pageCount = 0;
             int pageSize = 10;
-            if (startOrDate == null)
-            {
+            if (startOrDate == null) {
                 startOrDate = DateTime.Now.AddDays(-1);
             }
-            if (endOrDate == null)
-            {
+            if (endOrDate == null) {
                 endOrDate = DateTime.Now;
             }
             List<IssueViewModel> entities = IssueService.GetIssuesViewModelByFilter(startOrDate, endOrDate, idissue, userNo);
@@ -566,19 +588,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult IssueEnable(string idissue, bool enable, bool isAjax)
-        {
+        public ActionResult IssueEnable(string idissue, bool enable, bool isAjax) {
             ResultModel<IssueViewModel> resultEntity = new ResultModel<IssueViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try
-            {
+            try {
                 Issue issue = IssueService.Get(idissue);
                 issue.inuse = enable;
                 IssueService.Edit(issue);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -592,8 +611,7 @@ namespace TNet.Controllers {
         /// <param name="idissue"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult IssueDetail(string idissue)
-        {
+        public ActionResult IssueDetail(string idissue) {
             IssueViewModel model = IssueService.GetViewModel(idissue);
             return View(model);
         }
@@ -774,8 +792,8 @@ namespace TNet.Controllers {
             }
 
             //保存商品城市关系
-            CityRelationService.Save(model.idcitys, merc.idmerc.ToString(),ModuleType.Merc);
-            
+            CityRelationService.Save(model.idcitys, merc.idmerc.ToString(), ModuleType.Merc);
+
             MercImageService.DeleteMercImages(merc.idmerc);
 
             if (!string.IsNullOrEmpty(mercImages)) {
@@ -1565,11 +1583,10 @@ namespace TNet.Controllers {
         /// <param name="bindOrderNo"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        private TaskViewModel MadeUpSetupTask(string bindOrderNo,string notes) {
+        private TaskViewModel MadeUpSetupTask(string bindOrderNo, string notes) {
             MyOrder order = MyOrderService.GetOrder(Convert.ToInt64(bindOrderNo));
             User user = null;
-            if (order != null)
-            {
+            if (order != null) {
                 user = UserBll.Get(order.iduser);
             }
 
@@ -1605,15 +1622,13 @@ namespace TNet.Controllers {
         /// <param name="bindOrderNo"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        private TaskViewModel MadeUpComplaintTask(string bindOrderNo, string notes)
-        {
+        private TaskViewModel MadeUpComplaintTask(string bindOrderNo, string notes) {
             Issue issue = IssueService.Get(bindOrderNo);
             User user = null;
-            if (issue != null)
-            {
+            if (issue != null) {
                 user = UserBll.Get(Convert.ToInt64(issue.iduser));
             }
-            
+
             Task task = new Task();
             task.idtask = Pub.ID().ToString();
             task.orderno = bindOrderNo;
@@ -1629,7 +1644,7 @@ namespace TNet.Controllers {
             task.text = "投诉";
             task.title = issue.context;
             task.accpeptime = DateTime.Now;
-            
+
             task.status = TCom.Model.Task.TaskStatus.WaitPress;
             task.tasktype = TCom.Model.Task.TaskType.Complaint;
 
@@ -1648,14 +1663,14 @@ namespace TNet.Controllers {
         /// <param name="isAjax"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AssignTask(string bindOrderNo,int taskType, string manageUserIds, bool isAjax, string notes = "") {
+        public ActionResult AssignTask(string bindOrderNo, int taskType, string manageUserIds, bool isAjax, string notes = "") {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             string successMesage = string.Empty;
             string errorMessage = string.Empty;
 
             ResultModel<ManageUserViewModel> resultEntity = new ResultModel<ManageUserViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
-            
+
             try {
 
                 TaskViewModel taskViewModel = null;
@@ -1664,7 +1679,8 @@ namespace TNet.Controllers {
                     taskViewModel = MadeUpSetupTask(bindOrderNo, notes);
                     successMesage = "报装订单指派工人成功";
                     errorMessage = "报装订单指派工人失败";
-                } else if (taskType == TaskType.Complaint) {
+                }
+                else if (taskType == TaskType.Complaint) {
                     taskViewModel = MadeUpComplaintTask(bindOrderNo, notes);
                     successMesage = "投诉指派工人成功";
                     errorMessage = "投诉指派工人失败";
@@ -1690,12 +1706,11 @@ namespace TNet.Controllers {
                         });
                     }
                     TaskRecverService.AddMuil(taskRecvers);
-                    if (taskType == TaskType.Setup)
-                    {
+                    if (taskType == TaskType.Setup) {
                         TN db = null;
                         MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, db);
                     }
-                        
+
                 }
 
             }
@@ -1780,12 +1795,12 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult NoticeList(string title="",string idcity="", int pageIndex = 0) {
+        public ActionResult NoticeList(string title = "", string idcity = "", int pageIndex = 0) {
             int pageCount = 0;
             int pageSize = 10;
             List<Notice> entities = NoticeService.Search(title, idcity);
             List<Notice> pageList = entities.Pager<Notice>(pageIndex, pageSize, out pageCount);
-            
+
             List<NoticeViewModel> viewModels = pageList.Select(model => {
                 NoticeViewModel viewModel = new NoticeViewModel();
                 viewModel.CopyFromBase(model);
@@ -1958,11 +1973,11 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AdvertiseList(DateTime? sdate, DateTime? edate, string idat = "",string idcity="", string title = "", int pageIndex = 0) {
+        public ActionResult AdvertiseList(DateTime? sdate, DateTime? edate, string idat = "", string idcity = "", string title = "", int pageIndex = 0) {
             int pageCount = 0;
             int pageSize = 10;
 
-            List<AdvertiseViewModel> entities = AdvertiseService.SearchViewModels(sdate, edate, idat,idcity, title);
+            List<AdvertiseViewModel> entities = AdvertiseService.SearchViewModels(sdate, edate, idat, idcity, title);
             List<AdvertiseViewModel> viewModels = entities.Pager<AdvertiseViewModel>(pageIndex, pageSize, out pageCount);
             //获取城市列表
             List<SelectItemViewModel<string>> citySelects = CityService.SelectItems();
@@ -1986,7 +2001,7 @@ namespace TNet.Controllers {
             ViewData["title"] = title;
             ViewData["idcity"] = idcity;
             ViewData["citySelects"] = citySelects;
-            
+
             List<SelectItemViewModel<string>> advertiseTypes = AdvertiseTypeService.SelectItems();
             ViewData["advertiseTypes"] = advertiseTypes;
 
@@ -2386,8 +2401,7 @@ namespace TNet.Controllers {
 
 
 
-        public ActionResult GetMenu()
-        {
+        public ActionResult GetMenu() {
             return View();
         }
 
@@ -2410,8 +2424,7 @@ namespace TNet.Controllers {
         /// </summary>
         /// <param name="media_id"></param>
         /// <returns>存储路径</returns>
-        public string GetImageById(RMaterialItemParamM mode)
-        {
+        public string GetImageById(RMaterialItemParamM mode) {
             //string filePath = Server.MapPath("~/Content/Images/Material/" + mode.media_id + ".jpg");
             //if (!System.IO.File.Exists(filePath))
             //{
@@ -2441,8 +2454,7 @@ namespace TNet.Controllers {
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
-        public JsonResult UpdateMenu(string menu)
-        {
+        public JsonResult UpdateMenu(string menu) {
             string url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + Pub.accessToken;
             string responseContent = Pub.Post(url, menu);
             return Json(responseContent);
