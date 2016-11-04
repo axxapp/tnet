@@ -1,0 +1,96 @@
+﻿@using TNet.Util;
+@using TNet.Models;
+@using TNet.Util;
+@using TNet.BLL;
+
+@model List<MyOrderViewModel>
+
+@{
+    Layout = "~/Views/Shared/_ManageLayout.cshtml";
+    var pageCount = Convert.ToInt32(ViewData["pageCount"]);
+    var pageIndex = Convert.ToInt32(ViewData["pageIndex"]);
+}
+<div class="ManageRightTitle">
+    <ol class="breadcrumb">
+        <li><a href="#">订单管理</a></li>
+        <li><a href="#" class="active">待审核订单</a></li>
+    </ol>
+</div>
+<div class="ManageRightContent">
+    <div>
+        @Html.Raw(Url.BootstrapPagerHTML(pageCount, pageIndex, "WaitApprovedOrderList", "Manage", ViewContext.RouteData.Values))
+    </div>
+
+    <div class="list-box">
+        @if (Model.Count > 0)
+        {
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>操作</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, long>(en => en.orderno))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, DateTime?>(en => en.cretime))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, int?>(en => en.otype))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, int?>(en => en.status))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, string>(en => en.user_name))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, string>(en => en.merc))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, string>(en => en.spec))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, int?>(en => en.month))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, int?>(en => en.attmonth))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, int?>(en => en.count))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, double?>(en => en.price))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, string>(en => en.contact))</th>
+                        
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, bool>(en => en.inuse))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, string>(en => en.notes))</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("OrderDetail","Manage",new { orderno=item.orderno})" class="btn btn-default">审核</a>
+                            </td>
+                            <td>
+                                @item.orderno
+                                @if (!string.IsNullOrEmpty(item.img))
+                                {
+                                    <br />
+                                    <img class="smallMercImage" src="@Url.Content(@item.img)" title="@item.merc" />
+                                }
+                            </td>
+                            <td>@item.cretime</td>
+                            <td>
+                                @TNet.Models.Order.OrderType.GetSelectItems().Where(en => en.DisplayValue == item.otype).FirstOrDefault().DisplayText
+                            </td>
+                            <td>
+                                @TNet.Models.Order.OrderStatus.GetSelectItems().Where(en => en.DisplayValue == item.status).FirstOrDefault().DisplayText
+                            </td>
+                            <td>@item.user_name</td>
+                            <td>@item.merc</td>
+                            <td>@item.spec</td>
+                            <td>@item.month</td>
+                            <td>@item.attmonth</td>
+                            <td>@item.count</td>
+                            <td>@item.price</td>
+                            <td>@item.contact</td>
+                            
+                            <td>
+                                @(item.inuse ? "启用" : "禁用")
+                            </td>
+                            <td>@item.notes</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h2>没有找到任何待审核订单.</h2>
+        }
+
+    </div>
+</div>
+

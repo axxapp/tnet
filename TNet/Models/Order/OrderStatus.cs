@@ -23,6 +23,16 @@ namespace TNet.Models.Order
         public static readonly int Confirm = 2;
 
         /// <summary>
+        /// 等待审核
+        /// </summary>
+        public static readonly int WaitApproved = 4;
+
+        /// <summary>
+        /// 等待重新提交审核
+        /// </summary>
+        public static readonly int WaitApplyApproved= 6;
+
+        /// <summary>
         /// 等待支付
         /// </summary>
         public static readonly int WaitPay = 10;
@@ -98,6 +108,23 @@ namespace TNet.Models.Order
                     ops = ""
                 }
             },
+             {
+                WaitApproved,
+                new OrderStatusItem()
+                {
+                    text = "等待审核",
+                    ops = ""
+                }
+            },
+             {
+                WaitApplyApproved,
+                new OrderStatusItem()
+                {
+                    text = "等待重新提交审核",
+                    ops = ""
+                }
+            }
+            ,
             {
                 WaitPay,
                 new OrderStatusItem()

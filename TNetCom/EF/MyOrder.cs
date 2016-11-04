@@ -85,6 +85,9 @@ namespace TCom.EF
         [StringLength(255)]
         public string idc_img2 { get; set; }
 
+        [StringLength(255)]
+        public string idc_img3 { get; set; }
+
         public bool inuse { get; set; }
     }
 }

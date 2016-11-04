@@ -19,6 +19,7 @@ using System.Text;
 using TCom.Util;
 using TCom.Model.Task;
 using TCom.Msg;
+using TNet.Models.Order;
 
 namespace TNet.Controllers {
     public class ManageController : Controller {
@@ -438,6 +439,27 @@ namespace TNet.Controllers {
         }
 
         /// <summary>
+        /// 订单列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        public ActionResult WaitApprovedOrderList( int pageIndex = 0)
+        {
+            int pageCount = 0;
+            int pageSize = 10;
+         
+            List<MyOrderViewModel> entities = MyOrderService.GetOrdersViewModelByFilter(null, null, 0,TNet.Models.Order.OrderStatus.WaitApproved , 0, 0);
+            List<MyOrderViewModel> viewModels = entities.Pager<MyOrderViewModel>(pageIndex, pageSize, out pageCount);
+            
+            ViewData["pageCount"] = pageCount;
+            ViewData["pageIndex"] = pageIndex;
+            
+            return View(viewModels);
+        }
+        
+
+        /// <summary>
         /// 启用或者禁用订单
         /// </summary>
         /// <param name="orderno"></param>
@@ -456,6 +478,52 @@ namespace TNet.Controllers {
                 MyOrderService.Edit(order);
             }
             catch (Exception ex) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = ex.ToString();
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+        /// <summary>
+        /// 审核订单通过或者不通过
+        /// </summary>
+        /// <param name="orderno"></param>
+        /// <param name="approved"></param>
+        /// <param name="isAjax"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ManageLoginValidation]
+        public ActionResult OrderApproved(long orderno, bool approved, bool isAjax)
+        {
+            ResultModel<MyOrderViewModel> resultEntity = new ResultModel<MyOrderViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+            try
+            {
+                MyOrder order = MyOrderService.GetOrder(orderno);
+                order.status = approved ? TNet.Models.Order.OrderStatus.WaitPay : TNet.Models.Order.OrderStatus.WaitApplyApproved;
+                MyOrderService.Edit(order);
+
+                if (order==null) {
+                    resultEntity.Code = ResponseCodeType.Fail;
+                    resultEntity.Message = "审核操作失败，请稍候再试。";
+                    return Content(resultEntity.SerializeToJson());
+                }
+
+                MyOrderPress s = new MyOrderPress();
+                s.idpress = Pub.ID().ToString();
+                s.orderno = orderno.ToString();
+
+                s.status = approved ? TNet.Models.Order.OrderStatus.WaitPay : TNet.Models.Order.OrderStatus.WaitApplyApproved;
+                s.statust = OrderStatus.get(s.status).text;
+                s.oper = ((ManageUser)Session["ManageUser"]).UserName;
+                s.inuse = true;
+                s.cretime = DateTime.Now;
+                MyOrderPressService.Add(s);
+            }
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }

@@ -190,6 +190,7 @@
     <Compile Include="BLL\Merc\MercImageService.cs" />
     <Compile Include="BLL\Merc\SpecService.cs" />
     <Compile Include="BLL\Notice\NoticeService.cs" />
+    <Compile Include="BLL\Order\MyOrderPressService.cs" />
     <Compile Include="BLL\Order\MyOrderService.cs" />
     <Compile Include="BLL\Order\SetupAddrService.cs" />
     <Compile Include="BLL\Order\SetupService.cs" />
@@ -1222,6 +1223,7 @@
     <Content Include="Views\Manage\IssueList.cshtml" />
     <Content Include="Views\Manage\TaskAssignModal.cshtml" />
     <Content Include="Views\User\Update.cshtml" />
+    <Content Include="Views\Manage\WaitApprovedOrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />
