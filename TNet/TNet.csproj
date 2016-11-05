@@ -208,6 +208,7 @@
     <Compile Include="BLL\Pay\WeixinPay\Log.cs" />
     <Compile Include="BLL\Pay\WeixinPay\Notify.cs" />
     <Compile Include="BLL\Pay\WeixinPay\WxPayApi.cs" />
+    <Compile Include="BLL\Weixin\WeiXinModuleService.cs" />
     <Compile Include="Controllers\BussController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssueController.cs" />
@@ -290,6 +291,7 @@
     <Compile Include="Models\Weixin\RMaterialListParam.cs" />
     <Compile Include="Models\Weixin\Signature.cs" />
     <Compile Include="Models\Weixin\SubscribeMsg.cs" />
+    <Compile Include="Models\Weixin\WeiXinModuleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Addr\AddrService.svc.cs">
       <DependentUpon>AddrService.svc</DependentUpon>
@@ -1224,6 +1226,8 @@
     <Content Include="Views\Manage\TaskAssignModal.cshtml" />
     <Content Include="Views\User\Update.cshtml" />
     <Content Include="Views\Manage\WaitApprovedOrderList.cshtml" />
+    <Content Include="Views\Manage\WeiXinModuleList.cshtml" />
+    <Content Include="Views\Manage\WeiXinModuleEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

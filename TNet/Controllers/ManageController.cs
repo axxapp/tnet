@@ -2395,7 +2395,7 @@ namespace TNet.Controllers {
         /// <summary>
         /// 新增\编辑广告
         /// </summary>
-        /// <param name="idav"></param>
+        /// <param name="idcity"></param>
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
@@ -2453,6 +2453,103 @@ namespace TNet.Controllers {
             }
 
             return View(viewModels);
+        }
+
+
+        /// <summary>
+        /// 微信模块列表
+        /// </summary>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        public ActionResult WeiXinModuleList(int pageIndex = 0) {
+            int pageCount = 0;
+            int pageSize = 10;
+
+            List<WeiXinModule> entities = WeiXinModuleService.GetALL();
+
+            List<WeiXinModule> pageList = entities.Pager<WeiXinModule>(pageIndex, pageSize, out pageCount);
+            List<WeiXinModuleViewModel> viewModels = pageList.Select(mod => {
+                WeiXinModuleViewModel viewModel = new WeiXinModuleViewModel();
+                viewModel.CopyFromBase(mod);
+                return viewModel;
+            }).ToList();
+
+            ViewData["pageCount"] = pageCount;
+            ViewData["pageIndex"] = pageIndex;
+
+            return View(viewModels);
+        }
+
+        /// <summary>
+        /// 启用或者禁用微信模块
+        /// </summary>
+        /// <param name="idwxmodule"></param>
+        /// <param name="enable"></param>
+        /// <param name="isAjax"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ManageLoginValidation]
+        public ActionResult WeiXinModuleEnable(string idwxmodule, bool enable, bool isAjax) {
+            ResultModel<WeiXinModuleViewModel> resultEntity = new ResultModel<WeiXinModuleViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+            try {
+                WeiXinModule module = WeiXinModuleService.Get(idwxmodule);
+                module.inuse = enable; 
+                WeiXinModuleService.Edit(module);
+            }
+            catch (Exception ex) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = ex.ToString();
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+        /// <summary>
+        /// 新增\编辑微信模块
+        /// </summary>
+        /// <param name="idwxmodule"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        [HttpGet]
+        public ActionResult WeiXinModuleEdit(string idwxmodule) {
+            WeiXinModuleViewModel model = new WeiXinModuleViewModel();
+            if (!string.IsNullOrEmpty(idwxmodule)) {
+                WeiXinModule module = WeiXinModuleService.Get(idwxmodule);
+                if (module != null) { model.CopyFromBase(module); }
+            }
+            else {
+                model.inuse = true;
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// 新增\编辑微信模块
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        [HttpPost]
+        public ActionResult WeiXinModuleEdit(WeiXinModuleViewModel model) {
+            WeiXinModule module = new WeiXinModule();
+            model.CopyToBase(module);
+            if (string.IsNullOrEmpty(module.idwxmodule)) {
+                module.idwxmodule = Pub.ID().ToString();
+                //新增
+                //module = WeiXinModuleService.Add(module);
+            }
+            else {
+                //编辑
+                module = WeiXinModuleService.Edit(module);
+            }
+
+            //修改后重新加载
+            model.CopyFromBase(module);
+            ModelState.AddModelError("", "保存成功.");
+            return View(model);
         }
 
         /// <summary>
