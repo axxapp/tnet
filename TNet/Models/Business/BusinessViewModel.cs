@@ -36,6 +36,12 @@ namespace TNet.Models
         [StringLength(60)]
         public new string city { get; set; }
 
+        [Display(Name = "城市代码")]
+        [Required]
+        [StringLength(60)]
+        public new string citycode { get; set; }
+        
+
         [Display(Name = "地址")]
         [Required]
         [StringLength(100)]
@@ -101,6 +107,7 @@ namespace TNet.Models
             this.contact = business.contact;
             this.phone = business.phone;
             this.city = business.city;
+            this.citycode = business.citycode;
             this.addr = business.addr;
             this.sellpt = business.sellpt;
             this.cretime = business.cretime;
@@ -122,6 +129,7 @@ namespace TNet.Models
             business.contact = this.contact;
             business.phone = this.phone;
             business.city = this.city;
+            business.citycode = this.citycode;
             business.addr = this.addr;
             business.sellpt = this.sellpt;
             business.cretime = this.cretime;

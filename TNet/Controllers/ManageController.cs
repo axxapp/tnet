@@ -204,6 +204,14 @@ namespace TNet.Controllers {
                 model.inuse = true;
             }
 
+            List<SelectItemViewModel<string>> citySelects = CityService.SelectItemValueCotainNameAndCode();
+            //citySelects.Insert(0, new SelectItemViewModel<string>()
+            //{
+            //    DisplayText = "请选择城市",
+            //    DisplayValue = "北京_bbb"
+            //});
+            ViewData["citySelects"] = citySelects;
+
             return View(model);
         }
 
@@ -229,10 +237,7 @@ namespace TNet.Controllers {
 
             //修改后重新加载
             model.CopyFromBase(business);
-
-            //保存商品城市关系
-            CityRelationService.Save(model.idcitys, business.idbuss.ToString(), ModuleType.Bussiness);
-
+            
             BussImageService.DeleteBussImages(business.idbuss);
 
             if (!string.IsNullOrEmpty(bussImages)) {

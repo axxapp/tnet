@@ -32,6 +32,7 @@ namespace TNet.BLL
             oldBusiness.contact = business.contact;
             oldBusiness.phone = business.phone;
             oldBusiness.city = business.city;
+            oldBusiness.citycode = business.citycode;
             oldBusiness.addr = business.addr;
             oldBusiness.sellpt = business.sellpt;
             oldBusiness.cretime = business.cretime;

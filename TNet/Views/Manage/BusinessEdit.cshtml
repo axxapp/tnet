@@ -7,6 +7,8 @@
     {
         ViewBag.Title = "录入商圈";
     }
+
+    List<SelectItemViewModel<string>> citySelects = (List<SelectItemViewModel<string>>)ViewData["citySelects"];
 }
 <link rel="stylesheet" href="@Url.Content("~/Css/bootstrap-fileinput/fileinput.min.css")" />
 <script type="text/javascript" src="@Url.Content("~/Js/bootstrap-fileinput/plugins/sortable.min.js")"></script>
@@ -27,14 +29,9 @@
                 @Html.HiddenFor(model => model.idbuss)
                 @Html.HiddenFor(model => model.longitude)
                 @Html.HiddenFor(model => model.latitude)
+                @Html.HiddenFor(model => model.city)
+                @Html.HiddenFor(model => model.citycode)
                 <input type="hidden" name="bussImages" id="bussImages" value="" />
-                @*<div class="form-group">
-                    @Html.LabelFor(model => model.idcitys, new { @class = "col-sm-2 control-label" })
-                    <div class="col-sm-4">
-                        @{Html.RenderAction("CitiesCheckBoxList", "Manage", new { idmodule = (Model.idbuss > 0 ? Model.idbuss.ToString() : ""), moduleType = ModuleType.Bussiness });}
-                    </div>
-                    @Html.ValidationMessageFor(model => model.idcitys)
-                </div>*@
                 <div class="form-group">
                     @Html.LabelFor(model => model.buss, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
@@ -59,7 +56,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.city, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(model => model.city, new { @class = "form-control" })
+                        @Html.DropDownList("ddlCity", new SelectList(citySelects, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = (Model.city+"_"+Model.citycode) })
                     </div>
                     @Html.ValidationMessageFor(model => model.city)
                 </div>
@@ -81,7 +78,6 @@
                     @Html.LabelFor(model => model.cretime, new { @class = "col-sm-2 control-label" })
                     <div id="@(Html.IdFor(model=>model.cretime)+"_datepicker")" class="input-group date form_date col-sm-4 datetime_picker" data-date="" data-date-format="yyyy-mm-dd" data-link-field="@Html.IdFor(model=>model.cretime)" data-link-format="yyyy-mm-dd">
                         <input class="form-control" size="16" type="text" value="@String.Format("{0:yyyy-MM-dd}", Model.cretime)" readonly>
-                        @*<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>*@
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                     @Html.HiddenFor(model => model.cretime, new { @class = "form-control", Value = String.Format("{0:yyyy-MM-dd}", Model.cretime) })
@@ -91,7 +87,6 @@
                     @Html.LabelFor(model => model.busstime, new { @class = "col-sm-2 control-label" })
                     <div id="@(Html.IdFor(model=>model.busstime)+"_datepicker")" class="input-group date form_date col-sm-4 datetime_picker" data-date="" data-date-format="yyyy-mm-dd" data-link-field="@Html.IdFor(model=>model.busstime)" data-link-format="yyyy-mm-dd">
                         <input class="form-control" size="16" type="text" value="@String.Format("{0:yyyy-MM-dd}", Model.busstime)" readonly>
-                        @*<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>*@
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                     @Html.HiddenFor(model => model.busstime, new { @class = "form-control", Value = String.Format("{0:yyyy-MM-dd}", Model.busstime) })
@@ -242,6 +237,12 @@
         }
     }
     $(function () {
+        $("#ddlCity").change(function () {
+            var cityVal = $(this).val();
+            $("#@Html.IdFor(model=>model.city)").val(cityVal.split("_")[0]);
+            $("#@Html.IdFor(model=>model.citycode)").val(cityVal.split("_")[1]);
+        });
+
         $.fn.bootstrapSwitch.defaults.onText = '启用';
         $.fn.bootstrapSwitch.defaults.offText = '禁用';
         $("#@Html.IdFor(model => model.inuse)").bootstrapSwitch();

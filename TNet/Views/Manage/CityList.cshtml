@@ -31,6 +31,7 @@
                 <thead>
                     <tr>
                         <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, string>(en => en.city1))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, string>(en => en.code))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, int?>(en => en.sortno))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, string>(en => en.notes))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<CityViewModel, bool>(en => en.isdefault))</th>
@@ -44,6 +45,7 @@
                     {
                         <tr>
                             <td>@item.city1</td>
+                            <td>@item.code</td>
                             <td>@item.sortno</td>
                             <td>
                                 @item.notes

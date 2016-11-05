@@ -24,7 +24,8 @@ namespace TNet.BLL {
             WeiXinModule oldModule = db.WeiXinModules.Where(en => en.idwxmodule == module.idwxmodule).FirstOrDefault();
 
             oldModule.idwxmodule = module.idwxmodule;
-            oldModule.name = module.name;
+            //oldModule.name = module.name;
+            //oldModule.code = module.code;
             oldModule.title = module.title;
             oldModule.inuse = module.inuse;
             

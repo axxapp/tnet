@@ -26,6 +26,9 @@ namespace TCom.EF
         [StringLength(60)]
         public string city { get; set; }
 
+        [StringLength(60)]
+        public string citycode { get; set; }
+
         [StringLength(100)]
         public string addr { get; set; }
 

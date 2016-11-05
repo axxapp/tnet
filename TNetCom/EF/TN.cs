@@ -1,12 +1,15 @@
-namespace TCom.EF {
+namespace TCom.EF
+{
     using System;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class TN : DbContext {
+    public partial class TN : DbContext
+    {
         public TN()
-            : base("name=TN") {
+            : base("name=TN")
+        {
         }
 
         public virtual DbSet<Advertise> Advertises { get; set; }
@@ -37,7 +40,8 @@ namespace TCom.EF {
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<WeiXinModule> WeiXinModules { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Advertise>()
                 .Property(e => e.idav)
                 .IsUnicode(false);
@@ -80,6 +84,10 @@ namespace TCom.EF {
 
             modelBuilder.Entity<Business>()
                 .Property(e => e.city)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Business>()
+                .Property(e => e.citycode)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Business>()

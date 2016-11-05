@@ -17,6 +17,9 @@ namespace TCom.EF
         public string name { get; set; }
 
         [StringLength(50)]
+        public string code { get; set; }
+
+        [StringLength(50)]
         public string title { get; set; }
 
         public bool inuse { get; set; }
