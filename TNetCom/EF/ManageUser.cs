@@ -30,6 +30,8 @@ namespace TCom.EF
 
         public bool recv_setup { get; set; }
 
+        public bool recv_review { get; set; }
+
         public bool send_setup { get; set; }
 
         [StringLength(60)]

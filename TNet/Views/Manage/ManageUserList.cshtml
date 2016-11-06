@@ -32,9 +32,9 @@
                         <th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, String>(en => en.UserName))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, String>(en => en.UserTypeName))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, String>(en => en.phone))</th>
-                        @*<th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, String>(en => en.idweixin))</th>*@
                         <th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, bool?>(en => en.recv_order))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, bool?>(en => en.recv_setup))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, bool?>(en => en.recv_review))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, bool?>(en => en.send_setup))</th>
                         <th>成功绑定微信</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<ManageUserViewModel, String>(en => en.notes))</th>
@@ -49,9 +49,9 @@
                             <td>@item.UserName</td>
                             <td>@item.UserTypeName</td>
                             <td>@item.phone</td>
-                            @*<td>@item.idweixin</td>*@
                             <td>@(item.recv_order ? "是" : "否")</td>
                             <td>@(item.recv_setup ? "是" : "否")</td>
+                            <td>@(item.recv_review ? "是" : "否")</td>
                             <td>@(item.send_setup ? "是" : "否")</td>
                             <td>@(!string.IsNullOrEmpty(item.idweixin) ? "是" : "否")</td>
                             <td>@item.notes</td>
