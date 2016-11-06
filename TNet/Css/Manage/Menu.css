@@ -139,7 +139,7 @@
 
         .edit .item p {
             color: #8d8d8d;
-            padding-left: 70px;
+            /*padding-left: 70px;*/
         }
 
         .edit .item input[type="text"], .edit .item select {
@@ -333,3 +333,32 @@
         line-height: 50px;
         padding: 0 20px;
     }
+
+.menu_url {
+    display: block;
+    width: 360px;
+    line-height: 36px;
+    height: 36px;
+}
+
+    .menu_url input {
+        float: left;
+        margin-right: 20px;
+    }
+
+.menu_url_title {
+    display: block;
+    line-height: 36px;
+    height: 36px;
+    float: left;
+}
+
+.menuName {
+    width: 360px;
+    line-height: 36px;
+    height: 36px;
+}
+
+.menuType {
+     width: 360px;
+}

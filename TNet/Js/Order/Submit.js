@@ -14,13 +14,11 @@ function init() {
         var ur = Pub.rootUrl() + "Images/default_bg.png";
         var imgs = order_cart.Img;
         if (imgs) {
-            
             ur = Pub.url(imgs, "Images/default_bg.png");
-
         }
         $("#ico").attr("src", ur);
         loadAddr();
-        if (order_cart.Setup) {
+        if (order_cart.Merc.isetup) {
             $(".go_buy").html("提交");
             $(".resource").show();
         }
@@ -82,8 +80,8 @@ function submit() {
                 return;
             }
             var otype = "merc";
-            var idc = "", idc_img1 = "", idc_img2 = "";
-            if (order_cart.Setup) {
+            var idc = "", idc_img1 = "", idc_img2 = "", idc_img3 = "";
+            if (order_cart.Merc.isetup) {
                 otype = "setup";
                 idc = $.trim(Pub.str($("#idc").val()));
                 if (!checkIdc(idc)) {
@@ -94,19 +92,24 @@ function submit() {
                     alert("请上传身份证 正面 照");
                     return;
                 }
-
                 idc_img2 = $.trim($("#idc_img2").attr("title"))
                 if (!idc_img2) {
                     alert("请上传身份证 反面 照");
                     return;
                 }
+                idc_img3 = $.trim($("#idc_img3").attr("title"))
+                if (!idc_img3) {
+                    alert("请上传 手持身份证(正面) 照");
+                    return;
+                }
             }
-            var img  = order_cart.Img;
+            var img = order_cart.Img;
             if (!img) {
                 img = "";
             }
             var data = {
                 iduser: u.iduser,
+                uname: u.name,
                 idmerc: order_cart.Merc.idmerc,
                 merc: order_cart.Merc.merc1,
                 idspec: order_cart.Spec.idspec,
@@ -123,9 +126,10 @@ function submit() {
                 otype: otype,
                 idc: idc,
                 idc_img1: idc_img1,
-                idc_img2: idc_img2
+                idc_img2: idc_img2,
+                idc_img3: idc_img3
             };
-             
+
             Pub.post({
                 url: "Service/Order/Create",
                 data: JSON.stringify(data),
@@ -135,7 +139,7 @@ function submit() {
                         if (data.Data) {
                             Pub.delCache("order_cart")
                             //alert("\n下单成功,订单号: " + data.Data.orderno);
-                            window.location.href = Pub.rootUrl() + "Order/Pay/?orderno=" + data.Data.orderno;
+                            window.location.href = Pub.url(data.Data.url);// + "Order/Pay/?orderno=" + data.Data.orderno;
                             return;
                         }
                     }

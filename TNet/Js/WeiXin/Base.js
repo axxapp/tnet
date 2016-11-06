@@ -118,7 +118,6 @@ function getTimeYYMMHH(t) {
 //选择图片
 function __FileSelectImg(id, e) {    
     try {
-
         lrz(e.files[0], {
             width: 800
         }).then(function (rst) {

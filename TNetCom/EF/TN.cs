@@ -38,6 +38,7 @@ namespace TCom.EF
         public virtual DbSet<TaskPress> TaskPresses { get; set; }
         public virtual DbSet<TaskRecver> TaskRecvers { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<WeiXinModule> WeiXinModules { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -83,6 +84,10 @@ namespace TCom.EF
 
             modelBuilder.Entity<Business>()
                 .Property(e => e.city)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Business>()
+                .Property(e => e.citycode)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Business>()
@@ -511,6 +516,18 @@ namespace TCom.EF
 
             modelBuilder.Entity<User>()
                 .Property(e => e.notes)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<WeiXinModule>()
+                .Property(e => e.idwxmodule)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<WeiXinModule>()
+                .Property(e => e.name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<WeiXinModule>()
+                .Property(e => e.title)
                 .IsUnicode(false);
         }
     }

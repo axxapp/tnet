@@ -11,6 +11,8 @@ namespace TNet.Models.Order
     {
         public long iduser { get; set; }
 
+        public string uname { get; set; }
+
         public int idmerc { get; set; }
 
         public string merc { get; set; }
@@ -49,12 +51,15 @@ namespace TNet.Models.Order
 
         public string idc_img2 { get; set; }
 
+        public string idc_img3 { get; set; }
+
         public TCom.EF.MyOrder getData()
         {
             MyOrder o = new MyOrder();
             o.orderno = Pub.ID();
             o.idmerc = this.idmerc;
             o.iduser = this.iduser;
+             
             o.idmerc = this.idmerc;
             o.merc = this.merc;
             o.idspec = this.idspec;
@@ -72,16 +77,19 @@ namespace TNet.Models.Order
             o.entime = DateTime.Now.AddMonths((this.month + this.attmonth) * o.count);
             if (this.otype == "merc")
             {
+                o.status = OrderStatus.WaitPay;
                 o.otype = OrderType.Merc;
             }
             else if (this.otype == "setup")
             {
                 o.otype = OrderType.Setup;
+                o.status = OrderStatus.WaitReview;
             }
             o.idc = this.idc;
             o.idc_img1 = this.idc_img1;
             o.idc_img2 = this.idc_img2;
-            o.status = OrderStatus.WaitPay;
+            o.idc_img3 = this.idc_img3;
+
             o.notes = this.notes;
             o.img = this.img;
             o.inuse = true;

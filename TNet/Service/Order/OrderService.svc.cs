@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.Text;
+using System.Web;
 using TCom.EF;
 using TCom.Util;
 using TNet.Models.Order;
@@ -28,27 +29,40 @@ namespace TNet.Service.Order
             {
                 using (TN db = new TN())
                 {
+                    //string uname = db.Users.Where(m => m.iduser == data.iduser && m.inuse == true).Select(m => m.name).FirstOrDefault();
+
                     MyOrder o = data.getData();
-                    db.MyOrders.Add(o);
-                    MyOrderPress s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Create, "用户");
-                    db.MyOrderPresses.Add(s);
-
-                    s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Confirm, "系统");
-
-                    db.MyOrderPresses.Add(s);
-
-
-                    if (db.SaveChanges() > 0)
-                    { 
-                        result.Data = new CreateOrderResult();
-                        result.Data.orderno = o.orderno;
-                        result.Code = R.Ok;
-
-                    }
-                    else
+                    if (o != null)
                     {
-                        result.Code = R.Error;
+                        db.MyOrders.Add(o);
+                        MyOrderPress s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Create, "用户 [" + data.uname + "]");
+                        db.MyOrderPresses.Add(s);
+                        if (o.status == OrderStatus.WaitPay)
+                        {
+                            s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Confirm, "系统");
+                            db.MyOrderPresses.Add(s);
+                        }
+                        if (db.SaveChanges() > 0)
+                        {
+                            result.Data = new CreateOrderResult();
+                            if (o.status == OrderStatus.WaitPay)
+                            {
+                                result.Data.url = "Order/Pay?orderno=" + o.orderno;
+                            }
+                            else
+                            {
+                                result.Data.url = "Order/List";
+                            }
+                            result.Data.orderno = o.orderno;
+                            result.Code = R.Ok;
+
+                        }
+                        else
+                        {
+                            result.Code = R.Error;
+                        }
                     }
+
                     // result.Data = m;
                 }
             }

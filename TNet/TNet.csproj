@@ -1161,6 +1161,7 @@
     <Content Include="Views\Manage\IssueList.cshtml" />
     <Content Include="Views\Manage\TaskAssignModal.cshtml" />
     <Content Include="Views\User\Update.cshtml" />
+    <Content Include="Views\WeChat\Main.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

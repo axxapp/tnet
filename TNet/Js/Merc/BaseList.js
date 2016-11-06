@@ -1,10 +1,9 @@
 ﻿
 function getListUrl(city) {
     var c = city ? city.code : "";
-    if (isSetup()) {
-
-        return "Service/Merc/Setup/List/" + c;
-    }
+    
+    //    return "Service/Merc/Setup/List/" + c;
+    
     return "Service/Merc/List/" + c;
 }
 
@@ -37,42 +36,41 @@ function getMercList(city) {
                                 mhtml += ' </div>';
                             }
                         }
-                        var shtml = "";
-                        if (data.Data.Setups) {
-                            for (var z = 0; z < data.Data.Setups.length; z++) {
-                                var s = data.Data.Setups[z];
-                                if (s.idtype == to.idtype) {
-                                    shtml += '<div class="setup">';
-                                    shtml += '<div class="setup_title"><span>主题:</span>' + s.setup1 + '</div>';
-                                    shtml += '<div class="setup_resource"><span>材料:</span>' + s.resource + '</div>';
-                                    shtml += '<div class="setup_setuptype"><span>方式:</span>' + s.setuptype + '</div>';
+                        //var shtml = "";
+                        //if (data.Data.Setups) {
+                        //    for (var z = 0; z < data.Data.Setups.length; z++) {
+                        //        var s = data.Data.Setups[z];
+                        //        if (s.idtype == to.idtype) {
+                        //            shtml += '<div class="setup">';
+                        //            shtml += '<div class="setup_title"><span>主题:</span>' + s.setup1 + '</div>';
+                        //            shtml += '<div class="setup_resource"><span>材料:</span>' + s.resource + '</div>';
+                        //            shtml += '<div class="setup_setuptype"><span>方式:</span>' + s.setuptype + '</div>';
 
-                                    var sahtml = "";
-                                    for (var h = 0; h < data.Data.SetupAddrs.length; h++) {
-                                        var sa = data.Data.SetupAddrs[h];
-                                        if (sa.idtype == to.idtype && sa.idsetup == s.idsetup) {
-                                            sahtml += '<div class="setup_addr_line"></div>';
-                                            sahtml += '<div class="setup_addr"><div><span>电话:</span>' + sa.phone + "&nbsp;&nbsp;" + sa.service + '</div>';
-                                            sahtml += '<div><span>受理:</span>' + sa.acceptime + '</div>';
-                                            sahtml += '<div><span>安装:</span>' + sa.setuptime + '</div>';
-                                            sahtml += '<div><span>地址:</span>' + sa.addr + '</div></div>';
+                        //            var sahtml = "";
+                        //            for (var h = 0; h < data.Data.SetupAddrs.length; h++) {
+                        //                var sa = data.Data.SetupAddrs[h];
+                        //                if (sa.idtype == to.idtype && sa.idsetup == s.idsetup) {
+                        //                    sahtml += '<div class="setup_addr_line"></div>';
+                        //                    sahtml += '<div class="setup_addr"><div><span>电话:</span>' + sa.phone + "&nbsp;&nbsp;" + sa.service + '</div>';
+                        //                    sahtml += '<div><span>受理:</span>' + sa.acceptime + '</div>';
+                        //                    sahtml += '<div><span>安装:</span>' + sa.setuptime + '</div>';
+                        //                    sahtml += '<div><span>地址:</span>' + sa.addr + '</div></div>';
 
-                                        }
-                                    }
-                                    if (sahtml) {
-                                        shtml += "<div class='setup_addr_title'>办理点:</div>" + sahtml;
-                                    }
-                                    shtml += '</div>';
-                                }
-                            }
-                        }
-                        if (mhtml || shtml) {
-
+                        //                }
+                        //            }
+                        //            if (sahtml) {
+                        //                shtml += "<div class='setup_addr_title'>办理点:</div>" + sahtml;
+                        //            }
+                        //            shtml += '</div>';
+                        //        }
+                        //    }
+                        //}
+                        if (mhtml) {
                             if (html) {
                                 html += '<div class="vline"></div>';
                             }
                             html += '<div class="title">' + to.name + ':</div>';
-                            html += shtml;
+                            //html += shtml;
                             html += mhtml;
                         }
                     }
@@ -92,7 +90,7 @@ function getMercList(city) {
 }
 
 function crateItem(o, tag, o2) {
-    var setup = isSetup() ? "?tag=Setup" : "";
+    //alert(JSON.stringify(o));
     var html = '';
     if (o) {
         var img = null;
@@ -108,7 +106,10 @@ function crateItem(o, tag, o2) {
 
         }
         html += '<div class="pitem_' + tag + '">';
-        html += '<a href="' + Pub.url('Merc/Detail/' + o.idmerc + setup) + '">';
+        if (o.isetup) {
+            html += '<div class="setup_tag">装</div>';
+        }
+        html += '<a href="' + Pub.url('Merc/Detail/' + o.idmerc) + '">';
         html += '<img src="' + Pub.url(img, "Images/default_bg.png") + '" />';
         html += o.merc1 + '</a>';
         if (tag == "l") {

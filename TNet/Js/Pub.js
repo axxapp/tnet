@@ -329,12 +329,19 @@
                     }
                 }
             } else if (typeof (data) === 'string') {
-                data = data.replace(/[-]/g, '/');
-                data = new Date(data);
-                data = {
-                    jdate: "/Date(" + data.getTime() + "+0800)/",
-                    date: data
-                };
+                var dr = /[\d]{4}[-|\/][\d]{1,2}[-|\/][\d]{1,2}/gi;
+                if (dr.test(data)) {
+                    data = data.replace(/[-]/g, '/');
+                    data = new Date(data);
+                    if (data) {
+                        data = {
+                            jdate: "/Date(" + data.getTime() + "+0800)/",
+                            date: data
+                        };
+                    }
+
+                }
+
             }
         }
         return data;
@@ -719,7 +726,7 @@
 //错误
 window.onerror = function (errorMessage, scriptURI, lineNumber, columnNumber, errorObj) {
     if (errorMessage) {
-        alert(errorMessage + "," + scriptURI + ",lineNumber=" + lineNumber);
+        //alert(errorMessage + "," + scriptURI + ",lineNumber=" + lineNumber);
     }
     return false;
 };

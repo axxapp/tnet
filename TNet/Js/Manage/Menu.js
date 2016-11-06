@@ -1,19 +1,10 @@
-﻿
-var g_menuData = [];       //菜单数据
+﻿var g_menuData = [];       //菜单数据
 var g_currentMainId = 0;   //当前点击的主菜单索引
 var g_currentSubId = 0;      //当前点击的子菜单索引
-
-
 if (!g_menuJson || g_menuJson.errcode) {
     g_menuJson = {
         "menu": {
             "button": [
-                {
-                    "type": "click",
-                    "name": "菜单名称",
-                    "key": "v0",
-                    "sub_button": []
-                },
                 {
                     "type": "click",
                     "name": "菜单名称",
@@ -57,9 +48,7 @@ function loadMainMenu(isEdit) {
             showSubMenu(this);
             loadSubMenu(this);
         });
-
         if (g_menuData.length < 3) {
-
             mainUlObj.append("<li class='" + className + "'><i class='add_icon'></i></li>");
             mainUlObj.children("li:last").click(function () {
                 addMainMenuListener(this);
@@ -76,13 +65,11 @@ function addMainMenuListener(obj) {
     var itemCount = g_menuData.length;
     if (itemCount < 3) {
         var id = "main_" + (g_menuData.length + 1);
-        g_menuData.push({ name: "菜单名称", type: "media_id", media_id: "", sub_button: [] });
+        g_menuData.push({ name: "菜单名称", type: "text", media_id: "", sub_button: [] });
         switch (itemCount) {
             case 0:
-                $(obj).attr("class", "of2")
-                // $(this).siblings("li").attr("class", "of2");
+                $(obj).attr("class", "of2");
                 $(this).before("<li id='" + id + "' class='of2 selected'>菜单名称</li>");
-
                 break;
             case 1:
                 $(obj).attr("class", "of3")
@@ -104,7 +91,6 @@ function addMainMenuListener(obj) {
             loadSubMenu(this);
         }
         );
-
         $("#" + id).click();
     }
     // });
@@ -120,7 +106,6 @@ function addSubMenuListener(obj) {
         $(obj).before("<li id='" + id + "' class='selected'>" + id + "</li>");
         $("#" + id).click(function () {
             editSubMenu(this);
-
         });
         if (itemCount >= 4) {
             $(obj).remove();
@@ -181,7 +166,6 @@ function loadSubMenu(obj) {
                 subMenuHtml += "<li id='" + id + "'>" + subMenu[i].name + "</li>";
             }
         }
-
         subUlObj.prepend(subMenuHtml);
         subUlObj.children("li").click(function () {
             editSubMenu(this);
@@ -563,17 +547,26 @@ function updateWeChatMenu() {
                 delete g_menuData[i].sub_button;
             }
         }
-        var d = new Date();
-        Pub.showLoading("保存中...");
-        $.ajax({
-            url: "UpdateMenu?t=" + d.getTime(),
-            type: 'POST',
-            async: true,
-            //dataType: 'json',
-            contentType: 'application/json',
-            timeout: 1000 * 60 * 2,
-            data: JSON.stringify({ menu: JSON.stringify({ button: g_menuData }) }),
+        //g_menuData.push({
+        //    type: "click",
+        //    name: "测试",
+        //    key: "t"
+        //});
+
+        var c = { "type": "click", "name": "测试", "key": "t", "sub_button": [] };
+
+        
+        g_menuData.push(c);
+
+        var data = { menu: JSON.stringify({ button: g_menuData }) }
+        alert(JSON.stringify(data));
+        // Pub.showLoading("保存中...");
+        Pub.post({
+            url: "Manage/UpdateMenu",
+            loadingMsg: "保存中...",
+            data: JSON.stringify(data),
             success: function (data) {
+                alert(JSON.stringify(data));
                 data = JSON.parse(data);
                 if (data && data.errcode == 0) {
                     Pub.showMsg("保存成功.");

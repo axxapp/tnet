@@ -4,17 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Head{
-    <link href="@Url.Content("~/Css/Home/Index.css?v=20161031")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Merc/List.css?v=20161031")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Home/Index.css?v=20161101")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Merc/List.css?v=20161101")" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js ">
     </script>
 
-    <script type="text/javascript" src="@Url.Content("~/Js/Home/Home.js?v=20161031")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Home/Home.js?v=20161101")">
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/Base.js?v=20161031")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Merc/Base.js?v=20161101")">
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/BaseList.js?v=20161031")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Merc/BaseList.js?v=20161101")">
     </script>
 
 }
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="top_tool">
-            <a href="javascript:void(0)" class="city" onclick="autoShowCity()"><span id="city" >定位中...</span><i></i></a>
+            <a href="javascript:void(0)" class="city" onclick="autoShowCity()"><span id="city">定位中...</span><i></i></a>
         </div>
     </div>
     <div class="notice  weui_cells weui_cells_access">
@@ -59,10 +59,10 @@
                     <a href="@Url.Content("~/Notice/List")"><i class="tongzhi"></i><span>公告通知</span> </a>
                 </td>
                 <td>
-                    <a href="@Url.Content("~/Merc/List")"><i class="baoxiu"></i><span>宽带销售</span> </a>
+                    <a href="javascript:void(0)"><i class="baoxiu"></i><span>集市</span> </a>
                 </td>
                 <td>
-                    <a href="@Url.Content("~/Merc/List/Setup")"><i class="toushu"></i><span>宽带报装</span> </a>
+                    <a href="@Url.Content("~/Merc/List/List")"><i class="toushu"></i><span>宽带产品</span> </a>
                 </td>
                 <td>
                     <a href="@Url.Content("~/Buss/Index")"><i class="jiaofei"></i><span>周边商圈</span> </a>
@@ -93,4 +93,3 @@
 <div id="merc" class="pitem_host">
     <span class="loading_c">加载中...</span>
 </div>
- 

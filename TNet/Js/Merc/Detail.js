@@ -155,7 +155,7 @@ function save() {
     if (!mercData.Data.Merc.imgs && mercData.Data.Imgs && mercData.Data.Imgs.length > 0) {
         mercData.Data.Merc.imgs = mercData.Data.Imgs[0];
     }
-    if (Pub.setCache("order_cart", { Merc: mercData.Data.Merc, Spec: selectSpec, Img: mercData.Data.Merc.imgs, Count: sepcCount, Setup: isSetup() })) {
+    if (Pub.setCache("order_cart", { Merc: mercData.Data.Merc, Spec: selectSpec, Img: mercData.Data.Merc.imgs, Count: sepcCount })) {
         window.location.href = Pub.rootUrl() + "Order/Submit";
         return;
     }
@@ -176,9 +176,9 @@ function load_fail(msg) {
 
 function initParam() {
     getDetailData();
-    if (isSetup()) {
-        $(".go_buy").html("预约报装");
-    }
+    //if (isSetup()) {
+        //$(".go_buy").html("预约报装");
+   // }
 }
 
 $(document).ready(initParam);

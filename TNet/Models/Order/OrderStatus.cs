@@ -23,6 +23,16 @@ namespace TNet.Models.Order
         public static readonly int Confirm = 2;
 
         /// <summary>
+        /// 等待审核
+        /// </summary>
+        public static readonly int WaitReview = 3;
+
+        /// <summary>
+        /// 审核失败
+        /// </summary>
+        public static readonly int ReviewFail = 4;
+
+        /// <summary>
         /// 等待支付
         /// </summary>
         public static readonly int WaitPay = 10;
@@ -96,6 +106,22 @@ namespace TNet.Models.Order
                 {
                     text = "确认订单",
                     ops = ""
+                }
+            },
+            {
+                WaitReview,
+                new OrderStatusItem()
+                {
+                    text = "等待审核",
+                    ops = ""
+                }
+            },
+            {
+                ReviewFail,
+                new OrderStatusItem()
+                {
+                    text = "审核失败",
+                    ops = "cancel|Edit"
                 }
             },
             {

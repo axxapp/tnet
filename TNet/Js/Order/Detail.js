@@ -31,6 +31,7 @@ function getData() {
                                 $("#idc").html(o.idc);
                                 $("#idc_img1").attr("src", Pub.url(o.idc_img1, "Images/default_bg.png"));
                                 $("#idc_img2").attr("src", Pub.url(o.idc_img2, "Images/default_bg.png"));
+                                $("#idc_img3").attr("src", Pub.url(o.idc_img3, "Images/default_bg.png"));
                                 if (o.idc_img1) {
                                     $("#idc_img1").click(function (event) {
                                         lookImg(event.target);
@@ -41,7 +42,11 @@ function getData() {
                                         lookImg(event.target);
                                     });
                                 }
-
+                                if (o.idc_img3) {
+                                    $("#idc_img3").click(function (event) {
+                                        lookImg(event.target);
+                                    });
+                                }
 
                             }
                             $("#merc").attr("href", Pub.rootUrl() + "Merc/Detail/" + o.idmerc + tag);
@@ -101,6 +106,9 @@ function lookImg(obj) {
     }
     if (o.idc_img2) {
         ms.push(Pub.fullUrl(o.idc_img2))
+    }
+    if (o.idc_img3) {
+        ms.push(Pub.fullUrl(o.idc_img3))
     }
     var img = Pub.fullUrl($(obj).attr('src'));
     PreviewImage({

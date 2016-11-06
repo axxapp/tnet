@@ -9,26 +9,62 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>TNet管理</title>
-    <link rel="stylesheet" href="@Url.Content("~/Css/Bootstrap/bootstrap.min.css?v=20161031")" />
-    <link rel="stylesheet" href="@Url.Content("~/Css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css?v=20161031")" media="screen" />
+    <link href="https://res.wx.qq.com/open/libs/weui/0.4.3/weui.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/Bootstrap/bootstrap.min.css?v=20161101")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css?v=20161101")" media="screen" />
     <link rel="stylesheet" href="@Url.Content("~/Css/bootstrap-switch/bootstrap3/bootstrap-switch.min.css")" media="screen" />
-    <link rel="stylesheet" href="@Url.Content("~/Css/com/jQuery.Validate.css?v=20161031")" />
-    <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Base.css?v=20161031")" />
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js?v=20161031")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Bootstrap/bootstrap.min.js?v=20161031")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/bootstrap-datetimepicker/bootstrap-datetimepicker.js?v=20161031")" charset="UTF-8"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js?v=20161031")" charset="UTF-8"></script>
+    <link rel="stylesheet" href="@Url.Content("~/Css/com/jQuery.Validate.css?v=20161101")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Base.css?v=20161101")" />
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js?v=20161101")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Bootstrap/bootstrap.min.js?v=20161101")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/bootstrap-datetimepicker/bootstrap-datetimepicker.js?v=20161101")" charset="UTF-8"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js?v=20161101")" charset="UTF-8"></script>
     <script type="text/javascript" src="@Url.Content("~/Js/bootstrap-switch/bootstrap-switch.min.js")" charset="UTF-8"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery.validate.min.js?v=20161031")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery.validate.unobtrusive.min.js?v=20161031")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Pub.js?v=20161031")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Manage/Base.js?v=20161031")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery.validate.min.js?v=20161101")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery.validate.unobtrusive.min.js?v=20161101")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Pub.js?v=20161101")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Manage/Base.js?v=20161101")"></script>
 
 </head>
-<body root="@Url.Content("~/")" >
+<body root="@Url.Content("~/")">
+    <div id="toast" style="display: none;">
+        @*<div class="weui_mask_transparent" id="toast_msg_host"></div>*@
+        <div class="weui_toast">
+            <i class="weui_icon_toast"></i>
+            <p id="toast_c" class="weui_toast_content">已完成</p>
+        </div>
+    </div>
+    <div id="toast_e" style="display:none;">
+        @*<div class="weui_mask_transparent" id="toast_e_msg_host"></div>*@
+        <div class="weui_toast">
+            <i class="weui_icon_toast weui_icon_toast_e"></i>
+            <p id="toast_e_c" class="weui_toast_content">失败了!</p>
+        </div>
+    </div>
+    <div id="toast_l" class="weui_loading_toast" style="display:none;">
+        <div class="weui_mask_transparent"></div>
+        <div class="weui_toast">
+            <div class="weui_loading">
+                <!-- :) -->
+                <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+            </div>
+            <p id="toast_l_c" class="weui_toast_content">处理中...</p>
+        </div>
+    </div>
     <div class="T">
         <div class="TL">您好: @ViewBag.MUName</div>
-        <div class="TR"><a href="@Url.Action("SignOut","Manage")">注销</a>|<a href="#">帮助</a></div>
+        <div class="TR"><a href="@Url.Action("SignOut","Manage")">注销</a></div>
     </div>
     <div class="C">
         <div class="manageLeft">

@@ -13,6 +13,7 @@ namespace TCom.EF
         [StringLength(60)]
         public string idcity { get; set; }
 
+        [Required]
         [StringLength(60)]
         public string code { get; set; }
 

@@ -90,6 +90,7 @@
     <Compile Include="EF\TaskRecver.cs" />
     <Compile Include="EF\TN.cs" />
     <Compile Include="EF\User.cs" />
+    <Compile Include="EF\WeiXinModule.cs" />
     <Compile Include="Model\Task\TaskStatusItem.cs" />
     <Compile Include="Model\Task\TaskStatus.cs" />
     <Compile Include="Model\Task\TaskType.cs" />

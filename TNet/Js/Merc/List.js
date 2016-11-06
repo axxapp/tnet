@@ -1,12 +1,15 @@
 ﻿
-function __init() {
+function initData() {
 
-    Pub.onCity(function (city) {
-        getMercList(city);
-    });
+    var city = Pub.curCity();
+    //alert(city);
+    getMercList(city);
+    //Pub.onCity(function (city) {
+    //    getMercList(city);
+    //});
 }
 
 
 
 
-$(document.body).ready(__init);
+$(document.body).ready(initData);

@@ -1,7 +1,8 @@
 ﻿
-body,html{
-    background-color:#ffffff;
+body, html {
+    background-color: #ffffff;
 }
+
 .pitem_host {
     position: relative;
     display: block;
@@ -58,4 +59,21 @@ body,html{
     display: block;
     margin: 0px auto 20px auto;
     border: none;
+}
+
+
+div.setup_tag {
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 26px;
+    height: 26px;
+    background-color: peru;
+    border-radius: 13px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 26px;
+    z-index: 9999;
+    font-size: 1.2rem;
 }

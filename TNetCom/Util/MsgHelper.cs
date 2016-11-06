@@ -48,18 +48,20 @@ namespace TCom.Util
             XmlNode FromUserName = xmldoc.SelectSingleNode("/xml/FromUserName");
             if (Event != null)
             {
+                WXEvent m = new WXEvent();
+                m.FromUserName = FromUserName.InnerText;
+                m.ToUserName = ToUserName.InnerText;
+                m.Event = Event.InnerText;
+                m.EventKey = EventKey.InnerText;
+
                 if (Event.InnerText.Equals("subscribe"))
                 {
-                    WXEvent m = new WXEvent();
-                    m.FromUserName = FromUserName.InnerText;
-                    m.ToUserName = ToUserName.InnerText;
-                    m.Event = Event.InnerText;
-                    m.EventKey = EventKey.InnerText;
+                    
                     responseContent = doSubscribe(m);
                 }
                 else if (Event.InnerText.Equals("CLICK"))
                 {
-                    //responseContent = doSelfMenu(xmldoc);
+                    responseContent = echoNews(m);
                 }
             }
             return responseContent;
@@ -73,7 +75,38 @@ namespace TCom.Util
         private string doSubscribe(WXEvent m)
         {
             string responseContent = string.Empty;
-            responseContent = string.Format(ReplyType.Message_Text, m.FromUserName, m.ToUserName, DateTime.Now.Ticks, "谢谢关注我们");
+            responseContent = ReplyType.Text(m.FromUserName, m.ToUserName , "谢谢关注我们");
+            return responseContent;
+        }
+
+
+        private string echoText(WXEvent m)
+        {
+            string responseContent = string.Empty;
+            responseContent = ReplyType.Text(m.FromUserName, m.ToUserName, "你好");
+            return responseContent;
+        }
+
+
+        private string echoImg(WXEvent m)
+        {
+            string responseContent = string.Empty;
+            responseContent = ReplyType.Img(m.FromUserName, m.ToUserName, "mcuDkPvm-HII7zTEJlc6t_O8zUG-KaZXrFZuUCldHVo");
+            return responseContent;
+        }
+
+
+        private string echoNews(WXEvent m)
+        {
+            string responseContent = string.Empty;
+            responseContent = ReplyType.NewsItem("你好", "北京", "http://app.i5shang.com/tnet/Images/Home/2.jpg", "http://app.i5shang.com/tnet");
+            for (int i = 0; i < 5; i++)
+            {
+                responseContent += ReplyType.NewsItem("201"+i+"年", "2016年", "http://app.i5shang.com/tnet/Images/Com/user.png", "http://app.i5shang.com/tnet");
+                 
+            }
+
+            responseContent = ReplyType.News(m.FromUserName, m.ToUserName,6, responseContent);
             return responseContent;
         }
     }
