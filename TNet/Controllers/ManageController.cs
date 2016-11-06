@@ -205,11 +205,11 @@ namespace TNet.Controllers {
             }
 
             List<SelectItemViewModel<string>> citySelects = CityService.SelectItemValueCotainNameAndCode();
-            //citySelects.Insert(0, new SelectItemViewModel<string>()
-            //{
-            //    DisplayText = "请选择城市",
-            //    DisplayValue = "北京_bbb"
-            //});
+            citySelects.Insert(0, new SelectItemViewModel<string>()
+            {
+                DisplayText = "请选择城市",
+                DisplayValue = ""
+            });
             ViewData["citySelects"] = citySelects;
 
             return View(model);
@@ -259,6 +259,14 @@ namespace TNet.Controllers {
                 }
             }
             BusinessService.SetDefaultBussImage(business.idbuss);
+
+            List<SelectItemViewModel<string>> citySelects = CityService.SelectItemValueCotainNameAndCode();
+            citySelects.Insert(0, new SelectItemViewModel<string>()
+            {
+                DisplayText = "请选择城市",
+                DisplayValue = ""
+            });
+            ViewData["citySelects"] = citySelects;
 
 
             ModelState.AddModelError("", "保存成功.");

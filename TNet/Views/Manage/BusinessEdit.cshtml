@@ -54,11 +54,11 @@
                     @Html.ValidationMessageFor(model => model.phone)
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.city, new { @class = "col-sm-2 control-label" })
+                    @Html.LabelFor(model => model.cityselectvalue, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
-                        @Html.DropDownList("ddlCity", new SelectList(citySelects, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = (Model.city+"_"+Model.citycode) })
+                        @Html.DropDownList("cityselectvalue", new SelectList(citySelects, "DisplayValue", "DisplayText"), new { @class = "form-control" })
                     </div>
-                    @Html.ValidationMessageFor(model => model.city)
+                    @Html.ValidationMessageFor(model => model.cityselectvalue)
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.addr, new { @class = "col-sm-2 control-label" })
@@ -236,8 +236,26 @@
             });
         }
     }
+
+    function bindCitySelectDefaultOption() {
+        var result = false;
+        $("#cityselectvalue option").each(function (i, d) {
+            if ($(d).val() == "@(Model.city+"_"+Model.citycode)") {
+                result = true;
+            }
+        });
+
+        if (result) {
+            $("#cityselectvalue").val("@(Model.city+"_"+Model.citycode)");
+        }
+        else {
+            $("#cityselectvalue").val("");
+        }
+    }
+
     $(function () {
-        $("#ddlCity").change(function () {
+        bindCitySelectDefaultOption();
+        $("#cityselectvalue").change(function () {
             var cityVal = $(this).val();
             $("#@Html.IdFor(model=>model.city)").val(cityVal.split("_")[0]);
             $("#@Html.IdFor(model=>model.citycode)").val(cityVal.split("_")[1]);

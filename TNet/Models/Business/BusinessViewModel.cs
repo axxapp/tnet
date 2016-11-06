@@ -41,6 +41,13 @@ namespace TNet.Models
         [StringLength(60)]
         public new string citycode { get; set; }
         
+        /// <summary>
+        /// 城市_城市代码
+        /// </summary>
+        [Display(Name = "城市")]
+        [Required]
+        public string cityselectvalue { get; set; }
+        
 
         [Display(Name = "地址")]
         [Required]
