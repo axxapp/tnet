@@ -15,6 +15,7 @@ using TNet.Service.Notice;
 using TNet.Service.City;
 using TNet.Service.Issue;
 using TNet.Service.User;
+using TNet.Service.ToKey;
 
 namespace TNet.Service.Com
 {
@@ -53,7 +54,11 @@ namespace TNet.Service.Com
 
             RouteTable.Routes.Add(new ServiceRoute("Service/User/", new WebServiceHostFactory(), typeof(UserService)));
 
+            RouteTable.Routes.Add(new ServiceRoute("Service/ToKey/", new WebServiceHostFactory(), typeof(ToKeyService)));
+
             
+
+
         }
     }
 }

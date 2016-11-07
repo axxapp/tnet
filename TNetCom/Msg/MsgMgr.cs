@@ -30,7 +30,7 @@ namespace TCom.Msg
 
 
         /// <summary>
-        /// 支付完成派单
+        /// 支付完成
         /// </summary>
         /// <param name="idweixin"></param>
         /// <param name="mo"></param>
@@ -64,9 +64,8 @@ namespace TCom.Msg
 
 
 
-
         /// <summary>
-        /// 支付完成派单
+        /// 派单
         /// </summary>
         /// <param name="idweixin"></param>
         /// <param name="mo"></param>
@@ -95,6 +94,47 @@ namespace TCom.Msg
             return crateMsg(user.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
 
         }
+
+
+        public static bool PostReviewOrder(string orderno, int otype, TCom.EF.TN db)
+        {
+            return crateMsg("", "", MsgType.PostWaitReviewOrder, orderno, otype, db);
+
+        }
+
+
+
+
+        /// <summary>
+        /// 审核订单
+        /// </summary>
+        /// <param name="idweixin"></param>
+        /// <param name="mo"></param>
+        /// <param name="iduser"></param>
+        /// <param name="uname"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+
+        public static bool WaitReviewOrder(EF.MyOrder mo, EF.User user, TCom.EF.TN db)
+        {
+            int otype = mo.otype != null ? mo.otype.Value : 0;
+            JObject jo = new JObject();
+            jo["touser"] = user.idweixin;
+            jo["template_id"] = "i72ctUGg8ILHaZaYJrp1NvCYZFZoRicS7sC_Ozzmhqs";
+            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
+                + "&updateUser=1";
+            JObject jdo = new JObject();
+            jdo["first"] = getJobj("请审核以下订单");
+            jdo["keyword1"] = getJobj(mo.orderno + "");
+            jdo["keyword2"] = getJobj(mo.totalfee + "");
+            jdo["keyword3"] = getJobj(mo.cretime.Value.ToString("yyyy-MM-dd"));
+            jdo["keyword4"] = getJobj("用户 [" + user.name + "]");
+            jdo["remark"] = getJobj("请尽快审核！");
+            jo["data"] = jdo;
+            return crateMsg(user.idweixin, jo.ToString(), MsgType.WaitReviewOrder, mo.orderno + "", otype, db);
+
+        }
+
 
 
         public static bool crateMsg(string idweixin, string msg, int msgType, string orderno, int otype, TCom.EF.TN db)

@@ -31,6 +31,18 @@ namespace TCom.Msg
         public readonly static int CreateOrder = 100;
 
 
+        /// <summary>
+        /// 投递等待审核订单
+        /// </summary>
+        public readonly static int PostWaitReviewOrder = 110;
+
+
+
+        /// <summary>
+        /// 等待审核订单
+        /// </summary>
+        public readonly static int WaitReviewOrder = 120;
+
 
         /// <summary>
         /// 支付订单

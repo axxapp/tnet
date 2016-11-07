@@ -14,9 +14,9 @@ namespace TNetService.BLL
             try
             {
                 string url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Pub.accessToken;
-               // Pub.e("sendMsg-url=" + url);
+                Pub.e("sendMsg-url=" + url);
                 string m = Pub.Post(url, data);
-                //Pub.e("sendMsg-result=" + m);
+                Pub.e("sendMsg-result=" + m);
                 JObject j = JObject.Parse(m);
                 return j;
             }

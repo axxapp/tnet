@@ -523,6 +523,10 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<WeiXinModule>()
+                .Property(e => e.code)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<WeiXinModule>()
                 .Property(e => e.name)
                 .IsUnicode(false);
 

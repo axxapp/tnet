@@ -9,6 +9,7 @@ using System.ServiceModel.Activation;
 using System.Text;
 using System.Web;
 using TCom.EF;
+using TCom.Msg;
 using TCom.Util;
 using TNet.Models.Order;
 using TNet.Models.Service.Com;
@@ -42,6 +43,10 @@ namespace TNet.Service.Order
                             s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Confirm, "系统");
                             db.MyOrderPresses.Add(s);
                         }
+                        else if (o.status == OrderStatus.WaitReview)
+                        {
+                            MsgMgr.PostReviewOrder(o.orderno + "", o.otype.Value, db);
+                        }
                         if (db.SaveChanges() > 0)
                         {
                             result.Data = new CreateOrderResult();
@@ -55,7 +60,7 @@ namespace TNet.Service.Order
                             }
                             result.Data.orderno = o.orderno;
                             result.Code = R.Ok;
-
+                            MsgMgr.Post();
                         }
                         else
                         {

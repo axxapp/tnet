@@ -116,24 +116,31 @@ function getTimeYYMMHH(t) {
 
 
 //选择图片
-function __FileSelectImg(id, e) {    
+function __FileSelectImg(id, e) {
+    //var fo = document.getElementById(id);
+    //Pub.showError(e.files[0]);
+    //window.setTimeout(function () {
+    //    alert(e.files[0]);
+    //}, 1000);
     try {
         lrz(e.files[0], {
             width: 800
         }).then(function (rst) {
+            //alert(rst);
             // 处理成功会执行
             // console.log(rst);       
             FileUploadImg(rst.base64, id);
         }).catch(function (err) {
+            alert("选择图片错误");
             // 处理失败会执行
         }).always(function () {
             // 不管是成功失败，都会执行
         });
     } catch (e) {
-
+        alert("选择图片错误");
     }
 }
-
+//alert("haha");
 //上传图片
 function FileUploadImg(imgData, id) {
     Pub.post({

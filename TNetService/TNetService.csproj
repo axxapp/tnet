@@ -90,6 +90,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\TComCoreService\TComCoreService.csproj">
+      <Project>{5b296857-15c3-4d63-83c8-6e5e5895df28}</Project>
+      <Name>TComCoreService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TNetCom\TCom.csproj">
       <Project>{ae0a4f28-18d5-4b05-a9e4-b9a571ff281e}</Project>
       <Name>TCom</Name>

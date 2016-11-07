@@ -13,9 +13,15 @@ namespace TCom.EF
         [StringLength(50)]
         public string idwxmodule { get; set; }
 
+        [Required]
+        [StringLength(50)]
+        public string code { get; set; }
+
+        [Required]
         [StringLength(50)]
         public string name { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string title { get; set; }
 

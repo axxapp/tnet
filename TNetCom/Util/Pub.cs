@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -20,7 +21,7 @@ namespace TCom.Util
         static long t = DateTime.Now.Ticks / 10000;
         volatile static int un = 0;
         static int tid = Thread.CurrentThread.ManagedThreadId;
-        // private volatile static object lk = new object();
+        private volatile static object lk = new object();
         //id 生成器,CAS版本
         public static long ID()
         {
@@ -140,34 +141,134 @@ namespace TCom.Util
             }
         }
 
+        public static AccessToken accessTokenObj
+        {
+            get
+            {
+
+                if (am == null)
+                {
+                    am = getAccessToken();
+                }
+                else
+                {
+                    DateTime t = am.expires.AddMinutes(-5);
+                    if (DateTime.Now >= t)
+                    {
+                        am = getAccessToken();
+
+                    }
+                }
+                return am;
+            }
+        }
+
+        /// <summary>
+        /// 从本地获取accessToken
+        /// </summary>
+        public static AccessToken getShareAccessToken()
+        {
+            AccessToken m = null;
+            try
+            {
+                string s = Get("http://127.0.0.1/TNet/Service/Tokey/WeiXin");
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    JavaScriptSerializer Serializer = new JavaScriptSerializer();
+                    m = Serializer.Deserialize<AccessToken>(s);
+                    if (m != null && !string.IsNullOrWhiteSpace(m.access_token))
+                    {
+                        m.expires_in = 60 * 30;
+                        m.expires = DateTime.Now.AddSeconds(m.expires_in);
+                    }
+                    
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return m;
+        }
+
+
 
 
         /// <summary>
         /// 从微信服务器获取accessToken，并保存在本地xml中
         /// </summary>
         /// <returns></returns>
-        private static AccessToken getAccessToken()
+        public static AccessToken getAccessToken()
         {
-            AccessToken m = null;
-            string url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + secret;
-
-            try
+            lock (lk)
             {
-                string reqStr = Get(url);
 
-                if (!string.IsNullOrWhiteSpace(reqStr))
+
+
+                AccessToken m = null;
+                if (HttpContext.Current == null)
                 {
-                    JavaScriptSerializer Serializer = new JavaScriptSerializer();
-                    m = Serializer.Deserialize<AccessToken>(reqStr);
-                    m.expires = DateTime.Now.AddSeconds(m.expires_in);
+                    m = getShareAccessToken();
+                    return m;
                 }
+                else
+                {
+                    string ph = HttpContext.Current.Server.MapPath("~/App_Data/ToKey.j");
+                    if (!File.Exists(ph))
+                    {
+                        File.Create(ph);
+                    }
+                    string str = "";
+                    JavaScriptSerializer s = new JavaScriptSerializer();
+                    using (StreamReader sr = new StreamReader(ph))
+                    {
+                        str = sr.ReadToEnd();
+                        if (!string.IsNullOrWhiteSpace(str))
+                        {
+                            m = s.Deserialize<AccessToken>(str);
+                            if (m != null && m.expires.AddMinutes(-5) > DateTime.Now)
+                            {
+                                return m;
+                            }
+                        }
+                    }
+                    string url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + secret;
+                    try
+                    {
+                        str = Get(url);
+                        if (!string.IsNullOrWhiteSpace(str))
+                        {
+                            m = s.Deserialize<AccessToken>(str);
+                            m.expires = DateTime.Now.AddSeconds(m.expires_in);
+                            if (m != null)
+                            {
+                                try
+                                {
+                                    str = s.Serialize(m);
+                                    if (!string.IsNullOrWhiteSpace(str))
+                                    {
+                                        using (StreamWriter sw = new StreamWriter(ph))
+                                        {
+                                            sw.Write(str);
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
 
-            }
-            catch (Exception)
-            {
+                                }
 
+                            }
+
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    return m;
+                }
             }
-            return m;
         }
 
 
@@ -180,7 +281,7 @@ namespace TCom.Util
             get
             {
                 string ns = getRound();
-                string ts = DateTime.Now.Ticks/10000 + "";
+                string ts = DateTime.Now.Ticks / 10000 + "";
                 string url = HttpContext.Current.Request.Url.AbsoluteUri;
                 int j = 0;
                 if ((j = url.IndexOf('#')) != -1)
@@ -195,12 +296,12 @@ namespace TCom.Util
                 string sign = "";
                 foreach (var k in dict.Keys)
                 {
-                    if(sign != "")
+                    if (sign != "")
                     {
                         sign += "&";
                     }
-                    sign += k + "="+dict[k];
-                }              
+                    sign += k + "=" + dict[k];
+                }
                 sign = Sha1(sign);
                 string v = "var WX_JS_CONFIG_OBJ={" +
                         "debug: false," +
@@ -368,7 +469,7 @@ namespace TCom.Util
         /// <param name="url"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Post(string url, string data, string contentType = "application/x-www-form-urlencoded")
+        public static string Post(string url, string data, string contentType = "application/x-www-form-urlencoded;charset=UTF-8")
         {
             try
             {
@@ -378,31 +479,32 @@ namespace TCom.Util
                 request.Method = "POST";
                 request.AllowAutoRedirect = true;
                 request.ContentType = contentType;
-                request.ContentLength = data.Length;
+                request.ContentLength = bdata.Length;
                 CookieContainer cookie = new CookieContainer();
                 request.CookieContainer = cookie;
                 using (Stream myRequestStream = request.GetRequestStream())
                 {
-                    myRequestStream.Write(bdata, 0, data.Length);
+                    myRequestStream.Write(bdata, 0, bdata.Length);
                     myRequestStream.Close();
-                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                }
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    response.Cookies = cookie.GetCookies(response.ResponseUri);
+                    using (Stream myResponseStream = response.GetResponseStream())
                     {
-                        response.Cookies = cookie.GetCookies(response.ResponseUri);
-                        using (Stream myResponseStream = response.GetResponseStream())
+                        using (StreamReader myStreamReader = new StreamReader(myResponseStream, encoding))
                         {
-                            using (StreamReader myStreamReader = new StreamReader(myResponseStream, encoding))
-                            {
-                                string retString = myStreamReader.ReadToEnd();
-                                myStreamReader.Close();
-                                myResponseStream.Close();
-                                return retString;
-                            }
+                            string retString = myStreamReader.ReadToEnd();
+                            myStreamReader.Close();
+                            myResponseStream.Close();
+                            return retString;
                         }
                     }
                 }
 
+
             }
-            catch (Exception)
+            catch (Exception e)
             {
             }
             return "";
@@ -457,6 +559,20 @@ namespace TCom.Util
             return result;
         }
 
+
+        public static void e(string m)
+        {
+            lock (lk)
+            {
+                FileStream f = File.Open(@"C:\1.txt", FileMode.OpenOrCreate | FileMode.Append);
+
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(m + "\r\n\r\n");
+                f.Write(data, 0, data.Length);
+                f.Flush();
+                f.Close();
+
+            }
+        }
 
     }
 }

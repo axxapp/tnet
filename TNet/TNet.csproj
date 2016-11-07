@@ -329,6 +329,10 @@
     <Compile Include="Service\Task\TaskService.svc.cs">
       <DependentUpon>TaskService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Service\ToKey\IToKeyService.cs" />
+    <Compile Include="Service\ToKey\ToKeyService.svc.cs">
+      <DependentUpon>ToKeyService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Service\User\IUserService.cs" />
     <Compile Include="Service\User\UserService.svc.cs">
       <DependentUpon>UserService.svc</DependentUpon>
@@ -647,7 +651,6 @@
     <Content Include="Js\Lrz\2.chunk.js" />
     <Content Include="Js\Lrz\lrz.all.bundle.js" />
     <Content Include="Js\Lrz\lrz.bundle.js" />
-    <Content Include="Js\Lrz\README.txt" />
     <Content Include="Js\Lrz\那么多文件，应该引用哪个？.txt" />
     <Content Include="Js\Manage\Base.js" />
     <Content Include="Js\Merc\Base.js" />
@@ -809,6 +812,7 @@
     <Content Include="Service\Issue\IssueService.svc" />
     <Content Include="Service\Notice\NoticeService.svc" />
     <Content Include="Service\Task\TaskService.svc" />
+    <Content Include="Service\ToKey\ToKeyService.svc" />
     <Content Include="Service\User\UserService.svc" />
     <Content Include="ueditor\dialogs\anchor\anchor.html" />
     <Content Include="ueditor\dialogs\attachment\attachment.css" />
@@ -1120,10 +1124,6 @@
     <Content Include="Views\Manage\MercImageEdit.cshtml" />
     <Content Include="Views\Manage\OrderList.cshtml" />
     <Content Include="Views\Manage\BusinessList.cshtml" />
-    <Content Include="Js\Lrz\1.chunk.js.map" />
-    <Content Include="Js\Lrz\2.chunk.js.map" />
-    <Content Include="Js\Lrz\lrz.all.bundle.js.map" />
-    <Content Include="Js\Lrz\lrz.bundle.js.map" />
     <Content Include="Views\Manage\BusinessEdit.cshtml" />
     <Content Include="Views\Manage\OrderDetail.cshtml" />
     <Content Include="Views\Order\WeixinPayNotice.cshtml" />
@@ -1162,6 +1162,10 @@
     <Content Include="Views\Manage\TaskAssignModal.cshtml" />
     <Content Include="Views\User\Update.cshtml" />
     <Content Include="Views\WeChat\Main.cshtml" />
+    <Content Include="Js\Lrz\1.chunk.js.map" />
+    <Content Include="Js\Lrz\2.chunk.js.map" />
+    <Content Include="Js\Lrz\lrz.all.bundle.js.map" />
+    <Content Include="Js\Lrz\lrz.bundle.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

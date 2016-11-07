@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "确认订单";
+    ViewBag.Title = "确认订单++++";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -62,17 +62,17 @@
         <div>
             <a href="javascript:void(0)">
                 <img id="idc_img1" src="@Url.Content("~/Images/default_bg.png")" />
-                <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img1', this) }">
+                <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img1', this)">
                 <span>正面</span>
             </a>
             <a href="javascript:void(0)">
                 <img id="idc_img2" src="@Url.Content("~/Images/default_bg.png")" />
-                <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img2', this) }">
+                <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img2', this)">
                 <span>反面</span>
             </a>
             <a href="javascript:void(0)">
                 <img id="idc_img3" src="@Url.Content("~/Images/default_bg.png")" />
-                <input type="file" value="" accept="image/jpeg,image/x-png" onchange="{ __FileSelectImg('idc_img3', this) }">
+                <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img3', this)">
                 <span>手持身份证(正面)</span>
             </a>
         </div>
