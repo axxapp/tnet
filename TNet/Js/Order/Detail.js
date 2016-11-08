@@ -9,9 +9,7 @@ function getData() {
             iduser = u.iduser;
         }
     }
-
     if (iduser != null && orderno) {
-
         $("#orderno").html("单号：" + orderno);
         Pub.get({
             url: "Service/Order/Detail/" + iduser + "/" + orderno,
@@ -59,6 +57,7 @@ function getData() {
                             $("#merc_price").html("￥" + o.price);
                             $("#merc_count").html("x" + o.count);
                             var so = data.Data.Status;
+
                             $("#status").html(so.text);
                             $("#notes").val(o.notes);
                             $("#attmonth").html("送: " + o.attmonth + "  月");
@@ -66,12 +65,25 @@ function getData() {
                             $("#ops").html(getOps(so, o));
                             $("#merc_st_et").html(getTime(o.stime) + " 至 " + getTime(o.entime));
                             var phtml = "";
+                            so = data.Data.Order.status;
+
                             if (data.Data.Presses) {
                                 for (var i = 0; i < data.Data.Presses.length; i++) {
                                     var po = data.Data.Presses[i];
-                                    phtml += "<div class='p_item'><span class='p_time'>" + po.cretime + "</span>";
+                                    if (so == 400 && po.status == 400) {
+                                        $(".review_msg_host").show();
+                                        $(".review_msg").html(po.notes);
+                                    }
+                                    phtml += "<div class='p_item_host'><div class='p_item'>";
+                                    phtml += "<span class='p_time'>" + po.cretime + "</span>";
                                     phtml += "<span class='p_statust'>" + po.statust + "</span>";
                                     phtml += "<span class='p_oper'>" + po.oper + "</span></div>";
+                                    if (po.notes) {
+                                        phtml += "<div class='p_item_notes'>" + po.notes + "</div>";
+                                    }
+                                    phtml += "</div>";
+
+                                    
                                 }
                             }
                             $("#Presses").html(phtml);

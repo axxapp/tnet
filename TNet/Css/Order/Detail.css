@@ -35,7 +35,7 @@
     line-height: 60px;
     color: #222222;
     padding: 0px 10px 0px 0px;
-     color:#ff6a00;
+    color: #ff6a00;
 }
 
 .addr {
@@ -164,12 +164,12 @@
     padding: 8px 0px 8px 8px;
     border-top: solid #d6d6d6 1px;
     color: #757575;
-    font-weight:bold;
+    font-weight: bold;
 }
 
     .merc_st_et span {
         color: #222222;
-        font-weight:normal;
+        font-weight: normal;
     }
 
 
@@ -247,31 +247,48 @@
     padding: 20px 10px 30px 10px;
 }
 
+    .Presses .p_item_host {
+        display: block;
+        height: auto;
+        color: #757575;
+        border-bottom: dotted 1px #d6d6d6;
+    }
+
 .p_item {
     display: block;
-    height:30px;
-    line-height:30px;
-    color:#757575;
-    border-bottom:dotted 1px #d6d6d6;
+    height: 30px;
+    line-height: 30px;
+    color: #757575;
 }
 
-.Presses .p_item span.p_time{
-     display:inline-block;
-     width:140px; 
+.p_item_notes {
+    display: block;
+    height: auto;
+    border-top: dotted 1px #d9d9d9;
+    margin: 2px 10px 2px 20px;
+    padding: 5px;
+    white-space: pre-wrap;
+    line-height: 25px;
+    color:#cbcbcb;
+}
+
+.Presses .p_item span.p_time {
+    display: inline-block;
+    width: 140px;
 }
 
 
-.Presses .p_item span.p_statust{
-     display:inline-block;
-     width:80px; 
+.Presses .p_item span.p_statust {
+    display: inline-block;
+    width: 80px;
 }
 
 
-.Presses .p_item span.p_oper{
-     display:inline-block;
-     width:100px; 
+.Presses .p_item span.p_oper {
+    display: inline-block;
+    width: 100px;
 }
 
-.setup_tag{
-    display:none;
+.setup_tag {
+    display: none;
 }

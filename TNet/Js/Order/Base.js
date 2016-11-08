@@ -66,12 +66,12 @@ function getOps(status, order) {
         for (var i = 0; i < op.length; i++) {
             var p = op[i];
             if (p == "cancel") {
-                if (iduser && uo == null || iduser != uo.iduser) {
+                if (iduser && (uo == null || iduser != uo.iduser)) {
                     continue;
                 }
                 html += '<a class="cancel" href="javascript:void(0)" onclick="cancelOrder(\'' + order.orderno + '\')">取消</a>';
             } else if (p == "pay") {
-                if (iduser && uo == null || iduser != uo.iduser) {
+                if (iduser && (uo == null || iduser != uo.iduser)) {
                     continue;
                 }
                 var pu = Pub.rootUrl() + "Order/Pay/?orderno=" + order.orderno;
@@ -80,6 +80,12 @@ function getOps(status, order) {
                 if (uo && uo.mu && uo.mu.recvReview) {
                     html += '<a class="pay" href="javascript:void(0)" onclick="showReviewOrderHost(\'' + order.orderno + '\')">审核</a>';
                 }
+
+            } else if (p == "editOrder") {
+                if (iduser && (uo == null || iduser != uo.iduser)) {
+                    continue;
+                }
+                html += '<a class="pay" href="' + Pub.url("Order/Edit/?orderno=" + order.orderno) + '" >编辑</a>';
 
             }
         }
@@ -156,3 +162,5 @@ function reviewOrder(review, event) {
         alert("订单有误");
     }
 }
+
+ 

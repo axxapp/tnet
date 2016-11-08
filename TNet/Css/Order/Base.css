@@ -167,7 +167,7 @@ a.cancel {
 .reviewOrderContent {
     display: block;
     width: 100%;
-    height: 140px;
+    height: 155px;
     /*position: absolute;
     top: 51px;
     left: 0px;
@@ -210,8 +210,8 @@ a.reviewOrder_Ok, a.reviewOrder_Fail {
     display: block;
     width: 50%;
     float: left;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     padding: 0px 20px 0px 20px;
     box-shadow: none;
     text-shadow: none;
@@ -220,7 +220,7 @@ a.reviewOrder_Ok, a.reviewOrder_Fail {
 a.reviewOrder_Ok {
     padding: 0px 40px 0px 40px;
     color: #5079d9;
-    border-right: solid 1px #d6d6d6;
+    border-right: dotted 1px #d6d6d6;
     /*background: #a2eecb;
     background: linear-gradient(#5079d9,#5079d9);*/
 }
@@ -231,4 +231,18 @@ a.reviewOrder_Fail {
     color: #ce2828;
     /*background: #ce2828;
     background: linear-gradient(#ce2828,#ce2828);*/
+}
+
+.review_msg_host {
+    display:none;
+   
+    color: #ff6a00;
+    display: none;
+}
+
+
+.review_msg{
+    display:block;
+     line-height:30px;
+    padding:8px 10px 8px 20px;
 }
