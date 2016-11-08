@@ -21,23 +21,29 @@ using TCom.Model.Task;
 using TCom.Msg;
 using TNet.Models.Order;
 
-namespace TNet.Controllers {
-    public class ManageController : Controller {
+namespace TNet.Controllers
+{
+    public class ManageController : Controller
+    {
         [HttpGet]
-        public ActionResult Login() {
+        public ActionResult Login()
+        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(ManageUserViewModel model) {
+        public ActionResult Login(ManageUserViewModel model)
+        {
             ManageUser user = ManageUserService.GetManageUserByUserName(model.UserName);
-            if (user == null || user.UserType == (int)ManageUserType.Worker) {
+            if (user == null || user.UserType == (int)ManageUserType.Worker)
+            {
                 ModelState.AddModelError("", "没有找到该用户名或者帐号被禁用或者没有权限登录.");
                 return View(model);
             }
             string md5Password = string.Empty;
             md5Password = Crypto.GetPwdhash(model.ClearPassword, user.MD5Salt);
-            if (md5Password.ToUpper() != user.Password.ToUpper()) {
+            if (md5Password.ToUpper() != user.Password.ToUpper())
+            {
                 ModelState.AddModelError("", "密码不正确.");
                 return View(model);
             }
@@ -46,28 +52,33 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult SignOut() {
+        public ActionResult SignOut()
+        {
             Session["ManageUser"] = null;
             return RedirectToAction("Login", "Manage");
         }
 
 
         [ManageLoginValidation]
-        public ActionResult OrderStatisticByDay(bool isAjax, DateTime? date, long days = 7) {
+        public ActionResult OrderStatisticByDay(bool isAjax, DateTime? date, long days = 7)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<OrderStatisticByDateViewModel> resultEntity = new ResultModel<OrderStatisticByDateViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
 
-            if (date == null) {
+            if (date == null)
+            {
                 date = DateTime.Now;
             }
 
-            try {
+            try
+            {
                 List<OrderStatisticByDateViewModel> entities = OrderStatisticService.StatisticByDayForwardDays(date.Value, days);
                 resultEntity.Content = entities;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "失败";
@@ -78,21 +89,25 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult OrderStatisticByMonth(bool isAjax, DateTime? date, long months = 12) {
+        public ActionResult OrderStatisticByMonth(bool isAjax, DateTime? date, long months = 12)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<OrderStatisticByDateViewModel> resultEntity = new ResultModel<OrderStatisticByDateViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
 
-            if (date == null) {
+            if (date == null)
+            {
                 date = DateTime.Now;
             }
 
-            try {
+            try
+            {
                 List<OrderStatisticByDateViewModel> entities = OrderStatisticService.StatisticByMonthForwardMonths(date.Value, months);
                 resultEntity.Content = entities;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "失败";
@@ -104,21 +119,25 @@ namespace TNet.Controllers {
 
 
         [ManageLoginValidation]
-        public ActionResult OrderStatisticByYear(bool isAjax, DateTime? date, long years = 5) {
+        public ActionResult OrderStatisticByYear(bool isAjax, DateTime? date, long years = 5)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<OrderStatisticByDateViewModel> resultEntity = new ResultModel<OrderStatisticByDateViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
 
-            if (date == null) {
+            if (date == null)
+            {
                 date = DateTime.Now;
             }
 
-            try {
+            try
+            {
                 List<OrderStatisticByDateViewModel> entities = OrderStatisticService.StatisticByYearForwardYears(date.Value, years);
                 resultEntity.Content = entities;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "失败";
@@ -133,7 +152,8 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult Index() {
+        public ActionResult Index()
+        {
 
             return View();
         }
@@ -144,13 +164,15 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult BusinessList(int pageIndex = 0) {
+        public ActionResult BusinessList(int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
             List<Business> entities = BusinessService.GetALL();
             List<Business> pageList = entities.Pager<Business>(pageIndex, pageSize, out pageCount);
 
-            List<BusinessViewModel> viewModels = pageList.Select(model => {
+            List<BusinessViewModel> viewModels = pageList.Select(model =>
+            {
                 BusinessViewModel viewModel = new BusinessViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
@@ -171,16 +193,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult BusinessEnable(long idbuss, bool enable, bool isAjax) {
+        public ActionResult BusinessEnable(long idbuss, bool enable, bool isAjax)
+        {
             ResultModel<BusinessViewModel> resultEntity = new ResultModel<BusinessViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 Business business = BusinessService.GetBusiness(idbuss);
                 business.inuse = enable;
                 BusinessService.Edit(business);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -194,13 +219,16 @@ namespace TNet.Controllers {
         /// <param name="idbuss"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult BusinessEdit(long idbuss = 0) {
+        public ActionResult BusinessEdit(long idbuss = 0)
+        {
             BusinessViewModel model = new BusinessViewModel();
-            if (idbuss > 0) {
+            if (idbuss > 0)
+            {
                 Business business = BusinessService.GetBusiness(idbuss);
                 if (business != null) { model.CopyFromBase(business); }
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
 
@@ -222,30 +250,36 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult BusinessEdit(BusinessViewModel model, string bussImages = "") {
+        public ActionResult BusinessEdit(BusinessViewModel model, string bussImages = "")
+        {
             Business business = new Business();
             model.CopyToBase(business);
-            if (business.idbuss == 0) {
+            if (business.idbuss == 0)
+            {
                 business.idbuss = IdentifyService.GetMaxIdentifyID<Business>(en => (int)en.idbuss) + 1;
                 //新增
                 business = BusinessService.Add(business);
             }
-            else {
+            else
+            {
                 //编辑
                 business = BusinessService.Edit(business);
             }
 
             //修改后重新加载
             model.CopyFromBase(business);
-            
+
             BussImageService.DeleteBussImages(business.idbuss);
 
-            if (!string.IsNullOrEmpty(bussImages)) {
+            if (!string.IsNullOrEmpty(bussImages))
+            {
                 List<BussImage> list = new List<BussImage>();
                 string[] imgs = bussImages.Split(',');
                 int i = 0;
-                foreach (var item in imgs) {
-                    list.Add(new BussImage() {
+                foreach (var item in imgs)
+                {
+                    list.Add(new BussImage()
+                    {
                         BussImageId = Pub.ID(),
                         idbuss = business.idbuss,
                         InUse = true,
@@ -254,7 +288,8 @@ namespace TNet.Controllers {
                     });
                     i++;
                 }
-                if (list.Count > 0) {
+                if (list.Count > 0)
+                {
                     BussImageService.AddMuti(list);
                 }
             }
@@ -281,13 +316,16 @@ namespace TNet.Controllers {
         /// <param name="isAjax"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AjaxBussImageList(int idbuss, bool isAjax) {
+        public ActionResult AjaxBussImageList(int idbuss, bool isAjax)
+        {
             ResultModel<BussImageViewModel> resultEntity = new ResultModel<BussImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 List<BussImage> entities = BussImageService.GetBussImagesByBussId(idbuss);
-                List<BussImageViewModel> viewModels = entities.Select(model => {
+                List<BussImageViewModel> viewModels = entities.Select(model =>
+                {
                     BussImageViewModel viewModel = new BussImageViewModel();
                     viewModel.CopyFromBase(model);
                     viewModel.Path = Url.Content(viewModel.Path);
@@ -295,7 +333,8 @@ namespace TNet.Controllers {
                 }).ToList();
                 resultEntity.Content = viewModels;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -304,7 +343,8 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult UploadBussImage(int idbuss = 0) {
+        public ActionResult UploadBussImage(int idbuss = 0)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<BussImageViewModel> resultEntity = new ResultModel<BussImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -313,8 +353,10 @@ namespace TNet.Controllers {
             string path = "~/Resource/Images/Buss/";
             string filename = string.Empty;
             string message = string.Empty;
-            try {
-                if (Request.Files != null && Request.Files.Count > 0) {
+            try
+            {
+                if (Request.Files != null && Request.Files.Count > 0)
+                {
                     //if (Request.Files.Count > 1)
                     //{
                     //    resultEntity.Code = ResponseCodeType.Fail;
@@ -323,16 +365,19 @@ namespace TNet.Controllers {
                     //}
                     resultEntity.Content = new List<BussImageViewModel>();
                     int i = 0;
-                    foreach (string upload in Request.Files) {
+                    foreach (string upload in Request.Files)
+                    {
                         GUID = System.Guid.NewGuid().ToString();
-                        if (!Request.Files[i].HasFile()) {
+                        if (!Request.Files[i].HasFile())
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件大小不能0.";
                             return Content(resultEntity.SerializeToJson());
                         }
 
 
-                        if (!CheckFileType((HttpPostedFileWrapper)((HttpFileCollectionWrapper)Request.Files)[i])) {
+                        if (!CheckFileType((HttpPostedFileWrapper)((HttpFileCollectionWrapper)Request.Files)[i]))
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件类型只能是jpg,bmp,gif,PNG..";
                             return Content(resultEntity.SerializeToJson());
@@ -342,7 +387,8 @@ namespace TNet.Controllers {
                         string originFileName = Request.Files[i].FileName;
                         string originFileNameSuffix = string.Empty;
                         int lastIndex = originFileName.LastIndexOf(".");
-                        if (lastIndex < 0) {
+                        if (lastIndex < 0)
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件类型只能是jpg,bmp,gif,PNG..";
                             return Content(resultEntity.SerializeToJson());
@@ -350,12 +396,14 @@ namespace TNet.Controllers {
                         originFileNameSuffix = originFileName.Substring(lastIndex, originFileName.Length - lastIndex);
 
                         filename = GUID + originFileNameSuffix;
-                        if (!Directory.Exists(Server.MapPath(path))) {
+                        if (!Directory.Exists(Server.MapPath(path)))
+                        {
                             Directory.CreateDirectory(Server.MapPath(path));
                         }
 
                         Request.Files[i].SaveAs(Path.Combine(Server.MapPath(path), filename));
-                        BussImageViewModel model = new BussImageViewModel() {
+                        BussImageViewModel model = new BussImageViewModel()
+                        {
                             idbuss = idbuss,
                             Path = path + filename,
                             SortID = BussImageService.MaxBussImageSortID(idbuss) + 1,
@@ -368,12 +416,15 @@ namespace TNet.Controllers {
                         StringBuilder initialPreviewConfig = new StringBuilder();
                         initialPreviewConfig.Append(",\"initialPreviewConfig\":[");
                         initialPreview.Append("{\"initialPreview\":[");
-                        for (int k = 0; k < resultEntity.Content.Count; k++) {
-                            if (k == 0) {
+                        for (int k = 0; k < resultEntity.Content.Count; k++)
+                        {
+                            if (k == 0)
+                            {
                                 initialPreview.AppendFormat("\"{0}\"", Url.Content(resultEntity.Content[k].Path));
                                 initialPreviewConfig.Append("{\"url\":\"" + Url.Action("DeleteBussImage", "Manage") + "\"}");
                             }
-                            else {
+                            else
+                            {
                                 initialPreview.AppendFormat("\",{0}\"", Url.Content(resultEntity.Content[k].Path));
                                 initialPreviewConfig.Append(",{\"url\":\"" + Url.Action("DeleteBussImage", "Manage") + "\"}");
                             }
@@ -386,13 +437,15 @@ namespace TNet.Controllers {
                     }
 
                 }
-                else {
+                else
+                {
                     resultEntity.Code = ResponseCodeType.Fail;
                     resultEntity.Message = "文件上传失败.";
                     return Content(resultEntity.SerializeToJson());
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "没有选择要上传的文件.";
@@ -404,7 +457,8 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult DeleteBussImage(int BussImageId = 0, int idbuss = 0, bool isAjax = true) {
+        public ActionResult DeleteBussImage(int BussImageId = 0, int idbuss = 0, bool isAjax = true)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<BussImageViewModel> resultEntity = new ResultModel<BussImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -419,13 +473,16 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult OrderList(DateTime? startOrDate, DateTime? endOrDate, int orderTypes = 0, int orderStatus = 0, long orderNo = 0, long userNo = 0, int pageIndex = 0) {
+        public ActionResult OrderList(DateTime? startOrDate, DateTime? endOrDate, int orderTypes = 0, int orderStatus = 0, long orderNo = 0, long userNo = 0, int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
-            if (startOrDate == null) {
+            if (startOrDate == null)
+            {
                 startOrDate = DateTime.Now.AddDays(-1);
             }
-            if (endOrDate == null) {
+            if (endOrDate == null)
+            {
                 endOrDate = DateTime.Now;
             }
             List<MyOrderViewModel> entities = MyOrderService.GetOrdersViewModelByFilter(startOrDate, endOrDate, orderTypes, orderStatus, orderNo, userNo);
@@ -457,20 +514,20 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult WaitApprovedOrderList( int pageIndex = 0)
+        public ActionResult WaitApprovedOrderList(int pageIndex = 0)
         {
             int pageCount = 0;
             int pageSize = 10;
-         
-            List<MyOrderViewModel> entities = MyOrderService.GetOrdersViewModelByFilter(null, null, 0,TNet.Models.Order.OrderStatus.WaitApproved , 0, 0);
+
+            List<MyOrderViewModel> entities = MyOrderService.GetOrdersViewModelByFilter(null, null, 0, TNet.Models.Order.OrderStatus.WaitReview, 0, 0);
             List<MyOrderViewModel> viewModels = entities.Pager<MyOrderViewModel>(pageIndex, pageSize, out pageCount);
-            
+
             ViewData["pageCount"] = pageCount;
             ViewData["pageIndex"] = pageIndex;
-            
+
             return View(viewModels);
         }
-        
+
 
         /// <summary>
         /// 启用或者禁用订单
@@ -481,16 +538,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult OrderEnable(long orderno, bool enable, bool isAjax) {
+        public ActionResult OrderEnable(long orderno, bool enable, bool isAjax)
+        {
             ResultModel<MyOrderViewModel> resultEntity = new ResultModel<MyOrderViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 MyOrder order = MyOrderService.GetOrder(orderno);
                 order.inuse = enable;
                 MyOrderService.Edit(order);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -515,10 +575,11 @@ namespace TNet.Controllers {
             try
             {
                 MyOrder order = MyOrderService.GetOrder(orderno);
-                order.status = approved ? TNet.Models.Order.OrderStatus.WaitPay : TNet.Models.Order.OrderStatus.WaitApplyApproved;
+                order.status = approved ? TNet.Models.Order.OrderStatus.WaitPay : TNet.Models.Order.OrderStatus.ReviewFail;
                 MyOrderService.Edit(order);
 
-                if (order==null) {
+                if (order == null)
+                {
                     resultEntity.Code = ResponseCodeType.Fail;
                     resultEntity.Message = "审核操作失败，请稍候再试。";
                     return Content(resultEntity.SerializeToJson());
@@ -528,7 +589,7 @@ namespace TNet.Controllers {
                 s.idpress = Pub.ID().ToString();
                 s.orderno = orderno.ToString();
 
-                s.status = approved ? TNet.Models.Order.OrderStatus.WaitPay : TNet.Models.Order.OrderStatus.WaitApplyApproved;
+                s.status = approved ? TNet.Models.Order.OrderStatus.WaitPay : TNet.Models.Order.OrderStatus.ReviewFail;
                 s.statust = OrderStatus.get(s.status).text;
                 s.oper = ((ManageUser)Session["ManageUser"]).UserName;
                 s.inuse = true;
@@ -550,7 +611,8 @@ namespace TNet.Controllers {
         /// <param name="idbuss"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult OrderDetail(long orderno) {
+        public ActionResult OrderDetail(long orderno)
+        {
             MyOrderViewModel model = MyOrderService.GetViewModel(orderno);
             return View(model);
         }
@@ -561,13 +623,16 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult TaskList(DateTime? startDate, DateTime? endDate, string orderno = "", int taskType = 0, string idsend = "", string idrevc = "", int pageIndex = 0) {
+        public ActionResult TaskList(DateTime? startDate, DateTime? endDate, string orderno = "", int taskType = 0, string idsend = "", string idrevc = "", int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
-            if (startDate == null) {
+            if (startDate == null)
+            {
                 startDate = DateTime.Now.AddDays(-1);
             }
-            if (endDate == null) {
+            if (endDate == null)
+            {
                 endDate = DateTime.Now;
             }
 
@@ -576,31 +641,36 @@ namespace TNet.Controllers {
 
             List<ManageUser> manageUsers = new List<ManageUser>();
             manageUsers = ManageUserService.GetALL();
-            List<SelectItemViewModel<string>> idsendSelectItems = manageUsers.Select(mod => {
+            List<SelectItemViewModel<string>> idsendSelectItems = manageUsers.Select(mod =>
+            {
                 SelectItemViewModel<string> model = new SelectItemViewModel<string>();
                 model.DisplayValue = mod.ManageUserId.ToString();
                 model.DisplayText = mod.UserName;
                 return model;
             }).ToList();
-            idsendSelectItems.Insert(0, new SelectItemViewModel<string>() {
+            idsendSelectItems.Insert(0, new SelectItemViewModel<string>()
+            {
                 DisplayText = "选择派单发送者",
                 DisplayValue = ""
             });
 
-            List<SelectItemViewModel<string>> idrevcSelectItems = manageUsers.Select(mod => {
+            List<SelectItemViewModel<string>> idrevcSelectItems = manageUsers.Select(mod =>
+            {
                 SelectItemViewModel<string> model = new SelectItemViewModel<string>();
                 model.DisplayValue = mod.ManageUserId.ToString();
                 model.DisplayText = mod.UserName;
                 return model;
             }).ToList();
 
-            idrevcSelectItems.Insert(0, new SelectItemViewModel<string>() {
+            idrevcSelectItems.Insert(0, new SelectItemViewModel<string>()
+            {
                 DisplayText = "选择派单接收者",
                 DisplayValue = ""
             });
 
             List<SelectItemViewModel<int>> taskTypesSelectItems = TaskViewModel.TaskTypes;
-            taskTypesSelectItems.Insert(0, new SelectItemViewModel<int>() {
+            taskTypesSelectItems.Insert(0, new SelectItemViewModel<int>()
+            {
                 DisplayText = "选择派单类型",
                 DisplayValue = 0
             });
@@ -630,7 +700,8 @@ namespace TNet.Controllers {
         /// <param name="idtask"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult TaskDetail(string idtask) {
+        public ActionResult TaskDetail(string idtask)
+        {
             TaskViewModel model = TaskService.GetViewModel(idtask);
             return View(model);
         }
@@ -644,16 +715,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult TaskEnable(string idtask, bool enable, bool isAjax) {
+        public ActionResult TaskEnable(string idtask, bool enable, bool isAjax)
+        {
             ResultModel<TaskViewModel> resultEntity = new ResultModel<TaskViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 Task task = TaskService.Get(idtask);
                 task.inuse = enable;
                 TaskService.Edit(task);
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "操作失败";
             }
@@ -666,7 +740,8 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult TaskAssignModal(int taskType) {
+        public ActionResult TaskAssignModal(int taskType)
+        {
 
             ViewData["taskType"] = taskType;
             return View();
@@ -683,13 +758,16 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult IssueList(DateTime? startOrDate, DateTime? endOrDate, string idissue = "", string userNo = "", int pageIndex = 0) {
+        public ActionResult IssueList(DateTime? startOrDate, DateTime? endOrDate, string idissue = "", string userNo = "", int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
-            if (startOrDate == null) {
+            if (startOrDate == null)
+            {
                 startOrDate = DateTime.Now.AddDays(-1);
             }
-            if (endOrDate == null) {
+            if (endOrDate == null)
+            {
                 endOrDate = DateTime.Now;
             }
             List<IssueViewModel> entities = IssueService.GetIssuesViewModelByFilter(startOrDate, endOrDate, idissue, userNo);
@@ -720,16 +798,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult IssueEnable(string idissue, bool enable, bool isAjax) {
+        public ActionResult IssueEnable(string idissue, bool enable, bool isAjax)
+        {
             ResultModel<IssueViewModel> resultEntity = new ResultModel<IssueViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 Issue issue = IssueService.Get(idissue);
                 issue.inuse = enable;
                 IssueService.Edit(issue);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -743,7 +824,8 @@ namespace TNet.Controllers {
         /// <param name="idissue"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult IssueDetail(string idissue) {
+        public ActionResult IssueDetail(string idissue)
+        {
             IssueViewModel model = IssueService.GetViewModel(idissue);
             return View(model);
         }
@@ -758,13 +840,15 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult MercList(int idtype = 0, string idcity = "", string merc = "", int netype = -1, int isetup = -1, int pageIndex = 0) {
+        public ActionResult MercList(int idtype = 0, string idcity = "", string merc = "", int netype = -1, int isetup = -1, int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
             List<Merc> entities = MercService.Search(idtype, idcity, merc, netype, isetup);
             List<Merc> pageList = entities.Pager<Merc>(pageIndex, pageSize, out pageCount);
 
-            List<MercViewModel> viewModels = pageList.Select(model => {
+            List<MercViewModel> viewModels = pageList.Select(model =>
+            {
                 MercViewModel viewModel = new MercViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
@@ -772,7 +856,8 @@ namespace TNet.Controllers {
 
             //获取城市列表
             List<SelectItemViewModel<string>> citySelects = CityService.SelectItems();
-            citySelects.Insert(0, new SelectItemViewModel<string>() {
+            citySelects.Insert(0, new SelectItemViewModel<string>()
+            {
                 DisplayText = "所有城市",
                 DisplayValue = ""
             });
@@ -780,32 +865,38 @@ namespace TNet.Controllers {
             //获取产品类型
             List<MercType> mercTypes = MercTypeService.GetALL();
 
-            viewModels = viewModels.Select(model => {
+            viewModels = viewModels.Select(model =>
+            {
                 model.MercTypeName = mercTypes.Where(en => en.idtype == model.idtype).FirstOrDefault().name;
                 return model;
             }).ToList();
 
             List<SelectItemViewModel<int>> netypeSelects = MercViewModel.GetNeTypeSelectItems();
-            netypeSelects.Insert(0, new SelectItemViewModel<int>() {
+            netypeSelects.Insert(0, new SelectItemViewModel<int>()
+            {
                 DisplayText = "所有接入方式",
                 DisplayValue = -1
             });
 
             List<SelectItemViewModel<string>> mercTypeSelects = MercTypeService.SelectItems();
-            mercTypeSelects.Insert(0, new SelectItemViewModel<string>() {
+            mercTypeSelects.Insert(0, new SelectItemViewModel<string>()
+            {
                 DisplayText = "所有类型",
                 DisplayValue = "0"
             });
             List<SelectItemViewModel<int>> isetupSelects = new List<SelectItemViewModel<int>>();
-            isetupSelects.Add(new SelectItemViewModel<int>() {
+            isetupSelects.Add(new SelectItemViewModel<int>()
+            {
                 DisplayValue = -1,
                 DisplayText = "所有"
             });
-            isetupSelects.Add(new SelectItemViewModel<int>() {
+            isetupSelects.Add(new SelectItemViewModel<int>()
+            {
                 DisplayValue = 0,
                 DisplayText = "不能报装"
             });
-            isetupSelects.Add(new SelectItemViewModel<int>() {
+            isetupSelects.Add(new SelectItemViewModel<int>()
+            {
                 DisplayValue = 1,
                 DisplayText = "可报装"
             });
@@ -843,16 +934,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult MercEnable(int idmerc, bool enable, bool isAjax) {
+        public ActionResult MercEnable(int idmerc, bool enable, bool isAjax)
+        {
             ResultModel<MercViewModel> resultEntity = new ResultModel<MercViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 Merc merc = MercService.GetMerc(idmerc);
                 merc.inuse = enable;
                 MercService.Edit(merc);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -867,17 +961,21 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult MercEdit(int idmerc = 0) {
+        public ActionResult MercEdit(int idmerc = 0)
+        {
             MercViewModel model = new MercViewModel();
-            if (idmerc > 0) {
+            if (idmerc > 0)
+            {
                 Merc merc = MercService.GetMerc(idmerc);
                 if (merc != null) { model.CopyFromBase(merc); }
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
             List<MercType> entities = MercTypeService.GetALL();
-            List<MercTypeViewModel> mercTypes = entities.Select(en => {
+            List<MercTypeViewModel> mercTypes = entities.Select(en =>
+            {
                 MercTypeViewModel viewModel = new MercTypeViewModel();
                 viewModel.CopyFromBase(en);
                 return viewModel;
@@ -897,9 +995,11 @@ namespace TNet.Controllers {
         [ManageLoginValidation]
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult MercEdit(MercViewModel model, string mercImages = "") {
+        public ActionResult MercEdit(MercViewModel model, string mercImages = "")
+        {
             List<MercType> entities = MercTypeService.GetALL();
-            List<MercTypeViewModel> mercTypes = entities.Select(en => {
+            List<MercTypeViewModel> mercTypes = entities.Select(en =>
+            {
                 MercTypeViewModel viewModel = new MercTypeViewModel();
                 viewModel.CopyFromBase(en);
                 return viewModel;
@@ -907,18 +1007,21 @@ namespace TNet.Controllers {
 
             model.mercTypes = mercTypes;
 
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
 
             Merc merc = new Merc();
             model.CopyToBase(merc);
-            if (merc.idmerc == 0) {
+            if (merc.idmerc == 0)
+            {
                 merc.idmerc = IdentifyService.GetMaxIdentifyID<Merc>(en => en.idmerc) + 1;
                 //新增
                 merc = MercService.Add(merc);
             }
-            else {
+            else
+            {
                 //编辑
                 merc = MercService.Edit(merc);
             }
@@ -928,12 +1031,15 @@ namespace TNet.Controllers {
 
             MercImageService.DeleteMercImages(merc.idmerc);
 
-            if (!string.IsNullOrEmpty(mercImages)) {
+            if (!string.IsNullOrEmpty(mercImages))
+            {
                 List<MercImage> list = new List<MercImage>();
                 string[] imgs = mercImages.Split(',');
                 int i = 0;
-                foreach (var item in imgs) {
-                    list.Add(new MercImage() {
+                foreach (var item in imgs)
+                {
+                    list.Add(new MercImage()
+                    {
                         idmerc = merc.idmerc,
                         InUse = true,
                         Path = item,
@@ -941,7 +1047,8 @@ namespace TNet.Controllers {
                     });
                     i++;
                 }
-                if (list.Count > 0) {
+                if (list.Count > 0)
+                {
                     MercImageService.AddMuti(list);
                 }
             }
@@ -960,28 +1067,33 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult MercTypeList(int pageIndex = 0) {
+        public ActionResult MercTypeList(int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
             List<MercType> entities = MercTypeService.GetALL();
             List<MercType> pageList = entities.Pager<MercType>(pageIndex, pageSize, out pageCount);
 
 
-            List<MercTypeViewModel> viewModels = pageList.Select(model => {
+            List<MercTypeViewModel> viewModels = pageList.Select(model =>
+            {
                 MercTypeViewModel viewModel = new MercTypeViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
             }).ToList();
 
-            List<string> idtypes = viewModels.Select(mod => {
+            List<string> idtypes = viewModels.Select(mod =>
+            {
                 return mod.idtype.ToString();
             }).ToList();
 
             List<Setup> setups = SetupService.GetByIdTypes(idtypes);
 
-            viewModels = viewModels.Select(mod => {
+            viewModels = viewModels.Select(mod =>
+            {
                 List<Setup> temps = setups.Where(en => en.idtype == mod.idtype.ToString()).ToList();
-                if ((temps != null && temps.Count > 0)) {
+                if ((temps != null && temps.Count > 0))
+                {
                     SetupViewModel viewModel = new SetupViewModel();
                     viewModel.CopyFromBase(temps.First());
                     mod.Setup = viewModel;
@@ -1005,16 +1117,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult MercTypeEnable(int idtype, bool enable, bool isAjax) {
+        public ActionResult MercTypeEnable(int idtype, bool enable, bool isAjax)
+        {
             ResultModel<MercTypeViewModel> resultEntity = new ResultModel<MercTypeViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 MercType mercType = MercTypeService.GetMercType(idtype);
                 mercType.inuse = enable;
                 MercTypeService.Edit(mercType);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -1029,13 +1144,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult MercTypeEdit(int idtype = 0) {
+        public ActionResult MercTypeEdit(int idtype = 0)
+        {
             MercTypeViewModel model = new MercTypeViewModel();
-            if (idtype > 0) {
+            if (idtype > 0)
+            {
                 MercType mercType = MercTypeService.GetMercType(idtype);
                 if (mercType != null) { model.CopyFromBase(mercType); }
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
 
@@ -1049,15 +1167,18 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult MercTypeEdit(MercTypeViewModel model) {
+        public ActionResult MercTypeEdit(MercTypeViewModel model)
+        {
             MercType mercType = new MercType();
             model.CopyToBase(mercType);
-            if (mercType.idtype == 0) {
+            if (mercType.idtype == 0)
+            {
                 mercType.idtype = IdentifyService.GetMaxIdentifyID<MercType>(en => en.idtype) + 1;
                 //新增
                 mercType = MercTypeService.Add(mercType);
             }
-            else {
+            else
+            {
                 //编辑
                 mercType = MercTypeService.Edit(mercType);
             }
@@ -1078,18 +1199,22 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult SetupEdit(string idtype, string idsetup = "") {
+        public ActionResult SetupEdit(string idtype, string idsetup = "")
+        {
             SetupViewModel model = new SetupViewModel();
-            if (!string.IsNullOrEmpty(idsetup)) {
+            if (!string.IsNullOrEmpty(idsetup))
+            {
                 Setup setup = SetupService.Get(idsetup);
                 if (setup != null) { model.CopyFromBase(setup); }
             }
-            else {
+            else
+            {
                 model.idtype = idtype;
                 model.inuse = true;
             }
             MercType mercType = MercTypeService.GetMercType(Convert.ToInt32(idtype));
-            if (mercType != null) {
+            if (mercType != null)
+            {
                 MercTypeViewModel viewModel = new MercTypeViewModel();
                 viewModel.CopyFromBase(mercType);
                 model.merctype = viewModel;
@@ -1105,15 +1230,18 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult SetupEdit(SetupViewModel model) {
+        public ActionResult SetupEdit(SetupViewModel model)
+        {
             Setup setup = new Setup();
             model.CopyToBase(setup);
-            if (string.IsNullOrEmpty(setup.idsetup)) {
+            if (string.IsNullOrEmpty(setup.idsetup))
+            {
                 setup.idsetup = Pub.ID().ToString();
                 //新增
                 setup = SetupService.Add(setup);
             }
-            else {
+            else
+            {
                 //编辑
                 setup = SetupService.Edit(setup);
             }
@@ -1133,7 +1261,8 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult SetupAddrList(int pageIndex = 0) {
+        public ActionResult SetupAddrList(int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
             List<SetupAddrViewModel> entities = SetupAddrService.GetALLViewModels();
@@ -1153,12 +1282,15 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult SetupAddrEdit(string idaddr = "") {
+        public ActionResult SetupAddrEdit(string idaddr = "")
+        {
             SetupAddrViewModel model = new SetupAddrViewModel();
-            if (!string.IsNullOrEmpty(idaddr)) {
+            if (!string.IsNullOrEmpty(idaddr))
+            {
                 model = SetupAddrService.GetViewModel(idaddr);
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
 
@@ -1175,18 +1307,21 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult SetupAddrEdit(SetupAddrViewModel model) {
+        public ActionResult SetupAddrEdit(SetupAddrViewModel model)
+        {
             SetupAddr setupAddr = new SetupAddr();
             model.CopyToBase(setupAddr);
             Setup setup = SetupService.Get(model.idsetup);
             setupAddr.idtype = setup.idtype;
-            if (string.IsNullOrEmpty(setupAddr.idaddr)) {
+            if (string.IsNullOrEmpty(setupAddr.idaddr))
+            {
                 setupAddr.idaddr = Pub.ID().ToString();
 
                 //新增
                 setupAddr = SetupAddrService.Add(setupAddr);
             }
-            else {
+            else
+            {
                 //编辑
                 setupAddr = SetupAddrService.Edit(setupAddr);
             }
@@ -1212,16 +1347,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult SetupAddrEnable(string idaddr, bool enable, bool isAjax) {
+        public ActionResult SetupAddrEnable(string idaddr, bool enable, bool isAjax)
+        {
             ResultModel<SetupAddrViewModel> resultEntity = new ResultModel<SetupAddrViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 SetupAddr setupAddr = SetupAddrService.Get(idaddr);
                 setupAddr.inuse = enable;
                 SetupAddrService.Edit(setupAddr);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -1235,7 +1373,8 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult SpecList(int idmerc, int pageIndex = 0) {
+        public ActionResult SpecList(int idmerc, int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
             List<SpecViewModel> entities = SpecService.GetSpecsByIdMerc(idmerc);
@@ -1258,16 +1397,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult SpecEnable(string idspec, bool enable, bool isAjax) {
+        public ActionResult SpecEnable(string idspec, bool enable, bool isAjax)
+        {
             ResultModel<SpecViewModel> resultEntity = new ResultModel<SpecViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 Spec spec = SpecService.Get(idspec);
                 spec.inuse = enable;
                 SpecService.Edit(spec);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -1283,12 +1425,15 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult SpecEdit(int idmerc, string idspec = "") {
+        public ActionResult SpecEdit(int idmerc, string idspec = "")
+        {
             SpecViewModel model = new SpecViewModel();
-            if (!string.IsNullOrEmpty(idspec)) {
+            if (!string.IsNullOrEmpty(idspec))
+            {
                 model = SpecService.GetSpec(idspec);
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
 
@@ -1302,15 +1447,18 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult SpecEdit(SpecViewModel model) {
+        public ActionResult SpecEdit(SpecViewModel model)
+        {
             Spec spec = new Spec();
             model.CopyToBase(spec);
-            if (string.IsNullOrEmpty(spec.idspec)) {
+            if (string.IsNullOrEmpty(spec.idspec))
+            {
                 spec.idspec = Pub.ID().ToString();
                 //新增
                 spec = SpecService.Add(spec);
             }
-            else {
+            else
+            {
                 //编辑
                 spec = SpecService.Edit(spec);
             }
@@ -1328,13 +1476,16 @@ namespace TNet.Controllers {
         /// <param name="isAjax"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AjaxMercImageList(int mercId, bool isAjax) {
+        public ActionResult AjaxMercImageList(int mercId, bool isAjax)
+        {
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 List<MercImage> entities = MercImageService.GetMercImagesByMercId(mercId);
-                List<MercImageViewModel> viewModels = entities.Select(model => {
+                List<MercImageViewModel> viewModels = entities.Select(model =>
+                {
                     MercImageViewModel viewModel = new MercImageViewModel();
                     viewModel.CopyFromBase(model);
                     viewModel.Path = Url.Content(viewModel.Path);
@@ -1342,7 +1493,8 @@ namespace TNet.Controllers {
                 }).ToList();
                 resultEntity.Content = viewModels;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -1356,13 +1508,15 @@ namespace TNet.Controllers {
         /// <param name="mercId"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult MercImageList(int mercId, int pageIndex = 0) {
+        public ActionResult MercImageList(int mercId, int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
             List<MercImage> entities = MercImageService.GetMercImagesByMercId(mercId);
             List<MercImage> pageList = entities.Pager<MercImage>(pageIndex, pageSize, out pageCount);
 
-            List<MercImageViewModel> viewModels = pageList.Select(model => {
+            List<MercImageViewModel> viewModels = pageList.Select(model =>
+            {
                 MercImageViewModel viewModel = new MercImageViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
@@ -1383,16 +1537,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult MercImageEnable(int MercImageId, bool enable, bool isAjax) {
+        public ActionResult MercImageEnable(int MercImageId, bool enable, bool isAjax)
+        {
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 MercImage mercImage = MercImageService.GetMercImage(MercImageId);
                 mercImage.InUse = enable;
                 MercImageService.Edit(mercImage);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -1407,13 +1564,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpGet]
         [ManageLoginValidation]
-        public ActionResult MercImageEdit(int idmerc, int MercImageId = 0) {
+        public ActionResult MercImageEdit(int idmerc, int MercImageId = 0)
+        {
             MercImageViewModel mercImageModel = new MercImageViewModel();
-            if (MercImageId == 0) {
+            if (MercImageId == 0)
+            {
                 mercImageModel.idmerc = idmerc;
                 mercImageModel.InUse = true;
             }
-            else {
+            else
+            {
                 MercImage mercImage = MercImageService.GetMercImage(MercImageId);
                 mercImageModel.CopyFromBase(mercImage);
             }
@@ -1427,14 +1587,17 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult MercImageEdit(MercImageViewModel model) {
+        public ActionResult MercImageEdit(MercImageViewModel model)
+        {
             MercImage mercImage = new MercImage();
             model.CopyToBase(mercImage);
-            if (model.MercImageId == 0) {
+            if (model.MercImageId == 0)
+            {
                 mercImage.MercImageId = IdentifyService.GetMaxIdentifyID<MercImage>(en => en.MercImageId) + 1;
                 MercImageService.Add(mercImage);
             }
-            else {
+            else
+            {
                 MercImageService.Edit(mercImage);
             }
 
@@ -1442,7 +1605,8 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult UploadMercImage(int mercId = 0) {
+        public ActionResult UploadMercImage(int mercId = 0)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -1451,8 +1615,10 @@ namespace TNet.Controllers {
             string path = "~/Resource/Images/Merc/";
             string filename = string.Empty;
             string message = string.Empty;
-            try {
-                if (Request.Files != null && Request.Files.Count > 0) {
+            try
+            {
+                if (Request.Files != null && Request.Files.Count > 0)
+                {
                     //if (Request.Files.Count > 1)
                     //{
                     //    resultEntity.Code = ResponseCodeType.Fail;
@@ -1461,16 +1627,19 @@ namespace TNet.Controllers {
                     //}
                     resultEntity.Content = new List<MercImageViewModel>();
                     int i = 0;
-                    foreach (string upload in Request.Files) {
+                    foreach (string upload in Request.Files)
+                    {
                         GUID = System.Guid.NewGuid().ToString();
-                        if (!Request.Files[i].HasFile()) {
+                        if (!Request.Files[i].HasFile())
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件大小不能0.";
                             return Content(resultEntity.SerializeToJson());
                         }
 
 
-                        if (!CheckFileType((HttpPostedFileWrapper)((HttpFileCollectionWrapper)Request.Files)[i])) {
+                        if (!CheckFileType((HttpPostedFileWrapper)((HttpFileCollectionWrapper)Request.Files)[i]))
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件类型只能是jpg,bmp,gif,PNG..";
                             return Content(resultEntity.SerializeToJson());
@@ -1480,7 +1649,8 @@ namespace TNet.Controllers {
                         string originFileName = Request.Files[i].FileName;
                         string originFileNameSuffix = string.Empty;
                         int lastIndex = originFileName.LastIndexOf(".");
-                        if (lastIndex < 0) {
+                        if (lastIndex < 0)
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件类型只能是jpg,bmp,gif,PNG..";
                             return Content(resultEntity.SerializeToJson());
@@ -1488,12 +1658,14 @@ namespace TNet.Controllers {
                         originFileNameSuffix = originFileName.Substring(lastIndex, originFileName.Length - lastIndex);
 
                         filename = GUID + originFileNameSuffix;
-                        if (!Directory.Exists(Server.MapPath(path))) {
+                        if (!Directory.Exists(Server.MapPath(path)))
+                        {
                             Directory.CreateDirectory(Server.MapPath(path));
                         }
 
                         Request.Files[i].SaveAs(Path.Combine(Server.MapPath(path), filename));
-                        MercImageViewModel model = new MercImageViewModel() {
+                        MercImageViewModel model = new MercImageViewModel()
+                        {
                             idmerc = mercId,
                             Path = path + filename,
                             SortID = MercImageService.MaxMercImageSortID(mercId) + 1,
@@ -1506,12 +1678,15 @@ namespace TNet.Controllers {
                         StringBuilder initialPreviewConfig = new StringBuilder();
                         initialPreviewConfig.Append(",\"initialPreviewConfig\":[");
                         initialPreview.Append("{\"initialPreview\":[");
-                        for (int k = 0; k < resultEntity.Content.Count; k++) {
-                            if (k == 0) {
+                        for (int k = 0; k < resultEntity.Content.Count; k++)
+                        {
+                            if (k == 0)
+                            {
                                 initialPreview.AppendFormat("\"{0}\"", Url.Content(resultEntity.Content[k].Path));
                                 initialPreviewConfig.Append("{\"url\":\"" + Url.Action("DeleteMercImage", "Manage") + "\"}");
                             }
-                            else {
+                            else
+                            {
                                 initialPreview.AppendFormat("\",{0}\"", Url.Content(resultEntity.Content[k].Path));
                                 initialPreviewConfig.Append(",{\"url\":\"" + Url.Action("DeleteMercImage", "Manage") + "\"}");
                             }
@@ -1524,13 +1699,15 @@ namespace TNet.Controllers {
                     }
 
                 }
-                else {
+                else
+                {
                     resultEntity.Code = ResponseCodeType.Fail;
                     resultEntity.Message = "文件上传失败.";
                     return Content(resultEntity.SerializeToJson());
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "没有选择要上传的文件.";
@@ -1542,7 +1719,8 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult DeleteMercImage(int mercImageId = 0, int idmerc = 0, bool isAjax = true) {
+        public ActionResult DeleteMercImage(int mercImageId = 0, int idmerc = 0, bool isAjax = true)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -1581,33 +1759,39 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult SortMercImage(string mercImageViewModelListJson, int idmerc, bool isAjax) {
+        public ActionResult SortMercImage(string mercImageViewModelListJson, int idmerc, bool isAjax)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             List<MercImageViewModel> entities = new List<MercImageViewModel>();
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "移动商品图片成功";
-            try {
+            try
+            {
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 entities = js.Deserialize<List<MercImageViewModel>>(mercImageViewModelListJson);
 
-                List<MercImage> images = entities.Select(model => {
+                List<MercImage> images = entities.Select(model =>
+                {
                     MercImage img = new MercImage();
                     model.CopyToBase(img);
                     return img;
                 }).ToList();
 
                 bool result = MercImageService.BatchChangSort(images);
-                if (!result) {
+                if (!result)
+                {
                     resultEntity.Code = ResponseCodeType.Success;
                     resultEntity.Message = "移动商品图片失败";
                     return Content(resultEntity.SerializeToJson());
                 }
-                else {
+                else
+                {
                     MercService.SetDefaultMercImage(idmerc);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Success;
                 resultEntity.Message = "移动商品图片失败";
@@ -1623,13 +1807,15 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult ManageUserList(int pageIndex = 0) {
+        public ActionResult ManageUserList(int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
             List<ManageUser> entities = ManageUserService.GetALL();
             List<ManageUser> pageList = entities.Pager<ManageUser>(pageIndex, pageSize, out pageCount);
 
-            List<ManageUserViewModel> viewModels = pageList.Select(model => {
+            List<ManageUserViewModel> viewModels = pageList.Select(model =>
+            {
                 ManageUserViewModel viewModel = new ManageUserViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
@@ -1650,13 +1836,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult ManageUserEdit(int manageUserId = 0) {
+        public ActionResult ManageUserEdit(int manageUserId = 0)
+        {
             ManageUserViewModel model = new ManageUserViewModel();
-            if (manageUserId > 0) {
+            if (manageUserId > 0)
+            {
                 ManageUser manageUser = ManageUserService.Get(manageUserId);
                 if (manageUser != null) { model.CopyFromBase(manageUser); }
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
 
@@ -1671,15 +1860,18 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult ManageUserEdit(ManageUserViewModel model) {
+        public ActionResult ManageUserEdit(ManageUserViewModel model)
+        {
 
             ManageUser manageUser = new ManageUser();
             model.CopyToBase(manageUser);
-            if (manageUser.ManageUserId == 0) {
+            if (manageUser.ManageUserId == 0)
+            {
                 //新增
                 manageUser = ManageUserService.Add(manageUser);
             }
-            else {
+            else
+            {
                 //编辑
                 manageUser = ManageUserService.Edit(manageUser);
             }
@@ -1696,9 +1888,11 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult SearchManageUsers(string userName, string bindOrderNo, bool isAjax) {
+        public ActionResult SearchManageUsers(string userName, string bindOrderNo, bool isAjax)
+        {
             List<ManageUser> entities = ManageUserService.SearchByUserName(userName);
-            List<ManageUserViewModel> viewModels = entities.Select(model => {
+            List<ManageUserViewModel> viewModels = entities.Select(model =>
+            {
                 ManageUserViewModel viewModel = new ManageUserViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
@@ -1715,10 +1909,12 @@ namespace TNet.Controllers {
         /// <param name="bindOrderNo"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        private TaskViewModel MadeUpSetupTask(string bindOrderNo, string notes) {
+        private TaskViewModel MadeUpSetupTask(string bindOrderNo, string notes)
+        {
             MyOrder order = MyOrderService.GetOrder(Convert.ToInt64(bindOrderNo));
             User user = null;
-            if (order != null) {
+            if (order != null)
+            {
                 user = UserBll.Get(order.iduser);
             }
 
@@ -1754,10 +1950,12 @@ namespace TNet.Controllers {
         /// <param name="bindOrderNo"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        private TaskViewModel MadeUpComplaintTask(string bindOrderNo, string notes) {
+        private TaskViewModel MadeUpComplaintTask(string bindOrderNo, string notes)
+        {
             Issue issue = IssueService.Get(bindOrderNo);
             User user = null;
-            if (issue != null) {
+            if (issue != null)
+            {
                 user = UserBll.Get(Convert.ToInt64(issue.iduser));
             }
 
@@ -1795,7 +1993,8 @@ namespace TNet.Controllers {
         /// <param name="isAjax"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AssignTask(string bindOrderNo, int taskType, string manageUserIds, bool isAjax, string notes = "") {
+        public ActionResult AssignTask(string bindOrderNo, int taskType, string manageUserIds, bool isAjax, string notes = "")
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             string successMesage = string.Empty;
             string errorMessage = string.Empty;
@@ -1803,16 +2002,18 @@ namespace TNet.Controllers {
             ResultModel<ManageUserViewModel> resultEntity = new ResultModel<ManageUserViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
 
-            try {
-
+            try
+            {
                 TaskViewModel taskViewModel = null;
                 Task task = new Task();
-                if (taskType == TaskType.Setup) {
+                if (taskType == TaskType.Setup)
+                {
                     taskViewModel = MadeUpSetupTask(bindOrderNo, notes);
                     successMesage = "报装订单指派工人成功";
                     errorMessage = "报装订单指派工人失败";
                 }
-                else if (taskType == TaskType.Complaint) {
+                else if (taskType == TaskType.Complaint)
+                {
                     taskViewModel = MadeUpComplaintTask(bindOrderNo, notes);
                     successMesage = "投诉指派工人成功";
                     errorMessage = "投诉指派工人失败";
@@ -1823,30 +2024,38 @@ namespace TNet.Controllers {
 
                 Task newTask = TaskService.Add(task);
                 List<ManageUser> manageUsers = ManageUserService.GetALL();
-                if (newTask != null && !string.IsNullOrEmpty(manageUserIds)) {
+                if (newTask != null && !string.IsNullOrEmpty(manageUserIds))
+                {
                     List<TaskRecver> taskRecvers = new List<TaskRecver>();
+                    // List<ManageUser> musers = new List<ManageUser>();
                     string[] userArray = manageUserIds.Split(',');
-                    for (int i = 0; i < userArray.Count(); i++) {
-                        ManageUser manageUser = manageUsers.Where(en => en.ManageUserId == Convert.ToInt32(userArray[i])).First();
-                        taskRecvers.Add(new TaskRecver() {
+                    for (int i = 0; i < userArray.Count(); i++)
+                    {
+                        ManageUser muser = manageUsers.Where(en => en.ManageUserId == Convert.ToInt32(userArray[i])).First();
+                        //musers.Add(muser);
+                        MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, muser, null);
+                        taskRecvers.Add(new TaskRecver()
+                        {
                             idrecver = Pub.ID().ToString(),
                             idtask = newTask.idtask,
                             mcode = userArray[i],
-                            mname = manageUser == null ? "" : manageUser.UserName,
+                            mname = muser == null ? "" : muser.UserName,
                             cretime = DateTime.Now,
                             inuse = true
                         });
                     }
                     TaskRecverService.AddMuil(taskRecvers);
-                    if (taskType == TaskType.Setup) {
-                        TN db = null;
-                        MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, db);
+                    if (taskType == TaskType.Setup)
+                    {
+
+                        // MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, null);
                     }
 
                 }
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = errorMessage;
@@ -1863,16 +2072,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult ManageUserEnable(int ManageUserId, bool enable, bool isAjax) {
+        public ActionResult ManageUserEnable(int ManageUserId, bool enable, bool isAjax)
+        {
             ResultModel<ManageUserViewModel> resultEntity = new ResultModel<ManageUserViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 ManageUser manageUser = ManageUserService.Get(ManageUserId);
                 manageUser.inuse = enable;
                 ManageUserService.Edit(manageUser);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -1885,9 +2097,11 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult SearchUsers(string phone, int bindManageUserId, bool isAjax) {
+        public ActionResult SearchUsers(string phone, int bindManageUserId, bool isAjax)
+        {
             List<TCom.EF.User> entities = UserBll.SearchByPhone(phone);
-            List<UserViewModel> viewModels = entities.Select(model => {
+            List<UserViewModel> viewModels = entities.Select(model =>
+            {
                 UserViewModel viewModel = new UserViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
@@ -1899,18 +2113,21 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult BindManageUserWechat(int manageUserId, long iduser, bool isAjax) {
+        public ActionResult BindManageUserWechat(int manageUserId, long iduser, bool isAjax)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<ManageUserViewModel> resultEntity = new ResultModel<ManageUserViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "绑定微信成功";
-            try {
+            try
+            {
                 ManageUser manageUser = ManageUserService.Get(manageUserId);
                 TCom.EF.User user = UserBll.Get(iduser);
                 manageUser.idweixin = user.idweixin;
                 ManageUserService.Edit(manageUser);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "绑定微信失败";
@@ -1927,13 +2144,15 @@ namespace TNet.Controllers {
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult NoticeList(string title = "", string idcity = "", int pageIndex = 0) {
+        public ActionResult NoticeList(string title = "", string idcity = "", int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
             List<Notice> entities = NoticeService.Search(title, idcity);
             List<Notice> pageList = entities.Pager<Notice>(pageIndex, pageSize, out pageCount);
 
-            List<NoticeViewModel> viewModels = pageList.Select(model => {
+            List<NoticeViewModel> viewModels = pageList.Select(model =>
+            {
                 NoticeViewModel viewModel = new NoticeViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
@@ -1941,7 +2160,8 @@ namespace TNet.Controllers {
 
             //获取城市列表
             List<SelectItemViewModel<string>> citySelects = CityService.SelectItems();
-            citySelects.Insert(0, new SelectItemViewModel<string>() {
+            citySelects.Insert(0, new SelectItemViewModel<string>()
+            {
                 DisplayText = "所有城市",
                 DisplayValue = ""
             });
@@ -1964,13 +2184,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult NoticeEdit(string idnotice = "") {
+        public ActionResult NoticeEdit(string idnotice = "")
+        {
             NoticeViewModel model = new NoticeViewModel();
-            if (!string.IsNullOrEmpty(idnotice)) {
+            if (!string.IsNullOrEmpty(idnotice))
+            {
                 Notice notice = NoticeService.Get(idnotice);
                 if (notice != null) { model.CopyFromBase(notice); }
             }
-            else {
+            else
+            {
 
             }
             return View(model);
@@ -1984,17 +2207,20 @@ namespace TNet.Controllers {
         [ValidateInput(false)]
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult NoticeEdit(NoticeViewModel model) {
+        public ActionResult NoticeEdit(NoticeViewModel model)
+        {
 
             Notice notice = new Notice();
             model.CopyToBase(notice);
-            if (string.IsNullOrEmpty(notice.idnotice)) {
+            if (string.IsNullOrEmpty(notice.idnotice))
+            {
                 notice.publish_time = DateTime.Now;
                 notice.idnotice = Pub.ID().ToString();
                 //新增
                 notice = NoticeService.Add(notice);
             }
-            else {
+            else
+            {
                 //编辑
                 notice = NoticeService.Edit(notice);
             }
@@ -2011,10 +2237,12 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AdvertiseTypeList() {
+        public ActionResult AdvertiseTypeList()
+        {
             List<AdvertiseType> entities = AdvertiseTypeService.GetALL();
 
-            List<AdvertiseTypeViewModel> viewModels = entities.Select(model => {
+            List<AdvertiseTypeViewModel> viewModels = entities.Select(model =>
+            {
                 AdvertiseTypeViewModel viewModel = new AdvertiseTypeViewModel();
                 viewModel.CopyFromBase(model);
                 return viewModel;
@@ -2033,16 +2261,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult AdvertiseTypeEnable(string idat, bool enable, bool isAjax) {
+        public ActionResult AdvertiseTypeEnable(string idat, bool enable, bool isAjax)
+        {
             ResultModel<AdvertiseTypeViewModel> resultEntity = new ResultModel<AdvertiseTypeViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 AdvertiseType advertiseType = AdvertiseTypeService.Get(idat);
                 advertiseType.inuse = enable;
                 AdvertiseTypeService.Edit(advertiseType);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -2057,13 +2288,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult AdvertiseTypeEdit(string idat = "") {
+        public ActionResult AdvertiseTypeEdit(string idat = "")
+        {
             AdvertiseTypeViewModel model = new AdvertiseTypeViewModel();
-            if (!string.IsNullOrEmpty(idat)) {
+            if (!string.IsNullOrEmpty(idat))
+            {
                 AdvertiseType advertiseType = AdvertiseTypeService.Get(idat);
                 if (idat != null) { model.CopyFromBase(advertiseType); }
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
 
@@ -2077,16 +2311,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult AdvertiseTypeEdit(AdvertiseTypeViewModel model) {
+        public ActionResult AdvertiseTypeEdit(AdvertiseTypeViewModel model)
+        {
             AdvertiseType advertiseType = new AdvertiseType();
             model.CopyToBase(advertiseType);
-            if (string.IsNullOrEmpty(advertiseType.idat)) {
+            if (string.IsNullOrEmpty(advertiseType.idat))
+            {
                 advertiseType.idat = Pub.ID().ToString();
                 advertiseType.createtime = DateTime.Now;
                 //新增
                 advertiseType = AdvertiseTypeService.Add(advertiseType);
             }
-            else {
+            else
+            {
                 //编辑
                 advertiseType = AdvertiseTypeService.Edit(advertiseType);
             }
@@ -2105,7 +2342,8 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AdvertiseList(DateTime? sdate, DateTime? edate, string idat = "", string idcity = "", string title = "", int pageIndex = 0) {
+        public ActionResult AdvertiseList(DateTime? sdate, DateTime? edate, string idat = "", string idcity = "", string title = "", int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
 
@@ -2113,7 +2351,8 @@ namespace TNet.Controllers {
             List<AdvertiseViewModel> viewModels = entities.Pager<AdvertiseViewModel>(pageIndex, pageSize, out pageCount);
             //获取城市列表
             List<SelectItemViewModel<string>> citySelects = CityService.SelectItems();
-            citySelects.Insert(0, new SelectItemViewModel<string>() {
+            citySelects.Insert(0, new SelectItemViewModel<string>()
+            {
                 DisplayText = "所有城市",
                 DisplayValue = ""
             });
@@ -2150,16 +2389,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult AdvertiseEnable(string idav, bool enable, bool isAjax) {
+        public ActionResult AdvertiseEnable(string idav, bool enable, bool isAjax)
+        {
             ResultModel<AdvertiseViewModel> resultEntity = new ResultModel<AdvertiseViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 Advertise advertise = AdvertiseService.Get(idav);
                 advertise.inuse = enable;
                 AdvertiseService.Edit(advertise);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -2174,13 +2416,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult AdvertiseEdit(string idav = "") {
+        public ActionResult AdvertiseEdit(string idav = "")
+        {
             AdvertiseViewModel model = new AdvertiseViewModel();
-            if (!string.IsNullOrEmpty(idav)) {
+            if (!string.IsNullOrEmpty(idav))
+            {
                 Advertise advertise = AdvertiseService.Get(idav);
                 if (advertise != null) { model.CopyFromBase(advertise); }
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
             List<SelectItemViewModel<string>> advertiseTypes = AdvertiseTypeService.SelectItems();
@@ -2196,16 +2441,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult AdvertiseEdit(AdvertiseViewModel model) {
+        public ActionResult AdvertiseEdit(AdvertiseViewModel model)
+        {
             Advertise advertise = new Advertise();
             model.CopyToBase(advertise);
-            if (string.IsNullOrEmpty(advertise.idav)) {
+            if (string.IsNullOrEmpty(advertise.idav))
+            {
                 advertise.idav = Pub.ID().ToString();
                 advertise.cretime = DateTime.Now;
                 //新增
                 advertise = AdvertiseService.Add(advertise);
             }
-            else {
+            else
+            {
                 //编辑
                 advertise = AdvertiseService.Edit(advertise);
             }
@@ -2225,7 +2473,8 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult UploadAdvertiseImage(string idav = "") {
+        public ActionResult UploadAdvertiseImage(string idav = "")
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<AdvertiseViewModel> resultEntity = new ResultModel<AdvertiseViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -2234,8 +2483,10 @@ namespace TNet.Controllers {
             string path = "~/Resource/Images/Advertise/";
             string filename = string.Empty;
             string message = string.Empty;
-            try {
-                if (Request.Files != null && Request.Files.Count > 0) {
+            try
+            {
+                if (Request.Files != null && Request.Files.Count > 0)
+                {
                     //if (Request.Files.Count > 1)
                     //{
                     //    resultEntity.Code = ResponseCodeType.Fail;
@@ -2244,15 +2495,18 @@ namespace TNet.Controllers {
                     //}
                     resultEntity.Content = new List<AdvertiseViewModel>();
                     int i = 0;
-                    foreach (string upload in Request.Files) {
+                    foreach (string upload in Request.Files)
+                    {
                         GUID = System.Guid.NewGuid().ToString();
-                        if (!Request.Files[i].HasFile()) {
+                        if (!Request.Files[i].HasFile())
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件大小不能0.";
                             return Content(resultEntity.SerializeToJson());
                         }
 
-                        if (!CheckFileType((HttpPostedFileWrapper)((HttpFileCollectionWrapper)Request.Files)[i])) {
+                        if (!CheckFileType((HttpPostedFileWrapper)((HttpFileCollectionWrapper)Request.Files)[i]))
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件类型只能是jpg,bmp,gif,PNG..";
                             return Content(resultEntity.SerializeToJson());
@@ -2262,7 +2516,8 @@ namespace TNet.Controllers {
                         string originFileName = Request.Files[i].FileName;
                         string originFileNameSuffix = string.Empty;
                         int lastIndex = originFileName.LastIndexOf(".");
-                        if (lastIndex < 0) {
+                        if (lastIndex < 0)
+                        {
                             resultEntity.Code = ResponseCodeType.Fail;
                             resultEntity.Message = "文件类型只能是jpg,bmp,gif,PNG..";
                             return Content(resultEntity.SerializeToJson());
@@ -2270,12 +2525,14 @@ namespace TNet.Controllers {
                         originFileNameSuffix = originFileName.Substring(lastIndex, originFileName.Length - lastIndex);
 
                         filename = GUID + originFileNameSuffix;
-                        if (!Directory.Exists(Server.MapPath(path))) {
+                        if (!Directory.Exists(Server.MapPath(path)))
+                        {
                             Directory.CreateDirectory(Server.MapPath(path));
                         }
 
                         Request.Files[i].SaveAs(Path.Combine(Server.MapPath(path), filename));
-                        AdvertiseViewModel model = new AdvertiseViewModel() {
+                        AdvertiseViewModel model = new AdvertiseViewModel()
+                        {
                             idav = idav,
                             img = path + filename
                         };
@@ -2286,12 +2543,15 @@ namespace TNet.Controllers {
                         StringBuilder initialPreviewConfig = new StringBuilder();
                         initialPreviewConfig.Append(",\"initialPreviewConfig\":[");
                         initialPreview.Append("{\"initialPreview\":[");
-                        for (int k = 0; k < resultEntity.Content.Count; k++) {
-                            if (k == 0) {
+                        for (int k = 0; k < resultEntity.Content.Count; k++)
+                        {
+                            if (k == 0)
+                            {
                                 initialPreview.AppendFormat("\"{0}\"", Url.Content(resultEntity.Content[k].img));
                                 initialPreviewConfig.Append("{\"url\":\"" + Url.Action("DeleteAdvertiseImage", "Manage") + "\"}");
                             }
-                            else {
+                            else
+                            {
                                 initialPreview.AppendFormat("\",{0}\"", Url.Content(resultEntity.Content[k].img));
                                 initialPreviewConfig.Append(",{\"url\":\"" + Url.Action("DeleteAdvertiseImage", "Manage") + "\"}");
                             }
@@ -2304,13 +2564,15 @@ namespace TNet.Controllers {
                     }
 
                 }
-                else {
+                else
+                {
                     resultEntity.Code = ResponseCodeType.Fail;
                     resultEntity.Message = "文件上传失败.";
                     return Content(resultEntity.SerializeToJson());
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "没有选择要上传的文件.";
@@ -2322,7 +2584,8 @@ namespace TNet.Controllers {
         }
 
         [ManageLoginValidation]
-        public ActionResult DeleteAdvertiseImage(string idav = "", bool isAjax = true) {
+        public ActionResult DeleteAdvertiseImage(string idav = "", bool isAjax = true)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<AdvertiseViewModel> resultEntity = new ResultModel<AdvertiseViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -2337,14 +2600,16 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult CityList(int pageIndex = 0) {
+        public ActionResult CityList(int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
 
             List<City> entities = CityService.GetALL();
 
             List<City> pageList = entities.Pager<City>(pageIndex, pageSize, out pageCount);
-            List<CityViewModel> viewModels = pageList.Select(mod => {
+            List<CityViewModel> viewModels = pageList.Select(mod =>
+            {
                 CityViewModel viewModel = new CityViewModel();
                 viewModel.CopyFromBase(mod);
                 return viewModel;
@@ -2365,16 +2630,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult CityEnable(string idcity, bool enable, bool isAjax) {
+        public ActionResult CityEnable(string idcity, bool enable, bool isAjax)
+        {
             ResultModel<CityViewModel> resultEntity = new ResultModel<CityViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 City city = CityService.Get(idcity);
                 city.inuse = enable;
                 CityService.Edit(city);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -2390,14 +2658,17 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult CityDefault(string idcity, bool isAjax) {
+        public ActionResult CityDefault(string idcity, bool isAjax)
+        {
             ResultModel<CityViewModel> resultEntity = new ResultModel<CityViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 CityService.SetDefault(idcity);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -2412,13 +2683,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult CityEdit(string idcity = "") {
+        public ActionResult CityEdit(string idcity = "")
+        {
             CityViewModel model = new CityViewModel();
-            if (!string.IsNullOrEmpty(idcity)) {
+            if (!string.IsNullOrEmpty(idcity))
+            {
                 City city = CityService.Get(idcity);
                 if (city != null) { model.CopyFromBase(city); }
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
 
@@ -2432,15 +2706,18 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult CityEdit(CityViewModel model) {
+        public ActionResult CityEdit(CityViewModel model)
+        {
             City city = new City();
             model.CopyToBase(city);
-            if (string.IsNullOrEmpty(city.idcity)) {
+            if (string.IsNullOrEmpty(city.idcity))
+            {
                 city.idcity = Pub.ID().ToString();
                 //新增
                 city = CityService.Add(city);
             }
-            else {
+            else
+            {
                 //编辑
                 city = CityService.Edit(city);
             }
@@ -2452,12 +2729,15 @@ namespace TNet.Controllers {
         }
 
 
-        public ActionResult CitiesCheckBoxList(string idmodule, ModuleType moduleType) {
+        public ActionResult CitiesCheckBoxList(string idmodule, ModuleType moduleType)
+        {
             List<CityRelation> cityRelations = CityRelationService.GetByModuleId(idmodule, moduleType);
             List<CityViewModel> viewModels = new List<CityViewModel>();
             List<City> city = CityService.GetALL();
-            if (city.Count > 0 && city != null) {
-                viewModels = city.Select(mod => {
+            if (city.Count > 0 && city != null)
+            {
+                viewModels = city.Select(mod =>
+                {
                     CityViewModel model = new CityViewModel();
                     model.CopyFromBase(mod);
                     model.IsCheck = cityRelations.Where(en => en.idcity == mod.idcity).Count() > 0 ? true : false;
@@ -2474,14 +2754,16 @@ namespace TNet.Controllers {
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult WeiXinModuleList(int pageIndex = 0) {
+        public ActionResult WeiXinModuleList(int pageIndex = 0)
+        {
             int pageCount = 0;
             int pageSize = 10;
 
             List<WeiXinModule> entities = WeiXinModuleService.GetALL();
 
             List<WeiXinModule> pageList = entities.Pager<WeiXinModule>(pageIndex, pageSize, out pageCount);
-            List<WeiXinModuleViewModel> viewModels = pageList.Select(mod => {
+            List<WeiXinModuleViewModel> viewModels = pageList.Select(mod =>
+            {
                 WeiXinModuleViewModel viewModel = new WeiXinModuleViewModel();
                 viewModel.CopyFromBase(mod);
                 return viewModel;
@@ -2502,16 +2784,19 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult WeiXinModuleEnable(string idwxmodule, bool enable, bool isAjax) {
+        public ActionResult WeiXinModuleEnable(string idwxmodule, bool enable, bool isAjax)
+        {
             ResultModel<WeiXinModuleViewModel> resultEntity = new ResultModel<WeiXinModuleViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
-            try {
+            try
+            {
                 WeiXinModule module = WeiXinModuleService.Get(idwxmodule);
-                module.inuse = enable; 
+                module.inuse = enable;
                 WeiXinModuleService.Edit(module);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = ex.ToString();
             }
@@ -2526,13 +2811,16 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult WeiXinModuleEdit(string idwxmodule) {
+        public ActionResult WeiXinModuleEdit(string idwxmodule)
+        {
             WeiXinModuleViewModel model = new WeiXinModuleViewModel();
-            if (!string.IsNullOrEmpty(idwxmodule)) {
+            if (!string.IsNullOrEmpty(idwxmodule))
+            {
                 WeiXinModule module = WeiXinModuleService.Get(idwxmodule);
                 if (module != null) { model.CopyFromBase(module); }
             }
-            else {
+            else
+            {
                 model.inuse = true;
             }
 
@@ -2546,15 +2834,18 @@ namespace TNet.Controllers {
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult WeiXinModuleEdit(WeiXinModuleViewModel model) {
+        public ActionResult WeiXinModuleEdit(WeiXinModuleViewModel model)
+        {
             WeiXinModule module = new WeiXinModule();
             model.CopyToBase(module);
-            if (string.IsNullOrEmpty(module.idwxmodule)) {
+            if (string.IsNullOrEmpty(module.idwxmodule))
+            {
                 module.idwxmodule = Pub.ID().ToString();
                 //新增
                 //module = WeiXinModuleService.Add(module);
             }
-            else {
+            else
+            {
                 //编辑
                 module = WeiXinModuleService.Edit(module);
             }
@@ -2568,7 +2859,8 @@ namespace TNet.Controllers {
         /// <summary>
         /// 判断上传文件类型
         /// </summary>
-        private bool CheckFileType(HttpPostedFileWrapper postedFile) {
+        private bool CheckFileType(HttpPostedFileWrapper postedFile)
+        {
 
             bool result = true;
             /*  文件扩展名说明  
@@ -2582,7 +2874,8 @@ namespace TNet.Controllers {
             string fileTypeStr = "255216, 6677, 7173, 13780, 3780";
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             int fileLength = postedFile.ContentLength;
-            if (fileLength <= 0) {
+            if (fileLength <= 0)
+            {
                 return false;
             }
             byte[] imgArray = new byte[fileLength];
@@ -2594,23 +2887,27 @@ namespace TNet.Controllers {
             System.IO.BinaryReader r = new System.IO.BinaryReader(fs);
             string fileclass = string.Empty;
             byte buffer;
-            try {
+            try
+            {
                 buffer = r.ReadByte();
                 fileclass = buffer.ToString();
                 buffer = r.ReadByte();
                 fileclass += buffer.ToString();
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 result = false;
                 //Log.Error(ex.ToString());
             }
-            finally {
+            finally
+            {
                 r.Close();
                 fs.Close();
                 r.Dispose();
                 fs.Dispose();
             }
-            if (fileTypeStr.IndexOf(fileclass) < 0) {
+            if (fileTypeStr.IndexOf(fileclass) < 0)
+            {
                 result = false;
             }
 
@@ -2621,7 +2918,8 @@ namespace TNet.Controllers {
 
 
         [HttpGet]
-        public ActionResult Menu() {
+        public ActionResult Menu()
+        {
             string url = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + Pub.accessToken;
             string data = Pub.Get(url);
             ViewBag.Menu = new HtmlString(data);
@@ -2630,7 +2928,8 @@ namespace TNet.Controllers {
 
 
 
-        public ActionResult GetMenu() {
+        public ActionResult GetMenu()
+        {
             return View();
         }
 
@@ -2639,7 +2938,8 @@ namespace TNet.Controllers {
         /// </summary>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public JsonResult GetMaterialList(RMaterialListParamM mode) {
+        public JsonResult GetMaterialList(RMaterialListParamM mode)
+        {
 
             //string url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=" + Pub.accessToken;
             //JavaScriptSerializer s = new JavaScriptSerializer();
@@ -2653,7 +2953,8 @@ namespace TNet.Controllers {
         /// </summary>
         /// <param name="media_id"></param>
         /// <returns>存储路径</returns>
-        public string GetImageById(RMaterialItemParamM mode) {
+        public string GetImageById(RMaterialItemParamM mode)
+        {
             //string filePath = Server.MapPath("~/Content/Images/Material/" + mode.media_id + ".jpg");
             //if (!System.IO.File.Exists(filePath))
             //{
@@ -2671,7 +2972,8 @@ namespace TNet.Controllers {
         /// </summary>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public string GetMaterialDetail(RMaterialItemParamM mode) {
+        public string GetMaterialDetail(RMaterialItemParamM mode)
+        {
             string url = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=" + Pub.accessToken;
             JavaScriptSerializer s = new JavaScriptSerializer();
             string responseContent = Pub.Post(url, s.Serialize(mode));
@@ -2683,7 +2985,8 @@ namespace TNet.Controllers {
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
-        public JsonResult UpdateMenu(string menu) {
+        public JsonResult UpdateMenu(string menu)
+        {
             string url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + Pub.accessToken;
             string responseContent = Pub.Post(url, menu);
             return Json(responseContent);

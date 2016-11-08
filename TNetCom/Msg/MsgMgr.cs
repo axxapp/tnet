@@ -39,26 +39,26 @@ namespace TCom.Msg
         /// <param name="db"></param>
         /// <returns></returns>
 
-        public static bool FinishPay(string idweixin, EF.MyOrder mo, string iduser, string uname, TCom.EF.TN db)
+        public static bool FinishPay(EF.MyOrder mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
         {
             int otype = mo.otype != null ? mo.otype.Value : 0;
             JObject jo = new JObject();
-            jo["touser"] = idweixin;
+            jo["touser"] = muser.idweixin;
             jo["template_id"] = "_5rsT-d9H1iLDHr8B7IN5IYo4QftrnNxNofEeTn4EyI";
 
-            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + iduser
+            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
                 + "&updateUser=1";
             JObject jdo = new JObject();
-            jdo["first"] = getJobj(mo.merc + "(" + mo.spec + ")");
-            jdo["tradeDateTime"] = getJobj(mo.cretime != null ? mo.cretime.Value.ToString("MM月dd日 HH时mm分") : "无");
-            jdo["orderType"] = getJobj((otype == 1) ? "宽带" : "报装");
-            jdo["customerInfo"] = getJobj(uname);
-            jdo["orderItemName"] = getJobj("交易金额");
-            jdo["orderItemData"] = getJobj(mo.totalfee + "");
-            jdo["remark"] = getJobj("欢迎再次购买");
+            jdo["first"] = getJob(mo.merc + "(" + mo.spec + ")");
+            jdo["tradeDateTime"] = getJob(mo.cretime != null ? mo.cretime.Value.ToString("MM月dd日 HH时mm分") : "无");
+            jdo["orderType"] = getJob((otype == 1) ? "宽带" : "报装");
+            jdo["customerInfo"] = getJob(user.name);
+            jdo["orderItemName"] = getJob("交易金额");
+            jdo["orderItemData"] = getJob(mo.totalfee + "");
+            jdo["remark"] = getJob("欢迎再次购买");
             jo["data"] = jdo;
 
-            return crateMsg(idweixin, jo.ToString(), MsgType.PayFinishOrder, mo.orderno + "", otype, db);
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PayFinishOrder, mo.orderno + "", otype, db);
 
         }
 
@@ -74,28 +74,27 @@ namespace TCom.Msg
         /// <param name="db"></param>
         /// <returns></returns>
 
-        public static bool SetupOrder(EF.MyOrder mo, EF.User user, TCom.EF.TN db)
+        public static bool SetupOrder(EF.MyOrder mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
         {
             int otype = mo.otype != null ? mo.otype.Value : 0;
             JObject jo = new JObject();
-            jo["touser"] = user.idweixin;
+            jo["touser"] = muser.idweixin;
             jo["template_id"] = "GeHNTXa7V_S5Q4uGaFYq1vzXmZZTAfy8wKJyT4muV28";
             jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
                 + "&updateUser=1";
             JObject jdo = new JObject();
-            jdo["first"] = getJobj(mo.merc + "(" + mo.spec + ")");
-            jdo["keyword1"] = getJobj("报装");
-            jdo["keyword2"] = getJobj(mo.orderno + "");
-            jdo["keyword3"] = getJobj(user.name);
-            jdo["keyword4"] = getJobj(user.phone);
-            jdo["keyword5"] = getJobj("已线上缴费,现场无需收费.");
-            jdo["remark"] = getJobj("用户希望服务人员到达" + mo.addr + "进行服务，点击查看详情...");
+            jdo["first"] = getJob(mo.merc + "(" + mo.spec + ")");
+            jdo["keyword1"] = getJob("报装");
+            jdo["keyword2"] = getJob(mo.orderno + "");
+            jdo["keyword3"] = getJob(user.name);
+            jdo["keyword4"] = getJob(user.phone);
+            jdo["keyword5"] = getJob("已线上缴费,现场无需收费.");
+            jdo["remark"] = getJob("用户希望服务人员到达" + mo.addr + "进行服务，点击查看详情...");
             jo["data"] = jdo;
-            return crateMsg(user.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
 
         }
-
-
+         
         public static bool PostReviewOrder(string orderno, int otype, TCom.EF.TN db)
         {
             return crateMsg("", "", MsgType.PostWaitReviewOrder, orderno, otype, db);
@@ -115,23 +114,23 @@ namespace TCom.Msg
         /// <param name="db"></param>
         /// <returns></returns>
 
-        public static bool WaitReviewOrder(EF.MyOrder mo, EF.User user, TCom.EF.TN db)
+        public static bool WaitReviewOrder(EF.MyOrder mo, EF.User user,EF.ManageUser muser, TCom.EF.TN db)
         {
             int otype = mo.otype != null ? mo.otype.Value : 0;
             JObject jo = new JObject();
-            jo["touser"] = user.idweixin;
+            jo["touser"] = muser.idweixin;
             jo["template_id"] = "i72ctUGg8ILHaZaYJrp1NvCYZFZoRicS7sC_Ozzmhqs";
             jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
                 + "&updateUser=1";
             JObject jdo = new JObject();
-            jdo["first"] = getJobj("请审核以下订单");
-            jdo["keyword1"] = getJobj(mo.orderno + "");
-            jdo["keyword2"] = getJobj(mo.totalfee + "");
-            jdo["keyword3"] = getJobj(mo.cretime.Value.ToString("yyyy-MM-dd"));
-            jdo["keyword4"] = getJobj("用户 [" + user.name + "]");
-            jdo["remark"] = getJobj("请尽快审核！");
+            jdo["first"] = getJob("请审核以下订单");
+            jdo["keyword1"] = getJob(mo.orderno + "");
+            jdo["keyword2"] = getJob(mo.totalfee + "");
+            jdo["keyword3"] = getJob(mo.cretime.Value.ToString("yyyy-MM-dd"));
+            jdo["keyword4"] = getJob("用户 [" + user.name + "]");
+            jdo["remark"] = getJob("请尽快审核！");
             jo["data"] = jdo;
-            return crateMsg(user.idweixin, jo.ToString(), MsgType.WaitReviewOrder, mo.orderno + "", otype, db);
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.WaitReviewOrder, mo.orderno + "", otype, db);
 
         }
 
@@ -171,7 +170,7 @@ namespace TCom.Msg
 
 
 
-        public static JObject getJobj(string value, string color = null)
+        public static JObject getJob(string value, string color = null)
         {
             JObject jio = new JObject();
             jio["value"] = value;

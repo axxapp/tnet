@@ -12,7 +12,7 @@ using TCom.Util;
 
 namespace TComCoreService
 {
-    public sealed  class Service
+    public sealed class Service
     {
         static int port = 6699;
         static TThread t;
@@ -134,12 +134,8 @@ namespace TComCoreService
                                            muo.recv_review == true ||
                                            muo.recv_setup == true ||
                                            muo.send_setup == true))
-                                           select new
-                                           {
-                                               idweixin = muo.idweixin,
-                                               name = uo.name
-                                           }).ToList();
-                                Pub.e("Msg-Count:" + mus.Count);
+                                           select muo).ToList();
+                                //Pub.e("Msg-Count:" + mus.Count);
                                 List<TCom.EF.Msg> ms = db.Msgs.Where(m => m.inuse == true && m.status == 0).ToList();
 
                                 if (ms != null && mus != null)
@@ -157,7 +153,6 @@ namespace TComCoreService
                                                                select u).FirstOrDefault();
                                             if (uo != null)
                                             {
-
                                                 if (m.type == MsgType.PostPayFinishOrder)//订单支付完成，等待派发通知
                                                 {
                                                     isPub = true;
@@ -165,7 +160,11 @@ namespace TComCoreService
                                                     for (int j = 0; j < mus.Count; j++)
                                                     {
                                                         var mu = mus[j];
-                                                        MsgMgr.FinishPay(mu.idweixin, mo, uo.iduser + "", uo.name, db);
+                                                        if (mu.recv_order)
+                                                        {
+                                                            MsgMgr.FinishPay(mo, uo, mu, db);
+                                                        }
+
                                                     }
                                                 }
                                                 else if (m.type == MsgType.PayFinishOrder)
@@ -191,7 +190,10 @@ namespace TComCoreService
                                                     for (int j = 0; j < mus.Count; j++)
                                                     {
                                                         var mu = mus[j];
-                                                        MsgMgr.WaitReviewOrder(mo, uo, db);
+                                                        if (mu.recv_review)
+                                                        {
+                                                            MsgMgr.WaitReviewOrder(mo, uo, mu, db);
+                                                        }
                                                     }
                                                 }
                                                 if (m.type == MsgType.WaitReviewOrder)

@@ -15,69 +15,69 @@ namespace TNet.Models.Order
         /// <summary>
         /// 创建订单
         /// </summary>
-        public static readonly int Create = 1;
+        public static readonly int Create = 100;
 
         /// <summary>
         /// 确认订单
         /// </summary>
-        public static readonly int Confirm = 2;
+        public static readonly int Confirm = 200;
 
         /// <summary>
         /// 等待审核
         /// </summary>
-        public static readonly int WaitReview = 3;
+        public static readonly int WaitReview = 300;
 
         /// <summary>
         /// 审核失败
         /// </summary>
-        public static readonly int ReviewFail = 4;
+        public static readonly int ReviewFail = 400;
 
         /// <summary>
         /// 等待支付
         /// </summary>
-        public static readonly int WaitPay = 10;
+        public static readonly int WaitPay = 500;
 
 
         /// <summary>
         /// 支付完成
         /// </summary>
-        public static readonly int PayFinish = 20;
+        public static readonly int PayFinish = 600;
 
 
         /// <summary>
         /// 等待结算
         /// </summary>
-        public static readonly int WaitSettle = 30;
+        public static readonly int WaitSettle = 700;
 
         /// <summary>
         /// 结算完成
         /// </summary>
-        public static readonly int SettleFinish = 40;
+        public static readonly int SettleFinish = 800;
 
         /// <summary>
         /// 申请退款
         /// </summary>
-        public static readonly int ApplyReFund = 50;
+        public static readonly int ApplyReFund = 900;
 
         /// <summary>
         /// 申请退款失败
         /// </summary>
-        public static readonly int ApplyReFundFail = 60;
+        public static readonly int ApplyReFundFail = 1000;
 
         /// <summary>
         /// 退款中...
         /// </summary>
-        public static readonly int ReFund = 70;
+        public static readonly int ReFund = 1100;
 
         /// <summary>
         /// 退款完成
         /// </summary>
-        public static readonly int ReFundFinish = 80;
+        public static readonly int ReFundFinish = 1200;
 
         /// <summary>
         /// 交易完成
         /// </summary>
-        public static readonly int Finish = 99;
+        public static readonly int Finish = 1300;
 
         /// <summary>
         /// 交易取消
@@ -89,6 +89,7 @@ namespace TNet.Models.Order
         /// 关闭取消
         /// </summary>
         public static readonly int Close = -999;
+
 
         public static Dictionary<int, OrderStatusItem> s = new Dictionary<int, OrderStatusItem>()
         {
@@ -108,7 +109,6 @@ namespace TNet.Models.Order
                     ops = ""
                 }
             },
-            ,
             {
                 WaitReview,
                 new OrderStatusItem()
@@ -122,7 +122,7 @@ namespace TNet.Models.Order
                 new OrderStatusItem()
                 {
                     text = "审核失败",
-                    ops = "cancel|Edit"
+                    ops = "cancel|editOrder"
                 }
             },
             {
