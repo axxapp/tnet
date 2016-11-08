@@ -32,6 +32,9 @@ namespace TCom.EF
         [StringLength(50)]
         public string oper { get; set; }
 
+        [StringLength(200)]
+        public string notes { get; set; }
+
         public bool? inuse { get; set; }
     }
 }

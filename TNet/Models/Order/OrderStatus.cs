@@ -114,7 +114,7 @@ namespace TNet.Models.Order
                 new OrderStatusItem()
                 {
                     text = "等待审核",
-                    ops = ""
+                    ops = "reviewOrder"
                 }
             },
             {

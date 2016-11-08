@@ -13,7 +13,11 @@ namespace TNet.Models.Manage
 
         public string phone { get; set; }
 
+
+
         public bool? recvOrder { get; set; }
+
+        public bool? recvReview { get; set; }
 
         public bool? recvSetup { get; set; }
 

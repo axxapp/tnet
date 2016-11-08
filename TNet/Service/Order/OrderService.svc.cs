@@ -79,7 +79,7 @@ namespace TNet.Service.Order
             return result;
         }
 
-        private MyOrderPress getMyOrderPress(string orderno, int status, string oper)
+        private MyOrderPress getMyOrderPress(string orderno, int status, string oper, string notes = "")
         {
             MyOrderPress s = new MyOrderPress();
             s.idpress = Pub.ID().ToString();
@@ -87,6 +87,7 @@ namespace TNet.Service.Order
             s.status = status;
             s.statust = OrderStatus.get(s.status).text;
             s.oper = oper;
+            s.notes = notes;
             s.inuse = true;
             s.cretime = DateTime.Now;
             return s;
@@ -155,10 +156,10 @@ namespace TNet.Service.Order
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 result.Code = R.Error;
-                result.Msg = "取消订单出现异常" + e.InnerException;
+                result.Msg = "取消订单出现异常";
             }
             return result;
         }
@@ -217,6 +218,82 @@ namespace TNet.Service.Order
             {
                 result.Code = R.Error;
                 result.Msg = "出现异常";
+            }
+            return result;
+        }
+
+
+        public Result<string> Review(ReviewData data)
+        {
+            Result<string> result = new Result<string>();
+            result.Code = R.Error;
+            result.Msg = "审核失败";
+            try
+            {
+                if (data.mgcode > 0 && !string.IsNullOrWhiteSpace(data.iduser) && !string.IsNullOrWhiteSpace(data.orderno))
+                {
+                    long _iduser = long.Parse(data.iduser);
+                    long _orderno = long.Parse(data.orderno);
+                    using (TN db = new TN())
+                    {
+                        TCom.EF.ManageUser mu = db.ManageUsers.Where(m => m.ManageUserId == data.mgcode).FirstOrDefault();
+                        if (mu != null)
+                        {
+                            TCom.EF.MyOrder mo = db.MyOrders.Where(m => m.orderno == _orderno && m.iduser == _iduser).FirstOrDefault();
+                            TCom.EF.User uo = db.Users.Where(m => m.iduser == _iduser).FirstOrDefault();
+                            if (mo != null && uo != null)
+                            {
+                                using (DbContextTransaction t = db.Database.BeginTransaction())
+                                {
+                                    int stu = data.review ? OrderStatus.Confirm : OrderStatus.ReviewFail;
+                                    int r = db.Database.ExecuteSqlCommand("update myorder set status = {0} where iduser = {1} and orderno = {2} and status = {3}", stu, _iduser, data.orderno, OrderStatus.WaitReview);
+                                    if (r > 0)
+                                    {
+                                        MyOrderPress s = getMyOrderPress(data.orderno, stu, "职员 [" + mu.UserName + "]", data.content);
+                                        db.MyOrderPresses.Add(s);
+                                        MsgMgr.ReviewOrderResult(mo, uo, data.review, data.content, db);
+                                        r = db.SaveChanges();
+                                        if (r > 0)
+                                        {
+                                            t.Commit();
+                                            MsgMgr.Post();
+                                            result.Code = R.Ok;
+                                            return result;
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        result.Code = R.Error;
+                                        result.Msg = "没找到订单";
+                                    }
+                                    t.Rollback();
+                                }
+                            }
+                            else
+                            {
+                                result.Code = R.Error;
+                                result.Msg = "没找到订单";
+                            }
+                        }
+                        else
+                        {
+                            result.Code = R.Error;
+                            result.Msg = "无此职员";
+                        }
+
+                    }
+                }
+                else
+                {
+                    result.Code = R.Error;
+                    result.Msg = "参数有误";
+                }
+            }
+            catch (Exception)
+            {
+                result.Code = R.Error;
+                result.Msg = "审核出现异常";
             }
             return result;
         }

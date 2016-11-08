@@ -94,7 +94,7 @@ namespace TCom.Msg
             return crateMsg(muser.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
 
         }
-         
+
         public static bool PostReviewOrder(string orderno, int otype, TCom.EF.TN db)
         {
             return crateMsg("", "", MsgType.PostWaitReviewOrder, orderno, otype, db);
@@ -114,7 +114,7 @@ namespace TCom.Msg
         /// <param name="db"></param>
         /// <returns></returns>
 
-        public static bool WaitReviewOrder(EF.MyOrder mo, EF.User user,EF.ManageUser muser, TCom.EF.TN db)
+        public static bool WaitReviewOrder(EF.MyOrder mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
         {
             int otype = mo.otype != null ? mo.otype.Value : 0;
             JObject jo = new JObject();
@@ -134,6 +134,40 @@ namespace TCom.Msg
 
         }
 
+
+
+        /// <summary>
+        /// 审核结果通知-用户
+        /// </summary>
+        /// <param name="idweixin"></param>
+        /// <param name="mo"></param>
+        /// <param name="iduser"></param>
+        /// <param name="uname"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+
+        public static bool ReviewOrderResult(EF.MyOrder mo, EF.User user, bool review, string content, TCom.EF.TN db)
+        {
+            int otype = mo.otype != null ? mo.otype.Value : 0;
+            JObject jo = new JObject();
+            jo["touser"] = user.idweixin;
+            jo["template_id"] = "OdL2roc-Xpyp_zQHlk7JdNIcxT1tCVyRqnuX-syxQSw";
+            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
+                + "&updateUser=1";
+            JObject jdo = new JObject();
+            jdo["first"] = getJob("您的订单有审核通知了");
+            jdo["keyword1"] = getJob(mo.orderno + "");
+            jdo["keyword2"] = getJob(DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分"));
+            jdo["keyword3"] = getJob(review ? "通过" : "未通过");
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                content = "无";
+            }
+            jdo["remark"] = getJob("审核意见：" + content);
+            jo["data"] = jdo;
+            return crateMsg(user.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
+
+        }
 
 
         public static bool crateMsg(string idweixin, string msg, int msgType, string orderno, int otype, TCom.EF.TN db)

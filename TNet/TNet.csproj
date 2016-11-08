@@ -265,6 +265,7 @@
     <Compile Include="Models\Order\OrderStatus.cs" />
     <Compile Include="Models\Order\OrderStatusItem.cs" />
     <Compile Include="Models\Order\OrderType.cs" />
+    <Compile Include="Models\Order\ReviewData.cs" />
     <Compile Include="Models\Order\SetupAddrViewModel.cs" />
     <Compile Include="Models\Order\SetupType.cs" />
     <Compile Include="Models\Order\SetupViewModel.cs" />

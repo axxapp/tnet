@@ -85,6 +85,7 @@ namespace TNet.BLL.User
                                             name = mo.UserName,
                                             phone = mo.phone,
                                             recvOrder = mo.recv_order,
+                                            recvReview = mo.recv_review,
                                             recvSetup = mo.recv_setup,
                                             sendSetup = mo.send_setup
 

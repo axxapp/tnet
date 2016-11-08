@@ -18,9 +18,9 @@
     .order_ops .amont {
         display: block;
         float: left;
-        height:60px;
-        line-height:60px;
-        padding:0px 0px 0px 10px;
+        height: 60px;
+        line-height: 60px;
+        padding: 0px 0px 0px 10px;
         width: auto;
         color: #ff0000;
         font-weight: bold;
@@ -45,15 +45,12 @@ a.pay {
     background: linear-gradient(#ce2828,#ce2228);
 }
 
-a.cancel {
-    color: #757575;
-}
-
-
 
 a.cancel {
     color: #757575;
 }
+
+
 
 
 
@@ -66,8 +63,8 @@ a.cancel {
     background-image: url("../../Images/Order/setup_tag.png");
     background-repeat: no-repeat;
     background-position: center center;
-    background-size:cover;
-    opacity:0.5;
+    background-size: cover;
+    opacity: 0.5;
 }
 
 
@@ -110,4 +107,113 @@ a.cancel {
 .idc_num {
     display: block;
     padding: 8px 10px 20px 8px;
+}
+
+
+
+.reviewOrderHost {
+    display: none;
+    background-color: #222222;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    position: fixed;
+    top: 0px;
+    left: 00px;
+    right: 0px;
+    bottom: 0px;
+}
+
+
+
+.reviewOrderBox {
+    display: none;
+    background-color: #ffffff;
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    right: 20px;
+    bottom: 80px;
+    overflow: hidden;
+    border-radius: 10px;
+    z-index: 99;
+}
+
+.reviewOrderTitle {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 10px 0px 10px;
+    color: #222222;
+    border-bottom: dotted 1px #d6d6d6;
+    background-color: #d9d9d9;
+}
+
+
+.reviewOrderContent {
+    display: block;
+    position: absolute;
+    top: 51px;
+    left: 0px;
+    right: 0px;
+    bottom: 61px;
+    padding: 5px;
+}
+
+
+
+    .reviewOrderContent textarea {
+        display: block;
+        width: 100%;
+        height: 100%;
+        max-height:100px;
+        border: none;
+        outline: none;
+        font-size: 12pt;
+    }
+
+
+.reviewOrderOps {
+    display: block;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 60px;
+    line-height: 60px;
+    color: #222222;
+    border-top: dotted 1px #d6d6d6;
+    background-color: #ffffff;
+    text-align: center;
+    z-index: 99;
+    padding: 0px;
+}
+
+
+
+a.reviewOrder_Ok, a.reviewOrder_Fail {
+    display: block;
+    width: 50%;
+    float: left;
+    height: 60px;
+    line-height: 60px;
+    padding: 0px 20px 0px 20px;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+a.reviewOrder_Ok {
+    padding: 0px 40px 0px 40px;
+    color: #5079d9;
+    border-right: solid 1px #d6d6d6;
+    /*background: #a2eecb;
+    background: linear-gradient(#5079d9,#5079d9);*/
+}
+
+
+a.reviewOrder_Fail {
+    padding: 0px 40px 0px 40px;
+    color: #ce2828;
+    /*background: #ce2828;
+    background: linear-gradient(#ce2828,#ce2828);*/
 }

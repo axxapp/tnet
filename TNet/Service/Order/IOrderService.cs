@@ -46,6 +46,10 @@ namespace TNet.Service.Order
         Result<TCom.EF.MyOrder> DetailFoyPay(string iduser, string orderno);
 
 
+        [WebInvoke(Method = "POST", UriTemplate = "Review", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+
+        Result<string> Review(ReviewData data);
+
 
 
     }

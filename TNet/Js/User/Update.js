@@ -31,14 +31,13 @@ function Save() {
         if (!phone || phone == "") {
             alert("请输入电话号码");
             //$("#phone").focus();
-            return;
+            return; 
         }
         var alias = Pub.str($("#alias").val(), true);
         var comp = Pub.str($("#comp").val(), true);
         var sex = $("#sex1").is(":checked") ? 0 : 1;
         var notes = Pub.str($("#notes").val(), true);
-        if (u.alias == alias && u.phone == phone && u.comp == comp
-                                     && u.sex == sex && u.notes == notes) {
+        if (u.alias == alias && u.phone == phone && u.comp == comp && u.sex == sex && u.notes == notes) {
             alert("用户信息未发生改变");
             return false;
         }

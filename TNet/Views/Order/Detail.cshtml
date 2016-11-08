@@ -8,13 +8,13 @@
 
 
 @section Head{
-    <link href="@Url.Content("~/Css/Order/Base.css?v=20161101")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Order/Detail.css?v=20161101")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Order/Base.css?v=20161108")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Order/Detail.css?v=20161108")" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="@Url.Content("~/Js/Order/Base.js?v=20161101")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Order/Base.js?v=20161108")">
 
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Order/Detail.js?v=20161101")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Order/Detail.js?v=20161108")">
     </script>
 
 }
@@ -102,5 +102,17 @@
             <div class="buy_r ops" id="ops"></div>
         </div>
     </div>
+    <div class="reviewOrderHost" onclick="showReviewOrderHost()">
 
+    </div>
+    <div class="reviewOrderBox">
+        <div class="reviewOrderTitle">订单审核</div>
+        <div class="reviewOrderContent">
+            <textarea id="reviewOrderCValue" maxlength="200" placeholder="输入您的审核意见吧..."></textarea>
+        </div>
+        <div class="reviewOrderOps">
+            <a class="reviewOrder_Ok" href="javascript:void(0)" onclick="reviewOrder(true)">通过</a><a class="reviewOrder_Fail" href="javascript:void(0)" onclick="reviewOrder(false)">不通过</a>
+        </div>
+    </div>
 </div>
+

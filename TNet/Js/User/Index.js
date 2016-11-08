@@ -27,6 +27,10 @@ function initParam() {
                     $("#recv_order").attr("checked", 'true');
                 }
 
+                if (tn_u.mu.recvReview) {
+                    $("#recv_review").attr("checked", 'true');
+                }
+
                 if (tn_u.mu.recvSetup) {
                     $("#recv_setup").attr("checked", 'true');
                 }
@@ -34,6 +38,9 @@ function initParam() {
                 if (tn_u.mu.sendSetup) {
                     $("#send_setup").attr("checked", 'true');
                 }
+
+
+                
 
             }
         }
