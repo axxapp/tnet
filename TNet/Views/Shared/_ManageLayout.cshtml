@@ -69,6 +69,10 @@
     <div class="C">
         <div class="manageLeft">
             <div class="panel panel-default">
+                <div class="panel-heading parentMenu">统计管理</div>
+                <div class="list-group">
+                    <a class="list-group-item" id="statisticList" href="@Url.Action("Index","Manage")">统计</a>
+                </div>
                 <div class="panel-heading parentMenu">产品管理</div>
                 <div class="list-group">
                     <a class="list-group-item" id="MercList" href="@Url.Action("MercList","Manage")">产品列表</a>
@@ -77,6 +81,7 @@
                 <div class="panel-heading parentMenu">订单管理</div>
                 <div class="list-group">
                     <a class="list-group-item" id="OrderList" href="@Url.Action("OrderList","Manage")">订单列表</a>
+                    <a class="list-group-item" id="OrderList" href="@Url.Action("WaitApprovedOrderList","Manage")">待审核订单</a>
                     <a class="list-group-item" id="SetupAddrList" href="@Url.Action("SetupAddrList","Manage")">报装地址</a>
                 </div>
                 <div class="panel-heading parentMenu">派单管理</div>
@@ -111,6 +116,7 @@
                 <div class="panel-heading parentMenu">微信管理</div>
                 <div class="list-group">
                     <a class="list-group-item" id="Menu" href="@Url.Action("Menu","Manage")">菜单</a>
+                    <a class="list-group-item" id="WeiXinModuleList" href="@Url.Action("WeiXinModuleList","Manage")">微信模块列表</a> 
                 </div>
             </div>
         </div>

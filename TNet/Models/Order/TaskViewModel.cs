@@ -93,6 +93,12 @@ namespace TNet.Models
         [Display(Name = "启用")]
         public new bool inuse { get; set; }
 
+        [Display(Name ="用户")]
+        public TCom.EF.User user { get; set; }
+
+        [Display(Name ="订单")]
+        public TCom.EF.MyOrder Order { get; set; }
+
         [Display(Name ="任务接收者")]
         public List<TaskRecverViewModel> TaskRecvers { get; set; }
 

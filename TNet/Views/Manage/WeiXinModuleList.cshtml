@@ -1,0 +1,83 @@
+﻿@using TNet.Util;
+@using TNet.Models;
+@using TNet.Util;
+@using TNet.BLL;
+
+@model List<WeiXinModuleViewModel>
+
+@{
+    Layout = "~/Views/Shared/_ManageLayout.cshtml";
+    var pageCount = Convert.ToInt32(ViewData["pageCount"]);
+    var pageIndex = Convert.ToInt32(ViewData["pageIndex"]);
+}
+<div class="ManageRightTitle">
+    <ol class="breadcrumb">
+        <li><a href="#">微信管理</a></li>
+        <li><a href="#" class="active">微信模块管理</a></li>
+    </ol>
+</div>
+<div class="ManageRightContent">
+    <div>
+        @Html.Raw(Url.BootstrapPagerHTML(pageCount, pageIndex, "WeiXinModuleList", "Manage", ViewContext.RouteData.Values))
+    </div>
+
+    <div class="list-box">
+        @if (Model.Count > 0) {
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, string>(en => en.name))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, string>(en => en.title))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, bool>(en => en.inuse))</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td>@item.name</td>
+                            <td>@item.title</td>
+                            <td>
+                                <div class="switch">
+                                    <input type="checkbox" onchange="enableWeiXinModule('@Url.Action("WeiXinModuleEnable", "Manage", new { idwxmodule = item.idwxmodule, enable = !item.inuse, isAjax = true })')" name="enableWeiXinModule" @(item.inuse ? "checked" : "") />
+                                </div>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("WeiXinModuleEdit","Manage",new { idwxmodule = item.idwxmodule })" class="btn btn-default">编辑</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else {
+            <h2>没有找到任何微信模块.</h2>
+        }
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $(function () {
+            $("[name='enableWeiXinModule']").bootstrapSwitch({ onText: '启用', offText: '禁用' });
+        });
+    });
+
+    function enableWeiXinModule(url) {
+        var manageLoginUrl = "@Url.Action("Login","Manage")";
+        $.post(url, null, function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == "3") {
+                alert(returndata.Message);
+                window.Location.href = manageLoginUrl;
+            } else if (returndata.Code == "1") {
+                //alert("操作成功.");
+                window.location.href = window.location.href;
+            } else {
+                alert("系统出错，请稍后再试。");
+            }
+        });
+    }
+</script>

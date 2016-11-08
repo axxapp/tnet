@@ -39,13 +39,16 @@ namespace TNet.Models
         [StringLength(50)]
         public new string idweixin { get; set; }
 
-        [Display(Name = "接收订单")]
+        [Display(Name = "可接受订单")]
         public new bool recv_order { get; set; }
 
-        [Display(Name = "可否接单")]
+        [Display(Name = "可接单")]
         public new bool recv_setup { get; set; }
 
-        [Display(Name = "是否可派单")]
+        [Display(Name = "可审核订单")]
+        public new bool recv_review { get; set; }
+
+        [Display(Name = "可派单")]
         public new bool send_setup { get; set; }
 
         [Display(Name = "备注")]
@@ -101,6 +104,7 @@ namespace TNet.Models
             this.idweixin = user.idweixin;
             this.recv_order =  user.recv_order ;
             this.recv_setup =  user.recv_setup ;
+            this.recv_review = user.recv_review;
             this.send_setup =  user.send_setup ;
             this.notes = user.notes;
             this.inuse = user.inuse;
@@ -118,13 +122,11 @@ namespace TNet.Models
             user.idweixin = this.idweixin;
             user.recv_order = this.recv_order;
             user.recv_setup = this.recv_setup;
+            user.recv_review = this.recv_review;
             user.send_setup = this.send_setup;
             user.notes = this.notes;
             user.inuse = this.inuse;
             user.UserType = (int)this.UserType;
-
         }
-
-
     }
 }

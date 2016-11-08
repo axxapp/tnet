@@ -108,6 +108,7 @@ namespace TNet.Models.Order
                     ops = ""
                 }
             },
+            ,
             {
                 WaitReview,
                 new OrderStatusItem()

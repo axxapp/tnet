@@ -109,6 +109,7 @@ namespace TNet.BLL
             oldOrder.idc = order.idc;
             oldOrder.idc_img1 = order.idc_img1;
             oldOrder.idc_img2 = order.idc_img2;
+            oldOrder.idc_img3 = order.idc_img3;
             oldOrder.inuse = order.inuse;
           
             db.SaveChanges();

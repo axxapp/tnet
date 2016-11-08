@@ -116,6 +116,10 @@ namespace TNet.Models
         [StringLength(255)]
         public new  string idc_img2 { get; set; }
 
+        [Display(Name = "手持身份证照")]
+        [StringLength(255)]
+        public new string idc_img3 { get; set; }
+
         [Display(Name = "订单进度")]
         public List<MyOrderPressViewModel> OrderPresses { get; set; }
 
@@ -144,6 +148,7 @@ namespace TNet.Models
             this.idc = order.idc;
             this.idc_img1 = order.idc;
             this.idc_img2 = order.idc_img2;
+            this.idc_img3 = order.idc_img3;
             this.inuse = order.inuse;
         }
 
@@ -172,6 +177,7 @@ namespace TNet.Models
             order.idc = this.idc;
             order.idc_img1 = this.idc;
             order.idc_img2 = this.idc_img2;
+            order.idc_img3 = this.idc_img3;
             order.inuse = this.inuse;
         }
     }

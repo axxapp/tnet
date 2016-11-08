@@ -50,6 +50,7 @@ namespace TNet.BLL
             oldManageUser.idweixin = manageUser.idweixin;
             oldManageUser.recv_order = manageUser.recv_order;
             oldManageUser.recv_setup = manageUser.recv_setup;
+            oldManageUser.recv_review = manageUser.recv_review;
             oldManageUser.send_setup = manageUser.send_setup;
             oldManageUser.notes = manageUser.notes;
             oldManageUser.inuse = manageUser.inuse;

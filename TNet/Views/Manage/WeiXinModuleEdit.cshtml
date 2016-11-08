@@ -1,0 +1,71 @@
+﻿@model TNet.Models.WeiXinModuleViewModel
+@using TNet.Models
+@{
+    Layout = "~/Views/Shared/_ManageLayout.cshtml";
+    ViewBag.Title = "编辑微信模块";
+    if (string.IsNullOrEmpty(Model.idwxmodule)) {
+        ViewBag.Title = "新增微信模块";
+    }
+}
+
+<div class="ManageRightTitle">
+    <ol class="breadcrumb">
+        <li><a href="#">微信管理</a></li>
+        <li><a href="@Url.Action("WeiXinModuleList","Manage")">微信模块列表</a></li>
+        <li><a href="#" class="active">@(string.IsNullOrEmpty(Model.idwxmodule) ? "新增微信模块" : "编辑微信模块")</a></li>
+    </ol>
+</div>
+<div class="ManageRightContent">
+    <form id="form1" action="@Url.Action("WeiXinModuleEdit","Manage")" method="post" class="form-horizontal">
+        <div class="merc-edit-box ">
+            <fieldset>
+                @Html.HiddenFor(model => model.idwxmodule)
+                @Html.HiddenFor(model => model.name)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.name, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        <p class="form-control-static">@Model.name</p>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.title, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(model => model.title, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.title)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.inuse, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.CheckBoxFor(model => model.inuse, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.inuse)
+                </div>
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-10" style="padding-left:10px;padding-top:10px;">
+                        <input type="submit" id="btnSave" value="保存" class="btn btn-primary" />
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#@Html.IdFor(model=>model.inuse)").bootstrapSwitch({
+            onText: '启用',
+            offText: '禁用'
+        });
+    });
+
+</script>

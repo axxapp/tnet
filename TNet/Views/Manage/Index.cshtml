@@ -2,15 +2,168 @@
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     ViewBag.Title = "后台管理";
 }
+<script src="@Url.Content("~/Js/Highcharts-5.0.2/highcharts.js")"></script>
+<script src="@Url.Content("~/Js/Highcharts-5.0.2/modules/exporting.js")"></script>
+<script src="@Url.Content("~/Js/Highcharts-5.0.2/modules/data.js")"></script>
+@*<script src="@Url.Content("~/Js/Highcharts-5.0.2/themes/sand-signika.js")"></script>*@
+<script type="text/javascript">
+    $(function () {
+        var byDayUrl = "@Url.Action("OrderStatisticByDay", "Manage",new {isAjax=true})";
+        var byDayData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", days: 30 };
+        bindCharts(byDayUrl, byDayData, "byDayContainer", chartsSetting);
+
+        var byMonthUrl = "@Url.Action("OrderStatisticByMonth", "Manage",new {isAjax=true})";
+        var byMonthData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", months: 12 };
+        bindCharts(byMonthUrl, byMonthData, "byMonthContainer", chartsSetting);
+
+        var byYearUrl = "@Url.Action("OrderStatisticByYear", "Manage",new {isAjax=true})";
+        var byYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
+        bindCharts(byYearUrl, byYearData, "byYearContainer", chartsSetting);
+    });
+
+    function bindCharts(url, data, container, chartsSettingFun) {
+        $.post(url, data, function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == 1) {
+                if (returndata.Content != null && returndata.Content.length > 0) {
+                    var categories = new Array();
+                    var numData = new Array();
+                    var amountData = new Array();
+                    for (var i = 0; i < returndata.Content.length; i++) {
+                        var item = returndata.Content[i];
+                        categories.push(item["Date"]);
+                        numData.push(item["OrderNumer"]);
+                        amountData.push(item["OrderAmount"]);
+                    }
+                    chartsSettingFun(container, categories, numData, amountData);
+                }
+                else {
+                    alert("没有任何订单。");
+                }
+            }
+            else {
+                alert("加载统计失败。");
+            }
+
+        });
+    }
+
+    function chartsSetting(container, categories, numData, amountData) {
+        $('#' + container).highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '统计订单数量/金额'
+            },
+            xAxis: {
+                categories: categories,
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: [{
+                min: 0,
+                title: {
+                    text: '数量'
+                }
+            }, {
+                title: {
+                    text: '金额 (￥)'
+                },
+                opposite: true
+            }],
+            legend: {
+                shadow: false
+            },
+            tooltip: {
+                shared: true
+            },
+            plotOptions: {
+                column: {
+                    grouping: false,
+                    shadow: false,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '订单数',
+                color: 'rgba(124, 181, 236,.9)',
+                data: numData,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#000000',
+                    align: 'right',
+                    format: '{point.y:.0f}', // one decimal
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                pointPadding: 0.2,
+                pointPlacement: 0.0
+            }, {
+                name: '订单金额',
+                color: 'rgba(186,60,61,.9)',
+                data: amountData,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#000000',
+                    align: 'right',
+                    format: '￥{point.y:.2f}', // one decimal
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                pointPadding: 0.3,
+                pointPlacement: 0.0,
+                tooltip: {
+                    valuePrefix: '￥'
+                },
+                yAxis: 1
+            }]
+        });
+    }
+</script>
 
 <div class="ManageRightTitle">
     <ol class="breadcrumb">
-        <li><a href="#">后台管理</a></li>
-        <li><a href="#" class="active">首页</a></li>
+        <li><a href="#">统计管理</a></li>
+        <li><a href="#" class="active">统计</a></li>
     </ol>
 </div>
 <div class="ManageRightContent">
-
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#byDay" id="byday-tab" role="tab" data-toggle="tab">按日统计</a>
+        </li>
+        <li role="presentation">
+            <a href="#byMonth" id="bymonth-tab" role="tab" data-toggle="tab">按月统计</a>
+        </li>
+        <li role="presentation">
+            <a href="#byYear" id="byyear-tab" role="tab" data-toggle="tab">按年统计</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="byDay">
+            <div id="byDayContainer" style="min-width:400px;height:400px;"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="byMonth">
+            <div id="byMonthContainer" style="min-width:400px;height:400px;"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="byYear">
+            <div id="byYearContainer" style="min-width:400px;height:400px;"></div>
+        </div>
+    </div>
 </div>
 
 

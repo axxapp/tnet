@@ -30,6 +30,7 @@ namespace TNet.BLL
 
             oldCity.idcity = city.idcity;
             oldCity.city1 = city.city1;
+            oldCity.code = city.code;
             oldCity.notes = city.notes;
             oldCity.sortno = city.sortno;
             oldCity.inuse = city.inuse;
@@ -77,6 +78,25 @@ namespace TNet.BLL
                     cityOptions.Add(new SelectItemViewModel<string>()
                     {
                         DisplayValue = cities[i].idcity,
+                        DisplayText = cities[i].city1
+                    });
+                }
+            }
+
+            return cityOptions;
+        }
+
+        public static List<SelectItemViewModel<string>> SelectItemValueCotainNameAndCode()
+        {
+            List<SelectItemViewModel<string>> cityOptions = new List<SelectItemViewModel<string>>();
+            List<City> cities = GetALL();
+            if (cities != null && cities.Count > 0)
+            {
+                for (int i = 0; i < cities.Count; i++)
+                {
+                    cityOptions.Add(new SelectItemViewModel<string>()
+                    {
+                        DisplayValue = cities[i].city1 + "_" + cities[i].code,
                         DisplayText = cities[i].city1
                     });
                 }

@@ -29,6 +29,13 @@
                     @Html.ValidationMessageFor(model => model.city1)
                 </div>
                 <div class="form-group">
+                    @Html.LabelFor(model => model.code, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(model => model.code, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.code)
+                </div>
+                <div class="form-group">
                     @Html.LabelFor(model => model.sortno, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
                         @Html.TextBoxFor(model => model.sortno, new { @class = "form-control" })

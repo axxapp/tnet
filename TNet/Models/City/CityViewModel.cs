@@ -20,6 +20,11 @@ namespace TNet.Models
         [StringLength(60)]
         public new string city1 { get; set; }
 
+        [Display(Name = "代码")]
+        [StringLength(60)]
+        [Required]
+        public new string code { get; set; }
+
         [Display(Name = "备注")]
         [StringLength(60)]
         public new string notes { get; set; }
@@ -42,6 +47,7 @@ namespace TNet.Models
         {
             this.idcity = city.idcity;
             this.city1 = city.city1;
+            this.code = city.code;
             this.notes = city.notes;
             this.sortno = city.sortno;
             this.inuse = city.inuse;
@@ -52,6 +58,7 @@ namespace TNet.Models
         {
             city.idcity = this.idcity;
             city.city1 = this.city1;
+            city.code = this.code;
             city.notes = this.notes;
             city.sortno = this.sortno;
             city.inuse = this.inuse;
