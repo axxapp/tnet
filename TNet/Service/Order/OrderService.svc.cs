@@ -240,6 +240,12 @@ namespace TNet.Service.Order
                         if (mu != null)
                         {
                             TCom.EF.MyOrder mo = db.MyOrders.Where(m => m.orderno == _orderno && m.iduser == _iduser).FirstOrDefault();
+                            if (mo.status != OrderStatus.WaitReview)
+                            {
+                                result.Code = R.Error;
+                                result.Msg = "审核失败,订单可能已经审核.";
+                                return result;
+                            }
                             TCom.EF.User uo = db.Users.Where(m => m.iduser == _iduser).FirstOrDefault();
                             if (mo != null && uo != null)
                             {
@@ -266,7 +272,7 @@ namespace TNet.Service.Order
                                     else
                                     {
                                         result.Code = R.Error;
-                                        result.Msg = "没找到订单";
+                                        result.Msg = "审核失败,订单可能已经审核.";
                                     }
                                     t.Rollback();
                                 }

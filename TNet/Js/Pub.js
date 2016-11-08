@@ -746,7 +746,7 @@
 //错误
 window.onerror = function (errorMessage, scriptURI, lineNumber, columnNumber, errorObj) {
     if (errorMessage) {
-        alert(errorMessage + "," + scriptURI + ",lineNumber=" + lineNumber);
+        //alert(errorMessage + "," + scriptURI + ",lineNumber=" + lineNumber);
     }
     return false;
 };

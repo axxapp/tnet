@@ -137,7 +137,7 @@ namespace TComCoreService
                                            select muo).ToList();
                                 //Pub.e("Msg-Count:" + mus.Count);
                                 List<TCom.EF.Msg> ms = db.Msgs.Where(m => m.inuse == true && m.status == 0).ToList();
-
+                                int errcode = 0;
                                 if (ms != null && mus != null)
                                 {
                                     for (int i = 0; i < ms.Count; i++)
@@ -167,22 +167,6 @@ namespace TComCoreService
 
                                                     }
                                                 }
-                                                else if (m.type == MsgType.PayFinishOrder)
-                                                {
-                                                    JObject j = Msg.Send(m.msg1);
-                                                    if (j != null && j.Value<int>("errcode") == 0)
-                                                    {
-                                                        m.status = 1;
-                                                    }
-                                                }
-                                                else if (m.type == MsgType.SetupOrder)
-                                                {
-                                                    JObject j = Msg.Send(m.msg1);
-                                                    if (j != null && j.Value<int>("errcode") == 0)
-                                                    {
-                                                        m.status = 1;
-                                                    }
-                                                }
                                                 else if (m.type == MsgType.PostWaitReviewOrder)
                                                 {
                                                     isPub = true;
@@ -196,13 +180,26 @@ namespace TComCoreService
                                                         }
                                                     }
                                                 }
-                                                if (m.type == MsgType.WaitReviewOrder)
+                                                else if (m.type == MsgType.PayFinishOrder ||
+                                                    m.type == MsgType.SetupOrder || m.type == MsgType.PostWaitReviewOrder ||
+                                                    m.type == MsgType.WaitReviewOrder)
                                                 {
-                                                    JObject j = Msg.Send(m.msg1);
-                                                    if (j != null && j.Value<int>("errcode") == 0)
+                                                    for (int g = 0; g < 2; g++)
                                                     {
-                                                        m.status = 1;
+                                                        JObject j = Msg.Send(m.msg1);
+                                                        errcode = j != null ? j.Value<int>("errcode") : -1;
+                                                        if (errcode == 0)
+                                                        {
+                                                            m.status = 1;
+                                                            break;
+                                                        }
+                                                        else if (errcode == 40001)
+                                                        {
+                                                            isPub = true;
+                                                            Pub.delAccessToken();
+                                                        }
                                                     }
+
                                                 }
                                                 if (db.SaveChanges() > 0)
                                                 {
@@ -225,7 +222,6 @@ namespace TComCoreService
                                 Pub.e("error=" + e.InnerException + "_" + e.Message);
                                 //throw e;
                             }
-
                             if (isPub)
                             {
                                 goto look;
@@ -235,7 +231,6 @@ namespace TComCoreService
                     }
                     catch (Exception e)
                     {
-
                         Pub.e("error=" + e.InnerException + "_+_+_+_+_+" + e.Message);
                         //throw e;
                     }

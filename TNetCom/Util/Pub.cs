@@ -162,6 +162,11 @@ namespace TCom.Util
                 return am;
             }
         }
+        public static bool delAccessToken()
+        {
+            am = null;
+            return true;
+        }
 
         /// <summary>
         /// 从本地获取accessToken
