@@ -245,10 +245,11 @@ namespace TNet.Service.Order
                             {
                                 using (DbContextTransaction t = db.Database.BeginTransaction())
                                 {
-                                    int stu = data.review ? OrderStatus.Confirm : OrderStatus.ReviewFail;
+                                    int stu = data.review ? OrderStatus.WaitPay : OrderStatus.ReviewFail;
                                     int r = db.Database.ExecuteSqlCommand("update myorder set status = {0} where iduser = {1} and orderno = {2} and status = {3}", stu, _iduser, data.orderno, OrderStatus.WaitReview);
                                     if (r > 0)
                                     {
+                                        stu = data.review ? OrderStatus.Confirm : OrderStatus.ReviewFail;
                                         MyOrderPress s = getMyOrderPress(data.orderno, stu, "职员 [" + mu.UserName + "]", data.content);
                                         db.MyOrderPresses.Add(s);
                                         MsgMgr.ReviewOrderResult(mo, uo, data.review, data.content, db);

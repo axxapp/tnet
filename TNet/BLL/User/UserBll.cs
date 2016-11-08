@@ -14,19 +14,26 @@ namespace TNet.BLL.User
 {
     public class UserBll
     {
-        public static List<TCom.EF.User> SearchByPhone(string phone) {
+        public static List<TCom.EF.User> SearchByPhone(string phone)
+        {
             List<TCom.EF.User> entities = new List<TCom.EF.User>();
-            TN db = new TN();
-            entities=db.Users.Where(en => en.phone.Contains(phone)).ToList();
-
-            return entities;
+            using (TN db = new TN())
+            {
+                entities = db.Users.Where(en => en.phone.Contains(phone)).ToList();
+                return entities;
+            }
         }
 
-        public static TCom.EF.User Get(long iduser) {
+        public static TCom.EF.User Get(long iduser)
+        {
             List<TCom.EF.User> entities = new List<TCom.EF.User>();
-            TN db = new TN();
-            return db.Users.Where(en=>en.iduser== iduser).First();
+            using (TN db = new TN())
+            {
+                return db.Users.Where(en => en.iduser == iduser).First();
+            }
         }
+
+ 
 
         public static bool Auth(ref string user)
         {
@@ -95,12 +102,11 @@ namespace TNet.BLL.User
                         }
                     }
                 }
-
-
             }
-
             return false;
         }
+
+
 
 
         private static JObject getOpenid()
@@ -142,5 +148,7 @@ namespace TNet.BLL.User
             string c = JsonConvert.SerializeObject(uo);
             return c;
         }
+
+         
     }
 }

@@ -26,6 +26,7 @@ namespace TNet.Service.User
         /// <returns></returns>
         [WebInvoke(Method = "POST", UriTemplate = "Update", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
         Result<bool> Update(UserData data);
+        
 
     }
 }

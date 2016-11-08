@@ -89,14 +89,23 @@ function getOps(status, order) {
 
 
 function showReviewOrderHost(orderno) {
-    $(".reviewOrderHost").toggle();
-    $(".reviewOrderBox").toggle();
+    if (!orderno) {
+        orderno = "";
+    }
+    if ($(".reviewOrderHost").is(":hidden")) {
+        $(".reviewOrderHost").css("display", "block");
+        $(".reviewOrderBox_Host").css("display", "flex");
+    } else {
+        $(".reviewOrderHost").css("display", "none");
+        $(".reviewOrderBox_Host").css("display", "none");
+    }
     $(".reviewOrderHost").attr("orderno", orderno);
 }
 
 
 //审核
-function reviewOrder(review) {
+function reviewOrder(review, event) {
+    event.cancelBubble = true;
     var orderno = $(".reviewOrderHost").attr("orderno");
     if (orderno) {
         var content = Pub.str($("#reviewOrderCValue").val(), true);
@@ -122,7 +131,16 @@ function reviewOrder(review) {
                     //alert(JSON.stringify(data));
                     if (Pub.wsCheck(data)) {
                         alert("审核成功");
-                        window.location.href = window.location.href + "";
+                        var realu = window.location.href + "";
+                        var reg = new RegExp('[?|&]t=([^&]+)');
+                        realu = realu.replace(reg, '');
+                        if (realu.indexOf("?") > 0) {
+                            realu += "&";
+                        } else {
+                            realu += "?";
+                        }
+                        realu += "t=" + (new Date).getTime();
+                        window.location.href = realu;
                         return;
                     }
                     //alert("审核失败,请稍后重试");

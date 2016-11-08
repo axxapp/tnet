@@ -248,7 +248,6 @@
                 } catch (e) {
 
                 }
-
                 success(data);
             }
         };
@@ -378,7 +377,15 @@
     }
 
     function checkUser(go) {
+        var updateUser = Pub.urlParam("updateUser");
         var tn_u = Pub.getUser();
+        if (updateUser) {
+            var updateUser_time = getCache("updateUser_time");
+            if (!updateUser_time || ((new Date).getTime() - updateUser_time) > 1000 * 60 * 10) {
+                tn_u = "";
+                Pub.delUser();
+            }
+        }
         if (!tn_u || tn_u == "") {
             auth(go);
             return false;
@@ -433,19 +440,32 @@
     function goUser(isReturn, noGo) {
         var realu = "";
         //if (!isHome()) {
+        var up = false;
         if (isReturn) {
             realu = window.location.href + "";
+            //alert(realu);
+            var reg = /[&]updateUser=1/;
+            realu = realu.replace(reg, '');
+            up = true;
+            //alert(realu);
+            //return;
         }
         uurl = encodeURIComponent(full_root_url + "user?ru=" + encodeURIComponent(realu));
         u = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc530ec3ce6a52233&redirect_uri=' + uurl + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
         if (!noGo) {
             if (window.navigator.userAgent.indexOf("MicroMesseng") > 0) {
+                if (up) {
+                    Pub.setCache("updateUser_time", (new Date()).getTime());
+                }
                 window.location.href = u;
                 return true;
             }
         }
         return false;
     }
+
+
+
     var callFunc = { "common": new Array(), "city": new Array() };
     function hasCityListen() {
         return callFunc.city.length;

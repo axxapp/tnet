@@ -815,6 +815,7 @@
     <Content Include="Js\User\Index.js" />
     <Content Include="Js\User\Update.js" />
     <Content Include="MP_verify_ihu7x0BozQLNCJ1q.txt" />
+    <Content Include="DB\20160828" />
     <None Include="Js\Com\jquery.validate-vsdoc.js" />
     <Content Include="Js\Com\jquery.validate.js" />
     <Content Include="Js\Com\jquery.validate.min.js" />
