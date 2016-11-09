@@ -13,9 +13,15 @@ namespace TNet.Models.Order
     public class OrderStatus
     {
         /// <summary>
+        /// 用户修改
+        /// </summary>
+        public static readonly int UserUpdate = 1;
+
+        /// <summary>
         /// 创建订单
         /// </summary>
         public static readonly int Create = 100;
+
 
         /// <summary>
         /// 确认订单
@@ -93,10 +99,19 @@ namespace TNet.Models.Order
 
         public static Dictionary<int, OrderStatusItem> s = new Dictionary<int, OrderStatusItem>()
         {
+
+            {
+                UserUpdate,
+                new OrderStatusItem()
+                {
+                    text = "修改订单",
+                    ops = ""
+                }
+            },
              {
                 Create,
                 new OrderStatusItem()
-                { 
+                {
                     text = "订单创建",
                     ops = "cancel|pay"
                 }
@@ -104,7 +119,7 @@ namespace TNet.Models.Order
             {
                 Confirm,
                 new OrderStatusItem()
-                { 
+                {
                     text = "确认订单",
                     ops = ""
                 }
@@ -112,7 +127,7 @@ namespace TNet.Models.Order
             {
                 WaitReview,
                 new OrderStatusItem()
-                { 
+                {
                     text = "等待审核",
                     ops = "reviewOrder"
                 }
@@ -120,7 +135,7 @@ namespace TNet.Models.Order
             {
                 ReviewFail,
                 new OrderStatusItem()
-                { 
+                {
                     text = "审核失败",
                     ops = "cancel|editOrder"
                 }
@@ -128,7 +143,7 @@ namespace TNet.Models.Order
             {
                 WaitPay,
                 new OrderStatusItem()
-                { 
+                {
                     text = "等待支付",
                     ops = "cancel|pay"
                 }
@@ -136,7 +151,7 @@ namespace TNet.Models.Order
             {
                 PayFinish,
                 new OrderStatusItem()
-                { 
+                {
                     text = "支付完成",
                     ops = "sendmsg"
                 }
@@ -144,7 +159,7 @@ namespace TNet.Models.Order
             {
                 WaitSettle,
                 new OrderStatusItem()
-                { 
+                {
                     text = "等待结算",
                     ops = "sendmsg"
                 }
@@ -152,7 +167,7 @@ namespace TNet.Models.Order
             {
                 Cancel,
                 new OrderStatusItem()
-                { 
+                {
                     text = "已经取消",
                     ops = ""
                 }
@@ -160,7 +175,7 @@ namespace TNet.Models.Order
             {
                 Close,
                 new OrderStatusItem()
-                { 
+                {
                     text = "已关闭",
                     ops = ""
                 }
@@ -168,7 +183,7 @@ namespace TNet.Models.Order
             {
                 0,
                 new OrderStatusItem()
-                { 
+                {
                     text = "未知",
                     ops = ""
                 }

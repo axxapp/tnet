@@ -78,7 +78,61 @@ namespace TNet.Service.Order
             }
             return result;
         }
+        public Result<bool> Update(UpdateData data)
+        {
+            Result<bool> result = new Result<bool>();
+            try
+            {
+                long orderno = long.Parse(data.orderno);
+                long iduser = long.Parse(data.iduser);
+                using (TCom.EF.TN db = new TCom.EF.TN())
+                {
+                    TCom.EF.User uo = db.Users.Where(m => m.iduser == iduser && m.inuse == true).FirstOrDefault();
+                    TCom.EF.MyOrder o = db.MyOrders.Where(m => m.orderno == orderno && m.iduser == iduser && m.inuse == true && m.status == OrderStatus.ReviewFail).FirstOrDefault();
+                    if (o != null && uo != null)
+                    {
+                        db.MyOrders.Attach(o);
+                        o.contact = data.contact;
+                        o.addr = data.addr;
+                        o.phone = data.phone;
+                        o.notes = data.notes;
+                        o.idc = data.idc;
+                        o.idc_img1 = data.idc_img1;
+                        o.idc_img2 = data.idc_img2;
+                        o.idc_img3 = data.idc_img3;
+                        o.status = OrderStatus.WaitReview;
+                        MyOrderPress s = getMyOrderPress(o.orderno.ToString(), OrderStatus.UserUpdate, "用户 [" + uo.name + "]");
+                        db.MyOrderPresses.Add(s);
+                        if (o.status == OrderStatus.WaitReview)
+                        {
+                            MsgMgr.PostReviewOrder(o.orderno + "", o.otype.Value, db);
+                        }
+                        if (db.SaveChanges() > 0)
+                        {
+                            result.Data = true;
+                            result.Code = R.Ok;
+                            MsgMgr.Post();
+                        }
+                        else
+                        {
+                            result.Msg = "更新失败";
+                            result.Code = R.Error;
+                        }
+                    }
+                    else
+                    {
+                        result.Msg = "订单不存在 或 已经发生了改变";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                result.Code = R.Error;
+                result.Msg = "出现异常";
+            }
+            return result;
 
+        }
         private MyOrderPress getMyOrderPress(string orderno, int status, string oper, string notes = "")
         {
             MyOrderPress s = new MyOrderPress();

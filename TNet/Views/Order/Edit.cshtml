@@ -1,39 +1,59 @@
 ﻿
 @{
-    ViewBag.Title = "确认订单";
+    ViewBag.Title = "编辑订单";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 @section Head{
-
     <link href="@Url.Content("~/Css/Order/Base.css?v=20161113")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Order/Submit.css?v=20161113")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Order/Edit.css?v=20161113")" rel="stylesheet" type="text/css" />
 
+    <script type="text/javascript" src="@Url.Content("~/Js/Order/Base.js?v=20161113")">
 
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/Base.js?v=20161113")">
     </script>
+
     <script type="text/javascript" src="@Url.Content("~/Js/Order/UpdateBase.js?v=20161113")">
 
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Order/Submit.js?v=20161113")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Order/Edit.js?v=20161113")">
 
     </script>
 
-
 }
 
+
 <div id="OC" class="OC">
+    <div class='setup_tag'></div>
+    @*<div class="title">订单信息：</div>*@
+    <div class="order">
+        <div class="no" id="orderno">订单...</div>
+        <div class="status" id="status">状态...</div>
+    </div>
+    <div class="review_msg_host">
+        <div class="vline"></div>
+        <div class="title">审核意见：</div>
+        <div class="review_msg">
+        </div>
+    </div>
+    <div class="vline"></div>
+    <div class="title">地址信息：</div>
     <div class="addr">
         <a href="javascript:void(0)" id="addr" onclick="selectAddr()">
             <i class="iconfont">&#xe615</i>
-            <span>请选择地址...</span>
+            <div class="addrInfo">
+                <div class="npHost">
+                    <span class="contacts" id="contacts">联系人...</span>
+                    <span class="phones" id="phones">电话....</span>
+                </div>
+                <div class="realAddr" id="realAddr">地址...</div>
+            </div>
             <span class="choice"></span>
         </a>
     </div>
 
     <div class="vline"></div>
-
+    <div class="title">商品信息：</div>
     <a href="#" id="merc" class="merc">
         <div class="merc_l">
             <img id="ico" />
@@ -49,6 +69,7 @@
             <span id="merc_count">x0</span>
         </div>
     </a>
+    <div class="merc_st_et">期间：<span id="merc_st_et"></span></div>
 
     <div class="resource">
         <div class="vline"></div>
@@ -80,26 +101,29 @@
         </div>
 
     </div>
-
     <div class="vline"></div>
-    <div class="title">留言:</div>
+    <div class="title">处理进度：</div>
+    <div class="Presses" id="Presses"></div>
+    <div class="vline"></div>
+    <div class="title">留言信息：</div>
     <div class="notes">
-
-        <div class="edit">
-            <input type="text" id="notes" placeholder="给卖家留言,最多15汉字..." maxlength="15" />
+        <div class="comm" id="comm">
+            <input type="text" id="notes"  placeholder="买家的留言..." maxlength="15" />
         </div>
     </div>
-    <div class="vline"></div>
-    <div class="placeholder"></div>
+
 
     <div class="buyhost">
         <div class="buy">
             <div class="buy_l">
 
-                <a href="javascript:void(0)" class="buy_att_month">送: 0  月</a>
-                <a href="javascript:void(0)" id="buy_amount" class="buy_amount">应付金额：<span class="amount" id="amount">￥ 0.00</span></a>
+                <a href="javascript:void(0)" class="buy_att_month" id="attmonth">送: 0  月</a>
+                <a href="javascript:void(0)" id="buy_amount" class="buy_amount">金额:<span class="amount" id="amount">￥ 0.00</span></a>
             </div>
-            <div class="buy_r"><a href="javascript:void(0)" class="go_buy" onclick="submit()">下单</a></div>
+
+            <div class="buy_r ops" id="ops">
+                <a class="pay" href="javascript:void(0)" onclick="saveOrder()">保存</a>
+            </div>
         </div>
     </div>
 </div>

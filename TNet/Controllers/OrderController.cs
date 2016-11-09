@@ -40,6 +40,11 @@ namespace TNet.Controllers
             return View();
         }
 
+        public ActionResult Edit()
+        {
+            return View();
+        }
+
         //微信支付通知
         public ActionResult WeixinPayNotice()
         {

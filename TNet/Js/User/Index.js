@@ -40,7 +40,7 @@ function initParam() {
                 }
 
 
-                
+
 
             }
         }
@@ -55,3 +55,7 @@ function setV(id, v) {
     $("#" + id).html(v);
 }
 $(document.body).ready(initParam);
+
+
+//错误
+window.onerror = null;

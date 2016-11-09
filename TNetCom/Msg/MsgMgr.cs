@@ -50,7 +50,7 @@ namespace TCom.Msg
                 + "&updateUser=1";
             JObject jdo = new JObject();
             jdo["first"] = getJob(mo.merc + "(" + mo.spec + ")");
-            jdo["tradeDateTime"] = getJob(mo.cretime != null ? mo.cretime.Value.ToString("MM月dd日 HH时mm分") : "无");
+            jdo["tradeDateTime"] = getJob(mo.cretime != null ? mo.cretime.Value.ToString("yyyy年MM月dd日 HH时mm分") : "无");
             jdo["orderType"] = getJob((otype == 1) ? "宽带" : "报装");
             jdo["customerInfo"] = getJob(user.name);
             jdo["orderItemName"] = getJob("交易金额");
@@ -126,7 +126,7 @@ namespace TCom.Msg
             jdo["first"] = getJob("请审核以下订单");
             jdo["keyword1"] = getJob(mo.orderno + "");
             jdo["keyword2"] = getJob(mo.totalfee + "");
-            jdo["keyword3"] = getJob(mo.cretime.Value.ToString("yyyy-MM-dd"));
+            jdo["keyword3"] = getJob(mo.cretime.Value.ToString("yyyy年MM月dd日 HH时mm分"));
             jdo["keyword4"] = getJob("用户 [" + user.name + "]");
             jdo["remark"] = getJob("请尽快审核！");
             jo["data"] = jdo;

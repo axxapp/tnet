@@ -271,6 +271,7 @@
     <Compile Include="Models\Order\SetupViewModel.cs" />
     <Compile Include="Models\Order\TaskRecverViewModel.cs" />
     <Compile Include="Models\Order\TaskViewModel.cs" />
+    <Compile Include="Models\Order\UpdateData.cs" />
     <Compile Include="Models\Pay\PayData.cs" />
     <Compile Include="Models\Pay\PayNotifyResult.cs" />
     <Compile Include="Models\Pay\PayResult.cs" />
@@ -490,6 +491,7 @@
     <Content Include="Css\Issue\List.css" />
     <Content Include="Css\Notice\Detail.css" />
     <Content Include="Css\Notice\List.css" />
+    <Content Include="Css\Order\Edit.css" />
     <Content Include="Css\Task\Base.css" />
     <Content Include="Css\User\Update.css" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.js" />
@@ -727,9 +729,11 @@
     <Content Include="Js\Notice\List.js" />
     <Content Include="Js\Order\Base.js" />
     <Content Include="Js\Order\Detail.js" />
+    <Content Include="Js\Order\Edit.js" />
     <Content Include="Js\Order\List.js" />
     <Content Include="Js\Order\Pay.js" />
     <Content Include="Js\Order\Submit.js" />
+    <Content Include="Js\Order\UpdateBase.js" />
     <Content Include="Js\Pub.js" />
     <Content Include="Css\Manage\Master.css" />
     <Content Include="Css\Manage\Menu.css" />
@@ -1235,6 +1239,7 @@
     <Content Include="Views\Manage\WaitApprovedOrderList.cshtml" />
     <Content Include="Views\Manage\WeiXinModuleList.cshtml" />
     <Content Include="Views\Manage\WeiXinModuleEdit.cshtml" />
+    <Content Include="Views\Order\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />
