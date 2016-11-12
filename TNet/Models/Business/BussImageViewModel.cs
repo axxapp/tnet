@@ -10,10 +10,10 @@ namespace TNet.Models {
     [NotMapped]
     public class BussImageViewModel :BussImage{
         [Display(Name ="商圈图片编号")]
-        public new long BussImageId { get; set; }
+        public new string BussImageId { get; set; }
 
         [Display(Name = "商圈编号")]
-        public new long? idbuss { get; set; }
+        public new string idbuss { get; set; }
 
         [Display(Name = "图片")]
         [StringLength(500)]

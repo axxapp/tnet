@@ -13,11 +13,11 @@ namespace TNet.Models
     public   class MercViewModel: TCom.EF.Merc, IEqualityComparer<MercViewModel>
     {
         [Display(Name = "产品编号")]
-        public new   int idmerc { get; set; }
+        public new string idmerc { get; set; }
 
         [Display(Name = "产品类型")]
         [Required]
-        public new  int? idtype { get; set; }
+        public new  string idtype { get; set; }
 
         /// <summary>
         /// 产品类型

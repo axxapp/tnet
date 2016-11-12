@@ -70,6 +70,14 @@ namespace TCom.EF
                 .Property(e => e.typename)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<AdvertiseType>()
+                .Property(e => e.pos)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Business>()
+                .Property(e => e.idbuss)
+                .IsUnicode(false);
+
             modelBuilder.Entity<Business>()
                 .Property(e => e.buss)
                 .IsUnicode(false);
@@ -111,6 +119,14 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<BussImage>()
+                .Property(e => e.BussImageId)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<BussImage>()
+                .Property(e => e.idbuss)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<BussImage>()
                 .Property(e => e.Path)
                 .IsUnicode(false);
 
@@ -143,6 +159,14 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<Discount>()
+                .Property(e => e.idmerc)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Discount>()
+                .Property(e => e.idspec)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Discount>()
                 .Property(e => e.notes)
                 .IsUnicode(false);
 
@@ -156,6 +180,14 @@ namespace TCom.EF
 
             modelBuilder.Entity<Img>()
                 .Property(e => e.outpro)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Img>()
+                .Property(e => e.outpro2)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Img>()
+                .Property(e => e.outpro3)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Issue>()
@@ -179,6 +211,10 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<ManageUser>()
+                .Property(e => e.ManageUserId)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ManageUser>()
                 .Property(e => e.idweixin)
                 .IsUnicode(false);
 
@@ -188,6 +224,14 @@ namespace TCom.EF
 
             modelBuilder.Entity<MenuItem>()
                 .Property(e => e.Link)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Merc>()
+                .Property(e => e.idmerc)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Merc>()
+                .Property(e => e.idtype)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Merc>()
@@ -215,7 +259,19 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<MercImage>()
+                .Property(e => e.MercImageId)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MercImage>()
+                .Property(e => e.idmerc)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MercImage>()
                 .Property(e => e.Path)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MercType>()
+                .Property(e => e.idtype)
                 .IsUnicode(false);
 
             modelBuilder.Entity<MercType>()
@@ -244,6 +300,14 @@ namespace TCom.EF
 
             modelBuilder.Entity<Msg>()
                 .Property(e => e.orderno)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MyAddr>()
+                .Property(e => e.idaddr)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MyAddr>()
+                .Property(e => e.iduser)
                 .IsUnicode(false);
 
             modelBuilder.Entity<MyAddr>()
@@ -276,6 +340,18 @@ namespace TCom.EF
 
             modelBuilder.Entity<MyAddr>()
                 .Property(e => e.notes)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MyOrder>()
+                .Property(e => e.orderno)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MyOrder>()
+                .Property(e => e.iduser)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MyOrder>()
+                .Property(e => e.idmerc)
                 .IsUnicode(false);
 
             modelBuilder.Entity<MyOrder>()
@@ -399,6 +475,10 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<Spec>()
+                .Property(e => e.idmerc)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Spec>()
                 .Property(e => e.spec1)
                 .IsUnicode(false);
 
@@ -495,6 +575,10 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
+                .Property(e => e.iduser)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
                 .Property(e => e.alias)
                 .IsUnicode(false);
 
@@ -532,6 +616,10 @@ namespace TCom.EF
 
             modelBuilder.Entity<WeiXinModule>()
                 .Property(e => e.title)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<WeiXinModule>()
+                .Property(e => e.notes)
                 .IsUnicode(false);
         }
     }

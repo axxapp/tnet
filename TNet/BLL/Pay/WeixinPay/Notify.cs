@@ -88,7 +88,7 @@ namespace WxPayAPI
                     if (!string.IsNullOrWhiteSpace(orderno) && !string.IsNullOrWhiteSpace(openid))
                     {
                         string trade_state = data.GetValue("trade_state") + "";
-                        long _orderno = long.Parse(orderno);
+                         
                         DateTime paytime = DateTime.Now;
                         try
                         {
@@ -107,7 +107,7 @@ namespace WxPayAPI
                             TCom.EF.User u = db.Users.Where(m => m.idweixin == openid && m.inuse == true).FirstOrDefault();
                             if (u != null)
                             {
-                                TCom.EF.MyOrder o = db.MyOrders.Where(m => m.orderno == _orderno && m.inuse == true).FirstOrDefault();
+                                TCom.EF.MyOrder o = db.MyOrders.Where(m => m.orderno == orderno && m.inuse == true).FirstOrDefault();
                                 if (o != null)
                                 {
                                     // bool ok = false;
@@ -119,7 +119,7 @@ namespace WxPayAPI
                                         {
                                             o.status = OrderStatus.PayFinish;
                                             MyOrderPress s = new MyOrderPress();
-                                            s.idpress = Pub.ID().ToString();
+                                            s.idpress = Pub.ID();
                                             s.orderno = orderno;
                                             s.status = OrderStatus.PayFinish;
                                             s.statust = OrderStatus.get(s.status).text;

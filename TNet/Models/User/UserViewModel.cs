@@ -13,7 +13,7 @@ namespace TNet.Models {
         public new string idweixin { get; set; }
 
         [Display(Name = "用户编号")]
-        public new long iduser { get; set; }
+        public new string iduser { get; set; }
 
         [Display(Name = "用户名称")]
         [Required]

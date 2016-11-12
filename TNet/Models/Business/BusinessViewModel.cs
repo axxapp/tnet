@@ -14,7 +14,7 @@ namespace TNet.Models
     {
         [Display(Name = "商家ID")]
         [Required]
-        public new long idbuss { get; set; }
+        public new string idbuss { get; set; }
 
         [Display(Name = "商家")]
         [Required]

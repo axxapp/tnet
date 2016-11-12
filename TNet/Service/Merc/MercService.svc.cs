@@ -52,7 +52,13 @@ namespace TNet.Service.Merc
                 {
                     result.Data = new MercList()
                     {
-                        Mercs = db.Mercs.Where(mr => mr.inuse == true).OrderByDescending(m => m.idtype).ThenByDescending(m => m.sortno).ToList(),
+                        Mercs = (from m in db.Mercs
+                                 join c in db.CityRelations on m.idmerc equals c.idmodule
+                                 where m.inuse == true && c.inuse == true && c.idcity == city
+                                 orderby m.idtype descending, m.sortno descending
+                                 select m).ToList(),
+
+                        //db.Mercs.Where(mr => mr.inuse == true &&).OrderByDescending(m => m.idtype).ThenByDescending(m => m.sortno).ToList(),
                         Types = db.MercTypes.Where(m => m.inuse == true).OrderByDescending(m => m.sortno).ToList()
 
                     };
@@ -74,20 +80,19 @@ namespace TNet.Service.Merc
             {
                 if (!string.IsNullOrWhiteSpace(idmerc))
                 {
-                    int _idmerc = int.Parse(idmerc);
                     using (TN db = new TN())
                     {
                         MercDataSingle m = new MercDataSingle()
                         {
-                            Merc = db.Mercs.First(mr => mr.inuse == true && mr.idmerc == _idmerc),
-                            Spec = db.Specs.Where(mr => mr.inuse == true && mr.idmerc == _idmerc).ToList(),
-                            Discount = db.Discounts.Where(mr => mr.inuse == true && mr.idmerc == _idmerc).ToList(),
-                            Imgs = (from im in db.MercImages where (im.idmerc == _idmerc) select im.Path).ToList()
+                            Merc = db.Mercs.First(mr => mr.inuse == true && mr.idmerc == idmerc),
+                            Spec = db.Specs.Where(mr => mr.inuse == true && mr.idmerc == idmerc).ToList(),
+                            Discount = db.Discounts.Where(mr => mr.inuse == true && mr.idmerc == idmerc).ToList(),
+                            Imgs = (from im in db.MercImages where (im.idmerc == idmerc) select im.Path).ToList()
                         };
                         if (m.Merc != null)
                         {
-                            m.Setups = db.Setups.Where(mr => mr.inuse == true && mr.idtype == m.Merc.idtype.ToString()).ToList();
-                            m.SetupAddrs = db.SetupAddrs.Where(mr => mr.inuse == true && mr.idtype == m.Merc.idtype.ToString()).ToList();
+                            m.Setups = db.Setups.Where(mr => mr.inuse == true && mr.idtype == m.Merc.idtype).ToList();
+                            m.SetupAddrs = db.SetupAddrs.Where(mr => mr.inuse == true && mr.idtype == m.Merc.idtype).ToList();
                         }
                         result.Data = m;
                         result.Code = R.Ok;
@@ -97,7 +102,7 @@ namespace TNet.Service.Merc
             catch (Exception e)
             {
                 result.Code = R.Error;
-                result.Msg = "出现异常"+e.Message;
+                result.Msg = "出现异常" + e.Message;
             }
             return result;
         }

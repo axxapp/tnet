@@ -24,7 +24,7 @@ namespace TNet.BLL.User
             }
         }
 
-        public static TCom.EF.User Get(long iduser)
+        public static TCom.EF.User Get(string iduser)
         {
             List<TCom.EF.User> entities = new List<TCom.EF.User>();
             using (TN db = new TN())

@@ -13,10 +13,10 @@ namespace TNet.Models
     {
         [Display(Name ="图片编号")]
         [Required]
-        public new  int MercImageId { get; set; }
+        public new  string MercImageId { get; set; }
 
         [Required]
-        public new  int idmerc { get; set; }
+        public new string idmerc { get; set; }
 
         [Display(Name ="产品图片")]
         [StringLength(500)]

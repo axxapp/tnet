@@ -9,7 +9,7 @@
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     var pageCount = Convert.ToInt32(ViewData["pageCount"]);
     var pageIndex = Convert.ToInt32(ViewData["pageIndex"]);
-    int mercId = Convert.ToInt32(ViewData["mercId"]);
+    string mercId = ViewData["mercId"]+"";
 }
 <div class="ManageRightTitle">
     <ol class="breadcrumb">
@@ -31,8 +31,8 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>@(AttributeHelper.DisplayAttributeFor<MercImageViewModel, int>(en => en.MercImageId))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<MercImageViewModel, String>(en => en.Path))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MercImageViewModel, string>(en => en.MercImageId))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<MercImageViewModel, string>(en => en.Path))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<MercImageViewModel, int?>(en => en.SortID))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<MercImageViewModel, bool?>(en => en.InUse))</th>
                         <th>操作</th>

@@ -9,10 +9,11 @@ namespace TCom.EF
     [Table("BussImage")]
     public partial class BussImage
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long BussImageId { get; set; }
+        [StringLength(60)]
+        public string BussImageId { get; set; }
 
-        public long? idbuss { get; set; }
+        [StringLength(60)]
+        public string idbuss { get; set; }
 
         [StringLength(500)]
         public string Path { get; set; }

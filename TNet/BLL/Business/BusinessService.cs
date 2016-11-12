@@ -14,7 +14,7 @@ namespace TNet.BLL
             return db.Businesses.ToList();
         }
 
-        public static Business GetBusiness(long idbuss)
+        public static Business GetBusiness(string idbuss)
         {
             TN db = new TN();
             List< Business> business= db.Businesses.Where(en => en.idbuss == idbuss).ToList();
@@ -60,7 +60,7 @@ namespace TNet.BLL
 
 
 
-        public static bool SetDefaultBussImage(long idbuss) {
+        public static bool SetDefaultBussImage(string idbuss) {
             bool result = false;
             try {
                 TN db = new TN();

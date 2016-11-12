@@ -8,7 +8,7 @@
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     var pageCount = Convert.ToInt32(ViewData["pageCount"]);
     var pageIndex = Convert.ToInt32(ViewData["pageIndex"]);
-    int idmerc = Convert.ToInt32(ViewData["mercId"]);
+    string idmerc = ViewData["mercId"]+"";
 }
 <div class="ManageRightTitle">
     <ol class="breadcrumb">

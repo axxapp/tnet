@@ -43,11 +43,10 @@ namespace TNet.Service.Buss
             try
             {
                 if (!string.IsNullOrWhiteSpace(idbuss))
-                {
-                    long _idbuss = long.Parse(idbuss);
+                { 
                     using (TN db = new TN())
                     {
-                        result.Data = db.Businesses.Where(m => m.inuse == true && m.idbuss == _idbuss).FirstOrDefault();
+                        result.Data = db.Businesses.Where(m => m.inuse == true && m.idbuss == idbuss).FirstOrDefault();
                         result.Code = R.Ok;
                     }
                 }

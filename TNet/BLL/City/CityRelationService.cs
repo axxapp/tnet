@@ -91,7 +91,7 @@ namespace TNet.BLL
                 List<CityRelation> addCityRelations = cityRelations.Where(en=> !currentRelations.Contains<CityRelation>(en, CityRelationEqualityComparer.Instance)).ToList();
 
                 addCityRelations = addCityRelations.Select(mod=> {
-                    mod.idrelation = Pub.ID().ToString();
+                    mod.idrelation = Pub.ID();
                     return mod;
                 }).ToList();
 

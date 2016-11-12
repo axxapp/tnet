@@ -11,13 +11,13 @@ namespace TCom.EF
     {
         [Key]
         [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long idaddr { get; set; }
+        [StringLength(60)]
+        public string idaddr { get; set; }
 
         [Key]
         [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long iduser { get; set; }
+        [StringLength(60)]
+        public string iduser { get; set; }
 
         [StringLength(50)]
         public string contact { get; set; }

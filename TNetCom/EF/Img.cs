@@ -19,11 +19,17 @@ namespace TCom.EF
         [StringLength(60)]
         public string outpro { get; set; }
 
-        public bool? inuse { get; set; }
+        [StringLength(60)]
+        public string outpro2 { get; set; }
+
+        [StringLength(60)]
+        public string outpro3 { get; set; }
 
         [StringLength(255)]
         public string path { get; set; }
 
         public int? sortno { get; set; }
+
+        public bool? inuse { get; set; }
     }
 }

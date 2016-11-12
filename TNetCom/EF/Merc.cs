@@ -10,10 +10,11 @@ namespace TCom.EF
     public partial class Merc
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int idmerc { get; set; }
+        [StringLength(60)]
+        public string idmerc { get; set; }
 
-        public int? idtype { get; set; }
+        [StringLength(60)]
+        public string idtype { get; set; }
 
         [Column("merc")]
         [Required]

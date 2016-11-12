@@ -14,18 +14,18 @@ namespace TNet.Models
     {
         [Display(Name = "订单号")]
         [Required]
-        public new  long orderno { get; set; }
+        public new  string orderno { get; set; }
 
         [Display(Name = "用户编号")]
         [Required]
-        public new  long iduser { get; set; }
+        public new string iduser { get; set; }
 
         [Display(Name ="用户")]
         public string user_name { get; set; }
 
         [Display(Name = "产品")]
         [Required]
-        public new  int idmerc { get; set; }
+        public new string idmerc { get; set; }
 
         [Display(Name = "产品名称")]
         [Required]

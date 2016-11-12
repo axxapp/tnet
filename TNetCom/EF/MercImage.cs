@@ -9,9 +9,12 @@ namespace TCom.EF
     [Table("MercImage")]
     public partial class MercImage
     {
-        public int MercImageId { get; set; }
+        [StringLength(60)]
+        public string MercImageId { get; set; }
 
-        public int idmerc { get; set; }
+        [Required]
+        [StringLength(60)]
+        public string idmerc { get; set; }
 
         [StringLength(500)]
         public string Path { get; set; }

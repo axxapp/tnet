@@ -9,11 +9,11 @@ namespace TNet.Models.Order
 {
     public class CreateOrderData
     {
-        public long iduser { get; set; }
+        public string iduser { get; set; }
 
         public string uname { get; set; }
 
-        public int idmerc { get; set; }
+        public string idmerc { get; set; }
 
         public string merc { get; set; }
 

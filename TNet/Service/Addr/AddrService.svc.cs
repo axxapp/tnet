@@ -23,11 +23,10 @@ namespace TNet.Service.Addr
         {
             Result<List<TCom.EF.MyAddr>> result = new Result<List<TCom.EF.MyAddr>>();
             try
-            {
-                long _iduser = long.Parse(iduser);
+            { 
                 using (TN db = new TN())
                 {
-                    result.Data = db.MyAddrs.Where(mr => mr.iduser == _iduser).OrderByDescending(m=>m.idaddr).ToList();
+                    result.Data = db.MyAddrs.Where(mr => mr.iduser == iduser).OrderByDescending(m=>m.idaddr).ToList();
                     result.Code = R.Ok;
                 }
             }
@@ -42,15 +41,15 @@ namespace TNet.Service.Addr
 
 
 
-        public Result<long> Update(TCom.EF.MyAddr data)
+        public Result<string> Update(TCom.EF.MyAddr data)
         {
-            Result<long> result = new Result<long>();
+            Result<string> result = new Result<string>();
 
             try
             {
                 using (TN db = new TN())
                 {
-                    if (data.idaddr <= 0)
+                    if (string.IsNullOrWhiteSpace(data.idaddr))
                     {
                         data.idaddr = Pub.ID();
                         db.MyAddrs.Add(data);

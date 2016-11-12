@@ -19,15 +19,15 @@ namespace TNet.BLL
             //return db.Mercs.ToList();
         }
 
-        public static List<Merc> Search(int idtype = 0, string idcity="",string merc = "", int netype = -1, int isetup = -1) {
+        public static List<Merc> Search(string idtype, string idcity="",string merc = "", int netype = -1, int isetup = -1) {
             List<Merc> mercs = new List<Merc>();
             TN db = new TN();
             mercs= (from mo in db.Mercs join mt in db.MercTypes on mo.idtype equals mt.idtype
-                    join cr in db.CityRelations on new { idmerc= mo.idmerc.ToString(), moduletype = (int)ModuleType.Merc } equals new { idmerc=cr.idmodule , moduletype= (cr.moduletype==null?0: cr.moduletype.Value)}
+                    join cr in db.CityRelations on new { idmerc= mo.idmerc, moduletype = (int)ModuleType.Merc } equals new { idmerc=cr.idmodule , moduletype= (cr.moduletype==null?0: cr.moduletype.Value)}
                     orderby mt.sortno descending, mo.sortno descending
                     where (string.IsNullOrEmpty(idcity) || (cr.idcity == idcity))
                     select mo).Where(en => (
-            (idtype == 0 || en.idtype== idtype)
+            (string.IsNullOrEmpty(idtype) || en.idtype== idtype)
             && (string.IsNullOrEmpty(merc) || en.merc1.Contains(merc))
             &&(netype==-1 || en.netype==netype)
             &&(isetup==-1 || ((isetup==0 || isetup==1) && en.isetup==(isetup == 1)) )
@@ -36,7 +36,7 @@ namespace TNet.BLL
 
         }
 
-        public static Merc GetMerc(int idmerc)
+        public static Merc GetMerc(string idmerc)
         {
             TN db = new TN();
             List<Merc> mercs =  db.Mercs.Where(en => en.idmerc == idmerc).ToList();
@@ -75,7 +75,7 @@ namespace TNet.BLL
             return merc;
         }
 
-        public static bool SetDefaultMercImage(int idmerc)
+        public static bool SetDefaultMercImage(string idmerc)
         {
             bool result = false;
             try

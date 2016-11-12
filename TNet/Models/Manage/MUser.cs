@@ -7,7 +7,7 @@ namespace TNet.Models.Manage
 {
     public class MUser
     {
-        public int code { get; set; }
+        public string code { get; set; }
 
         public string name { get; set; }
 

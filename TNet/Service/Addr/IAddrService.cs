@@ -34,7 +34,7 @@ namespace TNet.Service.Addr
 
         [WebInvoke(Method = "POST", UriTemplate = "Update", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
 
-        Result<long> Update(TCom.EF.MyAddr data);
+        Result<string> Update(TCom.EF.MyAddr data);
 
     }
 }

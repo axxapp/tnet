@@ -13,7 +13,9 @@ namespace TCom.EF
         [StringLength(60)]
         public string idspec { get; set; }
 
-        public int idmerc { get; set; }
+        [Required]
+        [StringLength(60)]
+        public string idmerc { get; set; }
 
         [Column("spec")]
         [StringLength(60)]

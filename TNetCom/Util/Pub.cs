@@ -20,10 +20,9 @@ namespace TCom.Util
         static JsAccessToKey jsam;
         static long t = DateTime.Now.Ticks / 10000;
         volatile static int un = 0;
-        static int tid = Thread.CurrentThread.ManagedThreadId;
         private volatile static object lk = new object();
         //id 生成器,CAS版本
-        public static long ID()
+        public static string ID()
         {
             //lock (lk)
             {
@@ -39,7 +38,7 @@ namespace TCom.Util
                     Interlocked.Exchange(ref un, 0);
                 }
 
-                return long.Parse(t + "" + un);
+                return t + "" + Thread.CurrentThread.ManagedThreadId + "" + un;
             }
         }
         /// <summary>
@@ -186,7 +185,7 @@ namespace TCom.Util
                         m.expires_in = 60 * 30;
                         m.expires = DateTime.Now.AddSeconds(m.expires_in);
                     }
-                    
+
                 }
             }
             catch (Exception)
@@ -509,7 +508,7 @@ namespace TCom.Util
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return "";

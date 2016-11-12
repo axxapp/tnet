@@ -21,6 +21,9 @@ namespace TCom.EF
 
         public DateTime? createtime { get; set; }
 
+        [StringLength(20)]
+        public string pos { get; set; }
+
         public bool inuse { get; set; }
     }
 }

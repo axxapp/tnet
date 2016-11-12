@@ -9,7 +9,7 @@ namespace TNet.Models.Order
     {
         public string url { get; set; }
 
-        public long orderno { get; set; }
+        public string orderno { get; set; }
 
         public string order { get; set; }
     }

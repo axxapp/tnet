@@ -9,11 +9,11 @@
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     var pageCount = Convert.ToInt32(ViewData["pageCount"]);
     var pageIndex = Convert.ToInt32(ViewData["pageIndex"]);
-    int idtype = Convert.ToInt32(ViewData["idtype"]);
+    string idtype = ViewData["idtype"]+"";
     string merc = ViewData["merc"].ToString();
     int netype = Convert.ToInt32(ViewData["netype"]);
     int isetup = Convert.ToInt32(ViewData["isetup"]);
-    string idcity = ViewData["idcity"].ToString();
+    string idcity = ViewData["idcity"]+"";
     List<SelectItemViewModel<string>> mercTypeSelects =(List<SelectItemViewModel<string>>) ViewData["mercTypeSelects"];
     List<SelectItemViewModel<int>> isetupSelects = (List<SelectItemViewModel<int>>)ViewData["isetupSelects"];
     List<SelectItemViewModel<int>> netypeSelects = (List<SelectItemViewModel<int>>)ViewData["netypeSelects"];

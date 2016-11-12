@@ -41,7 +41,11 @@
         delUser: function () {
             return delCache('tn_u');
         },
-        str: getStr
+        str: getStr,
+        v: {
+            cache: 1
+        }
+
 
     };
     var full_root_url = "http://app.i5shang.com/tnet/";
@@ -631,18 +635,18 @@
     }
 
     function curCity() {
-        var city = Pub.getCache("city");
-        var location_city = Pub.getCache("location_city")
+        var city = getCitys();
+        //var location_city = Pub.getCache("location_city")
         if (city) {
-            if (location_city) {
-                for (var i = 0; i < city.length; i++) {
-                    if (city[i].city1.indexOf(location_city) >= 0 || location_city.indexOf(city[i].city1) >= 0) {
-                        //city[i].cur = 1;
-                        return city[i];
-                    }
+            //if (location_city) {
+            for (var i = 0; i < city.length; i++) {
+                if (city[i] && city[i].cur) {
+                    //city[i].cur = 1;
+                    return city[i];
                 }
-
             }
+
+            // }
             city = city[0];
         }
         return city;
@@ -655,6 +659,7 @@
             success: function (data) {
                 if (Pub.wsCheck(data)) {
                     if (data.Data) {
+                        //alert(JSON.stringify(data.Data))
                         Pub.setCache("city", data.Data);
                     }
                 }
@@ -681,7 +686,7 @@
                     expires = expires.getTime();
                 }
                 var k = "tnet_app_" + key;
-                window.localStorage[k] = JSON.stringify({ value: value, expires: expires });
+                window.localStorage[k] = JSON.stringify({ value: value, expires: expires, v: Pub.v.cache });
                 return true;
             } else {
                 delCache(key);
@@ -700,7 +705,7 @@
             var v = window.localStorage[k];
             if (v) {
                 v = JSON.parse(v);
-                if (v && v.expires <= (new Date().getTime())) {
+                if (v && (v.v != Pub.v.cache || v.expires <= (new Date().getTime()))) {
                     v = null;
                     // alert("清空了");
                 }

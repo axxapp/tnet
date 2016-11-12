@@ -6,8 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using TCom.Com;
-
+using TCom.Util;
 
 namespace TCom.Msg
 {
@@ -174,7 +173,7 @@ namespace TCom.Msg
         {
             TCom.EF.Msg mo = new TCom.EF.Msg();
             mo.idweixin = idweixin;
-            mo.idmsg = P.ID().ToString();
+            mo.idmsg = Pub.ID();
             mo.msg1 = msg;
             mo.cretime = DateTime.Now;
             mo.status = 0;

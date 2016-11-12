@@ -142,9 +142,8 @@ namespace TComCoreService
                                 {
                                     for (int i = 0; i < ms.Count; i++)
                                     {
-                                        TCom.EF.Msg m = ms[i];
-                                        long _orderno = long.Parse(m.orderno);
-                                        TCom.EF.MyOrder mo = db.MyOrders.Where(moo => moo.orderno == _orderno).FirstOrDefault();
+                                        TCom.EF.Msg m = ms[i]; 
+                                        TCom.EF.MyOrder mo = db.MyOrders.Where(moo => moo.orderno == m.orderno).FirstOrDefault();
 
                                         if (mo != null)
                                         {

@@ -45,7 +45,7 @@ namespace TNet.Service.Issue
                     using (TCom.EF.TN db = new TCom.EF.TN())
                     {
                         TCom.EF.Issue u = new TCom.EF.Issue();
-                        u.issue1 = Pub.ID().ToString();
+                        u.issue1 = Pub.ID();
                         u.iduser = data.iduser;
                         u.context = data.context;
                         u.cretime = DateTime.Now;
@@ -64,7 +64,7 @@ namespace TNet.Service.Issue
                             for (int i = 0; i < data.imgs.Count; i++)
                             {
                                 TCom.EF.Img mo = new TCom.EF.Img();
-                                mo.idimg = Pub.ID().ToString();
+                                mo.idimg = Pub.ID();
                                 mo.outkey = u.issue1;
                                 mo.path = data.imgs[i];
                                 mo.sortno = i;

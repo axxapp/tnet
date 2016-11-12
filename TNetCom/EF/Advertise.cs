@@ -21,10 +21,10 @@ namespace TCom.EF
         public string title { get; set; }
 
         [Required]
-        [StringLength(500)]
+        [StringLength(255)]
         public string img { get; set; }
 
-        [StringLength(500)]
+        [StringLength(2550)]
         public string link { get; set; }
 
         public DateTime? cretime { get; set; }

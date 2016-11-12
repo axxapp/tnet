@@ -1,4 +1,4 @@
-﻿var idAddr = 0;
+﻿var idAddr = "";
 var addr_data_cache = null;
 var update_Addr_ing = false;
 function getAddrList() {
@@ -228,7 +228,7 @@ function autoAddrBack() {
         hiddenAddrBox();
     }
     setAddrOp();
-    idAddr = 0;
+    idAddr = "";
 }
 
 //新增

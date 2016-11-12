@@ -10,25 +10,21 @@ namespace TCom.EF
     public partial class MyOrder
     {
         [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long orderno { get; set; }
+        [StringLength(60)]
+        public string orderno { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long iduser { get; set; }
+        [Required]
+        [StringLength(60)]
+        public string iduser { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int idmerc { get; set; }
+        [Required]
+        [StringLength(60)]
+        public string idmerc { get; set; }
 
         [StringLength(60)]
         public string merc { get; set; }
 
-        [Key]
-        [Column(Order = 3)]
+        [Required]
         [StringLength(60)]
         public string idspec { get; set; }
 

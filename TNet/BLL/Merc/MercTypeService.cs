@@ -37,7 +37,7 @@ namespace TNet.BLL
             return mercTypeOptions;
         }
 
-        public static MercType GetMercType(int idtype)
+        public static MercType GetMercType(string idtype)
         {
             return GetALL().Where(en => en.idtype == idtype).FirstOrDefault();
         }

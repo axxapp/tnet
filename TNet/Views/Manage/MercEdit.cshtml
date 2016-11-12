@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     ViewBag.Title = "编辑产品";
-    if (Model.idmerc == 0)
+    if (string.IsNullOrWhiteSpace(Model.idmerc))
     {
         ViewBag.Title = "新增产品";
     }
@@ -23,7 +23,7 @@
     <ol class="breadcrumb">
         <li><a href="#">产品管理</a></li>
         <li><a href="@Url.Action("MercList","Manage")">产品列表</a></li>
-        <li><a href="#" class="active">@(Model.idmerc == 0 ? "新增产品" : "编辑产品")</a></li>
+        <li><a href="#" class="active">@(string.IsNullOrWhiteSpace(Model.idmerc) ? "新增产品" : "编辑产品")</a></li>
     </ol>
 </div>
 <div class="ManageRightContent">
@@ -38,7 +38,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.idcitys, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-4">
-                        @{Html.RenderAction("CitiesCheckBoxList", "Manage",new { idmodule =(Model.idmerc>0? Model.idmerc.ToString(): ""), moduleType =ModuleType.Merc});}
+                        @{Html.RenderAction("CitiesCheckBoxList", "Manage", new { idmodule = (!string.IsNullOrWhiteSpace(Model.idmerc) ? Model.idmerc : ""), moduleType = ModuleType.Merc });}
                     </div>
                     @Html.ValidationMessageFor(model => model.idcitys)
                 </div>
@@ -147,7 +147,7 @@
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="col-sm-2">
-                        
+
                     </div>
                     <div class="col-sm-10" style="padding-left:0px;padding-top:10px;">
                         <input type="button" id="btnSave" value="保存" class="btn btn-primary" />
@@ -206,7 +206,7 @@
         var getMercImageUrl = "@Url.Action("AjaxMercImageList", "Manage")";
         var sortMercImagesUrl = "@Url.Action("SortMercImage", "Manage",new { isAjax =true})";
         var deleteMercImageUrl = "@Url.Action("DeleteMercImage", "Manage",new { isAjax =true})";
-        $.post(getMercImageUrl, { mercId: "@Model.idmerc", isAjax: true }, function (returndata) {
+        $.post(getMercImageUrl, { mercId:@Model.idmerc, isAjax: true }, function (returndata) {
             returndata = eval("(" + returndata + ")");
             var initPreviewImage = [];
             var initialPreviewConfig = [];
@@ -217,7 +217,7 @@
                         var initialPreviewConfigItem = {
                             url: deleteMercImageUrl,
                             key: returndata.Content[i].MercImageId,
-                            extra: { mercImageId: returndata.Content[i].MercImageId, idmerc: "@Model.idmerc" }
+                            extra: { mercImageId: returndata.Content[i].MercImageId, idmerc: @Model.idmerc }
                         };
                         initialPreviewConfig.push(initialPreviewConfigItem);
                     }

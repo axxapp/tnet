@@ -10,10 +10,12 @@ namespace TCom.EF
     public partial class User
     {
         [Key]
-        [StringLength(50)]
+        [StringLength(60)]
         public string idweixin { get; set; }
 
-        public long iduser { get; set; }
+        [Required]
+        [StringLength(60)]
+        public string iduser { get; set; }
 
         [StringLength(50)]
         public string alias { get; set; }

@@ -14,7 +14,7 @@ namespace TNet.BLL
             TN db = new TN();
             return db.Specs.ToList();
         }
-        public static List<SpecViewModel> GetSpecsByIdMerc(int idmerc)
+        public static List<SpecViewModel> GetSpecsByIdMerc(string idmerc)
         {
             List<SpecViewModel> specs = new List<SpecViewModel>();
             TN tn = new TN();

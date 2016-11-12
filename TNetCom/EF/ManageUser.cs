@@ -9,7 +9,8 @@ namespace TCom.EF
     [Table("ManageUser")]
     public partial class ManageUser
     {
-        public int ManageUserId { get; set; }
+        [StringLength(60)]
+        public string ManageUserId { get; set; }
 
         [StringLength(50)]
         public string UserName { get; set; }

@@ -7,7 +7,7 @@ namespace TNet.Models.Order
 {
     public class ReviewData
     {
-        public int mgcode { get; set; }
+        public string mgcode { get; set; }
 
         public string iduser { get; set; }
 

@@ -14,7 +14,7 @@ namespace TNet.Models
     public   class MercTypeViewModel:MercType
     {
         [Display(Name = "类型编号")]
-        public new  int idtype { get; set; }
+        public new string idtype { get; set; }
 
         [Required]
         [StringLength(60)]

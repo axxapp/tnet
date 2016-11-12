@@ -26,7 +26,7 @@ namespace TNet.BLL
             return tn.ManageUsers.Where(en => en.UserType == (int)usertType).ToList(); 
         }
 
-        public static ManageUser Get(int manageUserId) {
+        public static ManageUser Get(string manageUserId) {
             TN tn = new TN();
             return tn.ManageUsers.Find(manageUserId);
         }

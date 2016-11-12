@@ -83,12 +83,10 @@ namespace TNet.Service.Order
             Result<bool> result = new Result<bool>();
             try
             {
-                long orderno = long.Parse(data.orderno);
-                long iduser = long.Parse(data.iduser);
                 using (TCom.EF.TN db = new TCom.EF.TN())
                 {
-                    TCom.EF.User uo = db.Users.Where(m => m.iduser == iduser && m.inuse == true).FirstOrDefault();
-                    TCom.EF.MyOrder o = db.MyOrders.Where(m => m.orderno == orderno && m.iduser == iduser && m.inuse == true && m.status == OrderStatus.ReviewFail).FirstOrDefault();
+                    TCom.EF.User uo = db.Users.Where(m => m.iduser == data.iduser && m.inuse == true).FirstOrDefault();
+                    TCom.EF.MyOrder o = db.MyOrders.Where(m => m.orderno == data.orderno && m.iduser == data.iduser && m.inuse == true && m.status == OrderStatus.ReviewFail).FirstOrDefault();
                     if (o != null && uo != null)
                     {
                         db.MyOrders.Attach(o);
@@ -136,7 +134,7 @@ namespace TNet.Service.Order
         private MyOrderPress getMyOrderPress(string orderno, int status, string oper, string notes = "")
         {
             MyOrderPress s = new MyOrderPress();
-            s.idpress = Pub.ID().ToString();
+            s.idpress = Pub.ID();
             s.orderno = orderno;
             s.status = status;
             s.statust = OrderStatus.get(s.status).text;
@@ -154,12 +152,11 @@ namespace TNet.Service.Order
             {
                 if (!string.IsNullOrWhiteSpace(iduser))
                 {
-                    long _iduser = long.Parse(iduser);
                     using (TN db = new TN())
                     {
                         result.Data = new OrderListInfo()
                         {
-                            Order = db.MyOrders.Where(m => m.inuse == true && m.iduser == _iduser).OrderByDescending(m => m.cretime).ToList()
+                            Order = db.MyOrders.Where(m => m.inuse == true && m.iduser == iduser).OrderByDescending(m => m.cretime).ToList()
                         };
                         result.Code = R.Ok;
                     }
@@ -225,11 +222,9 @@ namespace TNet.Service.Order
             {
                 if (!string.IsNullOrWhiteSpace(iduser) && !string.IsNullOrWhiteSpace(orderno))
                 {
-                    long _iduser = long.Parse(iduser);
-                    long _orderno = long.Parse(orderno);
                     using (TN db = new TN())
                     {
-                        TCom.EF.MyOrder o = db.MyOrders.Where(m => m.inuse == true && m.iduser == _iduser && m.orderno == _orderno).FirstOrDefault();
+                        TCom.EF.MyOrder o = db.MyOrders.Where(m => m.inuse == true && m.iduser == iduser && m.orderno == orderno).FirstOrDefault();
                         result.Data = new MyOrderDetail();
                         result.Data.Order = o;
                         result.Data.Presses = db.MyOrderPresses.Where(m => m.inuse == true && m.orderno == orderno).ToList();
@@ -258,11 +253,9 @@ namespace TNet.Service.Order
             {
                 if (!string.IsNullOrWhiteSpace(iduser) && !string.IsNullOrWhiteSpace(orderno))
                 {
-                    long _iduser = long.Parse(iduser);
-                    long _orderno = long.Parse(orderno);
                     using (TN db = new TN())
                     {
-                        TCom.EF.MyOrder o = db.MyOrders.Where(m => m.inuse == true && m.iduser == _iduser && m.orderno == _orderno).FirstOrDefault();
+                        TCom.EF.MyOrder o = db.MyOrders.Where(m => m.inuse == true && m.iduser == iduser && m.orderno == orderno).FirstOrDefault();
                         result.Data = o;
                         result.Code = R.Ok;
                     }
@@ -284,29 +277,27 @@ namespace TNet.Service.Order
             result.Msg = "审核失败";
             try
             {
-                if (data.mgcode > 0 && !string.IsNullOrWhiteSpace(data.iduser) && !string.IsNullOrWhiteSpace(data.orderno))
+                if (!string.IsNullOrWhiteSpace(data.mgcode) && !string.IsNullOrWhiteSpace(data.iduser) && !string.IsNullOrWhiteSpace(data.orderno))
                 {
-                    long _iduser = long.Parse(data.iduser);
-                    long _orderno = long.Parse(data.orderno);
                     using (TN db = new TN())
                     {
                         TCom.EF.ManageUser mu = db.ManageUsers.Where(m => m.ManageUserId == data.mgcode).FirstOrDefault();
                         if (mu != null)
                         {
-                            TCom.EF.MyOrder mo = db.MyOrders.Where(m => m.orderno == _orderno && m.iduser == _iduser).FirstOrDefault();
+                            TCom.EF.MyOrder mo = db.MyOrders.Where(m => m.orderno == data.orderno && m.iduser == data.iduser).FirstOrDefault();
                             if (mo.status != OrderStatus.WaitReview)
                             {
                                 result.Code = R.Error;
                                 result.Msg = "审核失败,订单可能已经审核.";
                                 return result;
                             }
-                            TCom.EF.User uo = db.Users.Where(m => m.iduser == _iduser).FirstOrDefault();
+                            TCom.EF.User uo = db.Users.Where(m => m.iduser == data.iduser).FirstOrDefault();
                             if (mo != null && uo != null)
                             {
                                 using (DbContextTransaction t = db.Database.BeginTransaction())
                                 {
                                     int stu = data.review ? OrderStatus.WaitPay : OrderStatus.ReviewFail;
-                                    int r = db.Database.ExecuteSqlCommand("update myorder set status = {0} where iduser = {1} and orderno = {2} and status = {3}", stu, _iduser, data.orderno, OrderStatus.WaitReview);
+                                    int r = db.Database.ExecuteSqlCommand("update myorder set status = {0} where iduser = {1} and orderno = {2} and status = {3}", stu, data.iduser, data.orderno, OrderStatus.WaitReview);
                                     if (r > 0)
                                     {
                                         stu = data.review ? OrderStatus.Confirm : OrderStatus.ReviewFail;

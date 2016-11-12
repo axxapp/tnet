@@ -18,13 +18,13 @@ namespace TNet.BLL
             return db.MercImages.ToList();
         }
 
-        public static List<MercImage> GetMercImagesByMercId(int idmerc)
+        public static List<MercImage> GetMercImagesByMercId(string idmerc)
         {
             TN db = new TN();
             return db.MercImages.Where(en=>en.idmerc== idmerc).OrderBy(en=>en.SortID).ToList();
         }
 
-        public static MercImage GetMercImage(int mercImageId)
+        public static MercImage GetMercImage(string mercImageId)
         {
             return GetALL().Where(en => en.MercImageId == mercImageId).FirstOrDefault();
         }
@@ -44,7 +44,7 @@ namespace TNet.BLL
             
             return result;
         }
-        public static bool DeleteMercImages(int idmerc) {
+        public static bool DeleteMercImages(string idmerc) {
             bool result = false;
             try {
                 TN db = new TN();
@@ -107,7 +107,7 @@ namespace TNet.BLL
             return result;
         }
 
-        public static int MaxMercImageSortID(int idmerc) {
+        public static int MaxMercImageSortID(string idmerc) {
             TN db = new TN();
             return db.MercImages.Where(en => en.idmerc == idmerc).Max(en=>en.SortID)??0;
         }

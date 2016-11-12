@@ -5,7 +5,7 @@
 }
 //获取
 function getData(city) {
-    var c = city ? city.code : "";
+    var c = city ? city.idcity : "";
     Pub.get({
         url: "Service/Notice/List/" + c,
         loadingMsg: "加载中...",

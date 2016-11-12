@@ -9,18 +9,15 @@ namespace TCom.EF
     [Table("Discount")]
     public partial class Discount
     {
-        [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int idmerc { get; set; }
+        [Required]
+        [StringLength(60)]
+        public string idmerc { get; set; }
+
+        [Required]
+        [StringLength(60)]
+        public string idspec { get; set; }
 
         [Key]
-        [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int idspec { get; set; }
-
-        [Key]
-        [Column(Order = 2)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int iddisc { get; set; }
 

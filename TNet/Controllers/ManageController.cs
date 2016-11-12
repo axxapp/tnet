@@ -193,7 +193,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult BusinessEnable(long idbuss, bool enable, bool isAjax)
+        public ActionResult BusinessEnable(string idbuss, bool enable, bool isAjax)
         {
             ResultModel<BusinessViewModel> resultEntity = new ResultModel<BusinessViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -219,10 +219,10 @@ namespace TNet.Controllers
         /// <param name="idbuss"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult BusinessEdit(long idbuss = 0)
+        public ActionResult BusinessEdit(string idbuss = "")
         {
             BusinessViewModel model = new BusinessViewModel();
-            if (idbuss > 0)
+            if (!string.IsNullOrWhiteSpace(idbuss))
             {
                 Business business = BusinessService.GetBusiness(idbuss);
                 if (business != null) { model.CopyFromBase(business); }
@@ -254,9 +254,9 @@ namespace TNet.Controllers
         {
             Business business = new Business();
             model.CopyToBase(business);
-            if (business.idbuss == 0)
+            if (string.IsNullOrWhiteSpace(business.idbuss))
             {
-                business.idbuss = IdentifyService.GetMaxIdentifyID<Business>(en => (int)en.idbuss) + 1;
+                business.idbuss = Pub.ID();
                 //新增
                 business = BusinessService.Add(business);
             }
@@ -316,7 +316,7 @@ namespace TNet.Controllers
         /// <param name="isAjax"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AjaxBussImageList(int idbuss, bool isAjax)
+        public ActionResult AjaxBussImageList(string idbuss, bool isAjax)
         {
             ResultModel<BussImageViewModel> resultEntity = new ResultModel<BussImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -343,7 +343,7 @@ namespace TNet.Controllers
         }
 
         [ManageLoginValidation]
-        public ActionResult UploadBussImage(int idbuss = 0)
+        public ActionResult UploadBussImage(string idbuss = "")
         {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<BussImageViewModel> resultEntity = new ResultModel<BussImageViewModel>();
@@ -473,7 +473,7 @@ namespace TNet.Controllers
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult OrderList(DateTime? startOrDate, DateTime? endOrDate, int orderTypes = 0, int orderStatus = 0, long orderNo = 0, long userNo = 0, int pageIndex = 0)
+        public ActionResult OrderList(DateTime? startOrDate, DateTime? endOrDate, int orderTypes = 0, int orderStatus = 0, string orderNo = "", string userNo = "", int pageIndex = 0)
         {
             int pageCount = 0;
             int pageSize = 10;
@@ -519,7 +519,7 @@ namespace TNet.Controllers
             int pageCount = 0;
             int pageSize = 10;
 
-            List<MyOrderViewModel> entities = MyOrderService.GetOrdersViewModelByFilter(null, null, 0, TNet.Models.Order.OrderStatus.WaitReview, 0, 0);
+            List<MyOrderViewModel> entities = MyOrderService.GetOrdersViewModelByFilter(null, null, 0, TNet.Models.Order.OrderStatus.WaitReview, "", "");
             List<MyOrderViewModel> viewModels = entities.Pager<MyOrderViewModel>(pageIndex, pageSize, out pageCount);
 
             ViewData["pageCount"] = pageCount;
@@ -538,7 +538,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult OrderEnable(long orderno, bool enable, bool isAjax)
+        public ActionResult OrderEnable(string orderno, bool enable, bool isAjax)
         {
             ResultModel<MyOrderViewModel> resultEntity = new ResultModel<MyOrderViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -567,7 +567,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult OrderApproved(long orderno, bool approved, bool isAjax)
+        public ActionResult OrderApproved(string orderno, bool approved, bool isAjax)
         {
             ResultModel<MyOrderViewModel> resultEntity = new ResultModel<MyOrderViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -586,8 +586,8 @@ namespace TNet.Controllers
                 }
 
                 MyOrderPress s = new MyOrderPress();
-                s.idpress = Pub.ID().ToString();
-                s.orderno = orderno.ToString();
+                s.idpress = Pub.ID();
+                s.orderno = orderno;
 
                 s.status = approved ? TNet.Models.Order.OrderStatus.WaitPay : TNet.Models.Order.OrderStatus.ReviewFail;
                 s.statust = OrderStatus.get(s.status).text;
@@ -611,7 +611,7 @@ namespace TNet.Controllers
         /// <param name="idbuss"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult OrderDetail(long orderno)
+        public ActionResult OrderDetail(string orderno)
         {
             MyOrderViewModel model = MyOrderService.GetViewModel(orderno);
             return View(model);
@@ -840,7 +840,7 @@ namespace TNet.Controllers
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult MercList(int idtype = 0, string idcity = "", string merc = "", int netype = -1, int isetup = -1, int pageIndex = 0)
+        public ActionResult MercList(string idtype = "", string idcity = "", string merc = "", int netype = -1, int isetup = -1, int pageIndex = 0)
         {
             int pageCount = 0;
             int pageSize = 10;
@@ -934,7 +934,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult MercEnable(int idmerc, bool enable, bool isAjax)
+        public ActionResult MercEnable(string idmerc, bool enable, bool isAjax)
         {
             ResultModel<MercViewModel> resultEntity = new ResultModel<MercViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -961,10 +961,10 @@ namespace TNet.Controllers
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult MercEdit(int idmerc = 0)
+        public ActionResult MercEdit(string idmerc = "")
         {
             MercViewModel model = new MercViewModel();
-            if (idmerc > 0)
+            if (!string.IsNullOrWhiteSpace(idmerc))
             {
                 Merc merc = MercService.GetMerc(idmerc);
                 if (merc != null) { model.CopyFromBase(merc); }
@@ -1014,9 +1014,9 @@ namespace TNet.Controllers
 
             Merc merc = new Merc();
             model.CopyToBase(merc);
-            if (merc.idmerc == 0)
+            if (string.IsNullOrWhiteSpace(merc.idmerc))
             {
-                merc.idmerc = IdentifyService.GetMaxIdentifyID<Merc>(en => en.idmerc) + 1;
+                merc.idmerc = Pub.ID();
                 //新增
                 merc = MercService.Add(merc);
             }
@@ -1040,6 +1040,7 @@ namespace TNet.Controllers
                 {
                     list.Add(new MercImage()
                     {
+                        MercImageId = Pub.ID(),
                         idmerc = merc.idmerc,
                         InUse = true,
                         Path = item,
@@ -1117,7 +1118,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult MercTypeEnable(int idtype, bool enable, bool isAjax)
+        public ActionResult MercTypeEnable(string idtype, bool enable, bool isAjax)
         {
             ResultModel<MercTypeViewModel> resultEntity = new ResultModel<MercTypeViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -1144,10 +1145,10 @@ namespace TNet.Controllers
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult MercTypeEdit(int idtype = 0)
+        public ActionResult MercTypeEdit(string idtype = "")
         {
             MercTypeViewModel model = new MercTypeViewModel();
-            if (idtype > 0)
+            if (!string.IsNullOrWhiteSpace(idtype))
             {
                 MercType mercType = MercTypeService.GetMercType(idtype);
                 if (mercType != null) { model.CopyFromBase(mercType); }
@@ -1171,9 +1172,9 @@ namespace TNet.Controllers
         {
             MercType mercType = new MercType();
             model.CopyToBase(mercType);
-            if (mercType.idtype == 0)
+            if (string.IsNullOrWhiteSpace(mercType.idtype))
             {
-                mercType.idtype = IdentifyService.GetMaxIdentifyID<MercType>(en => en.idtype) + 1;
+                mercType.idtype = Pub.ID();
                 //新增
                 mercType = MercTypeService.Add(mercType);
             }
@@ -1212,7 +1213,7 @@ namespace TNet.Controllers
                 model.idtype = idtype;
                 model.inuse = true;
             }
-            MercType mercType = MercTypeService.GetMercType(Convert.ToInt32(idtype));
+            MercType mercType = MercTypeService.GetMercType(idtype);
             if (mercType != null)
             {
                 MercTypeViewModel viewModel = new MercTypeViewModel();
@@ -1236,7 +1237,7 @@ namespace TNet.Controllers
             model.CopyToBase(setup);
             if (string.IsNullOrEmpty(setup.idsetup))
             {
-                setup.idsetup = Pub.ID().ToString();
+                setup.idsetup = Pub.ID();
                 //新增
                 setup = SetupService.Add(setup);
             }
@@ -1315,7 +1316,7 @@ namespace TNet.Controllers
             setupAddr.idtype = setup.idtype;
             if (string.IsNullOrEmpty(setupAddr.idaddr))
             {
-                setupAddr.idaddr = Pub.ID().ToString();
+                setupAddr.idaddr = Pub.ID();
 
                 //新增
                 setupAddr = SetupAddrService.Add(setupAddr);
@@ -1373,7 +1374,7 @@ namespace TNet.Controllers
         /// <param name="pageIndex"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult SpecList(int idmerc, int pageIndex = 0)
+        public ActionResult SpecList(string idmerc, int pageIndex = 0)
         {
             int pageCount = 0;
             int pageSize = 10;
@@ -1425,7 +1426,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult SpecEdit(int idmerc, string idspec = "")
+        public ActionResult SpecEdit(string idmerc, string idspec = "")
         {
             SpecViewModel model = new SpecViewModel();
             if (!string.IsNullOrEmpty(idspec))
@@ -1453,7 +1454,7 @@ namespace TNet.Controllers
             model.CopyToBase(spec);
             if (string.IsNullOrEmpty(spec.idspec))
             {
-                spec.idspec = Pub.ID().ToString();
+                spec.idspec = Pub.ID();
                 //新增
                 spec = SpecService.Add(spec);
             }
@@ -1476,7 +1477,7 @@ namespace TNet.Controllers
         /// <param name="isAjax"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult AjaxMercImageList(int mercId, bool isAjax)
+        public ActionResult AjaxMercImageList(string mercId, bool isAjax)
         {
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -1508,7 +1509,7 @@ namespace TNet.Controllers
         /// <param name="mercId"></param>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult MercImageList(int mercId, int pageIndex = 0)
+        public ActionResult MercImageList(string mercId, int pageIndex = 0)
         {
             int pageCount = 0;
             int pageSize = 10;
@@ -1537,7 +1538,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult MercImageEnable(int MercImageId, bool enable, bool isAjax)
+        public ActionResult MercImageEnable(string MercImageId, bool enable, bool isAjax)
         {
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -1564,10 +1565,10 @@ namespace TNet.Controllers
         /// <returns></returns>
         [HttpGet]
         [ManageLoginValidation]
-        public ActionResult MercImageEdit(int idmerc, int MercImageId = 0)
+        public ActionResult MercImageEdit(string idmerc, string MercImageId = "")
         {
             MercImageViewModel mercImageModel = new MercImageViewModel();
-            if (MercImageId == 0)
+            if (string.IsNullOrWhiteSpace(MercImageId))
             {
                 mercImageModel.idmerc = idmerc;
                 mercImageModel.InUse = true;
@@ -1591,9 +1592,9 @@ namespace TNet.Controllers
         {
             MercImage mercImage = new MercImage();
             model.CopyToBase(mercImage);
-            if (model.MercImageId == 0)
+            if (string.IsNullOrWhiteSpace(model.MercImageId))
             {
-                mercImage.MercImageId = IdentifyService.GetMaxIdentifyID<MercImage>(en => en.MercImageId) + 1;
+                mercImage.MercImageId = Pub.ID();
                 MercImageService.Add(mercImage);
             }
             else
@@ -1605,7 +1606,7 @@ namespace TNet.Controllers
         }
 
         [ManageLoginValidation]
-        public ActionResult UploadMercImage(int mercId = 0)
+        public ActionResult UploadMercImage(string mercId = "")
         {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
@@ -1719,7 +1720,7 @@ namespace TNet.Controllers
         }
 
         [ManageLoginValidation]
-        public ActionResult DeleteMercImage(int mercImageId = 0, int idmerc = 0, bool isAjax = true)
+        public ActionResult DeleteMercImage(string mercImageId = "", string idmerc = "", bool isAjax = true)
         {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<MercImageViewModel> resultEntity = new ResultModel<MercImageViewModel>();
@@ -1759,7 +1760,7 @@ namespace TNet.Controllers
         }
 
         [ManageLoginValidation]
-        public ActionResult SortMercImage(string mercImageViewModelListJson, int idmerc, bool isAjax)
+        public ActionResult SortMercImage(string mercImageViewModelListJson, string idmerc, bool isAjax)
         {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             List<MercImageViewModel> entities = new List<MercImageViewModel>();
@@ -1836,10 +1837,10 @@ namespace TNet.Controllers
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
-        public ActionResult ManageUserEdit(int manageUserId = 0)
+        public ActionResult ManageUserEdit(string manageUserId = "")
         {
             ManageUserViewModel model = new ManageUserViewModel();
-            if (manageUserId > 0)
+            if (!string.IsNullOrWhiteSpace(manageUserId))
             {
                 ManageUser manageUser = ManageUserService.Get(manageUserId);
                 if (manageUser != null) { model.CopyFromBase(manageUser); }
@@ -1865,7 +1866,7 @@ namespace TNet.Controllers
 
             ManageUser manageUser = new ManageUser();
             model.CopyToBase(manageUser);
-            if (manageUser.ManageUserId == 0)
+            if (string.IsNullOrWhiteSpace(manageUser.ManageUserId))
             {
                 //新增
                 manageUser = ManageUserService.Add(manageUser);
@@ -1911,7 +1912,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         private TaskViewModel MadeUpSetupTask(string bindOrderNo, string notes)
         {
-            MyOrder order = MyOrderService.GetOrder(Convert.ToInt64(bindOrderNo));
+            MyOrder order = MyOrderService.GetOrder(bindOrderNo);
             User user = null;
             if (order != null)
             {
@@ -1919,7 +1920,7 @@ namespace TNet.Controllers
             }
 
             Task task = new Task();
-            task.idtask = Pub.ID().ToString();
+            task.idtask = Pub.ID();
             task.orderno = bindOrderNo;
             task.cretime = DateTime.Now;
             task.iduser = (user != null ? user.iduser.ToString() : "");
@@ -1956,11 +1957,11 @@ namespace TNet.Controllers
             User user = null;
             if (issue != null)
             {
-                user = UserBll.Get(Convert.ToInt64(issue.iduser));
+                user = UserBll.Get(issue.iduser);
             }
 
             Task task = new Task();
-            task.idtask = Pub.ID().ToString();
+            task.idtask = Pub.ID();
             task.orderno = bindOrderNo;
             task.cretime = DateTime.Now;
             task.iduser = (user != null ? user.iduser.ToString() : "");
@@ -2031,12 +2032,12 @@ namespace TNet.Controllers
                     string[] userArray = manageUserIds.Split(',');
                     for (int i = 0; i < userArray.Count(); i++)
                     {
-                        ManageUser muser = manageUsers.Where(en => en.ManageUserId == Convert.ToInt32(userArray[i])).First();
+                        ManageUser muser = manageUsers.Where(en => en.ManageUserId == userArray[i]).First();
                         //musers.Add(muser);
                         MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, muser, null);
                         taskRecvers.Add(new TaskRecver()
                         {
-                            idrecver = Pub.ID().ToString(),
+                            idrecver = Pub.ID(),
                             idtask = newTask.idtask,
                             mcode = userArray[i],
                             mname = muser == null ? "" : muser.UserName,
@@ -2072,7 +2073,7 @@ namespace TNet.Controllers
         /// <returns></returns>
         [HttpPost]
         [ManageLoginValidation]
-        public ActionResult ManageUserEnable(int ManageUserId, bool enable, bool isAjax)
+        public ActionResult ManageUserEnable(string ManageUserId, bool enable, bool isAjax)
         {
             ResultModel<ManageUserViewModel> resultEntity = new ResultModel<ManageUserViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
@@ -2113,7 +2114,7 @@ namespace TNet.Controllers
         }
 
         [ManageLoginValidation]
-        public ActionResult BindManageUserWechat(int manageUserId, long iduser, bool isAjax)
+        public ActionResult BindManageUserWechat(string manageUserId, string iduser, bool isAjax)
         {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<ManageUserViewModel> resultEntity = new ResultModel<ManageUserViewModel>();
@@ -2215,7 +2216,7 @@ namespace TNet.Controllers
             if (string.IsNullOrEmpty(notice.idnotice))
             {
                 notice.publish_time = DateTime.Now;
-                notice.idnotice = Pub.ID().ToString();
+                notice.idnotice = Pub.ID();
                 //新增
                 notice = NoticeService.Add(notice);
             }
@@ -2317,7 +2318,7 @@ namespace TNet.Controllers
             model.CopyToBase(advertiseType);
             if (string.IsNullOrEmpty(advertiseType.idat))
             {
-                advertiseType.idat = Pub.ID().ToString();
+                advertiseType.idat = Pub.ID();
                 advertiseType.createtime = DateTime.Now;
                 //新增
                 advertiseType = AdvertiseTypeService.Add(advertiseType);
@@ -2447,7 +2448,7 @@ namespace TNet.Controllers
             model.CopyToBase(advertise);
             if (string.IsNullOrEmpty(advertise.idav))
             {
-                advertise.idav = Pub.ID().ToString();
+                advertise.idav = Pub.ID();
                 advertise.cretime = DateTime.Now;
                 //新增
                 advertise = AdvertiseService.Add(advertise);
@@ -2712,7 +2713,7 @@ namespace TNet.Controllers
             model.CopyToBase(city);
             if (string.IsNullOrEmpty(city.idcity))
             {
-                city.idcity = Pub.ID().ToString();
+                city.idcity = Pub.ID();
                 //新增
                 city = CityService.Add(city);
             }
@@ -2840,7 +2841,7 @@ namespace TNet.Controllers
             model.CopyToBase(module);
             if (string.IsNullOrEmpty(module.idwxmodule))
             {
-                module.idwxmodule = Pub.ID().ToString();
+                module.idwxmodule = Pub.ID();
                 //新增
                 //module = WeiXinModuleService.Add(module);
             }

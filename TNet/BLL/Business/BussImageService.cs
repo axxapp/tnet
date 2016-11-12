@@ -13,12 +13,12 @@ namespace TNet.BLL {
             return db.BussImages.ToList();
         }
 
-        public static List<BussImage> GetBussImagesByBussId(long idbuss) {
+        public static List<BussImage> GetBussImagesByBussId(string idbuss) {
             TN db = new TN();
             return db.BussImages.Where(en => en.idbuss == idbuss).OrderBy(en => en.SortID).ToList();
         }
 
-        public static BussImage GetBussImage(int BussImageId) {
+        public static BussImage GetBussImage(string BussImageId) {
             return GetALL().Where(en => en.BussImageId == BussImageId).FirstOrDefault();
         }
 
@@ -37,7 +37,7 @@ namespace TNet.BLL {
 
             return result;
         }
-        public static bool DeleteBussImages(long idbuss) {
+        public static bool DeleteBussImages(string idbuss) {
             bool result = false;
             try {
                 TN db = new TN();
@@ -98,7 +98,7 @@ namespace TNet.BLL {
             return result;
         }
 
-        public static int MaxBussImageSortID(long idbuss) {
+        public static int MaxBussImageSortID(string idbuss) {
             TN db = new TN();
             return db.BussImages.Where(en => en.idbuss == idbuss).Max(en => en.SortID) ?? 0;
         }

@@ -10,8 +10,8 @@ namespace TCom.EF
     public partial class Business
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long idbuss { get; set; }
+        [StringLength(60)]
+        public string idbuss { get; set; }
 
         [Required]
         [StringLength(60)]

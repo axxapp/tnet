@@ -10,8 +10,8 @@ namespace TCom.EF
     public partial class MercType
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int idtype { get; set; }
+        [StringLength(60)]
+        public string idtype { get; set; }
 
         [Required]
         [StringLength(60)]

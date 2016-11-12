@@ -13,7 +13,7 @@ namespace TNet.Models
     public  class SpecViewModel:Spec
     {
         [Display(Name = "产品编号")]
-        public new  int idmerc { get; set; }
+        public new string idmerc { get; set; }
 
         [Display(Name = "产品名称")]
         public string merc { get; set; }

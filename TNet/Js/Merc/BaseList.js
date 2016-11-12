@@ -1,14 +1,14 @@
 ﻿
 function getListUrl(city) {
-    var c = city ? city.code : "";
-    
+    var c = city ? city.idcity : "";
+    //alert(JSON.stringify(city));
     //    return "Service/Merc/Setup/List/" + c;
-    
     return "Service/Merc/List/" + c;
 }
 
 
 function getMercList(city) {
+    $("#merc").html('<span class="loading_c">加载中...</span>');
     Pub.get({
         url: getListUrl(city),
         loadingMsg: "加载中...",

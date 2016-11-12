@@ -23,11 +23,10 @@ namespace TNet.Service.User
             if (data != null && !string.IsNullOrWhiteSpace(data.iduser) && !string.IsNullOrWhiteSpace(data.phone))
             {
                 try
-                {
-                    long iduser = long.Parse(data.iduser);
+                { 
                     using (TN db = new TN())
                     {
-                        TCom.EF.User u = db.Users.Where(m => m.iduser == iduser).FirstOrDefault();
+                        TCom.EF.User u = db.Users.Where(m => m.iduser == data.iduser).FirstOrDefault();
                         if (u != null)
                         {
                             if (u.alias == data.alias && u.phone == data.phone && u.comp == data.comp
