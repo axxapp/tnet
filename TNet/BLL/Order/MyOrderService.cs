@@ -52,15 +52,15 @@ namespace TNet.BLL
             return db.MyOrders.Where(en =>
             (
                 (
-                   (!string.IsNullOrWhiteSpace(orderNo) && orderNo == en.orderno))
+                   (!string.IsNullOrEmpty(orderNo) && orderNo == en.orderno))
                     ||
                     (
-                        string.IsNullOrWhiteSpace(orderNo)
+                        string.IsNullOrEmpty(orderNo)
                         && (startOrDate.Value == null || SqlFunctions.DateDiff("dd", startOrDate.Value, en.cretime) >= 0)
                         && (endOrDate.Value == null || SqlFunctions.DateDiff("dd", endOrDate.Value, en.cretime) <= 0)
                         && (orderTypes == 0 || orderTypes == en.otype)
                         && (orderStatus == 0 || orderStatus == en.status)
-                        && (string.IsNullOrWhiteSpace(userNo) || userNo == en.iduser)
+                        && (string.IsNullOrEmpty(userNo) || userNo == en.iduser)
                     )
                 )
             ).ToList();

@@ -77,5 +77,29 @@ namespace TNet.BLL {
             return list;
 
         }
+
+        /// <summary>
+        /// 按订单类型统计
+        /// </summary>
+        /// <param name="years"></param>
+        /// <returns></returns>
+        public static List<OrderStatisticByDateViewModel> StatisticByType(DateTime sdate, DateTime edate)
+        {
+            List<OrderStatisticByDateViewModel> list = new List<OrderStatisticByDateViewModel>();
+            TN db = new TN();
+            SqlParameter[] paras = new SqlParameter[] {
+                new SqlParameter() {
+                     SqlValue=sdate,
+                     ParameterName="@sdate"
+                },new SqlParameter() {
+                     SqlValue=edate,
+                     ParameterName="@edate"
+                }
+            };
+            string sql = "select CONVERT(varchar(100), @sdate, 23)+'-'+CONVERT(varchar(100), @edate, 23) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer,otype as OrderType from MyOrder where DATEDIFF(dd, cretime, @sdate)<= 0 and DATEDIFF(dd, cretime, @edate) >= 0 group by otype order by otype";
+            list = db.Database.SqlQuery<OrderStatisticByDateViewModel>(sql, paras).ToList();
+            return list;
+
+        }
     }
 }

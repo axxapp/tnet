@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TNet.Models.Order;
 
 namespace TNet.Models {
     /// <summary>
@@ -22,5 +23,10 @@ namespace TNet.Models {
         /// 订单金额
         /// </summary>
         public double OrderAmount { get; set; }
+
+        /// <summary>
+        /// 订单类型
+        /// </summary>
+        public int OrderType { get; set; } 
     }
 }
