@@ -676,17 +676,19 @@
     }
 
 
-    //设置缓存
+    //设置缓存/expires 分钟
     function setCache(key, value, expires) {
         if (window.localStorage) {
             if (value) {
-                if (!expires) {
-                    expires = new Date();
-                    expires.setDate(expires.getDate() + 1);
-                    expires = expires.getTime();
+                if (!expires || expires == undefined) {
+                    expires = 1000 * 60 * 60 * 24;
+                } else {
+                    expires = expires * 1000 * 60;
                 }
+                var ex = new Date();
+                ex = ex.getTime() + expires;
                 var k = "tnet_app_" + key;
-                window.localStorage[k] = JSON.stringify({ value: value, expires: expires, v: Pub.v.cache });
+                window.localStorage[k] = JSON.stringify({ value: value, expires: ex, v: Pub.v.cache });
                 return true;
             } else {
                 delCache(key);
@@ -706,10 +708,11 @@
             if (v) {
                 v = JSON.parse(v);
                 if (v && (v.v != Pub.v.cache || v.expires <= (new Date().getTime()))) {
+                    window.localStorage.removeItem(key);
                     v = null;
                     // alert("清空了");
                 }
-                //window.localStorage.removeItem(k);
+                //
                 if (v) {
                     return v.value;
                 }

@@ -1,19 +1,38 @@
-﻿
+﻿var g_Swiper_Obj = null;
 var g_base_x_v = 0;
 function initBase() {
-    var tabsSwiper = new Swiper('.swiper-container', {
-        autoplay: 3000,
-        visibilityFullFit: true,
-        loop: true,
-        pagination: '.swiper-pagination',
-        paginationClickable: true,
-        preloadImages: false,
-        lazyLoading: true
-    });
-    Pub.auth(false);
-    setTopMenuEvent();
+    if (!g_Swiper_Obj) {
+        g_Swiper_Obj = new Swiper('.swiper-container', {
+            autoplay: 2000,
+            initialSlide: 0,
+            visibilityFullFit: true,
+            loop: true,
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            preloadImages: false,
+            lazyLoading: true,
+            centeredSlides: true,
+            autoplayDisableOnInteraction: false
+            //runCallbacksOnInit: true,
+            //autoplayDisableOnInteraction: false,
+            //observer: true,//修改swiper自己或子元素时，自动初始化swiper
+            //observeParents: true//修改swiper的父元素时，自动初始化swiper
+        });
+        Pub.auth(false);
+        setTopMenuEvent();
+    } else {
+        try {
+            g_Swiper_Obj.removeAllSlides();
+
+        } catch (e) {
+
+        }
+
+    }
 
 }
+
+
 function autoShowCity() {
     if (g_base_x_v == 0) {
         g_base_x_v = $(document.body).scrollTop();
@@ -34,6 +53,7 @@ function autoShowCity() {
         }, 80);
     }
 }
+
 function initCityList(city) {
     var citys = Pub.getCitys();
     var html = "";
@@ -51,10 +71,12 @@ function initCityList(city) {
     $("#CityBox").html(html);
     $("#city").html(city ? city.city1 : "");
 }
+
 function onCityChange(city) {
     Pub.setCache("location_city", city);
     Pub.doCityReadys();
 }
+
 function autoShowTopMenu() {
     if (g_base_x_v == 0) {
         g_base_x_v = $(document.body).scrollTop();
@@ -72,9 +94,6 @@ function autoShowTopMenu() {
         }, 80);
     }
 }
-$(document).ready(initBase);
-
-
 function setTopMenuEvent(func, css) {
     if (!func) {
         func = autoShowTopMenu;
@@ -109,6 +128,85 @@ function getTimeYYMMHH(t) {
         t = "";
     }
     return t;
+}
+
+
+
+
+
+function getAd(pos, city) {
+    if (!loadingAd(pos)) {
+        var c = city ? city.idcity : "";
+        Pub.get({
+            url: "Service/Ad/List/" + pos + "/" + c,
+            //noLoading: true,
+            loadingMsg: "加载中...",
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                if (Pub.wsCheck(data)) {
+                    Pub.setCache(pos + "_ad", data.Data, 20);
+                    loadAd(pos);
+                    return;
+                }
+                loadingAd();
+            },
+            error: function (xhr, status, e) {
+                loadingAd();
+            }
+        });
+    }
+
+}
+
+
+function loadingAd() {
+    $(".ad_loading_c").show();
+    //initBase();
+}
+
+
+function loadAd(pos) {
+    var ad = Pub.getCache(pos + "_ad");
+    if (!ad) {
+        loadingAd();
+        return false;
+    } else {
+        var html = '';
+        initBase();
+
+        //g_Swiper_Obj.stopAutoplay();
+        //for (var i = ad.length - 1; i >= 0 ; i--) {
+        var i = 0;
+        for (; i < ad.length ; i++) {
+            var ao = ad[i];
+            var href = ao.link ? ao.link : "#";
+
+            html = '';
+            html += '<div class="swiper-slide">';
+            html += '<a href="' + href + '">';
+            html += '<img class="swiper-lazy" data-src="' + Pub.url(ao.img, "Images/default_bg.png") + '" />';
+            html += '</a>';
+            html += '<div class="swiper-lazy-preloader swiper-lazy-preloader-white""></div>';
+            html += '</div>';
+            g_Swiper_Obj.appendSlide(html);
+        }
+        if (i > 0) {
+            $(".ad_loading_c").hide();
+            g_Swiper_Obj.slideNext();
+            return true;
+            //g_Swiper_Obj.slideTo(0, 0, false);
+            //g_Swiper_Obj.startAutoplay();
+            // 
+            //
+            //html = ' <div  class="swiper-wrapper">' + html + '</div>';
+            // html += '<div class="swiper-pagination"></div>';
+
+            //$(".swiper-wrapper").html(html);
+            // 
+        }
+    }
+
+
 }
 
 
@@ -174,3 +272,6 @@ function PreviewImage(imgs) {
 
     //}
 }
+
+
+$(document).ready(initBase);

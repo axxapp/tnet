@@ -222,6 +222,7 @@
     <Compile Include="Controllers\WeChatController.cs" />
     <Compile Include="Models\Advertise\AdvertiseTypeViewModel.cs" />
     <Compile Include="Models\Advertise\AdvertiseViewModel.cs" />
+    <Compile Include="Models\Business\BusinessDetail.cs" />
     <Compile Include="Models\Business\BusinessViewModel.cs" />
     <Compile Include="Models\Business\BussImageViewModel.cs" />
     <Compile Include="Models\City\CityRelationViewModel.cs" />
@@ -299,6 +300,10 @@
       <DependentUpon>AddrService.svc</DependentUpon>
     </Compile>
     <Compile Include="Service\Addr\IAddrService.cs" />
+    <Compile Include="Service\Ad\AdService.svc.cs">
+      <DependentUpon>AdService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Ad\IAdService.cs" />
     <Compile Include="Service\Buss\BussService.svc.cs">
       <DependentUpon>BussService.svc</DependentUpon>
     </Compile>
@@ -511,7 +516,6 @@
     <Content Include="Css\Buss\Detail.css" />
     <Content Include="Css\Buss\Index.css" />
     <Content Include="Css\Com\jQuery.Validate.css" />
-    <Content Include="Css\Com\swiper-3.3.1.min.css" />
     <Content Include="Css\Home\Index.css" />
     <Content Include="Css\Manage\Base.css" />
     <Content Include="Css\Com\Content\bootstrap.css" />
@@ -650,7 +654,6 @@
     <Content Include="Js\Buss\Index.js" />
     <Content Include="Js\Com\jquery-3.1.0.min.js" />
     <Content Include="Js\Com\js.cookie.js" />
-    <Content Include="Js\Com\swiper-3.3.1.min.js" />
     <Content Include="Css\Manage\Login.css" />
     <Content Include="Js\Highcharts-5.0.2\highcharts-3d.js" />
     <Content Include="Js\Highcharts-5.0.2\highcharts-3d.src.js" />
@@ -878,12 +881,21 @@
     <Content Include="Resource\Images\r\636116578755230.jpeg" />
     <Content Include="Resource\Images\r\636124336761960.jpeg" />
     <Content Include="Resource\Images\r\636124336822190.jpeg" />
+    <Content Include="Service\Ad\AdService.svc" />
     <Content Include="Service\City\CityService.svc" />
     <Content Include="Service\Issue\IssueService.svc" />
     <Content Include="Service\Notice\NoticeService.svc" />
     <Content Include="Service\Task\TaskService.svc" />
     <Content Include="Service\ToKey\ToKeyService.svc" />
     <Content Include="Service\User\UserService.svc" />
+    <Content Include="Swiper\css\swiper.css" />
+    <Content Include="Swiper\css\swiper.min.css" />
+    <Content Include="Swiper\js\swiper.jquery.js" />
+    <Content Include="Swiper\js\swiper.jquery.min.js" />
+    <Content Include="Swiper\js\swiper.jquery.umd.js" />
+    <Content Include="Swiper\js\swiper.jquery.umd.min.js" />
+    <Content Include="Swiper\js\swiper.js" />
+    <Content Include="Swiper\js\swiper.min.js" />
     <Content Include="ueditor\dialogs\anchor\anchor.html" />
     <Content Include="ueditor\dialogs\attachment\attachment.css" />
     <Content Include="ueditor\dialogs\attachment\attachment.html" />
@@ -1240,6 +1252,9 @@
     <Content Include="Views\Manage\WeiXinModuleList.cshtml" />
     <Content Include="Views\Manage\WeiXinModuleEdit.cshtml" />
     <Content Include="Views\Order\Edit.cshtml" />
+    <Content Include="Swiper\js\maps\swiper.jquery.min.js.map" />
+    <Content Include="Swiper\js\maps\swiper.jquery.umd.min.js.map" />
+    <Content Include="Swiper\js\maps\swiper.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

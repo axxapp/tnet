@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.Text;
 using TCom.EF;
+using TNet.Models.Business;
 using TNet.Models.Service.Com;
 
 namespace TNet.Service.Buss
@@ -17,14 +18,14 @@ namespace TNet.Service.Buss
 
     public class BussService : IBussService
     {
-        public Result<List<TCom.EF.Business>> List()
+        public Result<List<TCom.EF.Business>> List(string city)
         {
             Result<List<TCom.EF.Business>> result = new Result<List<TCom.EF.Business>>();
             try
             {
                 using (TN db = new TN())
                 {
-                    result.Data = db.Businesses.Where(mr => mr.inuse == true).ToList();
+                    result.Data = db.Businesses.Where(mr => mr.inuse == true && mr.citycode == city).OrderByDescending(mr => mr.sortno).ToList();
                     result.Code = R.Ok;
                 }
             }
@@ -37,16 +38,18 @@ namespace TNet.Service.Buss
         }
 
 
-        public Result<TCom.EF.Business> Detail(string idbuss)
+        public Result<BusinessDetail> Detail(string idbuss)
         {
-            Result<TCom.EF.Business> result = new Result<TCom.EF.Business>();
+            Result<BusinessDetail> result = new Result<BusinessDetail>();
             try
             {
                 if (!string.IsNullOrWhiteSpace(idbuss))
-                { 
+                {
                     using (TN db = new TN())
                     {
-                        result.Data = db.Businesses.Where(m => m.inuse == true && m.idbuss == idbuss).FirstOrDefault();
+                        result.Data = new BusinessDetail();
+                        result.Data.Buss = db.Businesses.Where(m => m.inuse == true && m.idbuss == idbuss).FirstOrDefault();
+                        result.Data.Imgs = db.BussImages.Where(m => m.idbuss == idbuss && m.InUse == true).Select(m=>m.Path).ToList();
                         result.Code = R.Ok;
                     }
                 }

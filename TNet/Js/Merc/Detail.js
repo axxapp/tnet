@@ -31,14 +31,16 @@ function getDetailData() {
                             }
                             if (imgs) {
                                 var imgHtml = "";
+                                initBase();
                                 for (var i = 0; i < imgs.length; i++) {
                                     var ur = Pub.url(imgs[i], "Images/default_bg.png");
-                                    var bur = Pub.url("Images/default_bg.png");
-                                    imgHtml += "<div class='swiper-slide'><img src='" + bur + "' data-src='" + ur + "' onclick='lookImg(this)' class='swiper-lazy' /><div class='swiper-lazy-preloader swiper-lazy-preloader-white'></div></div>";
+                                    imgHtml = '';
+                                    imgHtml += "<div class='swiper-slide'><img  data-src='" + ur + "' onclick='lookImg(this)' class='swiper-lazy' /><div class='swiper-lazy-preloader swiper-lazy-preloader-white'></div></div>";
+                                    g_Swiper_Obj.appendSlide(imgHtml);
                                 }
                                 if (imgHtml) {
-                                    $('.swiper-wrapper').html(imgHtml);
-                                    initBase();
+                                    $(".ad_loading_c").hide();
+                                    g_Swiper_Obj.slideNext();
                                 }
                             }
                             var spec = data.Data.Spec;
@@ -177,8 +179,8 @@ function load_fail(msg) {
 function initParam() {
     getDetailData();
     //if (isSetup()) {
-        //$(".go_buy").html("预约报装");
-   // }
+    //$(".go_buy").html("预约报装");
+    // }
 }
 
 $(document).ready(initParam);

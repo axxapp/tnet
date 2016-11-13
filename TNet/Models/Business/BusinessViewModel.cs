@@ -10,7 +10,7 @@ using TNet.Util;
 namespace TNet.Models
 {
     [NotMapped]
-    public class BusinessViewModel:Business
+    public class BusinessViewModel:TCom.EF.Business
     {
         [Display(Name = "商家ID")]
         [Required]
@@ -107,7 +107,7 @@ namespace TNet.Models
         [Display(Name = "城市")]
         public string[] idcitys { get; set; }
 
-        public void CopyFromBase(Business business)
+        public void CopyFromBase(TCom.EF.Business business)
         {
             this.idbuss = business.idbuss;
             this.buss = business.buss;
@@ -129,7 +129,7 @@ namespace TNet.Models
             this.inuse = business.inuse;
         }
 
-        public void CopyToBase(Business business)
+        public void CopyToBase(TCom.EF.Business business)
         {
             business.idbuss = this.idbuss;
             business.buss = this.buss;

@@ -6,6 +6,7 @@ function __init(city) {
     initCityList(city);
     getMercList(city);
     getNotice(city);
+    getAd("home", city);
 }
 
 function initPageParam() {
@@ -79,3 +80,6 @@ function stopNoticePay() {
     }
     notice_tag = null;
 }
+
+
+

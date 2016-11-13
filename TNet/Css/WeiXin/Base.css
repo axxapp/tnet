@@ -31,13 +31,13 @@ a {
     -webkit-tap-highlight-color: transparent;*/
 }
 
-    a, a img,.weui_mask_transparent {
+    a, a img, .weui_mask_transparent {
         -webkit-user-select: none;
         -webkit-touch-callout: none;
         box-sizing: border-box;
     }
 
-input[type="text"],input[type="tel"],textarea {
+input[type="text"], input[type="tel"], textarea {
     -webkit-tap-highlight-color: transparent;
     background-color: #ffffff;
 }
@@ -358,7 +358,24 @@ a, a:hover {
 }
 
 
-
+.ad_loading_c {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
+    display: block;
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    color: #d6d6d6;
+    margin: 0px auto auto auto;
+    vertical-align: middle;
+    line-height: 200px;
+    background-image: url(../../Images/default_bg.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
 
 .swiper-banner {
     text-align: center;
@@ -716,6 +733,3 @@ i.weui_icon_toast_e:before {
                 -webkit-transform: translateY(-50%);
                 transform: translateY(-50%);
             }
-
-
-
