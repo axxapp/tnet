@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     ViewBag.Title = "编辑商圈";
-    if (Model.idbuss == 0)
+    if (string.IsNullOrEmpty(Model.idbuss))
     {
         ViewBag.Title = "录入商圈";
     }
@@ -19,7 +19,7 @@
     <ol class="breadcrumb">
         <li><a href="#">商圈管理</a></li>
         <li><a href="@Url.Action("BusinessList","Manage")">商圈列表</a></li>
-        <li><a href="#" class="active">@(Model.idbuss == 0 ? "录入商圈" : "编辑商圈")</a></li>
+        <li><a href="#" class="active">@(string.IsNullOrEmpty(Model.idbuss) ? "录入商圈" : "编辑商圈")</a></li>
     </ol>
 </div>
 <div class="ManageRightContent">

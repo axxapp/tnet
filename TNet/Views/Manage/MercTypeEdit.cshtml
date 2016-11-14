@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     ViewBag.Title = "编辑产品类型";
-    if (Model.idtype == 0)
+    if (string.IsNullOrEmpty(Model.idtype))
     {
         ViewBag.Title = "新增产品类型";
     }
@@ -13,7 +13,7 @@
     <ol class="breadcrumb">
         <li><a href="#">产品管理</a></li>
         <li><a href="@Url.Action("MercTypeList","Manage")">类型管理</a></li>
-        <li><a href="#" class="active">@(Model.idtype == 0 ? "新增产品类型" : "编辑产品类型")</a></li>
+        <li><a href="#" class="active">@(string.IsNullOrEmpty(Model.idtype) ? "新增产品类型" : "编辑产品类型")</a></li>
     </ol>
 </div>
 <div class="ManageRightContent">

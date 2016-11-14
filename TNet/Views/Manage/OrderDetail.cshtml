@@ -300,7 +300,7 @@
             <h2>无法找到该订单.</h2>
         }
     </div>
-    @if (Model.status == OrderStatus.WaitApproved)
+    @if (Model.status == OrderStatus.WaitReview)
     {
         <div style="margin-left:100px;">
             <a href="javascript:void(0);" onclick="if (confirm('确认审核通过？')) { approvedOrder('@Model.orderno',true) }" class="btn btn-primary">审核通过</a>&nbsp;&nbsp;&nbsp;
