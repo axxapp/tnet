@@ -4,36 +4,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Head{
-    <link href="@Url.Content("~/Css/Home/Index.css?v=20161113")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Merc/List.css?v=20161113")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Home/Index.css?v=20161114")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Merc/List.css?v=20161114")" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js ">
+    <script type="text/javascript" src="@Url.Content("~/Js/Home/Home.js?v=20161114")">
     </script>
-
-    <script type="text/javascript" src="@Url.Content("~/Js/Home/Home.js?v=20161113")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Merc/Base.js?v=20161114")">
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/Base.js?v=20161113")">
-    </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/BaseList.js?v=20161113")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Merc/BaseList.js?v=20161114")">
     </script>
 
 }
 <div class="head_host">
     <div class="swiper-banner">
+        <span class="ad_loading_c"></span>
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img class="swiper-lazy" src="@Url.Content("~/Images/Home/1.jpg")" />
-                    </a>
-                    <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#">
-                        <img class="swiper-lazy" data-src="@Url.Content("~/Images/Home/2.jpg")" />
-                    </a>
-                    <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                </div>
+
             </div>
             <div class="swiper-pagination">
             </div>

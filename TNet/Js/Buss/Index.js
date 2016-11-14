@@ -1,7 +1,17 @@
-﻿//获取周边商圈
-function getData() {
+﻿
+function initData() {
+    var city = Pub.curCity();
+    getData(city)
+
+}
+
+
+//获取周边商圈
+function getData(city) {
+    var c = city ? city.code : "";
+   
     Pub.get({
-        url: "Service/Buss/List",
+        url: "Service/Buss/List/" + c,
 
         loadingMsg: "加载中...",
         success: function (data) {
@@ -12,13 +22,11 @@ function getData() {
                         for (var i = 0; i < data.Data.length; i++) {
                             var o = data.Data[i];
                             if (html) {
-                               // html += '<div class="vline"></div>';
+                                // html += '<div class="vline"></div>';
                             }
                             var img = o.imgs;
-                            var ur = " src='" + Pub.rootUrl() + "Images/default_bg.png' ";
-                            if (img) {
-                                ur = " src='" + Pub.rootUrl() + "Images/Buss/" + img + " ' ";
-                            }
+                            var ur = " src='" + Pub.url(img,"Images/default_bg.png") + "' ";
+                             
                             var ba = Pub.rootUrl() + "/Buss/Detail/" + o.idbuss;
                             html += '<div class="buss_item">';
                             html += '<a href="' + ba + '" id="buss" class="buss">';
@@ -34,7 +42,7 @@ function getData() {
                             html += '<div class="buss_addr_host">';
                             html += '<a href="javascript:void(0)"><span id="buss_addr"><i class="iconfont">&#xe615</i>' + o.addr + '</span></a>';
                             html += '</div>';
-                            html += '</div>';                             
+                            html += '</div>';
                         }
                         if (html) {
                             $('#buss_host').html(html);
@@ -58,7 +66,7 @@ function getData() {
 
 
 
-$(document).ready(getData);
+$(document).ready(initData);
 
 function load_fail(msg) {
     Pub.noData("#buss_host", msg, getData);

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "商家详情";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,16 +7,17 @@
 
 
 @section Head{
-    <link href="@Url.Content("~/Css/Buss/Detail.css?v=20161113")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/Buss/Detail.css?v=20161114")" rel="stylesheet" type="text/css" />
 
 
-    <script type="text/javascript" src="@Url.Content("~/Js/Buss/Detail.js?v=20161113")">
+    <script type="text/javascript" src="@Url.Content("~/Js/Buss/Detail.js?v=20161114")">
 
     </script>
 }
 
 <div id="OC" class="OC" idbuss="@ViewBag.idbuss">
     <div class="swiper-banner">
+        <span class="ad_loading_c"></span>
         <div class="swiper-container">
             <div class="swiper-wrapper">
 
@@ -25,7 +25,6 @@
             <div class="swiper-pagination">
             </div>
         </div>
-
     </div>
     <div class="buss_title">
         <span class="loading_l">加载中...</span>
