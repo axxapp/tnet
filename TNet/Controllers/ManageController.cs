@@ -20,6 +20,8 @@ using TCom.Util;
 using TCom.Model.Task;
 using TCom.Msg;
 using TNet.Models.Order;
+using TNet.Models.Statistic;
+using TNet.BLL.Statistic;
 
 namespace TNet.Controllers
 {
@@ -134,6 +136,94 @@ namespace TNet.Controllers
             try
             {
                 List<OrderStatisticByDateViewModel> entities = OrderStatisticService.StatisticByYearForwardYears(date.Value, years);
+                resultEntity.Content = entities;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.ToString());
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "失败";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+        [ManageLoginValidation]
+        public ActionResult UserStatisticByDay(bool isAjax, DateTime? date, long days = 7)
+        {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<UserStatisticByDateViewModel> resultEntity = new ResultModel<UserStatisticByDateViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+
+            if (date == null)
+            {
+                date = DateTime.Now;
+            }
+
+            try
+            {
+                List<UserStatisticByDateViewModel> entities = UserStatisticService.StatisticByDayForwardDays(date.Value, days);
+                resultEntity.Content = entities;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.ToString());
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "失败";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+        [ManageLoginValidation]
+        public ActionResult UserStatisticByMonth(bool isAjax, DateTime? date, long months = 12)
+        {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<UserStatisticByDateViewModel> resultEntity = new ResultModel<UserStatisticByDateViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+
+            if (date == null)
+            {
+                date = DateTime.Now;
+            }
+
+            try
+            {
+                List<UserStatisticByDateViewModel> entities = UserStatisticService.StatisticByMonthForwardMonths(date.Value, months);
+                resultEntity.Content = entities;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.ToString());
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "失败";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+
+        [ManageLoginValidation]
+        public ActionResult UserStatisticByYear(bool isAjax, DateTime? date, long years = 5)
+        {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<UserStatisticByDateViewModel> resultEntity = new ResultModel<UserStatisticByDateViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "成功";
+
+            if (date == null)
+            {
+                date = DateTime.Now;
+            }
+
+            try
+            {
+                List<UserStatisticByDateViewModel> entities = UserStatisticService.StatisticByYearForwardYears(date.Value, years);
                 resultEntity.Content = entities;
             }
             catch (Exception ex)

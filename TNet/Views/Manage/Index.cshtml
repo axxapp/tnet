@@ -8,22 +8,44 @@
 @*<script src="@Url.Content("~/Js/Highcharts-5.0.2/themes/sand-signika.js")"></script>*@
 <script type="text/javascript">
     $(function () {
-        var amountTitle = '订单金额';
-        var numberTitle = '订单数量';
-        var byDayUrl = "@Url.Action("OrderStatisticByDay", "Manage",new {isAjax=true})";
-        var byDayData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", days: 30 };
-        bindCharts(byDayUrl, byDayData, "amountByDayContainer", "numByDayContainer", bindChartsCallBack);
+        /*统计订单*/
+        var byOrderDayUrl = "@Url.Action("OrderStatisticByDay", "Manage",new {isAjax=true})";
+        var byOrderDayData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", days: 7 };
+        bindOrderCharts(byOrderDayUrl, byOrderDayData, "amountByDayContainer", "numByDayContainer", bindOrderChartsCallBack);
 
-        var byMonthUrl = "@Url.Action("OrderStatisticByMonth", "Manage",new {isAjax=true})";
-        var byMonthData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", months: 12 };
-        bindCharts(byMonthUrl, byMonthData, "amountByMonthContainer", "numByMonthContainer", bindChartsCallBack);
+        var byOrderMonthUrl = "@Url.Action("OrderStatisticByMonth", "Manage",new {isAjax=true})";
+        var byOrderMonthData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", months: 6 };
+        bindOrderCharts(byOrderMonthUrl, byOrderMonthData, "amountByMonthContainer", "numByMonthContainer", bindOrderChartsCallBack);
 
-        var byYearUrl = "@Url.Action("OrderStatisticByYear", "Manage",new {isAjax=true})";
-        var byYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
-        bindCharts(byYearUrl, byYearData, "amountByYearContainer", "numByYearContainer", bindChartsCallBack);
+        var byOrderYearUrl = "@Url.Action("OrderStatisticByYear", "Manage",new {isAjax=true})";
+        var byOrderYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
+        bindOrderCharts(byOrderYearUrl, byOrderYearData, "amountByYearContainer", "numByYearContainer", bindOrderChartsCallBack);
+
+        /*统计注册用户*/
+        var byUserDayUrl = "@Url.Action("UserStatisticByDay", "Manage",new {isAjax=true})";
+        var byUserDayData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", days: 7 };
+        bindCharts(byUserDayUrl, byUserDayData, "userByDayContainer", bindUserChartsCallBack);
+
+        var byUserMonthUrl = "@Url.Action("UserStatisticByMonth", "Manage",new {isAjax=true})";
+        var byUserMonthData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", months: 6 };
+        bindCharts(byUserMonthUrl, byUserMonthData, "userByMonthContainer", bindUserChartsCallBack);
+
+        var byUserYearUrl = "@Url.Action("UserStatisticByYear", "Manage",new {isAjax=true})";
+        var byUserYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
+        bindCharts(byUserYearUrl, byUserYearData, "userByYearContainer", bindUserChartsCallBack);
+
     });
 
-    function bindChartsCallBack(returndata, amountContainer,numContainer) {
+    function bindCharts(url, data, container, bindChartsCallBackFun) {
+        $.post(url, data, function (returndata) {
+            if (bindChartsCallBackFun) {
+                returndata = eval("(" + returndata + ")");
+                bindChartsCallBackFun(returndata, container);
+            }
+        });
+    }
+    /*统计订单*/
+    function bindOrderChartsCallBack(returndata, amountContainer, numContainer) {
         if (returndata.Code == 1) {
             if (returndata.Content != null && returndata.Content.length > 0) {
                 var categories = new Array();
@@ -35,19 +57,18 @@
                     numData.push(item["OrderNumer"]);
                     amountData.push(item["OrderAmount"]);
                 }
-                amountChartsSetting(amountContainer, categories, amountData);
-                numberChartsSetting(numContainer, categories, numData);
+                amountOrderChartsSetting(amountContainer, categories, amountData);
+                numberOrderChartsSetting(numContainer, categories, numData);
             }
             else {
                 alert("没有任何订单。");
             }
         }
         else {
-            alert("加载统计失败。");
+            alert("加载订单统计失败。");
         }
     }
-
-    function bindCharts(url, data,amountContainer, numContainer, bindChartsCallBackFun) {
+    function bindOrderCharts(url, data, amountContainer, numContainer, bindChartsCallBackFun) {
         $.post(url, data, function (returndata) {
             if (bindChartsCallBackFun) {
                 returndata = eval("(" + returndata + ")");
@@ -55,7 +76,7 @@
             }
         });
     }
-    function numberChartsSetting(container, categories, data) {
+    function numberOrderChartsSetting(container, categories, data) {
         $('#' + container).highcharts({
             chart: {
                 type: 'column'
@@ -110,7 +131,7 @@
             }]
         });
     }
-    function amountChartsSetting(container, categories, data) {
+    function amountOrderChartsSetting(container, categories, data) {
         $('#' + container).highcharts({
             chart: {
                 type: 'column'
@@ -165,6 +186,83 @@
             }]
         });
     }
+    /*统计注册用户*/
+    function bindUserChartsCallBack(returndata, container) {
+        if (returndata.Code == 1) {
+            if (returndata.Content != null && returndata.Content.length > 0) {
+                var categories = new Array();
+                var data = new Array();
+                for (var i = 0; i < returndata.Content.length; i++) {
+                    var item = returndata.Content[i];
+                    categories.push(item["Date"]);
+                    data.push(item["Count"]);
+                }
+                userChartsSetting(container, categories, data);
+            }
+            else {
+                alert("没有任何注册用户。");
+            }
+        }
+        else {
+            alert("加载注册用户统计失败。");
+        }
+    }
+    function userChartsSetting(container, categories, data) {
+        $('#' + container).highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '用户注册数量'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories,
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '数量'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '数量为<b>{point.y:.0f}</b>'
+            },
+            series: [{
+                color: 'rgba(186,60,61,.9)',
+                name: 'Population',
+                data: data,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#000000',
+                    align: 'right',
+                    format: '{point.y:.0f}', // one decimal
+                    y: 20, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                pointPadding: 0.3,
+                pointPlacement: 0.0,
+            }]
+        });
+    }
+
 </script>
 
 <div class="ManageRightTitle">
@@ -174,48 +272,76 @@
     </ol>
 </div>
 <div class="ManageRightContent">
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#amountByDay" role="tab" data-toggle="tab">按日统计</a>
-        </li>
-        <li role="presentation">
-            <a href="#amountByMonth" role="tab" data-toggle="tab">按月统计</a>
-        </li>
-        <li role="presentation">
-            <a href="#amountByYear" role="tab" data-toggle="tab">按年统计</a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="amountByDay">
-            <div id="amountByDayContainer" style="min-width:400px;height:400px;"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="amountByMonth">
-            <div id="amountByMonthContainer" style="min-width:400px;height:400px;"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="amountByYear">
-            <div id="amountByYearContainer" style="min-width:400px;height:400px;"></div>
+    <div style="width:700px;float:left;">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#amountByDay" role="tab" data-toggle="tab">按日统计</a>
+            </li>
+            <li role="presentation">
+                <a href="#amountByMonth" role="tab" data-toggle="tab">按月统计</a>
+            </li>
+            <li role="presentation">
+                <a href="#amountByYear" role="tab" data-toggle="tab">按年统计</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="amountByDay">
+                <div id="amountByDayContainer" style="min-width:400px;width:700px;height:400px;"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="amountByMonth">
+                <div id="amountByMonthContainer" style="min-width:400px;height:400px;"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="amountByYear">
+                <div id="amountByYearContainer" style="min-width:400px;height:400px;"></div>
+            </div>
         </div>
     </div>
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#numByDay"  role="tab" data-toggle="tab">按日统计</a>
-        </li>
-        <li role="presentation">
-            <a href="#numByMonth" role="tab" data-toggle="tab">按月统计</a>
-        </li>
-        <li role="presentation">
-            <a href="#numByYear" role="tab" data-toggle="tab">按年统计</a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="numByDay">
-            <div id="numByDayContainer" style="min-width:400px;height:400px;"></div>
+    <div style="width:700px;float:left;">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#numByDay" role="tab" data-toggle="tab">按日统计</a>
+            </li>
+            <li role="presentation">
+                <a href="#numByMonth" role="tab" data-toggle="tab">按月统计</a>
+            </li>
+            <li role="presentation">
+                <a href="#numByYear" role="tab" data-toggle="tab">按年统计</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="numByDay">
+                <div id="numByDayContainer" style="min-width:400px;width:700px;height:400px;"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="numByMonth">
+                <div id="numByMonthContainer" style="min-width:400px;height:400px;"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="numByYear">
+                <div id="numByYearContainer" style="min-width:400px;height:400px;"></div>
+            </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="numByMonth">
-            <div id="numByMonthContainer" style="min-width:400px;height:400px;"></div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="numByYear">
-            <div id="numByYearContainer" style="min-width:400px;height:400px;"></div>
+    </div>
+    <div style="width:700px;float:left;">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#userByDay" role="tab" data-toggle="tab">按日统计</a>
+            </li>
+            <li role="presentation">
+                <a href="#userByMonth" role="tab" data-toggle="tab">按月统计</a>
+            </li>
+            <li role="presentation">
+                <a href="#userByYear" role="tab" data-toggle="tab">按年统计</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="userByDay">
+                <div id="userByDayContainer" style="min-width:400px;width:700px;height:400px;"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="userByMonth">
+                <div id="userByMonthContainer" style="min-width:400px;height:400px;"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="userByYear">
+                <div id="userByYearContainer" style="min-width:400px;height:400px;"></div>
+            </div>
         </div>
     </div>
 </div>

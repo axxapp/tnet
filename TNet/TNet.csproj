@@ -199,6 +199,11 @@
     <Compile Include="BLL\Pay\WeixinPay\JsApiPay.cs" />
     <Compile Include="BLL\Pay\PayNotice.cs" />
     <Compile Include="BLL\Statistic\OrderStatisticService.cs" />
+    <Compile Include="BLL\Statistic\StatisticHelper.cs" />
+    <Compile Include="BLL\Statistic\TaskStatisticService.cs" />
+    <Compile Include="BLL\Statistic\UserStatisticService.cs" />
+    <Compile Include="Models\Statistic\StatisticBaseViewModel.cs" />
+    <Compile Include="Models\Statistic\TaskStatisticByDateViewModel.cs" />
     <Compile Include="BLL\User\UserBll.cs" />
     <Compile Include="BLL\Merc\MercService.cs" />
     <Compile Include="BLL\Merc\MercTypeService.cs" />
@@ -284,6 +289,7 @@
     <Compile Include="Models\Service\Result.cs" />
     <Compile Include="Models\Issue\IssueData.cs" />
     <Compile Include="Models\Statistic\OrderStatisticByDateViewModel.cs" />
+    <Compile Include="Models\Statistic\UserStatisticByDateViewModel.cs" />
     <Compile Include="Models\Task\TaskItem.cs" />
     <Compile Include="Models\User\UserData.cs" />
     <Compile Include="Models\User\UserInfo.cs" />
