@@ -198,10 +198,12 @@
     <Compile Include="BLL\Order\TaskService.cs" />
     <Compile Include="BLL\Pay\WeixinPay\JsApiPay.cs" />
     <Compile Include="BLL\Pay\PayNotice.cs" />
+    <Compile Include="BLL\Statistic\IssuesStatisticService.cs" />
     <Compile Include="BLL\Statistic\OrderStatisticService.cs" />
     <Compile Include="BLL\Statistic\StatisticHelper.cs" />
     <Compile Include="BLL\Statistic\TaskStatisticService.cs" />
     <Compile Include="BLL\Statistic\UserStatisticService.cs" />
+    <Compile Include="Models\Statistic\IssuesStatisticByDateViewModel.cs" />
     <Compile Include="Models\Statistic\StatisticBaseViewModel.cs" />
     <Compile Include="Models\Statistic\TaskStatisticByDateViewModel.cs" />
     <Compile Include="BLL\User\UserBll.cs" />

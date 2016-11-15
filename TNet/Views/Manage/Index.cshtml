@@ -34,6 +34,19 @@
         var byUserYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
         bindCharts(byUserYearUrl, byUserYearData, "userByYearContainer", bindUserChartsCallBack);
 
+        /*统计投诉*/
+        var byIssuesDayUrl = "@Url.Action("IssuesStatisticByDay", "Manage",new {isAjax=true})";
+        var byIssuesDayData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", days: 7 };
+        bindCharts(byIssuesDayUrl, byIssuesDayData, "issuesByDayContainer", bindIssuesChartsCallBack);
+
+        var byIssuesMonthUrl = "@Url.Action("IssuesStatisticByMonth", "Manage",new {isAjax=true})";
+        var byIssuesMonthData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", months: 6 };
+        bindCharts(byIssuesMonthUrl, byIssuesMonthData, "issuesByMonthContainer", bindIssuesChartsCallBack);
+
+        var byIssuesYearUrl = "@Url.Action("IssuesStatisticByYear", "Manage",new {isAjax=true})";
+        var byIssuesYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
+        bindCharts(byIssuesYearUrl, byIssuesYearData, "issuesByYearContainer", bindIssuesChartsCallBack);
+
     });
 
     function bindCharts(url, data, container, bindChartsCallBackFun) {
@@ -262,7 +275,82 @@
             }]
         });
     }
-
+    /*统计注册投诉*/
+    function bindIssuesChartsCallBack(returndata, container) {
+        if (returndata.Code == 1) {
+            if (returndata.Content != null && returndata.Content.length > 0) {
+                var categories = new Array();
+                var data = new Array();
+                for (var i = 0; i < returndata.Content.length; i++) {
+                    var item = returndata.Content[i];
+                    categories.push(item["Date"]);
+                    data.push(item["Count"]);
+                }
+                issuesChartsSetting(container, categories, data);
+            }
+            else {
+                alert("没有任何投诉信息。");
+            }
+        }
+        else {
+            alert("加载投诉信息统计失败。");
+        }
+    }
+    function issuesChartsSetting(container, categories, data) {
+        $('#' + container).highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '投诉信息数量'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories,
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '数量'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '数量为<b>{point.y:.0f}</b>'
+            },
+            series: [{
+                color: 'rgba(186,60,61,.9)',
+                name: 'Population',
+                data: data,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#000000',
+                    align: 'right',
+                    format: '{point.y:.0f}', // one decimal
+                    y: 20, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                pointPadding: 0.3,
+                pointPlacement: 0.0,
+            }]
+        });
+    }
 </script>
 
 <div class="ManageRightTitle">
@@ -341,6 +429,30 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="userByYear">
                 <div id="userByYearContainer" style="min-width:400px;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div style="width:700px;float:left;">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#issuesByDay" role="tab" data-toggle="tab">按日统计</a>
+            </li>
+            <li role="presentation">
+                <a href="#issuesByMonth" role="tab" data-toggle="tab">按月统计</a>
+            </li>
+            <li role="presentation">
+                <a href="#issuesByYear" role="tab" data-toggle="tab">按年统计</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="issuesByDay">
+                <div id="issuesByDayContainer" style="min-width:400px;width:700px;height:400px;"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="issuesByMonth">
+                <div id="issuesByMonthContainer" style="min-width:400px;height:400px;"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="issuesByYear">
+                <div id="issuesByYearContainer" style="min-width:400px;height:400px;"></div>
             </div>
         </div>
     </div>
