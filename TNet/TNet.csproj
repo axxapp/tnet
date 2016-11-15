@@ -731,6 +731,7 @@
     <Content Include="Js\Lrz\lrz.bundle.js" />
     <Content Include="Js\Lrz\那么多文件，应该引用哪个？.txt" />
     <Content Include="Js\Manage\Base.js" />
+    <Content Include="Js\Manage\checkbox_tool.js" />
     <Content Include="Js\Merc\Base.js" />
     <Content Include="Js\Merc\Detail.js" />
     <Content Include="Js\Merc\BaseList.js" />

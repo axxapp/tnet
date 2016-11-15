@@ -107,6 +107,19 @@ namespace TNet.BLL
             db.SaveChanges();
             return advertise;
         }
-      
+
+        public static bool Delete(List<string> idavs) {
+            int count = 0;
+            TN db = new TN();
+            for (int i = 0; i < idavs.Count; i++) {
+                Advertise advertise= db.Advertises.Remove(db.Advertises.Find(idavs[i]));
+                if (advertise!=null) {
+                    count++;
+                }
+            }
+            db.SaveChanges();
+            return count>0?true:false;
+        }
+
     }
 }

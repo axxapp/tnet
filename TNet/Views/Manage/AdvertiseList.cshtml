@@ -27,9 +27,6 @@
     </ol>
 </div>
 <div class="ManageRightContent">
-    <div>
-        <a class="btn btn-primary" @*target="_blank"*@ href="@Url.Action("AdvertiseEdit","Manage")">新增广告</a>
-    </div>
     <div style="margin-top:10px;">
         <form action="@Url.Action("AdvertiseList","Manage",new { pageIndex=0})" method="post">
             <div class="row">
@@ -42,8 +39,10 @@
                 <div class="col-xs-2">
                     @Html.DropDownList("orderTypes", new SelectList(advertiseTypes, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idat })
                 </div>
-                <div class="col-xs-1">
-                    <input type="submit" value="搜索" class="btn btn-primary" placeholder=".col-xs-1" />
+                <div class="col-xs-2">
+                    <input type="submit" value="搜索" class="btn btn-primary" />
+                    <a class="btn btn-primary" href="@Url.Action("AdvertiseEdit","Manage")">新增</a>
+                    <a class="btn btn-danger" href="javascript:void(0);" id="btn_del_selected">删除</a>
                 </div>
             </div>
         </form>
@@ -53,15 +52,16 @@
     </div>
 
     <div class="list-box">
-        @if (Model.Count > 0)
-        {
+        @if (Model.Count > 0) {
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
+                        <th>
+                            <input type="checkbox" id="chk_all" />
+                        </th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<AdvertiseViewModel, string>(en => en.img))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<AdvertiseViewModel, string>(en => en.idat))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<AdvertiseViewModel, string>(en => en.title))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<AdvertiseViewModel, string>(en => en.img))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<AdvertiseViewModel, string>(en => en.link))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<AdvertiseViewModel, DateTime?>(en => en.cretime))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<AdvertiseViewModel, int?>(en => en.sortno))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<AdvertiseViewModel, bool>(en => en.inuse))</th>
@@ -69,24 +69,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
-                    {
+                    @foreach (var item in Model) {
                         <tr>
+                            <td>
+                                <input type="checkbox" name="chk_list_item" value="@item.idav" />
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.img)) {
+                                    <br />
+                                    <a href="@item.link" target="_blank">
+                                        <img class="smallMercImage" src="@Url.Content(@item.img)" title="@item.title" />
+                                    </a>
+                                }
+                            </td>
                             <td>@advertiseTypes.Where(en => en.DisplayValue == item.idat).FirstOrDefault().DisplayText</td>
                             <td>@item.title</td>
                             <td>
-                                @if (!string.IsNullOrEmpty(item.img))
-                                {
-                                    <br />
-                                    <img class="smallMercImage" src="@Url.Content(@item.img)" title="@item.title" />
-                                }
-                            </td>
-                            
-                            <td>
-                                <a href="@item.link" target="_blank" class="btn btn-default">链接</a>
-                            </td>
-                            <td>
-                                @(item.cretime!=null?item.cretime.Value.ToString("yyyy-MM-dd"):"")
+                                @(item.cretime != null ? item.cretime.Value.ToString("yyyy-MM-dd") : "")
                             </td>
                             <td>
                                 @item.sortno
@@ -97,15 +96,15 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="@Url.Action("AdvertiseEdit","Manage",new { idav = item.idav })" class="btn btn-default">编辑</a>
+                                <a href="@Url.Action("AdvertiseEdit","Manage",new { idav = item.idav })" class="btn btn-primary">编辑</a>
+                                <a href="javascript:void(0);" class="btn btn-danger" name="btn_del" value="@item.idav">删除</a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         }
-        else
-        {
+        else {
             <h2>没有找到任何广告.</h2>
         }
 
@@ -115,15 +114,39 @@
 
 <script type="text/javascript">
     $(function () {
-        $(function () {
-            $.fn.bootstrapSwitch.defaults.onText = '启用';
-            $.fn.bootstrapSwitch.defaults.offText = '禁用';
-            $("[name='enableAdvertise']").bootstrapSwitch();
+        $.fn.bootstrapSwitch.defaults.onText = '启用';
+        $.fn.bootstrapSwitch.defaults.offText = '禁用';
+        $("[name='enableAdvertise']").bootstrapSwitch();
+        checkbox_select_all('chk_all', 'chk_list_item');
+        $("#btn_del_selected").click(function () {
+            checkbox_selected_del("chk_list_item", function (data) {
+                del(data);
+            });
         });
-
-      
+        $("[name='btn_del']").click(function () {
+            if (!confirm("确认要删除该记录吗？")) {
+                return;
+            }
+            var data = new Array();
+            data.push($(this).attr("value"));
+            del(data);
+        });
     });
-    
+    function del(formData) {
+        var url = "@Url.Action("AdvertiseDelete", "Manage")";
+        var postData = { idavs: formData };
+        $.post(url, postData, function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == "1") {
+                alert(returndata.Message);
+                window.location.href = window.location.href;
+            }
+            else {
+                alert(returndata.Message);
+            }
+        });
+    }
+
     function enableAdvertise(url) {
         var manageLoginUrl = "@Url.Action("Login","Manage")";
         $.post(url, null, function (returndata) {

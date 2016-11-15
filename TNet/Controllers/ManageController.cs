@@ -2640,6 +2640,35 @@ namespace TNet.Controllers
             return View(model);
         }
 
+
+        /// <summary>
+        /// 删除广告
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        [HttpPost]
+        public ActionResult AdvertiseDelete(string[] idavs) {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<AdvertiseViewModel> resultEntity = new ResultModel<AdvertiseViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "广告删除成功";
+
+            if (idavs==null|| idavs.Count()==0) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "广告删除失败，参数错误。";
+                return Content(resultEntity.SerializeToJson());
+            }
+            
+            if (!AdvertiseService.Delete(idavs.ToList())) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "广告删除失败。";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
         [ManageLoginValidation]
         public ActionResult UploadAdvertiseImage(string idav = "")
         {
