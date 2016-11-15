@@ -125,5 +125,19 @@ namespace TNet.BLL
             db.SaveChanges();
             return setup;
         }
+
+
+        public static bool Delete(List<string> idaddrs) {
+            int count = 0;
+            TN db = new TN();
+            for (int i = 0; i < idaddrs.Count; i++) {
+                SetupAddr addr = db.SetupAddrs.Remove(db.SetupAddrs.Find(idaddrs[i]));
+                if (addr != null) {
+                    count++;
+                }
+            }
+            db.SaveChanges();
+            return count > 0 ? true : false;
+        }
     }
 }

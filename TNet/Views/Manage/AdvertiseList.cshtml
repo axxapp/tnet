@@ -113,14 +113,18 @@
 
 
 <script type="text/javascript">
+
+
     $(function () {
         $.fn.bootstrapSwitch.defaults.onText = '启用';
         $.fn.bootstrapSwitch.defaults.offText = '禁用';
         $("[name='enableAdvertise']").bootstrapSwitch();
         checkbox_select_all('chk_all', 'chk_list_item');
+        var delUrl = "@Url.Action("AdvertiseDelete", "Manage")";
         $("#btn_del_selected").click(function () {
             checkbox_selected_del("chk_list_item", function (data) {
-                del(data);
+                var postData = { idavs: data };
+                ajax_del(delUrl, postData);
             });
         });
         $("[name='btn_del']").click(function () {
@@ -129,24 +133,11 @@
             }
             var data = new Array();
             data.push($(this).attr("value"));
-            del(data);
+            var postData = { idavs: data };
+            ajax_del(delUrl, postData);
         });
     });
-    function del(formData) {
-        var url = "@Url.Action("AdvertiseDelete", "Manage")";
-        var postData = { idavs: formData };
-        $.post(url, postData, function (returndata) {
-            returndata = eval("(" + returndata + ")");
-            if (returndata.Code == "1") {
-                alert(returndata.Message);
-                window.location.href = window.location.href;
-            }
-            else {
-                alert(returndata.Message);
-            }
-        });
-    }
-
+    
     function enableAdvertise(url) {
         var manageLoginUrl = "@Url.Action("Login","Manage")";
         $.post(url, null, function (returndata) {

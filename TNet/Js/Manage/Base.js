@@ -14,9 +14,19 @@ function initParam() {
     else if ((/(Manage\/Menu)/gi).test(href)) {
         $("#Menu").addClass("select");
     }
-
-    
-
 }
 
 $(document.body).ready(initParam);
+
+function ajax_del(delUrl,postData) {
+    $.post(delUrl, postData, function (returndata) {
+        returndata = eval("(" + returndata + ")");
+        if (returndata.Code == "1") {
+            alert(returndata.Message);
+            window.location.href = window.location.href;
+        }
+        else {
+            alert(returndata.Message);
+        }
+    });
+}

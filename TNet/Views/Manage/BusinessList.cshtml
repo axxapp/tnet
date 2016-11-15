@@ -21,7 +21,8 @@
         @Html.Raw(Url.BootstrapPagerHTML(pageCount, pageIndex, "BusinessList", "Manage", ViewContext.RouteData.Values))
     </div>
     <div>
-        <a class="btn btn-primary" @*target="_blank"*@ href="@Url.Action("BusinessEdit","Manage")">新增商铺</a>
+        <a class="btn btn-primary" href="@Url.Action("BusinessEdit","Manage")">新增商铺</a>
+        <a class="btn btn-danger" href="javascript:void(0);" id="btn_del_selected">删除</a>
     </div>
     <div  class="list-box">
         @if (Model.Count > 0)
@@ -29,6 +30,9 @@
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
+                        <th>
+                            <input type="checkbox" id="chk_all" />
+                        </th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.idbuss))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, String>(en => en.buss))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, String>(en => en.contact))</th>
@@ -52,6 +56,9 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>
+                                <input type="checkbox" name="chk_list_item" value="@item.idbuss" />
+                            </td>
                             <td>@item.idbuss</td>
                             <td>@item.buss</td>
                             <td>@item.contact</td>
@@ -79,7 +86,8 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="@Url.Action("BusinessEdit","Manage",new { idbuss=item.idbuss})" class="btn btn-default">编辑</a>
+                                <a href="@Url.Action("BusinessEdit","Manage",new { idbuss=item.idbuss})" class="btn btn-primary">编辑</a>
+                                <a href="javascript:void(0);" class="btn btn-danger" name="btn_del" value="@item.idbuss">删除</a>
                             </td>
                         </tr>
                     }
@@ -98,6 +106,23 @@
         $.fn.bootstrapSwitch.defaults.onText = '启用';
         $.fn.bootstrapSwitch.defaults.offText = '禁用';
         $("[name='enableBusiness']").bootstrapSwitch();
+        checkbox_select_all('chk_all', 'chk_list_item');
+        var delUrl = "@Url.Action("BusinessDelete", "Manage")";
+        $("#btn_del_selected").click(function () {
+            checkbox_selected_del("chk_list_item", function (data) {
+                var postData = { idavs: data };
+                ajax_del(delUrl, postData);
+            });
+        });
+        $("[name='btn_del']").click(function () {
+            if (!confirm("确认要删除该记录吗？")) {
+                return;
+            }
+            var data = new Array();
+            data.push($(this).attr("value"));
+            var postData = { idbusses: data };
+            ajax_del(delUrl, postData);
+        });
     });
     function enableBusiness(url) {
         var manageLoginUrl = "@Url.Action("Login","Manage")";

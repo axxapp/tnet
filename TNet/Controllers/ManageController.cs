@@ -477,6 +477,35 @@ namespace TNet.Controllers
 
 
         /// <summary>
+        /// 删除商圈
+        /// </summary>
+        /// <param name="idbusses"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        [HttpPost]
+        public ActionResult BusinessDelete(string[] idbusses) {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<BusinessViewModel> resultEntity = new ResultModel<BusinessViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "商铺删除成功";
+
+            if (idbusses == null || idbusses.Count() == 0) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "商铺删除失败，参数错误。";
+                return Content(resultEntity.SerializeToJson());
+            }
+            
+            if (!BusinessService.Delete(idbusses.ToList())) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "商铺删除失败。";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
+
+        /// <summary>
         /// 获取商圈图片
         /// </summary>
         /// <param name="idbuss"></param>
@@ -1535,6 +1564,35 @@ namespace TNet.Controllers
             return Content(resultEntity.SerializeToJson());
         }
 
+
+        /// <summary>
+        /// 删除报装地址
+        /// </summary>
+        /// <param name="idaddrs"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        [HttpPost]
+        public ActionResult SetupAddrDelete(string[] idaddrs) {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<NoticeViewModel> resultEntity = new ResultModel<NoticeViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "报装地址删除成功";
+
+            if (idaddrs == null || idaddrs.Count() == 0) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "报装地址删除失败，参数错误。";
+                return Content(resultEntity.SerializeToJson());
+            }
+            
+            if (!SetupAddrService.Delete(idaddrs.ToList())) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "报装地址删除失败。";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
         /// <summary>
         /// 产品规格列表
         /// </summary>
@@ -2400,6 +2458,35 @@ namespace TNet.Controllers
             return View(model);
         }
 
+
+        /// <summary>
+        /// 删除公告
+        /// </summary>
+        /// <param name="idnotices"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        [HttpPost]
+        public ActionResult NoticeDelete(string[] idnotices) {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<NoticeViewModel> resultEntity = new ResultModel<NoticeViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "公告删除成功";
+
+            if (idnotices == null || idnotices.Count() == 0) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "公告删除失败，参数错误。";
+                return Content(resultEntity.SerializeToJson());
+            }
+            
+            if (!NoticeService.Delete(idnotices.ToList())) {
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "公告删除失败。";
+                return Content(resultEntity.SerializeToJson());
+            }
+
+            return Content(resultEntity.SerializeToJson());
+        }
+
         /// <summary>
         /// 广告类型列表
         /// </summary>
@@ -2640,11 +2727,10 @@ namespace TNet.Controllers
             return View(model);
         }
 
-
         /// <summary>
         /// 删除广告
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="idavs"></param>
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
