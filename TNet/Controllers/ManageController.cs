@@ -1084,7 +1084,7 @@ namespace TNet.Controllers
             isetupSelects.Add(new SelectItemViewModel<int>()
             {
                 DisplayValue = -1,
-                DisplayText = "所有"
+                DisplayText = "可否报装"
             });
             isetupSelects.Add(new SelectItemViewModel<int>()
             {

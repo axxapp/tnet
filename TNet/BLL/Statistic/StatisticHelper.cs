@@ -26,11 +26,11 @@ namespace TNet.BLL.Statistic
             CalculateDate(date, years, list, "yyyy");
         }
 
-        public static void CalculateDate(DateTime date, long adds, List<T> list,string dateFormate) 
+        private static void CalculateDate(DateTime date, long adds, List<T> list,string dateFormate) 
         {
-            if (list == null || list.Count == 0)
+            if (list == null)
             {
-                return;
+                list=new List<T>();
             }
             List<string> dates = new List<string>();
             for (int i = 0; i < adds; i++)

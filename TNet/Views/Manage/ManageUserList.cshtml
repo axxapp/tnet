@@ -61,8 +61,8 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="@Url.Action("ManageUserEdit","Manage",new {ManageUserId=item.ManageUserId })" class="btn btn-default">编辑</a>
-                                <a href="javascript:void(0);" onclick='openModal("@item.ManageUserId","@item.UserName");' class="btn btn-default">@(!string.IsNullOrEmpty(item.idweixin) ? "重新" : "")绑定微信</a>
+                                <a href="@Url.Action("ManageUserEdit","Manage",new {ManageUserId=item.ManageUserId })" class="btn btn-primary">编辑</a>
+                                <a href="javascript:void(0);" onclick='openModal("@item.ManageUserId","@item.UserName");' class="btn btn-primary">@(!string.IsNullOrEmpty(item.idweixin) ? "重新" : "")绑定微信</a>
                             </td>
                         </tr>
                     }
@@ -98,7 +98,7 @@
                 <div id="searchResults" class="userSearchResults"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>

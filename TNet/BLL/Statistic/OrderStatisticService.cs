@@ -29,7 +29,8 @@ namespace TNet.BLL {
             }; 
             string sql = "select CONVERT(varchar(100), cretime, 23) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(dd,cretime,@date)<=@days and DATEDIFF(dd,cretime,@date)>=0 group by CONVERT(varchar(100), cretime, 23) order by CONVERT(varchar(100), cretime, 23)";
             list=db.Database.SqlQuery<OrderStatisticByDateViewModel>(sql,paras).ToList();
-            //StatisticHelper<OrderStatisticByDateViewModel>.CalculateDays(date, days, list);
+            StatisticHelper<OrderStatisticByDateViewModel>.CalculateDays(date, days, list);
+            list = list.OrderBy(en => en.Date).ToList();
             return list;
 
         }
@@ -53,6 +54,8 @@ namespace TNet.BLL {
             };
             string sql = "select (DateName(year,cretime)+'-'+DateName(month,cretime)) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(MM,cretime,@date)<=@months and DATEDIFF(MM,cretime,@date)>=0 group by (DateName(year, cretime) + '-' + DateName(month, cretime)) order by (DateName(year, cretime) + '-' + DateName(month, cretime)) ";
             list = db.Database.SqlQuery<OrderStatisticByDateViewModel>(sql, paras).ToList();
+            StatisticHelper<OrderStatisticByDateViewModel>.CalculateMonths(date, months, list);
+            list = list.OrderBy(en => en.Date).ToList();
             return list;
 
         }
@@ -76,6 +79,8 @@ namespace TNet.BLL {
             };
             string sql = "select DateName(year,cretime) as [Date],sum(totalfee) as OrderAmount,count(*)  OrderNumer from MyOrder where DATEDIFF(MM,cretime,@date)<=@years and DATEDIFF(MM,cretime,@date)>=0 group by DateName(year, cretime) order by DateName(year, cretime)";
             list = db.Database.SqlQuery<OrderStatisticByDateViewModel>(sql, paras).ToList();
+            StatisticHelper<OrderStatisticByDateViewModel>.CalculateYears(date, years, list);
+            list = list.OrderBy(en => en.Date).ToList();
             return list;
 
         }

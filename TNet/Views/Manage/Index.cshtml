@@ -18,7 +18,7 @@
         bindOrderCharts(byOrderMonthUrl, byOrderMonthData, "amountByMonthContainer", "numByMonthContainer", bindOrderChartsCallBack);
 
         var byOrderYearUrl = "@Url.Action("OrderStatisticByYear", "Manage",new {isAjax=true})";
-        var byOrderYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
+        var byOrderYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 2 };
         bindOrderCharts(byOrderYearUrl, byOrderYearData, "amountByYearContainer", "numByYearContainer", bindOrderChartsCallBack);
 
         /*统计注册用户*/
@@ -31,7 +31,7 @@
         bindCharts(byUserMonthUrl, byUserMonthData, "userByMonthContainer", bindUserChartsCallBack);
 
         var byUserYearUrl = "@Url.Action("UserStatisticByYear", "Manage",new {isAjax=true})";
-        var byUserYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
+        var byUserYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 2 };
         bindCharts(byUserYearUrl, byUserYearData, "userByYearContainer", bindUserChartsCallBack);
 
         /*统计投诉*/
@@ -44,7 +44,7 @@
         bindCharts(byIssuesMonthUrl, byIssuesMonthData, "issuesByMonthContainer", bindIssuesChartsCallBack);
 
         var byIssuesYearUrl = "@Url.Action("IssuesStatisticByYear", "Manage",new {isAjax=true})";
-        var byIssuesYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 5 };
+        var byIssuesYearData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", years: 2 };
         bindCharts(byIssuesYearUrl, byIssuesYearData, "issuesByYearContainer", bindIssuesChartsCallBack);
 
     });

@@ -79,7 +79,7 @@
                                 @item.notes
                             </td>
                             <td>
-                                <a href="@Url.Action("SetupAddrEdit","Manage",new {idaddr=item.idaddr })" class="btn btn-default">编辑</a>
+                                <a href="@Url.Action("SetupAddrEdit","Manage",new {idaddr=item.idaddr })" class="btn btn-primary">编辑</a>
                                 <a href="javascript:void(0);" class="btn btn-danger" name="btn_del" value="@item.idaddr">删除</a>
                             </td>
                         </tr>
@@ -103,7 +103,7 @@
         var delUrl = "@Url.Action("SetupAddrDelete", "Manage")";
         $("#btn_del_selected").click(function () {
             checkbox_selected_del("chk_list_item", function (data) {
-                var postData = { idavs: data };
+                var postData = { idaddrs: data };
                 ajax_del(delUrl, postData);
             });
         });

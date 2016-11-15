@@ -22,7 +22,7 @@
         @Html.Raw(Url.BootstrapPagerHTML(pageCount, pageIndex, "SpecList", "Manage", ViewContext.RouteData.Values))
     </div>
     <div>
-        <a class="btn btn-primary" target="_blank" href="@Url.Action("SpecEdit","Manage",new { idmerc=idmerc})">新增规格</a>
+        <a class="btn btn-primary" target="_blank" href="@Url.Action("SpecEdit","Manage",new { idmerc=idmerc})">新增</a>
     </div>
     <div class="list-box">
         @if (Model.Count > 0)
@@ -73,7 +73,7 @@
                                
                             </td>
                             <td>
-                                <a href="@Url.Action("SpecEdit","Manage",new {idmerc=item.idmerc,idspec=item.idspec })" class="btn btn-default">编辑</a>
+                                <a href="@Url.Action("SpecEdit","Manage",new {idmerc=item.idmerc,idspec=item.idspec })" class="btn btn-primary">编辑</a>
                             </td>
                         </tr>
                     }

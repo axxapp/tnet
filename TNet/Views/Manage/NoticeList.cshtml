@@ -76,7 +76,7 @@
                             </td>
                             <td>@item.sortno</td>
                             <td>
-                                <a href="@Url.Action("NoticeEdit","Manage",new {idnotice=item.idnotice })" class="btn btn-default">编辑</a>
+                                <a href="@Url.Action("NoticeEdit","Manage",new {idnotice=item.idnotice })" class="btn btn-primary">编辑</a>
                                 <a href="javascript:void(0);" class="btn btn-danger" name="btn_del" value="@item.idnotice">删除</a>
                             </td>
                         </tr>
@@ -96,7 +96,7 @@
         var delUrl = "@Url.Action("NoticeDelete", "Manage")";
         $("#btn_del_selected").click(function () {
             checkbox_selected_del("chk_list_item", function (data) {
-                var postData = { idavs: data };
+                var postData = { idnotices: data };
                 ajax_del(delUrl, postData);
             });
         });

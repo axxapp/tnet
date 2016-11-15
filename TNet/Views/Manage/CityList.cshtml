@@ -18,7 +18,7 @@
 </div>
 <div class="ManageRightContent">
     <div>
-        <a class="btn btn-primary"  href="@Url.Action("CityEdit","Manage")">新增城市</a>
+        <a class="btn btn-primary"  href="@Url.Action("CityEdit","Manage")">新增</a>
     </div>
     <div>
         @Html.Raw(Url.BootstrapPagerHTML(pageCount, pageIndex, "CityList", "Manage", ViewContext.RouteData.Values))
@@ -61,7 +61,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="@Url.Action("CityEdit","Manage",new { idcity = item.idcity })" class="btn btn-default">编辑</a>
+                                <a href="@Url.Action("CityEdit","Manage",new { idcity = item.idcity })" class="btn btn-primary">编辑</a>
                             </td>
                         </tr>
                     }

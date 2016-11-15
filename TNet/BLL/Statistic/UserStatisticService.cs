@@ -32,8 +32,10 @@ namespace TNet.BLL.Statistic
                      ParameterName="@days"
                 }
             };
-            string sql = "select CONVERT(varchar(100), cretime, 23) as [Date],count(*)  [Count] from [User] where DATEDIFF(dd,cretime,@date)<=@days and DATEDIFF(dd,cretime,@date)>=0 group by CONVERT(varchar(100), cretime, 23) order by CONVERT(varchar(100), cretime, 23) desc";
+            string sql = "select CONVERT(varchar(100), cretime, 23) as [Date],count(*)  [Count] from [User] where DATEDIFF(dd,cretime,@date)<=@days and DATEDIFF(dd,cretime,@date)>=0 group by CONVERT(varchar(100), cretime, 23) order by CONVERT(varchar(100), cretime, 23)";
             list = db.Database.SqlQuery<UserStatisticByDateViewModel>(sql, paras).ToList();
+            StatisticHelper<UserStatisticByDateViewModel>.CalculateDays(date, days, list);
+            list = list.OrderBy(en => en.Date).ToList();
             return list;
 
         }
@@ -56,8 +58,10 @@ namespace TNet.BLL.Statistic
                      ParameterName="@months"
                 }
             };
-            string sql = "select (DateName(year,cretime)+'-'+DateName(month,cretime)) as [Date],count(*)  [Count] from [User] where DATEDIFF(MM,cretime,@date)<=@months and DATEDIFF(MM,cretime,@date)>=0 group by (DateName(year, cretime) + '-' + DateName(month, cretime)) order by (DateName(year, cretime) + '-' + DateName(month, cretime)) desc";
+            string sql = "select (DateName(year,cretime)+'-'+DateName(month,cretime)) as [Date],count(*)  [Count] from [User] where DATEDIFF(MM,cretime,@date)<=@months and DATEDIFF(MM,cretime,@date)>=0 group by (DateName(year, cretime) + '-' + DateName(month, cretime)) order by (DateName(year, cretime) + '-' + DateName(month, cretime))";
             list = db.Database.SqlQuery<UserStatisticByDateViewModel>(sql, paras).ToList();
+            StatisticHelper<UserStatisticByDateViewModel>.CalculateMonths(date, months, list);
+            list = list.OrderBy(en => en.Date).ToList();
             return list;
 
         }
@@ -80,8 +84,10 @@ namespace TNet.BLL.Statistic
                      ParameterName="@years"
                 }
             };
-            string sql = "select DateName(year,cretime) as [Date],count(*)  [Count] from [User] where DATEDIFF(MM,cretime,@date)<=@years and DATEDIFF(MM,cretime,@date)>=0 group by DateName(year, cretime) order by DateName(year, cretime) desc";
+            string sql = "select DateName(year,cretime) as [Date],count(*)  [Count] from [User] where DATEDIFF(MM,cretime,@date)<=@years and DATEDIFF(MM,cretime,@date)>=0 group by DateName(year, cretime) order by DateName(year, cretime)";
             list = db.Database.SqlQuery<UserStatisticByDateViewModel>(sql, paras).ToList();
+            StatisticHelper<UserStatisticByDateViewModel>.CalculateYears(date, years, list);
+            list = list.OrderBy(en => en.Date).ToList();
             return list;
 
         }

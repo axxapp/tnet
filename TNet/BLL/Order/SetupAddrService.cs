@@ -26,7 +26,7 @@ namespace TNet.BLL
             return viewModels;
         }
 
-        public static List<SetupAddrViewModel> ConvertToViewModel(List<SetupAddr> entities) {
+        private static List<SetupAddrViewModel> ConvertToViewModel(List<SetupAddr> entities) {
             List<SetupAddrViewModel> viewModels = new List<SetupAddrViewModel>();
             List<string> idsetups = entities.Select(mod=> {
                 return mod.idsetup;

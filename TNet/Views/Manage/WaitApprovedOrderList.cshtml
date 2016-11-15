@@ -40,7 +40,6 @@
                         <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, int?>(en => en.count))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, double?>(en => en.price))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, string>(en => en.contact))</th>
-                        
                         <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, bool>(en => en.inuse))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, string>(en => en.notes))</th>
                     </tr>
@@ -50,7 +49,7 @@
                     {
                         <tr>
                             <td>
-                                <a href="@Url.Action("OrderDetail","Manage",new { orderno=item.orderno})" class="btn btn-default">审核</a>
+                                <a href="@Url.Action("OrderDetail","Manage",new { orderno=item.orderno})" class="btn btn-primary">审核</a>
                             </td>
                             <td>
                                 @item.orderno
