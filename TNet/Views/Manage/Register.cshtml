@@ -1,0 +1,72 @@
+﻿@model TNet.Models.ManageUserViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>工人注册</title>
+    <link rel="stylesheet" href="@Url.Content("~/Css/Bootstrap/bootstrap.min.css?v=20161114")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Base.css?v=20161114")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Login.css?v=20161114")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/com/jQuery.Validate.css?v=20161114")" />
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Bootstrap/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery.validate.unobtrusive.min.js")"></script>
+
+    <style type="text/css">
+        .form-group {
+            min-height:30px;
+        }
+    </style>
+</head>
+<body>
+        <form method="post" id="loginForm">
+            <div class="registerBox" >
+                <h2>工人注册</h2>
+                <fieldset>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UserName, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-5">
+                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.UserName)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ClearPassword, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-5">
+                            @Html.PasswordFor(model => model.ClearPassword, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.ClearPassword)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ConfirmPassword, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-5">
+                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.phone, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-5">
+                            @Html.TextBoxFor(model => model.phone, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.phone)
+                    </div>
+                    @Html.ValidationSummary(true)
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" ></label>
+                        <div class="col-sm-5">
+                            <input type="submit" value="提交" class="btn btn-primary" />
+                        </div>
+                    </div>
+                    
+                </fieldset>
+            </div>
+        </form>
+</body>
+</html>

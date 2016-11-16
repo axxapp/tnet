@@ -22,6 +22,11 @@ namespace TNet.Models
         [StringLength(18)]
         public string ClearPassword { get; set; }
 
+        [Display(Name = "确认密码")]
+        [Required]
+        [StringLength(18)]
+        public string ConfirmPassword { get; set; }
+
         [Display(Name = "密码")]
         [Required]
         [StringLength(100)]
@@ -33,6 +38,7 @@ namespace TNet.Models
 
         [Display(Name = "手机号")]
         [StringLength(15)]
+        [RegularExpression("[0-9]{11,11}",ErrorMessage ="手机号必须是11位的数字。")]
         public new string phone { get; set; }
 
         [Display(Name = "微信openid")]

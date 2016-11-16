@@ -53,6 +53,50 @@ namespace TNet.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(ManageUserViewModel model)
+        {
+            if (model.ClearPassword!=model.ConfirmPassword) {
+                ModelState.AddModelError("", "密码与确认密码必须一致.");
+                return View(model);
+            }
+            ManageUser user = ManageUserService.GetManageUserByUserName(model.UserName);
+            if (user != null)
+            {
+                ModelState.AddModelError("", "用户名已经存在，请使用其它用户名.");
+                return View(model);
+            }
+            model.ManageUserId = Pub.ID();
+            model.UserType = ManageUserType.Worker;
+            model.inuse = false;
+            model.notes = "";
+            model.recv_order = false;
+            model.recv_setup = false;
+            model.recv_review = false;
+            model.send_setup = false;
+            
+            string md5Password = string.Empty;
+            string md5Salt = string.Empty;
+            Crypto.GetPwdhashAndSalt(model.ClearPassword,out md5Salt,out md5Password);
+            model.Password = md5Password;
+            model.MD5Salt = md5Salt;
+
+            ManageUser manageUser = new ManageUser();
+            model.CopyToBase(manageUser);
+            if (ManageUserService.Add(manageUser) == null) {
+                ModelState.AddModelError("", "注册失败，请稍微重试.");
+                return View(model);
+            }
+
+            return RedirectToAction("Login", "Manage");
+        }
+
         [ManageLoginValidation]
         public ActionResult SignOut()
         {

@@ -1264,6 +1264,7 @@
     <Content Include="Swiper\js\maps\swiper.jquery.min.js.map" />
     <Content Include="Swiper\js\maps\swiper.jquery.umd.min.js.map" />
     <Content Include="Swiper\js\maps\swiper.min.js.map" />
+    <Content Include="Views\Manage\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

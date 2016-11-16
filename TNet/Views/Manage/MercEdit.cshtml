@@ -206,7 +206,7 @@
         var getMercImageUrl = "@Url.Action("AjaxMercImageList", "Manage")";
         var sortMercImagesUrl = "@Url.Action("SortMercImage", "Manage",new { isAjax =true})";
         var deleteMercImageUrl = "@Url.Action("DeleteMercImage", "Manage",new { isAjax =true})";
-        $.post(getMercImageUrl, { mercId:@Model.idmerc, isAjax: true }, function (returndata) {
+        $.post(getMercImageUrl, { mercId:"@(Model.idmerc)",isAjax: true }, function (returndata) {
             returndata = eval("(" + returndata + ")");
             var initPreviewImage = [];
             var initialPreviewConfig = [];
@@ -217,7 +217,7 @@
                         var initialPreviewConfigItem = {
                             url: deleteMercImageUrl,
                             key: returndata.Content[i].MercImageId,
-                            extra: { mercImageId: returndata.Content[i].MercImageId, idmerc: @Model.idmerc }
+                            extra: { mercImageId: returndata.Content[i].MercImageId, idmerc: "@Model.idmerc" }
                         };
                         initialPreviewConfig.push(initialPreviewConfigItem);
                     }
