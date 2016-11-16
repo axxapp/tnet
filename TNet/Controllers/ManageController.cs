@@ -505,18 +505,7 @@ namespace TNet.Controllers
                 }
             }
             BusinessService.SetDefaultBussImage(business.idbuss);
-
-            List<SelectItemViewModel<string>> citySelects = CityService.SelectItemValueCotainNameAndCode();
-            citySelects.Insert(0, new SelectItemViewModel<string>()
-            {
-                DisplayText = "请选择城市",
-                DisplayValue = ""
-            });
-            ViewData["citySelects"] = citySelects;
-
-
-            ModelState.AddModelError("", "保存成功.");
-            return View(model);
+            return RedirectToAction("BusinessList","Manage");
         }
 
 
@@ -1296,11 +1285,7 @@ namespace TNet.Controllers
 
             MercService.SetDefaultMercImage(merc.idmerc);
 
-            //修改后重新加载
-            model.CopyFromBase(merc);
-
-            ModelState.AddModelError("", "保存成功.");
-            return View(model);
+            return RedirectToAction("MercList","Manage");
         }
 
         /// <summary>
@@ -1424,12 +1409,7 @@ namespace TNet.Controllers
                 mercType = MercTypeService.Edit(mercType);
             }
 
-            //修改后重新加载
-            model.CopyFromBase(mercType);
-
-            ModelState.AddModelError("", "保存成功.");
-
-            return View(model);
+            return RedirectToAction("MercTypeList","Manage");
         }
 
         /// <summary>
@@ -1567,15 +1547,7 @@ namespace TNet.Controllers
                 setupAddr = SetupAddrService.Edit(setupAddr);
             }
 
-            //修改后重新加载
-            model.CopyFromBase(setupAddr);
-
-            ModelState.AddModelError("", "保存成功.");
-
-            ViewData["SetupSelectItems"] = SetupService.SelectItems();
-            ViewData["MercTypeSelectItems"] = MercTypeService.SelectItems();
-
-            return View(model);
+            return RedirectToAction("SetupAddrList", "Manage");
         }
 
 
@@ -1733,10 +1705,7 @@ namespace TNet.Controllers
                 spec = SpecService.Edit(spec);
             }
 
-            //修改后重新加载
-            model.CopyFromBase(spec);
-
-            return View(model);
+            return RedirectToAction("SpecList","Manage");
         }
 
         /// <summary>
@@ -2146,11 +2115,7 @@ namespace TNet.Controllers
                 manageUser = ManageUserService.Edit(manageUser);
             }
 
-            //修改后重新加载
-            model.CopyFromBase(manageUser);
-
-            ModelState.AddModelError("", "保存成功.");
-            return View(model);
+            return RedirectToAction("ManageUserList", "Manage");
         }
 
         /// <summary>
@@ -2497,9 +2462,7 @@ namespace TNet.Controllers
 
             //保存商品城市关系
             CityRelationService.Save(model.idcitys, notice.idnotice.ToString(), ModuleType.Notice);
-
-            ModelState.AddModelError("", "保存成功.");
-            return View(model);
+            return RedirectToAction("NoticeList", "Manage");
         }
 
 
@@ -2627,12 +2590,7 @@ namespace TNet.Controllers
                 advertiseType = AdvertiseTypeService.Edit(advertiseType);
             }
 
-            //修改后重新加载
-            model.CopyFromBase(advertiseType);
-
-            ModelState.AddModelError("", "保存成功.");
-
-            return View(model);
+            return RedirectToAction("AdvertiseTypeList", "Manage");
         }
 
 
@@ -2763,12 +2721,7 @@ namespace TNet.Controllers
             //保存商品城市关系
             CityRelationService.Save(model.idcitys, advertise.idav.ToString(), ModuleType.Advertise);
 
-            List<SelectItemViewModel<string>> advertiseTypes = AdvertiseTypeService.SelectItems();
-            ViewData["advertiseTypes"] = advertiseTypes;
-
-            ModelState.AddModelError("", "保存成功.");
-
-            return View(model);
+            return RedirectToAction("AdvertiseList", "Manage");
         }
 
         /// <summary>
@@ -3049,10 +3002,7 @@ namespace TNet.Controllers
                 city = CityService.Edit(city);
             }
 
-            //修改后重新加载
-            model.CopyFromBase(city);
-            ModelState.AddModelError("", "保存成功.");
-            return View(model);
+            return RedirectToAction("CityList", "Manage");
         }
 
 
@@ -3177,10 +3127,7 @@ namespace TNet.Controllers
                 module = WeiXinModuleService.Edit(module);
             }
 
-            //修改后重新加载
-            model.CopyFromBase(module);
-            ModelState.AddModelError("", "保存成功.");
-            return View(model);
+            return RedirectToAction("WeiXinModuleList", "Manage");
         }
 
         /// <summary>
