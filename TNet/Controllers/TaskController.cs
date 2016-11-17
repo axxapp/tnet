@@ -13,5 +13,10 @@ namespace TNet.Controllers
         {
             return View();
         }
+
+        public ActionResult Finish()
+        {
+            return View();
+        }
     }
 }

@@ -32,5 +32,8 @@ namespace TCom.EF
         public int? sortno { get; set; }
 
         public bool inuse { get; set; }
+
+        [StringLength(20)]
+        public string city { get; set; }
     }
 }

@@ -47,7 +47,7 @@ function getData() {
                                 html += '</a>';
                                 html += '<div class="order_ops">';
                                 html += '<div class="amont">￥' + o.totalfee + '</div>';
-                                html += '<div class="ops">' + getOps(so, o) + '</div>';
+                                html += '<div class="ops">' + getOps(so, o,true) + '</div>';
                                 html += '</div>';
                                 html += '</div>';
                             }
@@ -56,7 +56,7 @@ function getData() {
                                 return;
                             }
                         } catch (e) {
-                            $('#order_host').html("加载异常" + e.message);
+                            $('#order_host').html("加载异常");
                             return;
 
                         }

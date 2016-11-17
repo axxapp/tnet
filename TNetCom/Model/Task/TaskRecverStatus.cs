@@ -6,37 +6,34 @@ using System.Threading.Tasks;
 
 namespace TCom.Model.Task
 {
-    /// <summary>
-    /// 任务类型
-    /// </summary>
-    public class TaskType
+    public class TaskRecverStatus
     {
         /// <summary>
-        /// 报装
+        /// 暂结
         /// </summary>
-        public readonly static int Setup = 10;
+        public readonly static int Pause = 100;
 
         /// <summary>
-        /// 投诉
+        /// 完工
         /// </summary>
-        public readonly static int Complaint = 20;
+        public readonly static int Finish = 200;
 
         /// <summary>
-        /// 建议
+        /// 取消
         /// </summary>
-        public readonly static int Suggest = 30;
+        public readonly static int Cancel = 300;
 
 
         public static Dictionary<int, string> s = new Dictionary<int, string>()
         {
             {
-                Setup,"报装"
+                Pause,"暂结"
             },
             {
-                Complaint,"投诉"
+                Finish,"完工"
             },
             {
-                Suggest,"建议"
+                Cancel,"取消"
             },
             {
                 0,"未知"

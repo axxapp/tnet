@@ -55,7 +55,7 @@ function getStatus(s, status) {
     return { code: "", text: "未知", ops: "" };
 }
 
-function getOps(status, order) {
+function getOps(status, order, isList) {
     //alert(JSON.stringify(status))
     var uo = Pub.getUser();
     //alert(JSON.stringify(uo))
@@ -78,7 +78,11 @@ function getOps(status, order) {
                 html += '<a class="pay" href="' + pu + '">支付</a>';
             } else if (p == "reviewOrder") {
                 if (uo && uo.mu && uo.mu.recvReview) {
-                    html += '<a class="pay" href="javascript:void(0)" onclick="showReviewOrderHost(\'' + order.orderno + '\')">审核</a>';
+                    if (isList) {
+                        html += '<a class="pay" href="' + Pub.url("Order/Detail/" + order.orderno) + '">去审核</a>';
+                    } else {
+                        html += '<a class="pay" href="javascript:void(0)" onclick="showReviewOrderHost(\'' + order.orderno + '\')">审核</a>';
+                    }
                 }
 
             } else if (p == "editOrder") {
@@ -163,4 +167,3 @@ function reviewOrder(review, event) {
     }
 }
 
- 

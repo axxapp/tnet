@@ -25,11 +25,15 @@ namespace TCom.EF
 
         public DateTime? cretime { get; set; }
 
+        public double? works { get; set; }
+
         [StringLength(60)]
         public string smcode { get; set; }
 
         [StringLength(60)]
         public string smname { get; set; }
+
+        public int? status { get; set; }
 
         public bool inuse { get; set; }
     }

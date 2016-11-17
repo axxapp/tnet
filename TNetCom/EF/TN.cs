@@ -62,6 +62,10 @@ namespace TCom.EF
                 .Property(e => e.link)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<Advertise>()
+                .Property(e => e.city)
+                .IsUnicode(false);
+
             modelBuilder.Entity<AdvertiseType>()
                 .Property(e => e.idat)
                 .IsUnicode(false);
@@ -531,27 +535,15 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<TaskPress>()
+                .Property(e => e.idrecver)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TaskPress>()
                 .Property(e => e.idtask)
                 .IsUnicode(false);
 
             modelBuilder.Entity<TaskPress>()
-                .Property(e => e.orderno)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<TaskPress>()
-                .Property(e => e.mcode)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<TaskPress>()
-                .Property(e => e.mname)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<TaskPress>()
                 .Property(e => e.ptext)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<TaskPress>()
-                .Property(e => e.notes)
                 .IsUnicode(false);
 
             modelBuilder.Entity<TaskRecver>()

@@ -21,6 +21,7 @@ namespace TCom.Model.Task
         /// </summary>
         public readonly static int Pressing = 20;
 
+
         /// <summary>
         /// 暂停...
         /// </summary>
@@ -30,6 +31,11 @@ namespace TCom.Model.Task
         /// 继续处理
         /// </summary>
         public readonly static int RePressing = 40;
+
+        /// <summary>
+        /// 完成处理,等待验收
+        /// </summary>
+        public readonly static int Finish = 50;
 
         /// <summary>
         /// 完成处理,等待验收
@@ -80,7 +86,7 @@ namespace TCom.Model.Task
                 WaitPress,
                 new TaskStatusItem()
                 {
-                    
+
                     text = "等待处理",
                     ops = "pause|finish"
                 }

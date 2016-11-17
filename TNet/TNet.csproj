@@ -284,6 +284,7 @@
     <Compile Include="Models\Service\Result.cs" />
     <Compile Include="Models\Issue\IssueData.cs" />
     <Compile Include="Models\Statistic\OrderStatisticByDateViewModel.cs" />
+    <Compile Include="Models\Task\TaskFinishData.cs" />
     <Compile Include="Models\Task\TaskItem.cs" />
     <Compile Include="Models\User\UserData.cs" />
     <Compile Include="Models\User\UserInfo.cs" />
@@ -498,6 +499,7 @@
     <Content Include="Css\Notice\List.css" />
     <Content Include="Css\Order\Edit.css" />
     <Content Include="Css\Task\Base.css" />
+    <Content Include="Css\Task\Finish.css" />
     <Content Include="Css\User\Update.css" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.js" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.min.js" />
@@ -819,6 +821,7 @@
     <Content Include="Css\Bootstrap\bootstrap-theme.css.map" />
     <Content Include="Css\Bootstrap\bootstrap.css.map" />
     <Content Include="Css\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Js\Task\Finish.js" />
     <Content Include="Js\User\Index.js" />
     <Content Include="Js\User\Update.js" />
     <Content Include="MP_verify_ihu7x0BozQLNCJ1q.txt" />
@@ -1255,6 +1258,7 @@
     <Content Include="Swiper\js\maps\swiper.jquery.min.js.map" />
     <Content Include="Swiper\js\maps\swiper.jquery.umd.min.js.map" />
     <Content Include="Swiper\js\maps\swiper.min.js.map" />
+    <Content Include="Views\Task\Finish.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

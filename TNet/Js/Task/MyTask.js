@@ -63,7 +63,7 @@ function getData() {
                                 html += '<div class="task_ops">';
                                 html += '<div class="time_num">耗时:' + getTimeNum(o.workTime) + '</div>';
                                 
-                                html += '<div class="ops">' + getOps(so) + '</div>';
+                                html += '<div class="ops">' + getOps(so,o) + '</div>';
                                 html += '</div>';
                                 html += '</div>';
                             }
@@ -72,7 +72,7 @@ function getData() {
                                 return;
                             }
                         } catch (e) {
-                            $('#order_host').html("加载异常" + e.message);
+                            $('#order_host').html("加载异常");
                             return;
                         }
 

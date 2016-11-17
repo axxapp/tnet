@@ -219,6 +219,9 @@
 
     //ajax请求-跨域解决
     function _ajax_call(request) {
+        if (request.data && typeof (request.data) == 'object') {
+            request.data = JSON.stringify(request.data);
+        }
         request.url = rootUrl() + request.url;
 
         var isJson = false;

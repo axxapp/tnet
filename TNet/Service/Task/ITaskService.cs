@@ -26,5 +26,13 @@ namespace TNet.Service.Task
         /// <returns></returns>
         [WebInvoke(Method = "GET", UriTemplate = "List/{mgcode}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
         Result<List<TaskItem>> List(string mgcode);
+
+        /// <summary>
+        /// 完工
+        /// </summary>
+        /// <returns></returns>
+        [WebInvoke(Method = "POST", UriTemplate = "Finish", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<string> Finish(TaskFinishData data);
+        
     }
 }

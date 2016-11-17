@@ -3,8 +3,8 @@ var g_base_x_v = 0;
 function initBase() {
     if (!g_Swiper_Obj) {
         g_Swiper_Obj = new Swiper('.swiper-container', {
-            autoplay: 2000,
             initialSlide: 0,
+            autoplay: 2000,
             visibilityFullFit: true,
             loop: true,
             pagination: '.swiper-pagination',
@@ -12,11 +12,9 @@ function initBase() {
             preloadImages: false,
             lazyLoading: true,
             centeredSlides: true,
-            autoplayDisableOnInteraction: false
-            //runCallbacksOnInit: true,
-            //autoplayDisableOnInteraction: false,
-            //observer: true,//修改swiper自己或子元素时，自动初始化swiper
-            //observeParents: true//修改swiper的父元素时，自动初始化swiper
+            autoplayDisableOnInteraction: false,
+            observer: true,//修改swiper自己或子元素时，自动初始化swiper
+            observeParents: true//修改swiper的父元素时，自动初始化swiper
         });
         Pub.auth(false);
         setTopMenuEvent();
@@ -172,46 +170,41 @@ function loadAd(pos) {
         return false;
     } else {
         var html = '';
+        // g_Swiper_Obj.stopAutoplay();
         initBase();
-
-        //g_Swiper_Obj.stopAutoplay();
+        // g_Swiper_Obj.updateClasses();
         //for (var i = ad.length - 1; i >= 0 ; i--) {
         var i = 0;
         for (; i < ad.length ; i++) {
             var ao = ad[i];
-            var href = ao.link ? ao.link : "#";
-
-            html = '';
+            var href = ao.link ? ao.link : "javascript:void(0)";
+            //html = '';
             html += '<div class="swiper-slide">';
             html += '<a href="' + href + '">';
             html += '<img class="swiper-lazy" data-src="' + Pub.url(ao.img, "Images/default_bg.png") + '" />';
             html += '</a>';
             html += '<div class="swiper-lazy-preloader swiper-lazy-preloader-white""></div>';
             html += '</div>';
-            g_Swiper_Obj.appendSlide(html);
         }
-        if (i > 0) {
-            $(".ad_loading_c").hide();
-            g_Swiper_Obj.slideNext();
-            return true;
-            //g_Swiper_Obj.slideTo(0, 0, false);
-            //g_Swiper_Obj.startAutoplay();
-            // 
-            //
-            //html = ' <div  class="swiper-wrapper">' + html + '</div>';
-            // html += '<div class="swiper-pagination"></div>';
 
-            //$(".swiper-wrapper").html(html);
-            // 
+        if (i > 0) {
+            g_Swiper_Obj.appendSlide(html);
+            g_Swiper_Obj.updateSlidesSize();
+            g_Swiper_Obj.slideNext();
+            // $(".swiper-wrapper").append(html); 
+            // g_Swiper_Obj.slideTo(0, 0, false);
+            g_Swiper_Obj.updatePagination();
+            g_Swiper_Obj.updateClasses();
+            //g_Swiper_Obj.reLoop();
+            $(".ad_loading_c").hide();
+            return true;
+
         }
     }
 
 
 }
-
-
-
-
+ 
 
 //选择图片
 function __FileSelectImg(id, e) {
@@ -261,11 +254,8 @@ function FileUploadImg(imgData, id) {
 
 
 function PreviewImage(imgs) {
-    wx.previewImage(imgs);
-
-
-    //{
-
+    wx.previewImage(imgs); 
+    //{ 
     //    current: '', // 当前显示图片的http链接
 
     //    urls: [] // 需要预览的图片http链接列表

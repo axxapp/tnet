@@ -553,11 +553,11 @@ function updateWeChatMenu() {
         //    key: "t"
         //});
 
-        var c = { "type": "click", "name": "测试", "key": "t", "sub_button": [] };
+        //var c = { "type": "click", "name": "测试", "key": "t", "sub_button": [] };
 
         
-        g_menuData.push(c);
-
+       // g_menuData.push(c);
+//
         var data = { menu: JSON.stringify({ button: g_menuData }) }
         alert(JSON.stringify(data));
         // Pub.showLoading("保存中...");

@@ -21,7 +21,7 @@ namespace TNet.Models.Order
 
         public string spec { get; set; }
 
-        public double price { get; set; }
+        //public double price { get; set; }
 
         public int count { get; set; }
 
@@ -59,15 +59,15 @@ namespace TNet.Models.Order
             o.orderno = Pub.ID();
             o.idmerc = this.idmerc;
             o.iduser = this.iduser;
-             
+
             o.idmerc = this.idmerc;
             o.merc = this.merc;
             o.idspec = this.idspec;
             o.spec = this.spec;
             o.month = this.month;
             o.attmonth = this.attmonth;
-            o.price = this.price;
-            o.totalfee = this.count * this.price;
+            //o.price = this.price;
+            //o.totalfee = this.count * this.price;
             o.count = this.count;
             o.contact = this.contact;
             o.addr = this.addr;

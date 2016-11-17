@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "完工";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Head{
+
+    <link href="@Url.Content(" ~/Css/Issue/Add.css?v=20161114")" rel="stylesheet" type="text/css" />
+
+
+    <script type="text/javascript" src="@Url.Content(" ~/Js/Issue/Finish.js?v=20161114")">
+
+    </script>
+
+}
+
+
+<div class="Addr_Edit">
+    <div class="Context_Host">
+        <textarea id="context" maxlength="200" placeholder="输入您的工作描述吧..."></textarea>
+    </div>
+    <div class="vline"></div>
+    <div class="title">图片:</div>
+    <div class="resource">
+
+        <div class="resource_img">
+            <div>
+                <a href="javascript:void(0)">
+                    <img id="idc_img1" src="@Url.Content(" ~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img1', this)">
+                </a>
+                <a href="javascript:void(0)">
+                    <img id="idc_img2" src="@Url.Content(" ~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img2', this)">
+                </a>
+                <a href="javascript:void(0)">
+                    <img id="idc_img3" src="@Url.Content(" ~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img3', this)">
+                </a>
+                <a href="javascript:void(0)">
+                    <img id="idc_img4" src="@Url.Content(" ~/Images/default_bg.png")" />
+                    <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img4', this)">
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+<div class="TaskOps">
+    <a href="javascript:void(0)" class="add" onclick="Save()">完工</a>
+</div>
+
+

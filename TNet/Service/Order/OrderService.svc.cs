@@ -26,55 +26,77 @@ namespace TNet.Service.Order
         public Result<CreateOrderResult> Create(CreateOrderData data)
         {
             Result<CreateOrderResult> result = new Result<CreateOrderResult>();
-            try
+            result.Msg = "下单失败";
+            if (data != null && !string.IsNullOrWhiteSpace(data.idmerc) && !string.IsNullOrWhiteSpace(data.idspec) &&
+                !string.IsNullOrWhiteSpace(data.iduser) && data.count > 0)
             {
-                using (TN db = new TN())
+                try
                 {
-                    //string uname = db.Users.Where(m => m.iduser == data.iduser && m.inuse == true).Select(m => m.name).FirstOrDefault();
-
-                    MyOrder o = data.getData();
-                    if (o != null)
+                    using (TN db = new TN())
                     {
-                        db.MyOrders.Add(o);
-                        MyOrderPress s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Create, "用户 [" + data.uname + "]");
-                        db.MyOrderPresses.Add(s);
-                        if (o.status == OrderStatus.WaitPay)
+                        var uo = db.Users.Where(m => m.iduser == data.iduser && m.inuse == true).FirstOrDefault();
+                        if (uo == null)
                         {
-                            s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Confirm, "系统");
+                            result.Msg = "不存在改用户";
+                            return result;
+                        }
+                        //string uname = db.Users.Where(m => m.iduser == data.iduser && m.inuse == true).Select(m => m.name).FirstOrDefault();
+                        var mo = db.Specs.Where(m => m.idmerc == data.idmerc && m.idspec == data.idspec && m.inuse == true).FirstOrDefault();
+                        if (mo == null)
+                        {
+                            result.Msg = "商品不存在 或已经下架";
+                            return result;
+                        }
+                        MyOrder o = data.getData();
+                        if (o != null)
+                        {
+                            o.price = mo.price;
+                            o.totalfee = o.price * o.count;
+                            db.MyOrders.Add(o);
+                            MyOrderPress s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Create, "用户 [" + data.uname + "]");
                             db.MyOrderPresses.Add(s);
-                        }
-                        else if (o.status == OrderStatus.WaitReview)
-                        {
-                            MsgMgr.PostReviewOrder(o.orderno + "", o.otype.Value, db);
-                        }
-                        if (db.SaveChanges() > 0)
-                        {
-                            result.Data = new CreateOrderResult();
                             if (o.status == OrderStatus.WaitPay)
                             {
-                                result.Data.url = "Order/Pay?orderno=" + o.orderno;
+                                s = getMyOrderPress(o.orderno.ToString(), OrderStatus.Confirm, "系统");
+                                db.MyOrderPresses.Add(s);
+                            }
+                            else if (o.status == OrderStatus.WaitReview)
+                            {
+                                MsgMgr.PostReviewOrder(o.orderno + "", o.otype.Value, db);
+                            }
+                            if (db.SaveChanges() > 0)
+                            {
+                                result.Data = new CreateOrderResult();
+                                if (o.status == OrderStatus.WaitPay)
+                                {
+                                    result.Data.url = "Order/Pay?orderno=" + o.orderno;
+                                }
+                                else
+                                {
+                                    result.Data.url = "Order/List";
+                                }
+                                result.Data.orderno = o.orderno;
+                                result.Code = R.Ok;
+                                MsgMgr.Post();
                             }
                             else
                             {
-                                result.Data.url = "Order/List";
+                                result.Code = R.Error;
                             }
-                            result.Data.orderno = o.orderno;
-                            result.Code = R.Ok;
-                            MsgMgr.Post();
                         }
-                        else
-                        {
-                            result.Code = R.Error;
-                        }
+                        // result.Data = m;
                     }
-
-                    // result.Data = m;
+                }
+                catch (Exception)
+                {
+                    result.Code = R.Error;
+                    result.Msg = "出现异常";
                 }
             }
-            catch (Exception)
+            else
             {
                 result.Code = R.Error;
-                result.Msg = "出现异常";
+                result.Msg = "商品、用户编号有误";
             }
             return result;
         }

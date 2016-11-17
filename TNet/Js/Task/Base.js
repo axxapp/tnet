@@ -1,7 +1,7 @@
 ﻿Pub.checkUser(true);
 
 
-function getOps(so) {
+function getOps(so, o) {
     var html = "";
     if (so.ops) {
         var op = so.ops.split("|");
@@ -11,7 +11,7 @@ function getOps(so) {
             if (p == "pause") {
                 html += '<a class="pause" href="javascript:void(0)">暂停</a>';
             } else if (p == "finish") {
-                html += '<a class="finish" href="="javascript:void(0)">完工</a>';
+                html += '<a class="finish" href="' + Pub.url("Task/Finish?idtask=" + o.idtask) + '">完工</a>';
             }
         }
     }
