@@ -21,7 +21,8 @@
         @Html.Raw(Url.BootstrapPagerHTML(pageCount, pageIndex, "SetupAddrList", "Manage", ViewContext.RouteData.Values))
     </div>
     <div>
-        <a class="btn btn-primary" @*target="_blank"*@ href="@Url.Action("SetupAddrEdit","Manage")">新增报装地址</a>
+        <a class="btn btn-primary" href="@Url.Action("SetupAddrEdit","Manage")">新增</a>
+        <a class="btn btn-danger" href="javascript:void(0);" id="btn_del_selected">删除</a>
     </div>
     <div class="list-box">
         @if (Model.Count > 0)
@@ -29,6 +30,9 @@
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
+                        <th>
+                            <input type="checkbox" id="chk_all" />
+                        </th>
                         <th>@(AttributeHelper.DisplayAttributeFor<SetupAddrViewModel, MercTypeViewModel>(en => en.merctype))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<SetupAddrViewModel, SetupViewModel>(en => en.setup))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<SetupAddrViewModel, String>(en => en.addr))</th>
@@ -46,6 +50,9 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>
+                                <input type="checkbox" name="chk_list_item" value="@item.idaddr" />
+                            </td>
                             <td>@(item.merctype!=null?item.merctype.name:"")
                             </td>
                             <td>
@@ -72,7 +79,8 @@
                                 @item.notes
                             </td>
                             <td>
-                                <a href="@Url.Action("SetupAddrEdit","Manage",new {idaddr=item.idaddr })" class="btn btn-default">编辑</a>
+                                <a href="@Url.Action("SetupAddrEdit","Manage",new {idaddr=item.idaddr })" class="btn btn-primary">编辑</a>
+                                <a href="javascript:void(0);" class="btn btn-danger" name="btn_del" value="@item.idaddr">删除</a>
                             </td>
                         </tr>
                     }
@@ -91,6 +99,23 @@
         $.fn.bootstrapSwitch.defaults.onText = '启用';
         $.fn.bootstrapSwitch.defaults.offText = '禁用';
         $("[name='enableSetupAddr']").bootstrapSwitch();
+        checkbox_select_all('chk_all', 'chk_list_item');
+        var delUrl = "@Url.Action("SetupAddrDelete", "Manage")";
+        $("#btn_del_selected").click(function () {
+            checkbox_selected_del("chk_list_item", function (data) {
+                var postData = { idaddrs: data };
+                ajax_del(delUrl, postData);
+            });
+        });
+        $("[name='btn_del']").click(function () {
+            if (!confirm("确认要删除该记录吗？")) {
+                return;
+            }
+            var data = new Array();
+            data.push($(this).attr("value"));
+            var postData = { idaddrs: data };
+            ajax_del(delUrl, postData);
+        });
     });
 
     function enableSetupAddr(url) {

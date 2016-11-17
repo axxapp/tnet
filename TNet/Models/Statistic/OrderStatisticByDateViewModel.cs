@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TNet.Models.Order;
+using TNet.Models.Statistic;
 
 namespace TNet.Models {
     /// <summary>
     /// 订单按日期(日/月/年)统计实体
     /// </summary>
-    public class OrderStatisticByDateViewModel {
-        /// <summary>
-        /// 日期(日/月/年)
-        /// </summary>
-        public string Date { get; set; }
-
+    public class OrderStatisticByDateViewModel:StatisticBaseViewModel {
         /// <summary>
         /// 订单数量
         /// </summary>

@@ -26,7 +26,7 @@ namespace TNet.BLL
             return viewModels;
         }
 
-        public static List<SetupAddrViewModel> ConvertToViewModel(List<SetupAddr> entities) {
+        private static List<SetupAddrViewModel> ConvertToViewModel(List<SetupAddr> entities) {
             List<SetupAddrViewModel> viewModels = new List<SetupAddrViewModel>();
             List<string> idsetups = entities.Select(mod=> {
                 return mod.idsetup;
@@ -124,6 +124,20 @@ namespace TNet.BLL
             db.SetupAddrs.Add(setup);
             db.SaveChanges();
             return setup;
+        }
+
+
+        public static bool Delete(List<string> idaddrs) {
+            int count = 0;
+            TN db = new TN();
+            for (int i = 0; i < idaddrs.Count; i++) {
+                SetupAddr addr = db.SetupAddrs.Remove(db.SetupAddrs.Find(idaddrs[i]));
+                if (addr != null) {
+                    count++;
+                }
+            }
+            db.SaveChanges();
+            return count > 0 ? true : false;
         }
     }
 }

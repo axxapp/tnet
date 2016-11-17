@@ -21,7 +21,8 @@
         @Html.Raw(Url.BootstrapPagerHTML(pageCount, pageIndex, "BusinessList", "Manage", ViewContext.RouteData.Values))
     </div>
     <div>
-        <a class="btn btn-primary" @*target="_blank"*@ href="@Url.Action("BusinessEdit","Manage")">新增商铺</a>
+        <a class="btn btn-primary" href="@Url.Action("BusinessEdit","Manage")">新增</a>
+        <a class="btn btn-danger" href="javascript:void(0);" id="btn_del_selected">删除</a>
     </div>
     <div  class="list-box">
         @if (Model.Count > 0)
@@ -29,19 +30,16 @@
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, long>(en => en.idbuss))</th>
+                        <th>
+                            <input type="checkbox" id="chk_all" />
+                        </th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, String>(en => en.buss))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, String>(en => en.contact))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.phone))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.city))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.addr))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.sellpt))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.imgs))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, DateTime?>(en => en.cretime))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, DateTime?>(en => en.busstime))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, double?>(en => en.price))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.runtime))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, int?>(en => en.sortno))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, string>(en => en.notes))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, int?>(en => en.blevel))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<BusinessViewModel, bool>(en => en.inuse))</th>
@@ -52,25 +50,24 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.idbuss</td>
-                            <td>@item.buss</td>
+                            <td>
+                                <input type="checkbox" name="chk_list_item" value="@item.idbuss" />
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.imgs))
+                                {
+                                    <img src="@Url.Content(item.imgs)" class="smallMercImage" title="@item.buss" alt="@item.buss" />
+                                }
+                                @item.buss
+                            </td>
                             <td>@item.contact</td>
                             <td>@item.phone</td>
                             <td>@item.city</td>
                             <td>@item.addr</td>
-                            <td>@item.sellpt</td>
-                            <td>
-                                @if (!string.IsNullOrEmpty(item.imgs)) { 
-                                <img src="@Url.Content(item.imgs)"  class="smallMercImage" title="@item.buss" alt="@item.buss" />
-                                }
-                            </td>
-                            <td>@item.cretime</td>
                             <td>
                                 @item.busstime.Value.ToString("yyyy-MM-dd")
                             </td>
                             <td>@item.price</td>
-                            <td>@item.runtime</td>
-                            <td>@item.sortno</td>
                             <td>@item.notes</td>
                             <td>@item.blevel</td>
                             <td>
@@ -79,7 +76,8 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="@Url.Action("BusinessEdit","Manage",new { idbuss=item.idbuss})" class="btn btn-default">编辑</a>
+                                <a href="@Url.Action("BusinessEdit","Manage",new { idbuss=item.idbuss})" class="btn btn-primary">编辑</a>
+                                <a href="javascript:void(0);" class="btn btn-danger" name="btn_del" value="@item.idbuss">删除</a>
                             </td>
                         </tr>
                     }
@@ -98,6 +96,23 @@
         $.fn.bootstrapSwitch.defaults.onText = '启用';
         $.fn.bootstrapSwitch.defaults.offText = '禁用';
         $("[name='enableBusiness']").bootstrapSwitch();
+        checkbox_select_all('chk_all', 'chk_list_item');
+        var delUrl = "@Url.Action("BusinessDelete", "Manage")";
+        $("#btn_del_selected").click(function () {
+            checkbox_selected_del("chk_list_item", function (data) {
+                var postData = { idbusses: data };
+                ajax_del(delUrl, postData);
+            });
+        });
+        $("[name='btn_del']").click(function () {
+            if (!confirm("确认要删除该记录吗？")) {
+                return;
+            }
+            var data = new Array();
+            data.push($(this).attr("value"));
+            var postData = { idbusses: data };
+            ajax_del(delUrl, postData);
+        });
     });
     function enableBusiness(url) {
         var manageLoginUrl = "@Url.Action("Login","Manage")";

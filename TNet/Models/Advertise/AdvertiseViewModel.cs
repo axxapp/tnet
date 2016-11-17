@@ -47,7 +47,7 @@ namespace TNet.Models
         [CheckBoxRequiredValidation]
         [Display(Name = "城市")]
         public string[] idcitys { get; set; }
-
+        
         /// <summary>
         /// 广告类型
         /// </summary>

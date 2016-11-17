@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_ManageLayout.cshtml";
     ViewBag.Title = "编辑工人信息";
-    if (Model.ManageUserId == 0)
+    if (string.IsNullOrEmpty(Model.ManageUserId))
     {
         ViewBag.Title = "新增工人信息";
     }
@@ -13,7 +13,7 @@
     <ol class="breadcrumb">
         <li><a href="#">工人管理</a></li>
         <li><a href="@Url.Action("ManageUserList","Manage")">工人列表</a></li>
-        <li><a href="#" class="active">@(Model.ManageUserId == 0 ? "新增工人信息" : "编辑工人信息")</a></li>
+        <li><a href="#" class="active">@(string.IsNullOrEmpty(Model.ManageUserId) ? "新增工人信息" : "编辑工人信息")</a></li>
     </ol>
 </div>
 <div class="ManageRightContent">

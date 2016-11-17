@@ -78,10 +78,7 @@
                     {
                         <tr>
                             <td>
-                                    <a href="javascript:void(0);" onclick='openModal("@item.issue1");' class="btn btn-default">派单</a>
-                              
-
-                                @*<a href="@Url.Action("IssueDetail","Manage",new { issue=item.issue1})" class="btn btn-default">详细</a>*@
+                                    <a href="javascript:void(0);" onclick='openModal("@item.issue1");' class="btn btn-primary">派单</a>
                             </td>
                             <td>
                                 @item.issue1
@@ -105,7 +102,7 @@
         }
         else
         {
-            <h2>没有找到任何诉.</h2>
+            <h2>没有找到任何投诉信息.</h2>
         }
 
     </div>

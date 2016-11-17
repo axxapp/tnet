@@ -27,9 +27,6 @@
     </ol>
 </div>
 <div class="ManageRightContent">
-    <div>
-        <a class="btn btn-primary" href="@Url.Action("OrderList","Manage")">去派单</a>
-    </div>
     <div style="margin-top:10px;">
         <form action="@Url.Action("TaskList","Manage")" method="post">
             <div class="row">
@@ -53,15 +50,18 @@
                     </div>
                     @Html.Hidden("endDate", String.Format("{0:yyyy-MM-dd}", endDate.Value != DateTime.MinValue ? endDate : DateTime.Now))
                 </div>
+
+            </div>
+            <div class="row" style="margin-top:10px;">
                 <div class="col-xs-2">
                     @Html.DropDownList("idsend", new SelectList(idsendSelectItems, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idsend })
                 </div>
                 <div class="col-xs-2">
                     @Html.DropDownList("idrevc", new SelectList(idrevcSelectItems, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idrevc })
-
                 </div>
-                <div class="col-xs-1">
+                <div class="col-xs-2">
                     <input type="submit" value="搜索" class="btn btn-primary" placeholder=".col-xs-1" />
+                    <a class="btn btn-primary" href="@Url.Action("OrderList","Manage")">去派单</a>
                 </div>
             </div>
         </form>
@@ -149,7 +149,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="@Url.Action("TaskDetail","Manage",new { idtask=item.idtask})" class="btn btn-default">详细</a>
+                                <a href="@Url.Action("TaskDetail","Manage",new { idtask=item.idtask})" class="btn btn-info">详细</a>
                             </td>
                         </tr>
                                     }

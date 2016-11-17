@@ -24,7 +24,7 @@
     <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery.validate.unobtrusive.min.js?v=20161114")"></script>
     <script type="text/javascript" src="@Url.Content("~/Js/Pub.js?v=20161114")"></script>
     <script type="text/javascript" src="@Url.Content("~/Js/Manage/Base.js?v=20161114")"></script>
-
+    <script type="text/javascript" src="@Url.Content("~/Js/Manage/checkbox_tool.js")"></script>
 </head>
 <body root="@Url.Content("~/")">
     <div id="toast" style="display: none;">
@@ -69,9 +69,9 @@
     <div class="C">
         <div class="manageLeft">
             <div class="panel panel-default">
-                <div class="panel-heading parentMenu">统计管理</div>
+                <div class="panel-heading parentMenu">统计报表</div>
                 <div class="list-group">
-                    <a class="list-group-item" id="statisticList" href="@Url.Action("Index","Manage")">统计</a>
+                    <a class="list-group-item" id="statisticList" href="@Url.Action("Index","Manage")">基本报表</a>
                 </div>
                 <div class="panel-heading parentMenu">产品管理</div>
                 <div class="list-group">

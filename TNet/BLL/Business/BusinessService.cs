@@ -77,5 +77,19 @@ namespace TNet.BLL
 
             return result;
         }
+
+
+        public static bool Delete(List<string> idbusses) {
+            int count = 0;
+            TN db = new TN();
+            for (int i = 0; i < idbusses.Count; i++) {
+                Business business = db.Businesses.Remove(db.Businesses.Find(idbusses[i]));
+                if (business != null) {
+                    count++;
+                }
+            }
+            db.SaveChanges();
+            return count > 0 ? true : false;
+        }
     }
 }

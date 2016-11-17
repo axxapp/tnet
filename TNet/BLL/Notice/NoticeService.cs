@@ -54,5 +54,19 @@ namespace TNet.BLL {
             db.SaveChanges();
             return notice;
         }
+
+
+        public static bool Delete(List<string> idnotices) {
+            int count = 0;
+            TN db = new TN();
+            for (int i = 0; i < idnotices.Count; i++) {
+                Notice notice = db.Notices.Remove(db.Notices.Find(idnotices[i]));
+                if (notice != null) {
+                    count++;
+                }
+            }
+            db.SaveChanges();
+            return count > 0 ? true : false;
+        }
     }
 }

@@ -198,7 +198,14 @@
     <Compile Include="BLL\Order\TaskService.cs" />
     <Compile Include="BLL\Pay\WeixinPay\JsApiPay.cs" />
     <Compile Include="BLL\Pay\PayNotice.cs" />
+    <Compile Include="BLL\Statistic\IssuesStatisticService.cs" />
     <Compile Include="BLL\Statistic\OrderStatisticService.cs" />
+    <Compile Include="BLL\Statistic\StatisticHelper.cs" />
+    <Compile Include="BLL\Statistic\TaskStatisticService.cs" />
+    <Compile Include="BLL\Statistic\UserStatisticService.cs" />
+    <Compile Include="Models\Statistic\IssuesStatisticByDateViewModel.cs" />
+    <Compile Include="Models\Statistic\StatisticBaseViewModel.cs" />
+    <Compile Include="Models\Statistic\TaskStatisticByDateViewModel.cs" />
     <Compile Include="BLL\User\UserBll.cs" />
     <Compile Include="BLL\Merc\MercService.cs" />
     <Compile Include="BLL\Merc\MercTypeService.cs" />
@@ -284,6 +291,7 @@
     <Compile Include="Models\Service\Result.cs" />
     <Compile Include="Models\Issue\IssueData.cs" />
     <Compile Include="Models\Statistic\OrderStatisticByDateViewModel.cs" />
+    <Compile Include="Models\Statistic\UserStatisticByDateViewModel.cs" />
     <Compile Include="Models\Task\TaskFinishData.cs" />
     <Compile Include="Models\Task\TaskItem.cs" />
     <Compile Include="Models\User\UserData.cs" />
@@ -725,6 +733,7 @@
     <Content Include="Js\Lrz\lrz.bundle.js" />
     <Content Include="Js\Lrz\那么多文件，应该引用哪个？.txt" />
     <Content Include="Js\Manage\Base.js" />
+    <Content Include="Js\Manage\checkbox_tool.js" />
     <Content Include="Js\Merc\Base.js" />
     <Content Include="Js\Merc\Detail.js" />
     <Content Include="Js\Merc\BaseList.js" />
@@ -1258,6 +1267,7 @@
     <Content Include="Swiper\js\maps\swiper.jquery.min.js.map" />
     <Content Include="Swiper\js\maps\swiper.jquery.umd.min.js.map" />
     <Content Include="Swiper\js\maps\swiper.min.js.map" />
+    <Content Include="Views\Manage\Register.cshtml" />
     <Content Include="Views\Task\Finish.cshtml" />
   </ItemGroup>
   <ItemGroup>
