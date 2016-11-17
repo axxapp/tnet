@@ -510,6 +510,7 @@
     <Content Include="Css\Task\Finish.css" />
     <Content Include="Css\User\Update.css" />
     <Content Include="Images\Manage\log_box.png" />
+    <Content Include="Images\Manage\main-bg.png" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.js" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.min.js" />
     <Content Include="Css\Merc\Base.css" />
@@ -518,7 +519,6 @@
     <Content Include="Css\User\Index.css" />
     <Content Include="Images\Com\me_bg.jpg" />
     <Content Include="Images\Manage\headerbg4.png" />
-    <Content Include="Images\Manage\login_bg.jpg" />
     <Content Include="Images\Order\setup_tag.png" />
     <Content Include="Css\Bootstrap\bootstrap-theme.css" />
     <Content Include="Css\Bootstrap\bootstrap-theme.min.css" />
