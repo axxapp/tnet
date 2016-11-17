@@ -509,6 +509,7 @@
     <Content Include="Css\Task\Base.css" />
     <Content Include="Css\Task\Finish.css" />
     <Content Include="Css\User\Update.css" />
+    <Content Include="Images\Manage\log_box.png" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.js" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.min.js" />
     <Content Include="Css\Merc\Base.css" />

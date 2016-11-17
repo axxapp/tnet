@@ -488,13 +488,3 @@ nav .pagination {
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
     padding: 10px 10px 10px 10px;
 }
-.registerBox {
-    background: rgba(255, 255, 255, 0.65) none repeat scroll 0 0;
-    border-radius: 5px;
-    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
-    margin: 120px auto 0 auto;
-    padding: 0 0 30px;
-    width: 500px;
-    display:block;
-    text-align:center;
-}

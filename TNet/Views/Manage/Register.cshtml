@@ -9,10 +9,10 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>工人注册</title>
-    <link rel="stylesheet" href="@Url.Content("~/Css/Bootstrap/bootstrap.min.css?v=20161114")" />
-    <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Base.css?v=20161114")" />
-    <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Login.css?v=20161114")" />
-    <link rel="stylesheet" href="@Url.Content("~/Css/com/jQuery.Validate.css?v=20161114")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/Bootstrap/bootstrap.min.css?v=20161116")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Base.css?v=20161116")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Login.css?v=20161116")" />
+    <link rel="stylesheet" href="@Url.Content("~/Css/com/jQuery.Validate.css?v=20161116")" />
     <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Js/Bootstrap/bootstrap.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery.validate.min.js")"></script>
@@ -20,53 +20,57 @@
 
     <style type="text/css">
         .form-group {
-            min-height:30px;
+            min-height: 30px;
         }
     </style>
 </head>
 <body>
+    <div class="reg-wrapper">
         <form method="post" id="loginForm">
-            <div class="registerBox" >
-                <h2>工人注册</h2>
-                <fieldset>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.UserName, new { @class = "col-sm-3 control-label" })
-                        <div class="col-sm-5">
-                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+            <div class="regBox">
+                <div class="reg-content-wrap">
+                    <h3>工人注册</h3>
+                    <fieldset>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName, new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-5">
+                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.UserName)
                         </div>
-                        @Html.ValidationMessageFor(model => model.UserName)
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ClearPassword, new { @class = "col-sm-3 control-label" })
-                        <div class="col-sm-5">
-                            @Html.PasswordFor(model => model.ClearPassword, new { @class = "form-control" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ClearPassword, new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-5">
+                                @Html.PasswordFor(model => model.ClearPassword, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ClearPassword)
                         </div>
-                        @Html.ValidationMessageFor(model => model.ClearPassword)
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ConfirmPassword, new { @class = "col-sm-3 control-label" })
-                        <div class="col-sm-5">
-                            @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConfirmPassword, new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-5">
+                                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
                         </div>
-                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.phone, new { @class = "col-sm-3 control-label" })
-                        <div class="col-sm-5">
-                            @Html.TextBoxFor(model => model.phone, new { @class = "form-control" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.phone, new { @class = "col-sm-3 control-label" })
+                            <div class="col-sm-5">
+                                @Html.TextBoxFor(model => model.phone, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.phone)
                         </div>
-                        @Html.ValidationMessageFor(model => model.phone)
-                    </div>
-                    @Html.ValidationSummary(true)
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" ></label>
-                        <div class="col-sm-5">
-                            <input type="submit" value="提交" class="btn btn-primary" />
+                        @Html.ValidationSummary(true)
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-5">
+                                <input type="submit" value="提交" class="btn btn-primary" />
+                            </div>
                         </div>
-                    </div>
-                    
-                </fieldset>
+
+                    </fieldset>
+                </div>
             </div>
         </form>
+    </div>
 </body>
 </html>
