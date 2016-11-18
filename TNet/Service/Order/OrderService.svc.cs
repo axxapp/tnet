@@ -37,7 +37,7 @@ namespace TNet.Service.Order
                         var uo = db.Users.Where(m => m.iduser == data.iduser && m.inuse == true).FirstOrDefault();
                         if (uo == null)
                         {
-                            result.Msg = "不存在改用户";
+                            result.Msg = "不存在该用户";
                             return result;
                         }
                         //string uname = db.Users.Where(m => m.iduser == data.iduser && m.inuse == true).Select(m => m.name).FirstOrDefault();

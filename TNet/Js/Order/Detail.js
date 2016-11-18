@@ -75,15 +75,19 @@ function getData() {
                                         $(".review_msg").html(po.notes);
                                     }
                                     phtml += "<div class='p_item_host'><div class='p_item'>";
-                                    phtml += "<span class='p_time'>" + po.cretime + "</span>";
-                                    phtml += "<span class='p_statust'>" + po.statust + "</span>";
-                                    phtml += "<span class='p_oper'>" + po.oper + "</span></div>";
+                                    //phtml += "<span class='p_time'>" + po.cretime + "</span>";
+                                    //phtml += "<span class='p_statust'>" + po.statust + "</span>";
+                                    //phtml += "<span class='p_oper'>" + po.oper + "</span></div>";
+                                    // phtml += "<div class='pitem_host'>" + po.oper + po.statust + "</div>";
+                                    phtml += "<div class='p_item_topic'><span class='pstatust'>" + po.statust + "</span>";
+                                    phtml += "<span class='poper'>" + po.oper + "</span>";
+                                    phtml += "<span class='pcretime'>" + getTime(po.cretime) + "</span></div>";
                                     if (po.notes) {
                                         phtml += "<div class='p_item_notes'>" + po.notes + "</div>";
                                     }
-                                    phtml += "</div>";
+                                    phtml += "</div></div>";
 
-                                    
+
                                 }
                             }
                             $("#Presses").html(phtml);

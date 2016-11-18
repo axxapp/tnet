@@ -81,6 +81,13 @@ a.cancel {
         overflow: hidden;
     }
 
+        .resource a span.idc_topic {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            color: #cbcbcb;
+        }
+
         .resource a, .resource a img {
             display: inline-block;
             width: 80px;
@@ -234,15 +241,14 @@ a.reviewOrder_Fail {
 }
 
 .review_msg_host {
-    display:none;
-   
+    display: none;
     color: #ff6a00;
     display: none;
 }
 
 
-.review_msg{
-    display:block;
-     line-height:30px;
-    padding:8px 10px 8px 20px;
+.review_msg {
+    display: block;
+    line-height: 30px;
+    padding: 8px 10px 8px 20px;
 }

@@ -256,8 +256,8 @@
 
 .p_item {
     display: block;
-    height: 30px;
-    line-height: 30px;
+    height: auto;
+    line-height:30px;
     color: #757575;
 }
 
@@ -269,7 +269,7 @@
     padding: 5px;
     white-space: pre-wrap;
     line-height: 25px;
-    color:#cbcbcb;
+    color: #ff6a00;
 }
 
 .Presses .p_item span.p_time {
@@ -292,3 +292,19 @@
 .setup_tag {
     display: none;
 }
+
+.Presses .p_item_topic {
+    display: block;
+}
+
+    .Presses .p_item_topic .poper {
+        margin: 0px 0px 0px 6px;
+    }
+
+    .Presses .p_item_topic .pstatust {
+    }
+
+
+    .Presses .p_item_topic .pcretime {
+        margin: 0px 0px 0px 6px;
+    }
