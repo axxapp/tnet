@@ -180,14 +180,14 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: '金额(￥)'
+                    text: '金额(元)'
                 }
             },
             legend: {
                 enabled: false
             },
             tooltip: {
-                pointFormat: '金额为<b>￥{point.y:.2f}</b>'
+                pointFormat: '金额:<b>￥{point.y:.2f}</b>'
             },
             series: [{
                 color: 'rgba(186,60,61,.9)',
@@ -198,7 +198,7 @@
                     rotation: 0,
                     color: '#000000',
                     align: 'right',
-                    format: '￥{point.y:.2f}', // one decimal
+                    format: '{point.y:.2f}', // one decimal
                     y: 20, // 10 pixels down from the top
                     style: {
                         fontSize: '13px',
