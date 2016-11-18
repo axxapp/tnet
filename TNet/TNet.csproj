@@ -509,6 +509,7 @@
     <Content Include="Css\Task\Base.css" />
     <Content Include="Css\Task\Finish.css" />
     <Content Include="Css\User\Update.css" />
+    <Content Include="Css\zoom.js\zoom.css" />
     <Content Include="Images\Manage\log_box.png" />
     <Content Include="Images\Manage\main-bg.png" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.js" />
@@ -834,6 +835,8 @@
     <Content Include="Js\Task\Finish.js" />
     <Content Include="Js\User\Index.js" />
     <Content Include="Js\User\Update.js" />
+    <Content Include="Js\zoom.js\zoom.js" />
+    <Content Include="Js\zoom.js\zoom.min.js" />
     <Content Include="MP_verify_ihu7x0BozQLNCJ1q.txt" />
     <Content Include="DB\20160828" />
     <None Include="Js\Com\jquery.validate-vsdoc.js" />
