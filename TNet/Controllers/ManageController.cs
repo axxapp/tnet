@@ -2101,12 +2101,21 @@ namespace TNet.Controllers
         [HttpPost]
         public ActionResult ManageUserEdit(ManageUserViewModel model)
         {
-
+            if (model.ClearPassword != model.ConfirmPassword) {
+                ModelState.AddModelError("", "密码与确认密码必须一致.");
+                return View(model);
+            }
+            ManageUser user = ManageUserService.GetManageUserByUserName(model.UserName);
+            if (user != null) {
+                ModelState.AddModelError("", "用户名已经存在，请使用其它用户名.");
+                return View(model);
+            }
             ManageUser manageUser = new ManageUser();
             model.CopyToBase(manageUser);
             if (string.IsNullOrWhiteSpace(manageUser.ManageUserId))
             {
                 //新增
+                manageUser.ManageUserId = Pub.ID();
                 manageUser = ManageUserService.Add(manageUser);
             }
             else
