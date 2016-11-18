@@ -8,6 +8,17 @@
 @*<script src="@Url.Content("~/Js/Highcharts-5.0.2/themes/sand-signika.js")"></script>*@
 <script type="text/javascript">
     $(function () {
+        Highcharts.setOptions({
+            lang: {
+                printChart: "打印图表",
+                downloadJPEG: "下载Jpeg图片",
+                downloadPDF: "下载Pdf文档",
+                downloadPNG: "下载Png图片",
+                downloadSVG: "下载Svg矢量图",
+                exportButtonTitle: "导出图片"
+            }
+        });
+
         /*统计订单*/
         var byOrderDayUrl = "@Url.Action("OrderStatisticByDay", "Manage",new {isAjax=true})";
         var byOrderDayData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", days: 7 };
@@ -384,7 +395,7 @@
             </div>
         </div>
     </div>
-    <div style="width:46%;min-width:400px;float:left;">
+    <div style="width:46%;margin-left:20px;min-width:400px;float:left;">
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#numByDay" role="tab" data-toggle="tab">按日统计</a>
@@ -432,7 +443,7 @@
             </div>
         </div>
     </div>
-    <div style="width:46%;min-width:400px;float:left;">
+    <div style="width:46%;min-width:400px;margin-left:20px;float:left;">
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#issuesByDay" role="tab" data-toggle="tab">按日统计</a>
