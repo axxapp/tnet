@@ -376,6 +376,7 @@ body {
     bottom: 0px;
     background-color: #efefef;
     overflow: auto;
+    border-right: dotted 1px #d6d6d6;
 }
 
 .CR {

@@ -28,7 +28,11 @@ function initParam() {
         //hidecursordelay: 400, // 设置滚动条淡出的延迟时间（毫秒）
         preventmultitouchscrolling: true,
         boxzoom: false,
-        autohidemode: "leave"
+        autohidemode: "leave",
+        smoothscroll: true, // ease动画滚动
+        sensitiverail: true, // 单击轨道产生滚动
+        zindex: 999999,
+        horizrailenabled: false,
     });
     updateSetResize();
     $(window).resize(function () {
