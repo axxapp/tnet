@@ -10,6 +10,8 @@
     var pageCount = Convert.ToInt32(ViewData["pageCount"]);
     var pageIndex = Convert.ToInt32(ViewData["pageIndex"]);
 }
+<link href="@Url.Content("~/Css/zoom.js/zoom.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Js/zoom.js/zoom.min.js")"></script>
 <div class="ManageRightTitle">
     <ol class="breadcrumb">
         <li><a href="#">商圈管理</a></li>
@@ -56,7 +58,7 @@
                             <td>
                                 @if (!string.IsNullOrEmpty(item.imgs))
                                 {
-                                    <img src="@Url.Content(item.imgs)" class="smallMercImage" title="@item.buss" alt="@item.buss" />
+                                    <img  data-action="zoom" src="@Url.Content(item.imgs)" class="smallMercImage" title="@item.buss" alt="@item.buss" />
                                 }
                                 @item.buss
                             </td>

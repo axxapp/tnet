@@ -146,7 +146,7 @@ namespace TNet.Models
             this.img = order.img;
             this.notes = order.notes;
             this.idc = order.idc;
-            this.idc_img1 = order.idc;
+            this.idc_img1 = order.idc_img1;
             this.idc_img2 = order.idc_img2;
             this.idc_img3 = order.idc_img3;
             this.inuse = order.inuse;
@@ -175,7 +175,7 @@ namespace TNet.Models
             order.img = this.img;
             order.notes = this.notes;
             order.idc = this.idc;
-            order.idc_img1 = this.idc;
+            order.idc_img1 = this.idc_img1;
             order.idc_img2 = this.idc_img2;
             order.idc_img3 = this.idc_img3;
             order.inuse = this.inuse;

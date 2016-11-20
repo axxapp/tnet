@@ -19,6 +19,8 @@
     List<SelectItemViewModel<int>> netypeSelects = (List<SelectItemViewModel<int>>)ViewData["netypeSelects"];
     List<SelectItemViewModel<string>> citySelects = (List<SelectItemViewModel<string>>)ViewData["citySelects"];
 }
+<link href="@Url.Content("~/Css/zoom.js/zoom.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Js/zoom.js/zoom.min.js")"></script>
 <div class="ManageRightTitle">
     <ol class="breadcrumb">
         <li><a href="#">产品管理</a></li>
@@ -83,7 +85,7 @@
                             <td>
                             @if (!string.IsNullOrEmpty(item.imgs))
                             {
-                            <img class="smallMercImage" src="@Url.Content(item.imgs)" alt="@item.merc1" title="@item.merc1" />
+                            <img class="smallMercImage"  data-action="zoom"  src="@Url.Content(item.imgs)" alt="@item.merc1" title="@item.merc1" />
                             }@item.merc1
 
                         </td>

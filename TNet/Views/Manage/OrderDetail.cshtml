@@ -8,6 +8,8 @@
     ViewBag.Title = "订单详细";
 
 }
+<link href="@Url.Content("~/Css/zoom.js/zoom.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Js/zoom.js/zoom.min.js")"></script>
 <div class="ManageRightTitle">
     <ol class="breadcrumb">
         <li><a href="#">订单管理</a></li>
@@ -224,7 +226,7 @@
                                 <div class="col-sm-10">
                                     @if (!string.IsNullOrEmpty(Model.idc_img1))
                                     {
-                                        <img src='@Url.Content(Model.idc_img1)' alt="" title="" style="width:135px;" />
+                                        <img data-action="zoom" src='@Url.Content("~/"+Model.idc_img1)' alt="" title="" style="width:135px;" />
                                     }
                                 </div>
                             </td>
@@ -237,7 +239,7 @@
                                 <div class="col-sm-10">
                                     @if (!string.IsNullOrEmpty(Model.idc_img2))
                                     {
-                                        <img src='@Url.Content(Model.idc_img2)' alt="" title="" style="width:135px;" />
+                                        <img data-action="zoom" src='@Url.Content("~/"+Model.idc_img2)' alt="" title="" style="width:135px;" />
                                     }
                                 </div>
                             </td>
@@ -250,7 +252,7 @@
                                 <div class="col-sm-10">
                                     @if (!string.IsNullOrEmpty(Model.idc_img3))
                                     {
-                                        <img src='@Url.Content(Model.idc_img3)' alt="" title="" style="width:135px;" />
+                                        <img data-action="zoom" src='@Url.Content("~/"+Model.idc_img3)' alt="" title="" style="width:135px;" />
                                     }
                                 </div>
                             </td>
