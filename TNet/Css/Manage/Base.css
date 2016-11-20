@@ -127,7 +127,7 @@ body {
     color: #222;
     line-height: 1.6;
     list-style: none;
-    min-width: 1200px;
+    /*min-width: 1200px;*/
     font-size: 14px;
 }
 
@@ -361,15 +361,15 @@ body {
     right: 0px;
     top: 50px;
     bottom: 0px;
-    overflow: auto;
+    overflow: hidden;
 }
 
-.manageLeft {
+.CL {
     min-width: 220px;
     width: 220px;
     /*width: 19.9%;*/
     /*float: left;*/
-    padding: 5px;
+    padding: 0px;
     position: fixed;
     left: 0px;
     top: 50px;
@@ -378,7 +378,7 @@ body {
     overflow: auto;
 }
 
-.manageRight {
+.CR {
     /*min-width: 1200px;*/
     /*width: 79.9%;*/
     position: absolute;
@@ -387,10 +387,10 @@ body {
     top: 0px;
     /*width: 100%;*/
     height: auto;
+    padding: 8px 8px 0px 8px;
+    margin: 0px;
     /*min-height: 1000px;*/
-    padding: 10px 10px 8px 10px;
     overflow: auto;
-    margin-bottom: 20px;
 }
 
 .form-horizontal .form-group {
@@ -399,21 +399,34 @@ body {
 }
 
 .ManageRightTitle {
-    display: block;
+    width: 100%;
     height: 50px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .ManageRightContent {
-    display: block;
     height: auto;
-    /*min-height: 950px;*/
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
 }
 
-.panel-default > .panel-heading {
+.CL div.panel, .CL div.panel-default {
+    border-radius: 0px;
+    border: none;
+}
+
+.CL .panel-default > .panel-heading {
     background-color: #337ab7;
     color: #FFFFFF;
-    font-size: 16px;
+    font-size: 12pt;
     font-weight: bold;
+    border-width: 0px;
+    margin: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-radius: 0px;
 }
 
 .embed-responsive-item {

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="@Url.Content("~/Css/com/jQuery.Validate.css?v=20161118")" />
     <link rel="stylesheet" href="@Url.Content("~/Css/Manage/Base.css?v=20161118")" />
     <script type="text/javascript" src="@Url.Content("~/Js/Com/jquery-3.1.0.min.js?v=20161118")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Js/NiceScroll/jquery.nicescroll.min.js?v=20161118")"></script>
     <script type="text/javascript" src="@Url.Content("~/Js/Bootstrap/bootstrap.min.js?v=20161118")"></script>
     <script type="text/javascript" src="@Url.Content("~/Js/bootstrap-datetimepicker/bootstrap-datetimepicker.js?v=20161118")" charset="UTF-8"></script>
     <script type="text/javascript" src="@Url.Content("~/Js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js?v=20161118")" charset="UTF-8"></script>
@@ -67,7 +68,7 @@
         <div class="TR"><a href="@Url.Action("SignOut","Manage")">注销</a></div>
     </div>
     <div class="C">
-        <div class="manageLeft">
+        <div class="CL">
             <div class="panel panel-default">
                 <div class="panel-heading parentMenu">首页</div>
                 <div class="list-group">
@@ -116,14 +117,14 @@
                 <div class="panel-heading parentMenu">微信管理</div>
                 <div class="list-group">
                     <a class="list-group-item" id="Menu" href="@Url.Action("Menu","Manage")">菜单</a>
-                    <a class="list-group-item" id="WeiXinModuleList" href="@Url.Action("WeiXinModuleList","Manage")">模块</a> 
+                    <a class="list-group-item" id="WeiXinModuleList" href="@Url.Action("WeiXinModuleList","Manage")">模块</a>
                 </div>
             </div>
         </div>
-        <div class="manageRight">
+        <div class="CR">
             @RenderBody()
 
-            @*<div style="display:block; height:80px;"></div>*@
+
         </div>
 
     </div>
