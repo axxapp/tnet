@@ -31,6 +31,9 @@ namespace TCom.EF
         [StringLength(60)]
         public string spec { get; set; }
 
+        [StringLength(60)]
+        public string idtask { get; set; }
+
         public int? month { get; set; }
 
         public int? attmonth { get; set; }

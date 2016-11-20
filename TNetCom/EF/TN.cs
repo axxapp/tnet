@@ -371,6 +371,10 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<MyOrder>()
+                .Property(e => e.idtask)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<MyOrder>()
                 .Property(e => e.contact)
                 .IsUnicode(false);
 

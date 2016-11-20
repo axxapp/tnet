@@ -203,6 +203,7 @@
     <Compile Include="BLL\Statistic\StatisticHelper.cs" />
     <Compile Include="BLL\Statistic\TaskStatisticService.cs" />
     <Compile Include="BLL\Statistic\UserStatisticService.cs" />
+    <Compile Include="Models\Mgr\WorkerItem.cs" />
     <Compile Include="Models\Statistic\IssuesStatisticByDateViewModel.cs" />
     <Compile Include="Models\Statistic\StatisticBaseViewModel.cs" />
     <Compile Include="Models\Statistic\TaskStatisticByDateViewModel.cs" />
@@ -333,6 +334,10 @@
     <Compile Include="Service\Merc\IMercService.cs" />
     <Compile Include="Service\Merc\MercService.svc.cs">
       <DependentUpon>MercService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Mgr\IMgrService.cs" />
+    <Compile Include="Service\Mgr\MgrService.svc.cs">
+      <DependentUpon>MgrService.svc</DependentUpon>
     </Compile>
     <Compile Include="Service\Notice\INoticeService.cs" />
     <Compile Include="Service\Notice\NoticeService.svc.cs">
@@ -902,6 +907,7 @@
     <Content Include="Service\Ad\AdService.svc" />
     <Content Include="Service\City\CityService.svc" />
     <Content Include="Service\Issue\IssueService.svc" />
+    <Content Include="Service\Mgr\MgrService.svc" />
     <Content Include="Service\Notice\NoticeService.svc" />
     <Content Include="Service\Task\TaskService.svc" />
     <Content Include="Service\ToKey\ToKeyService.svc" />

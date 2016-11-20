@@ -153,7 +153,7 @@ namespace TNet.Models.Order
                 new OrderStatusItem()
                 {
                     text = "支付完成",
-                    ops = "sendmsg"
+                    ops = "dispTask"
                 }
             },
             {
@@ -161,7 +161,7 @@ namespace TNet.Models.Order
                 new OrderStatusItem()
                 {
                     text = "等待结算",
-                    ops = "sendmsg"
+                    ops = ""
                 }
             },
             {

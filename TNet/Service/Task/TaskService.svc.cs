@@ -75,6 +75,7 @@ namespace TNet.Service.Task
                                 DateTime dt = tp.cretime != null ? tp.cretime.Value : DateTime.Now;
                                 mro.works += (dt - DateTime.Now).TotalMinutes;
                                 mro.status = TaskRecverStatus.Finish;
+                                mro.donum++;
 
                                 //记录工单处理
                                 TCom.EF.TaskPress p = new TCom.EF.TaskPress();

@@ -252,3 +252,60 @@ a.reviewOrder_Fail {
     line-height: 30px;
     padding: 8px 10px 8px 20px;
 }
+
+
+
+
+.work_host {
+    display: block;
+    padding-bottom: 50px;
+    background-color:transparent;
+    z-index:999;
+}
+
+.work_List {
+    display: block;
+    padding-bottom: 50px;
+}
+
+
+.weui_cells{
+     font-size:unset;
+}
+
+
+.weui_cells {
+    background-color: transparent;
+    margin-top: 0px;
+}
+
+
+
+.worker_op {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+    z-index: 9999;
+    background-color: #ffffff;
+    border-top: solid #cbcbcb 1px;
+    padding: 0px;
+    background: #FAFAFA;
+    background: linear-gradient(#FAFAFA,#F4F4F4);
+    box-shadow: 0 -1px 0 rgba(0,0,0,.1) inset,0 -2px 8px rgba(0,0,0,.06);
+}
+
+    .worker_op a.task {
+        padding: 0px;
+        margin: 0px;
+        display: block;
+        width: 100%;
+        height: 100%;
+        line-height: 60px;
+        text-align: center;
+        text-decoration: none;
+        color: #222222;
+        font-weight: bold;
+        float: left;
+    }
