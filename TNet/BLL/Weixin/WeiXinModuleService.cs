@@ -27,7 +27,12 @@ namespace TNet.BLL {
             //oldModule.name = module.name;
             //oldModule.code = module.code;
             oldModule.title = module.title;
+            oldModule.ico = module.ico;
+            oldModule.pubtime = module.pubtime;
+            oldModule.endtime = module.endtime;
+            oldModule.notes = module.notes;
             oldModule.inuse = module.inuse;
+
             
             db.SaveChanges();
             return oldModule;
