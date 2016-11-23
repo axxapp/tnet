@@ -100,6 +100,7 @@ namespace TNet.Service.Order
             }
             return result;
         }
+
         public Result<bool> Update(UpdateData data)
         {
             Result<bool> result = new Result<bool>();
@@ -153,6 +154,7 @@ namespace TNet.Service.Order
             return result;
 
         }
+
         private MyOrderPress getMyOrderPress(string orderno, int status, string oper, string notes = "")
         {
             MyOrderPress s = new MyOrderPress();

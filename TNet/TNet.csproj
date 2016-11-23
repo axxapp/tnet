@@ -203,6 +203,7 @@
     <Compile Include="BLL\Statistic\StatisticHelper.cs" />
     <Compile Include="BLL\Statistic\TaskStatisticService.cs" />
     <Compile Include="BLL\Statistic\UserStatisticService.cs" />
+    <Compile Include="Models\Mgr\WorkerItem.cs" />
     <Compile Include="Models\Statistic\IssuesStatisticByDateViewModel.cs" />
     <Compile Include="Models\Statistic\StatisticBaseViewModel.cs" />
     <Compile Include="Models\Statistic\TaskStatisticByDateViewModel.cs" />
@@ -333,6 +334,10 @@
     <Compile Include="Service\Merc\IMercService.cs" />
     <Compile Include="Service\Merc\MercService.svc.cs">
       <DependentUpon>MercService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Mgr\IMgrService.cs" />
+    <Compile Include="Service\Mgr\MgrService.svc.cs">
+      <DependentUpon>MgrService.svc</DependentUpon>
     </Compile>
     <Compile Include="Service\Notice\INoticeService.cs" />
     <Compile Include="Service\Notice\NoticeService.svc.cs">
@@ -509,6 +514,7 @@
     <Content Include="Css\Task\Base.css" />
     <Content Include="Css\Task\Finish.css" />
     <Content Include="Css\User\Update.css" />
+    <Content Include="Css\zoom.js\zoom.css" />
     <Content Include="Images\Manage\log_box.png" />
     <Content Include="Images\Manage\main-bg.png" />
     <Content Include="Js\bootstrap-switch\bootstrap-switch.js" />
@@ -740,6 +746,8 @@
     <Content Include="Js\Merc\BaseList.js" />
     <Content Include="Js\Merc\List.js" />
     <Content Include="Js\CustomerModelValidation\CheckoutRequiredClientValidation.js" />
+    <Content Include="Js\NiceScroll\jquery.nicescroll.min.js" />
+    <Content Include="Js\NiceScroll\zoomico.png" />
     <Content Include="Js\Notice\Detail.js" />
     <Content Include="Js\Notice\List.js" />
     <Content Include="Js\Order\Base.js" />
@@ -834,6 +842,8 @@
     <Content Include="Js\Task\Finish.js" />
     <Content Include="Js\User\Index.js" />
     <Content Include="Js\User\Update.js" />
+    <Content Include="Js\zoom.js\zoom.js" />
+    <Content Include="Js\zoom.js\zoom.min.js" />
     <Content Include="MP_verify_ihu7x0BozQLNCJ1q.txt" />
     <Content Include="DB\20160828" />
     <None Include="Js\Com\jquery.validate-vsdoc.js" />
@@ -897,6 +907,7 @@
     <Content Include="Service\Ad\AdService.svc" />
     <Content Include="Service\City\CityService.svc" />
     <Content Include="Service\Issue\IssueService.svc" />
+    <Content Include="Service\Mgr\MgrService.svc" />
     <Content Include="Service\Notice\NoticeService.svc" />
     <Content Include="Service\Task\TaskService.svc" />
     <Content Include="Service\ToKey\ToKeyService.svc" />

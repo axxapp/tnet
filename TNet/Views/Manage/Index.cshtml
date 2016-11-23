@@ -8,6 +8,17 @@
 @*<script src="@Url.Content("~/Js/Highcharts-5.0.2/themes/sand-signika.js")"></script>*@
 <script type="text/javascript">
     $(function () {
+        Highcharts.setOptions({
+            lang: {
+                printChart: "打印图表",
+                downloadJPEG: "下载Jpeg图片",
+                downloadPDF: "下载Pdf文档",
+                downloadPNG: "下载Png图片",
+                downloadSVG: "下载Svg矢量图",
+                exportButtonTitle: "导出图片"
+            }
+        });
+
         /*统计订单*/
         var byOrderDayUrl = "@Url.Action("OrderStatisticByDay", "Manage",new {isAjax=true})";
         var byOrderDayData = { date: "@DateTime.Now.ToString("yyyy-MM-dd")", days: 7 };
@@ -100,6 +111,9 @@
             subtitle: {
                 text: ''
             },
+            exporting: {
+                enabled: false
+            },
             xAxis: {
                 categories: categories,
                 type: 'category',
@@ -121,11 +135,12 @@
                 enabled: false
             },
             tooltip: {
-                pointFormat: '数量为<b>{point.y:.0f}</b>'
+                pointFormat: '数量:<b>{point.y:.0f}</b>',
+                headerFormat: "<span style=\"font-size: 10px\">{point.key}</span><br/>"
             },
             series: [{
                 color: 'rgba(186,60,61,.9)',
-                name: 'Population',
+                name: '订单数量',
                 data: data,
                 dataLabels: {
                     enabled: true,
@@ -133,10 +148,11 @@
                     color: '#000000',
                     align: 'right',
                     format: '{point.y:.0f}', // one decimal
-                    y: 20, // 10 pixels down from the top
+                    y: 0, // 10 pixels down from the top
                     style: {
                         fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
+                        fontFamily: 'Verdana, sans-serif',
+                        fontWeight:'normal'
                     }
                 },
                 pointPadding: 0.3,
@@ -155,6 +171,9 @@
             subtitle: {
                 text: ''
             },
+            exporting: {
+                enabled: false
+            },
             xAxis: {
                 categories: categories,
                 type: 'category',
@@ -169,29 +188,31 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: '金额(￥)'
+                    text: '金额(元)'
                 }
             },
             legend: {
                 enabled: false
             },
             tooltip: {
-                pointFormat: '金额为<b>￥{point.y:.2f}</b>'
+                pointFormat: '金额:<b>￥{point.y:.2f}</b>',
+                shadow: false
             },
             series: [{
                 color: 'rgba(186,60,61,.9)',
-                name: 'Population',
+                name: '订单金额',
                 data: data,
                 dataLabels: {
                     enabled: true,
                     rotation: 0,
                     color: '#000000',
                     align: 'right',
-                    format: '￥{point.y:.2f}', // one decimal
-                    y: 20, // 10 pixels down from the top
+                    format: '{point.y:.2f}', // one decimal
+                    y: 0, // 10 pixels down from the top
                     style: {
                         fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
+                        fontFamily: 'Verdana, sans-serif',
+                        fontWeight:'normal'
                     }
                 },
                 pointPadding: 0.3,
@@ -231,6 +252,9 @@
             subtitle: {
                 text: ''
             },
+            exporting: {
+                enabled: false
+            },
             xAxis: {
                 categories: categories,
                 type: 'category',
@@ -252,11 +276,11 @@
                 enabled: false
             },
             tooltip: {
-                pointFormat: '数量为<b>{point.y:.0f}</b>'
+                pointFormat: '数量:<b>{point.y:.0f}</b>'
             },
             series: [{
                 color: 'rgba(186,60,61,.9)',
-                name: 'Population',
+                name: '用户注册',
                 data: data,
                 dataLabels: {
                     enabled: true,
@@ -264,10 +288,11 @@
                     color: '#000000',
                     align: 'right',
                     format: '{point.y:.0f}', // one decimal
-                    y: 20, // 10 pixels down from the top
+                    y: 0, // 10 pixels down from the top
                     style: {
                         fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
+                        fontFamily: 'Verdana, sans-serif',
+                        fontWeight: 'normal'
                     }
                 },
                 pointPadding: 0.3,
@@ -307,6 +332,9 @@
             subtitle: {
                 text: ''
             },
+            exporting: {
+                enabled: false
+            },
             xAxis: {
                 categories: categories,
                 type: 'category',
@@ -328,11 +356,11 @@
                 enabled: false
             },
             tooltip: {
-                pointFormat: '数量为<b>{point.y:.0f}</b>'
+                pointFormat: '数量:<b>{point.y:.0f}</b>'
             },
             series: [{
                 color: 'rgba(186,60,61,.9)',
-                name: 'Population',
+                name: '投诉信息',
                 data: data,
                 dataLabels: {
                     enabled: true,
@@ -340,10 +368,11 @@
                     color: '#000000',
                     align: 'right',
                     format: '{point.y:.0f}', // one decimal
-                    y: 20, // 10 pixels down from the top
+                    y: 0, // 10 pixels down from the top
                     style: {
                         fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
+                        fontFamily: 'Verdana, sans-serif',
+                        fontWeight: 'normal'
                     }
                 },
                 pointPadding: 0.3,
@@ -384,7 +413,7 @@
             </div>
         </div>
     </div>
-    <div style="width:46%;min-width:400px;float:left;">
+    <div style="width:46%;margin-left:20px;min-width:400px;float:left;">
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#numByDay" role="tab" data-toggle="tab">按日统计</a>
@@ -432,7 +461,7 @@
             </div>
         </div>
     </div>
-    <div style="width:46%;min-width:400px;float:left;">
+    <div style="width:46%;min-width:400px;margin-left:20px;float:left;">
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a href="#issuesByDay" role="tab" data-toggle="tab">按日统计</a>

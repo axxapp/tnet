@@ -17,6 +17,7 @@ using TNet.Service.Issue;
 using TNet.Service.User;
 using TNet.Service.ToKey;
 using TNet.Service.Ad;
+using TNet.Service.Mgr;
 
 namespace TNet.Service.Com
 {
@@ -59,6 +60,7 @@ namespace TNet.Service.Com
 
             RouteTable.Routes.Add(new ServiceRoute("Service/Ad/", new WebServiceHostFactory(), typeof(AdService)));
 
+            RouteTable.Routes.Add(new ServiceRoute("Service/Mgr/", new WebServiceHostFactory(), typeof(MgrService)));
 
 
 

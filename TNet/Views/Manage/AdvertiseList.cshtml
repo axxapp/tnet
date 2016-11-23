@@ -20,6 +20,8 @@
     List<SelectItemViewModel<string>> advertiseTypes = (List<SelectItemViewModel<string>>)ViewData["advertiseTypes"];
 
 }
+<link href="@Url.Content("~/Css/zoom.js/zoom.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Js/zoom.js/zoom.min.js")"></script>
 <div class="ManageRightTitle">
     <ol class="breadcrumb">
         <li><a href="#">广告管理</a></li>
@@ -77,7 +79,7 @@
                             <td>
                                 @if (!string.IsNullOrEmpty(item.img)) {
                                     <a href="@item.link" target="_blank">
-                                        <img class="smallMercImage" src="@Url.Content(@item.img)" title="@item.title" />
+                                        <img  data-action="zoom" class="smallMercImage" src="@Url.Content(@item.img)" title="@item.title" />
                                     </a>
                                 }
                             </td>

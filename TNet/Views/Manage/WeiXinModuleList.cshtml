@@ -27,7 +27,13 @@
                 <thead>
                     <tr>
                         <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, string>(en => en.name))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, string>(en => en.code))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, string>(en => en.title))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, string>(en => en.ico))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, DateTime?>(en => en.cretime))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, DateTime?>(en => en.pubtime))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, DateTime?>(en => en.endtime))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, string>(en => en.notes))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<WeiXinModuleViewModel, bool>(en => en.inuse))</th>
                         <th>操作</th>
                     </tr>
@@ -36,7 +42,19 @@
                     @foreach (var item in Model) {
                         <tr>
                             <td>@item.name</td>
+                            <td>@item.code</td>
                             <td>@item.title</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.ico)) {
+                                    <img src="@Url.Content(item.ico)" alt="@item.title" />
+                                }
+                            </td>
+                            <td>@(item.cretime == null ? "" : item.cretime.Value.ToString("yyyy-MM-dd"))</td>
+                            <td>@(item.pubtime == null ? "" : item.pubtime.Value.ToString("yyyy-MM-dd"))</td>
+                            <td>@(item.endtime == null ? "" : item.endtime.Value.ToString("yyyy-MM-dd"))</td>
+                            <td>
+                                @item.notes
+                            </td>
                             <td>
                                 <div class="switch">
                                     <input type="checkbox" onchange="enableWeiXinModule('@Url.Action("WeiXinModuleEnable", "Manage", new { idwxmodule = item.idwxmodule, enable = !item.inuse, isAjax = true })')" name="enableWeiXinModule" @(item.inuse ? "checked" : "") />

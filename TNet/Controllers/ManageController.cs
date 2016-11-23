@@ -1111,7 +1111,7 @@ namespace TNet.Controllers
             mercTypeSelects.Insert(0, new SelectItemViewModel<string>()
             {
                 DisplayText = "所有类型",
-                DisplayValue = "0"
+                DisplayValue = ""
             });
             List<SelectItemViewModel<int>> isetupSelects = new List<SelectItemViewModel<int>>();
             isetupSelects.Add(new SelectItemViewModel<int>()

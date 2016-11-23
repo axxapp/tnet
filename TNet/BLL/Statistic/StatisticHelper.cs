@@ -55,6 +55,13 @@ namespace TNet.BLL.Statistic
                     list.Add(t);
                 }
             }
+            if (dateFormate == "yyyy-MM-dd")
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].Date= Convert.ToDateTime(list[i].Date).ToString("MM-dd");
+                }
+            }
         }
 
     }
