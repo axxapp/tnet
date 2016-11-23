@@ -23,7 +23,7 @@
     <div>
         <a class="btn btn-primary" @*target="_blank"*@ href="@Url.Action("ManageUserEdit","Manage")">新增</a>
     </div>
-    <div  class="list-box">
+    <div class="list-box">
         @if (Model.Count > 0)
         {
             <table class="table table-bordered table-hover table-striped">
@@ -117,9 +117,18 @@
     function searchUsers() {
         var url = "@Url.Action("SearchUsers","Manage")";
         var data = { phone: $("#searchPhone").val(), bindManageUserId: $("#currentSetManageUserId").val(), isAjax: true };
-        $.get(url, data, function (returndata) {
-            $("#searchResults").html(returndata);
-        })
+
+        Pub.post({
+            url: url,
+            loadingMsg: "检索中...",
+            data: data,
+            noAttHead: true,
+            success: function (returndata) {
+                $("#searchResults").html(returndata);
+            }, error: function (xhr, status, e) {
+                alert("系统出错，请稍后再试。");
+            }
+        });
     }
     function openModal(manageUserId, manageUserName) {
         $("#currentSetManageUser").text("为" + manageUserName + "绑定微信");
@@ -134,15 +143,22 @@
 
     function enableManageUser(url) {
         var manageLoginUrl = "@Url.Action("Login","Manage")";
-        $.post(url, null, function (returndata) {
-            returndata = eval("(" + returndata + ")");
-            if (returndata.Code == "3") {
-                alert(returndata.Message);
-                window.Location.href = manageLoginUrl;
-            } else if (returndata.Code == "1") {
-                //alert("操作成功.");
-                window.location.href = window.location.href;
-            } else {
+        Pub.post({
+            url: url,
+            loadingMsg: "保存中...",
+            noAttHead: true,
+            success: function (returndata) {
+                returndata = eval("(" + returndata + ")");
+                if (returndata.Code == "3") {
+                    alert(returndata.Message);
+                    window.Location.href = manageLoginUrl;
+                } else if (returndata.Code == "1") {
+                    //alert("操作成功.");
+                    window.location.href = window.location.href;
+                } else {
+                    alert("系统出错，请稍后再试。");
+                }
+            }, error: function (xhr, status, e) {
                 alert("系统出错，请稍后再试。");
             }
         });
