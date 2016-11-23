@@ -4,7 +4,6 @@ function initParam() {
         $(".Jump").show();
         window.location.href = ru;
     } else {
-
         $("#base").show();
         if (tn_u) {
             $(".avatar").css("background-image", "url(" + tn_u.avatar + ")");
@@ -38,11 +37,13 @@ function initParam() {
                 if (tn_u.mu.sendSetup) {
                     $("#send_setup").attr("checked", 'true');
                 }
-
-
-
-
             }
+        } else {
+            $(".Jump").show();
+            $(".Jump").html("拉取用户信息失败,点击刷新!");
+            $(".Jump").click(function () {
+                Pub.goUser(false, true, false);
+            });
         }
 
     }
@@ -56,6 +57,3 @@ function setV(id, v) {
 }
 $(document.body).ready(initParam);
 
-
-//错误
-window.onerror = null;

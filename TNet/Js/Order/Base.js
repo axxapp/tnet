@@ -92,12 +92,12 @@ function getOps(status, order, isList) {
                 html += '<a class="pay" href="' + Pub.url("Order/Edit/?orderno=" + order.orderno) + '" >编辑</a>';
 
             } else if (p == "dispTask") {
-                if (uo && uo.mu && uo.mu.sendSetup && !order.idtask) {
+                if (uo && uo.iduser == "636083726396093750" && uo.mu && uo.mu.sendSetup && !order.idtask) {
                     if (isList) {
-                        //html += '<a class="pay" href="' + Pub.url("Order/Detail/" + order.orderno) + '">去派单</a>';
+                        html += '<a class="pay" href="' + Pub.url("Order/Detail/" + order.orderno) + '">去派单</a>';
                     } else {
-                       // html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">发起抢单</a>';
-                        //html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">派单</a>';
+                       html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">发起抢单</a>';
+                       html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">派单</a>';
 
                     }
                 }

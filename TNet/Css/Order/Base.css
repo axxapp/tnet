@@ -279,6 +279,9 @@ a.reviewOrder_Fail {
     margin-top: 0px;
 }
 
+.weui_cell_bd p{
+     padding:8px 0px 8px 0px;
+}
 
 
 .worker_op {

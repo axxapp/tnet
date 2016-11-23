@@ -392,6 +392,7 @@
     <Content Include="Css\bootstrap-switch\bootstrap2\bootstrap-switch.min.css" />
     <Content Include="Css\bootstrap-switch\bootstrap3\bootstrap-switch.css" />
     <Content Include="Css\bootstrap-switch\bootstrap3\bootstrap-switch.min.css" />
+    <Content Include="Css\Fonts\font_1469444055_0424716_iconfont.svg" />
     <Content Include="Css\Highcharts-5.0.2\highcharts.css" />
     <Content Include="Css\iCheck\skins\all.css" />
     <Content Include="Css\iCheck\skins\flat\aero%402x.png" />
@@ -846,6 +847,12 @@
     <Content Include="Js\zoom.js\zoom.min.js" />
     <Content Include="MP_verify_ihu7x0BozQLNCJ1q.txt" />
     <Content Include="DB\20160828" />
+    <Content Include="Css\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Css\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Css\Fonts\font_1469444055_0424716.eot" />
+    <Content Include="Css\Fonts\font_1469444055_0424716.ttf" />
+    <Content Include="Css\Fonts\font_1469444055_0424716.woff" />
+    <Content Include="Css\Fonts\font_1469444055_0424716_iefix.eot" />
     <None Include="Js\Com\jquery.validate-vsdoc.js" />
     <Content Include="Js\Com\jquery.validate.js" />
     <Content Include="Js\Com\jquery.validate.min.js" />

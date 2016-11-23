@@ -33,6 +33,9 @@ function initParam() {
         sensitiverail: true, // 单击轨道产生滚动
         zindex: 999999,
         horizrailenabled: false,
+        cursoropacitymax: '0.4',
+        cursorcolor: '#000000',
+        cursorborder: '2px solid #000000'
     });
     updateSetResize();
     $(window).resize(function () {
