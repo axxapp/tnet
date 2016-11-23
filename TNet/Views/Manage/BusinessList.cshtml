@@ -74,7 +74,7 @@
                             <td>@item.blevel</td>
                             <td>
                                 <div class="switch">
-                                    <input type="checkbox" onchange="enableBusiness('@Url.Action("BusinessEnable", "Manage", new { idbuss = item.idbuss, enable = !item.inuse, isAjax = true })')" name="enableBusiness" @(item.inuse ? "checked" : "") />
+                                    <input type="checkbox" onchange="enableRecord('@Url.Action("BusinessEnable", "Manage", new { idbuss = item.idbuss, enable = !item.inuse, isAjax = true })')" name="enableBusiness" @(item.inuse ? "checked" : "") />
                                 </div>
                             </td>
                             <td>
@@ -116,21 +116,5 @@
             ajax_del(delUrl, postData);
         });
     });
-    function enableBusiness(url) {
-        var manageLoginUrl = "@Url.Action("Login","Manage")";
-        $.post(url, null, function (returndata) {
-            returndata=eval("("+returndata+")");
-            if (returndata.Code == "3") {
-                alert(returndata.Message);
-                window.Location.href = manageLoginUrl;
-            } else if (returndata.Code == "1") {
-                //alert("操作成功.");
-                window.location.href = window.location.href;
-            } else {
-                alert("系统出错，请稍后再试。");
-            }
-        });
-    }
-
 </script>
 

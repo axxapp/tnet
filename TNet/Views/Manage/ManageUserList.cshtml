@@ -12,8 +12,8 @@
 }
 <div class="ManageRightTitle">
     <ol class="breadcrumb">
-        <li><a href="#">工人管理</a></li>
-        <li><a href="#" class="active">工人列表</a></li>
+        <li><a href="#">职员管理</a></li>
+        <li><a href="#" class="active">职员</a></li>
     </ol>
 </div>
 <div class="ManageRightContent">
@@ -57,7 +57,7 @@
                             <td>@item.notes</td>
                             <td>
                                 <div class="switch">
-                                    <input type="checkbox" onchange="enableManageUser('@Url.Action("ManageUserEnable", "Manage", new { ManageUserId = item.ManageUserId, enable = !item.inuse, isAjax = true })')" name="enableManageUser" @(item.inuse ? "checked" : "") />
+                                    <input type="checkbox" onchange="enableRecord('@Url.Action("ManageUserEnable", "Manage", new { ManageUserId = item.ManageUserId, enable = !item.inuse, isAjax = true })')" name="enableManageUser" @(item.inuse ? "checked" : "") />
                                 </div>
                             </td>
                             <td>
@@ -71,7 +71,7 @@
         }
         else
         {
-            <h2>还没有管理员.</h2>
+            <h2>还没有职员.</h2>
         }
 
     </div>
@@ -139,29 +139,6 @@
     }
     function closeModal() {
         $('#myModal').modal('hide')
-    }
-
-    function enableManageUser(url) {
-        var manageLoginUrl = "@Url.Action("Login","Manage")";
-        Pub.post({
-            url: url,
-            loadingMsg: "保存中...",
-            noAttHead: true,
-            success: function (returndata) {
-                returndata = eval("(" + returndata + ")");
-                if (returndata.Code == "3") {
-                    alert(returndata.Message);
-                    window.Location.href = manageLoginUrl;
-                } else if (returndata.Code == "1") {
-                    //alert("操作成功.");
-                    window.location.href = window.location.href;
-                } else {
-                    alert("系统出错，请稍后再试。");
-                }
-            }, error: function (xhr, status, e) {
-                alert("系统出错，请稍后再试。");
-            }
-        });
     }
 
 </script>

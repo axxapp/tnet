@@ -52,12 +52,12 @@
                             </td>
                             <td>
                                 <div class="switch">
-                                    <input type="checkbox" onchange="enableCity('@Url.Action("CityDefault", "Manage", new { idcity = item.idcity,isAjax = true })')" name="defaultCity" @(item.isdefault ? "checked" : "")  @(item.isdefault ? "disabled" : "") />
+                                    <input type="checkbox" onchange="enableRecord('@Url.Action("CityDefault", "Manage", new { idcity = item.idcity,isAjax = true })')" name="defaultCity" @(item.isdefault ? "checked" : "")  @(item.isdefault ? "disabled" : "") />
                                 </div>
                             </td>
                             <td>
                                 <div class="switch">
-                                    <input type="checkbox" onchange="enableCity('@Url.Action("CityEnable", "Manage", new { idcity = item.idcity, enable = !item.inuse, isAjax = true })')" name="enableCity" @(item.inuse ? "checked" : "") />
+                                    <input type="checkbox" onchange="enableRecord('@Url.Action("CityEnable", "Manage", new { idcity = item.idcity, enable = !item.inuse, isAjax = true })')" name="enableCity" @(item.inuse ? "checked" : "") />
                                 </div>
                             </td>
                             <td>
@@ -83,23 +83,5 @@
             $("[name='enableCity']").bootstrapSwitch({onText:'启用',offText:'禁用'});
             $("[name='defaultCity']").bootstrapSwitch({onText:'默认',offText:'非默认'});
         });
-
-
     });
-
-    function enableCity(url) {
-        var manageLoginUrl = "@Url.Action("Login","Manage")";
-        $.post(url, null, function (returndata) {
-            returndata = eval("(" + returndata + ")");
-            if (returndata.Code == "3") {
-                alert(returndata.Message);
-                window.Location.href = manageLoginUrl;
-            } else if (returndata.Code == "1") {
-                //alert("操作成功.");
-                window.location.href = window.location.href;
-            } else {
-                alert("系统出错，请稍后再试。");
-            }
-        });
-    }
 </script>

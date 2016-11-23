@@ -68,3 +68,26 @@ function ajax_del(delUrl, postData) {
         }
     });
 }
+
+function enableRecord(postUrl) {
+    var manageLoginUrl = Pub.url("Manage/Login");
+    Pub.post({
+        url: postUrl,
+        loadingMsg: "保存中...",
+        noAttHead: true,
+        success: function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == "3") {
+                alert(returndata.Message);
+                window.Location.href = manageLoginUrl;
+            } else if (returndata.Code == "1") {
+                //alert("操作成功.");
+                window.location.href = window.location.href;
+            } else {
+                alert("系统出错，请稍后再试。");
+            }
+        }, error: function (xhr, status, e) {
+            alert("系统出错，请稍后再试。");
+        }
+    });
+}
