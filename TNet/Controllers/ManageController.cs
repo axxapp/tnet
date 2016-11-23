@@ -2341,7 +2341,7 @@ namespace TNet.Controllers
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult SearchUsers(string phone, int bindManageUserId, bool isAjax)
+        public ActionResult SearchUsers(string phone, string bindManageUserId, bool isAjax)
         {
             List<TCom.EF.User> entities = UserBll.SearchByPhone(phone);
             List<UserViewModel> viewModels = entities.Select(model =>
