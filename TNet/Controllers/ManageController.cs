@@ -1111,7 +1111,7 @@ namespace TNet.Controllers
             mercTypeSelects.Insert(0, new SelectItemViewModel<string>()
             {
                 DisplayText = "所有类型",
-                DisplayValue = "0"
+                DisplayValue = ""
             });
             List<SelectItemViewModel<int>> isetupSelects = new List<SelectItemViewModel<int>>();
             isetupSelects.Add(new SelectItemViewModel<int>()
@@ -2341,7 +2341,7 @@ namespace TNet.Controllers
         /// </summary>
         /// <returns></returns>
         [ManageLoginValidation]
-        public ActionResult SearchUsers(string phone, int bindManageUserId, bool isAjax)
+        public ActionResult SearchUsers(string phone, string bindManageUserId, bool isAjax)
         {
             List<TCom.EF.User> entities = UserBll.SearchByPhone(phone);
             List<UserViewModel> viewModels = entities.Select(model =>

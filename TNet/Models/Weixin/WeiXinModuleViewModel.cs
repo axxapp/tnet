@@ -15,20 +15,37 @@ namespace TNet.Models {
         [StringLength(50)]
         public new string idwxmodule { get; set; }
 
-        [Display(Name = "名称")]
-        [Required]
-        [StringLength(50)]
-        public new string name { get; set; }
-
         [Display(Name = "代码")]
         [Required]
         [StringLength(50)]
         public new string code { get; set; }
 
+        [Display(Name = "名称")]
+        [Required]
+        [StringLength(50)]
+        public new string name { get; set; }
+        
         [Display(Name = "标题")]
         [Required]
         [StringLength(50)]
         public new string title { get; set; }
+
+        [Display(Name = "图标")]
+        [StringLength(255)]
+        public new string ico { get; set; }
+
+        [Display(Name = "创建时间")]
+        public new DateTime? cretime { get; set; }
+
+        [Display(Name = "发布时间")]
+        public new DateTime? pubtime { get; set; }
+
+        [Display(Name = "结束时间")]
+        public new DateTime? endtime { get; set; }
+
+        [Display(Name = "备注")]
+        [StringLength(50)]
+        public new string notes { get; set; }
 
         [Display(Name = "启用")]
         public new bool inuse { get; set; }
@@ -38,6 +55,11 @@ namespace TNet.Models {
             this.code = module.code;
             this.name = module.name;
             this.title = module.title;
+            this.ico = module.ico;
+            this.cretime = module.cretime;
+            this.pubtime = module.pubtime;
+            this.endtime = module.endtime;
+            this.notes = module.notes;
             this.inuse = module.inuse;
         }
 
@@ -46,6 +68,11 @@ namespace TNet.Models {
             module.name = this.name;
             module.code = this.code;
             module.title = this.title;
+            module.ico = this.ico;
+            module.cretime = this.cretime;
+            module.pubtime = this.pubtime;
+            module.endtime = this.endtime;
+            module.notes = this.notes;
             module.inuse = this.inuse;
         }
     }
