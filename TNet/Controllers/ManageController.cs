@@ -2277,24 +2277,23 @@ namespace TNet.Controllers
                     {
                         ManageUser muser = manageUsers.Where(en => en.ManageUserId == userArray[i]).First();
                         //musers.Add(muser);
-                        MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, muser, null);
+                        
+                        if (taskType == TaskType.Setup) {
+                            MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, muser, null);
+                        }
+                        DateTime nowDate= DateTime.Now;
                         taskRecvers.Add(new TaskRecver()
                         {
                             idrecver = Pub.ID(),
                             idtask = newTask.idtask,
                             mcode = userArray[i],
                             mname = muser == null ? "" : muser.UserName,
-                            cretime = DateTime.Now,
+                            cretime = nowDate,
+                            stime= nowDate,
                             inuse = true
                         });
                     }
                     TaskRecverService.AddMuil(taskRecvers);
-                    if (taskType == TaskType.Setup)
-                    {
-
-                        // MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, null);
-                    }
-
                 }
 
             }
