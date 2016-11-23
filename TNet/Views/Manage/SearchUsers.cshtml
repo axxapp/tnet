@@ -43,8 +43,9 @@
             $.post(url, data, function (returndata) {
                 returndata =eval("(" + returndata + ")");
                 if (returndata.Code == 1) {
+                    closeModal();
                     alert(returndata.Message);
-                    window.Location.href = window.Location.href;
+                    window.location.href = window.location.href;
                 }
                 else if (returndata.Code == 2) {
                     alert(returndata.Message);
