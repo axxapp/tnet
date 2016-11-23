@@ -42,8 +42,9 @@
             return delCache('tn_u');
         },
         str: getStr,
+        isUserPage:false,
         v: {
-            cache: 1
+            cache: 3
         }
 
 
@@ -409,6 +410,7 @@
 
     function auth(go) {
         try {
+           
             var tn_u = Pub.getUser();
             var ru = rootUrl();
             var realu = "";
@@ -416,9 +418,9 @@
             // realu = window.location.href + "";
             //}
             var u = "";
-            var uurl = "";
+            var uurl = "";            
             if (!tn_u) {
-                return goUser(true, !go);
+                return goUser(true, !go,true);
                 //uurl = encodeURIComponent(full_root_url + "user?ru=" + encodeURIComponent(realu));
                 //u = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc530ec3ce6a52233&redirect_uri=' + uurl + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
                 //if (go) {
@@ -444,21 +446,26 @@
         return false;
     }
 
-    function goUser(isReturn, noGo) {
+    function goUser(isReturn, noGo,isSetUserLink) {
         var realu = "";
         //if (!isHome()) {
         var up = false;
-        if (isReturn) {
+        if (isReturn && !Pub.isUserPage) {
             realu = window.location.href + "";
+           
+            //if (realu.indexOf("user/index"))
             //alert(realu);
             var reg = /[&]updateUser=1/;
             realu = realu.replace(reg, '');
             up = true;
             //alert(realu);
             //return;
-        }
+        }       
         uurl = encodeURIComponent(full_root_url + "user?ru=" + encodeURIComponent(realu));
         u = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc530ec3ce6a52233&redirect_uri=' + uurl + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
+        if (isSetUserLink) {
+            $(".Top_User").attr("href", u);
+        }
         if (!noGo) {
             if (window.navigator.userAgent.indexOf("MicroMesseng") > 0) {
                 if (up) {

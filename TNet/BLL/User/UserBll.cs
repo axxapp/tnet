@@ -33,75 +33,83 @@ namespace TNet.BLL.User
             }
         }
 
- 
+
 
         public static bool Auth(ref string user)
         {
-            JObject json = getOpenid();
-            if (json != null)
+            try
             {
-                string openid = json["openid"] + "";
-                string access_token = json["access_token"] + "";
-                if (!string.IsNullOrWhiteSpace(openid))
+
+                JObject json = getOpenid();
+                if (json != null)
                 {
-                    using (TN db = new TN())
+                    string openid = json["openid"] + "";
+                    string access_token = json["access_token"] + "";
+                    if (!string.IsNullOrWhiteSpace(openid))
                     {
-                        TCom.EF.User us = db.Users.Where(m => m.idweixin == openid).FirstOrDefault();
-                        if (us == null)
+                        using (TN db = new TN())
                         {
-                            string nickname = "", headimgurl = "";
-                            if (!string.IsNullOrWhiteSpace(access_token))
+                            TCom.EF.User us = db.Users.Where(m => m.idweixin == openid).FirstOrDefault();
+                            if (us == null)
                             {
-                                string url = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid + "&lang=zh_CN";
-                                string data = Pub.Get(url);
-                                if (!string.IsNullOrWhiteSpace(data))
+                                string nickname = "", headimgurl = "";
+                                if (!string.IsNullOrWhiteSpace(access_token))
                                 {
-                                    json = JObject.Parse(data);
-                                    if (json != null)
+                                    string url = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid + "&lang=zh_CN";
+                                    string data = Pub.Get(url);
+                                    if (!string.IsNullOrWhiteSpace(data))
                                     {
-                                        nickname = json["nickname"] + "";
-                                        headimgurl = json["headimgurl"] + "";
+                                        json = JObject.Parse(data);
+                                        if (json != null)
+                                        {
+                                            nickname = json["nickname"] + "";
+                                            headimgurl = json["headimgurl"] + "";
+                                        }
                                     }
                                 }
+                                us = new TCom.EF.User();
+                                us.iduser = Pub.ID();
+                                us.idweixin = openid;
+                                us.inuse = true;
+                                us.name = nickname;
+                                us.notes = "微信";
+                                us.phone = "";
+                                us.sex = -1;
+                                us.avatar = headimgurl;
+                                us.comp = "";
+                                us.cretime = DateTime.Now;
+                                db.Users.Add(us);
+                                if (db.SaveChanges() > 0)
+                                {
+                                    user = setUser(us, null);
+                                    return true;
+                                }
                             }
-                            us = new TCom.EF.User();
-                            us.iduser = Pub.ID();
-                            us.idweixin = openid;
-                            us.inuse = true;
-                            us.name = nickname;
-                            us.notes = "微信";
-                            us.phone = "";
-                            us.sex = -1;
-                            us.avatar = headimgurl;
-                            us.comp = "";
-                            us.cretime = DateTime.Now;
-                            db.Users.Add(us);
-                            if (db.SaveChanges() > 0)
+                            else
                             {
-                                user = setUser(us, null);
+                                MUser mu = (from mo in db.ManageUsers
+                                            where (mo.idweixin == us.idweixin && mo.inuse == true)
+                                            select new MUser
+                                            {
+                                                code = mo.ManageUserId,
+                                                name = mo.UserName,
+                                                phone = mo.phone,
+                                                recvOrder = mo.recv_order,
+                                                recvReview = mo.recv_review,
+                                                recvSetup = mo.recv_setup,
+                                                sendSetup = mo.send_setup
+
+                                            }).FirstOrDefault();
+                                user = setUser(us, mu);
                                 return true;
                             }
                         }
-                        else
-                        {
-                            MUser mu = (from mo in db.ManageUsers
-                                        where (mo.idweixin == us.idweixin && mo.inuse == true)
-                                        select new MUser
-                                        {
-                                            code = mo.ManageUserId,
-                                            name = mo.UserName,
-                                            phone = mo.phone,
-                                            recvOrder = mo.recv_order,
-                                            recvReview = mo.recv_review,
-                                            recvSetup = mo.recv_setup,
-                                            sendSetup = mo.send_setup
-
-                                        }).FirstOrDefault();
-                            user = setUser(us, mu);
-                            return true;
-                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+
             }
             return false;
         }
@@ -149,6 +157,6 @@ namespace TNet.BLL.User
             return c;
         }
 
-         
+
     }
 }
