@@ -5,10 +5,57 @@
 }
 @section Head{
 
-    <link href="@Url.Content("~/Css/Issue/Add.css?v=20161120")" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Issue/Add.css?v=20161120" rel="stylesheet" type="text/css" />
+
+    <link href="~/Css/Mobiscroll/mobiscroll.animation.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.icons.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.frame.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.frame.android.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.frame.android-holo.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.frame.ios-classic.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.frame.ios.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.frame.jqm.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.frame.sense-ui.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.frame.wp.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.scroller.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.scroller.android.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.scroller.android-holo.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.scroller.ios-classic.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.scroller.ios.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.scroller.jqm.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.scroller.sense-ui.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.scroller.wp.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.image.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Css/Mobiscroll/mobiscroll.android-holo-light.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.wp-light.css" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Mobiscroll/mobiscroll.mobiscroll-dark.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/Js/Mobiscroll/mobiscroll.core.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.frame.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.scroller.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.util.datetime.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.datetimebase.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.datetime.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.select.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.listbase.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.image.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.treelist.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.frame.android.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.frame.android-holo.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.frame.ios-classic.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.frame.ios.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.frame.jqm.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.frame.sense-ui.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.frame.wp.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.android-holo-light.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.wp-light.js"></script>
+    <script src="~/Js/Mobiscroll/mobiscroll.mobiscroll-dark.js"></script>
+    <script src="~/Js/Mobiscroll/i18n/mobiscroll.i18n.zh.js"></script>
 
 
-    <script type="text/javascript" src="@Url.Content("~/Js/Issue/Add.js?v=20161120")">
+
+    <script type="text/javascript" src="~/Js/Issue/Add.js?v=20161120">
 
     </script>
 
@@ -71,7 +118,7 @@
             <div class="Edit_Name">预约:</div>
             <div class="Edit_Value">
                 <div class="in">
-                    <input id="booktime" type="text" maxlength="10" required placeholder="预约时间 yyyy-mm-dd..." />
+                    <input id="booktime" type="text" maxlength="10" readonly required placeholder="预约时间..." />
                 </div>
             </div>
         </div>

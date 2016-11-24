@@ -15,7 +15,7 @@ function Save() {
         //$("#phone").focus();
         return;
     }
-   
+
     var booktime = Pub.str($("#booktime").val(), true);
     var notes = Pub.str($("#notes").val());
     var _n = $.trim(notes);
@@ -58,3 +58,17 @@ function Save() {
         });
     }
 }
+
+$(document.body).ready(function () {
+    var now = new Date(),
+         minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()),
+         maxDate = new Date(now.getFullYear() + 10, 11, 31);
+
+    $('#booktime').mobiscroll().date({
+        theme: 'mobiscroll',
+        lang: 'zh',
+        display: 'bottom',
+        minDate: minDate,
+        maxDate: maxDate
+    });
+});
