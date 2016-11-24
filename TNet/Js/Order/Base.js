@@ -96,8 +96,8 @@ function getOps(status, order, isList) {
                     if (isList) {
                         html += '<a class="pay" href="' + Pub.url("Order/Detail/" + order.orderno) + '">去派单</a>';
                     } else {
-                       html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">发起抢单</a>';
-                       html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">派单</a>';
+                        html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">发起抢单</a>';
+                        html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">派单</a>';
 
                     }
                 }
@@ -187,7 +187,7 @@ function showWorkHost(orderno) {
         html += '<span class="loading_c">加载中...</span>';
         html += '</div>';
         html += '<div class="worker_op">';
-        html += '<a id="worker_op_add" class="task" href="javascript:void(0)" onclick="dispTask()">派单</a>';
+        html += '<a id="worker_op_add" class="task" href="javascript:void(0)" onclick="dispTask(\'' + orderno + '\')">派单</a>';
         html += '</div>';
         html += '</div>';
         $(document.body).append(html);
@@ -251,7 +251,7 @@ function load_worker_fail(msg) {
 }
 
 
-function dispTask() {
+function dispTask(orderno) {
     var u = Pub.getUser();
     if (u == null || !u.iduser) {
         alert("您无权派单");
@@ -265,13 +265,14 @@ function dispTask() {
             }
         }
         if (ws.length > 0) {
-            Pub.get({
-                url: "Service/Task/Disp",
-                data: { iduser: u.iduser, works: ws },
+            Pub.post({
+                url: "Service/Task/Dis/Order",
+                data: { orderno: orderno, iduser: u.iduser, uname: u.name, works: ws },
                 loadingMsg: "派单中...",
                 success: function (data) {
                     if (Pub.wsCheck(data)) {
-                        alert("派单成功");
+                        alert("派单成功,工单号：" + data.Data);
+                        //window.location.href = Pub.url("Task/MyTask");
                     }
                 },
                 error: function (xhr, status, e) {

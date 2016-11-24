@@ -64,7 +64,7 @@ namespace TCom.Msg
 
 
         /// <summary>
-        /// 派单
+        /// 报装派单
         /// </summary>
         /// <param name="idweixin"></param>
         /// <param name="mo"></param>
@@ -73,14 +73,13 @@ namespace TCom.Msg
         /// <param name="db"></param>
         /// <returns></returns>
 
-        public static bool SetupOrder(EF.MyOrder mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
+        public static bool SetupOrder(string idtask, EF.MyOrder mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
         {
             int otype = mo.otype != null ? mo.otype.Value : 0;
             JObject jo = new JObject();
             jo["touser"] = muser.idweixin;
             jo["template_id"] = "GeHNTXa7V_S5Q4uGaFYq1vzXmZZTAfy8wKJyT4muV28";
-            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
-                + "&updateUser=1";
+            jo["url"] = "http://app.i5shang.com/tnet/Task/Detail?idtask=" + idtask + "&updateUser=1";
             JObject jdo = new JObject();
             jdo["first"] = getJob(mo.merc + "(" + mo.spec + ")");
             jdo["keyword1"] = getJob("报装");

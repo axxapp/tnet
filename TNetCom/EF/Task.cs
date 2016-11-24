@@ -25,10 +25,12 @@ namespace TCom.EF
         public string idsend { get; set; }
 
         [StringLength(60)]
-        public string orderno { get; set; }
+        public string send { get; set; }
 
         [StringLength(60)]
-        public string send { get; set; }
+        public string orderno { get; set; }
+
+        
 
         public DateTime? accpeptime { get; set; }
 

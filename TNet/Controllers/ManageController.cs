@@ -2279,7 +2279,7 @@ namespace TNet.Controllers
                         //musers.Add(muser);
                         
                         if (taskType == TaskType.Setup) {
-                            MsgMgr.SetupOrder(taskViewModel.Order, taskViewModel.user, muser, null);
+                            MsgMgr.SetupOrder(task.idtask,taskViewModel.Order, taskViewModel.user, muser, null);
                         }
                         DateTime nowDate= DateTime.Now;
                         taskRecvers.Add(new TaskRecver()

@@ -7,7 +7,9 @@ using System.ServiceModel.Activation;
 using System.Text;
 using TCom.EF;
 using TCom.Model.Task;
+using TCom.Msg;
 using TCom.Util;
+using TNet.Models.Mgr;
 using TNet.Models.Service.Com;
 using TNet.Models.Task;
 
@@ -49,6 +51,122 @@ namespace TNet.Service.Task
             return result;
         }
 
+        public Result<string> DisTask(DisTaskOrderData data)
+        {
+            Result<string> result = new Result<string>();
+            result.Msg = "派单失败";
+            try
+            {
+                if (data != null && data.works != null && data.works.Count > 0)
+                {
+                    using (TCom.EF.TN r = new TCom.EF.TN())
+                    {
+                        TCom.EF.MyOrder os = r.MyOrders.Where(o => o.orderno == data.orderno && o.inuse == true).FirstOrDefault();
+                        if (os != null)
+                        {
+                            if (!string.IsNullOrWhiteSpace(os.idtask))
+                            {
+                                TCom.EF.Task t = r.Tasks.Where(o => o.idtask == os.idtask && o.inuse == true && o.status != TaskStatus.Close).FirstOrDefault();
+                                if (t != null)
+                                {
+                                    result.Msg = "该订单有正在进行的工单";
+                                    return result;
+                                }
+                            }
+                            TCom.EF.User uo = r.Users.Where(m => m.iduser == os.iduser && m.inuse == true).FirstOrDefault(); ;
+                            if (uo != null)
+                            {
+
+
+                                TCom.EF.Task ts = new TCom.EF.Task();
+                                ts.idtask = Pub.ID();
+                                ts.iduser = os.iduser;
+                                ts.name = uo.name;
+                                ts.idsend = data.iduser;
+                                ts.send = data.uname;
+                                ts.orderno = data.orderno;
+                                ts.accpeptime = os.cretime;
+                                ts.cretime = DateTime.Now;
+                                ts.revctime = DateTime.Now;
+                                ts.status = TaskStatus.WaitPress;
+                                ts.contact = os.contact;
+                                ts.addr = os.addr;
+                                ts.phone = os.phone;
+                                ts.title = "报装" + os.merc + "--" + os.spec;
+                                ts.text = "商品:" + os.merc + ",规格:" + os.spec;
+                                ts.tasktype = TaskType.Setup;
+                                ts.score = 0;
+                                ts.notes = "";
+                                ts.inuse = true;
+                                r.Tasks.Add(ts);
+                                List<ManageUser> ms = (from m in r.ManageUsers
+                                                       where data.works.Contains(m.ManageUserId) && m.inuse == true
+                                                       && m.recv_setup == true
+                                                       select m).ToList();
+                                if (ms != null && ms.Count > 0)
+                                {
+                                    for (int i = 0; i < ms.Count; i++)
+                                    {
+                                        var mo = ms[i];
+                                        TCom.EF.TaskRecver tr = new TaskRecver();
+                                        tr.idrecver = Pub.ID();
+                                        tr.idtask = ts.idtask;
+                                        tr.mcode = mo.ManageUserId;
+                                        tr.mname = mo.UserName;
+                                        tr.cretime = DateTime.Now;
+                                        tr.stime = DateTime.Now;
+                                        tr.works = 0;
+                                        tr.donum = 0;
+                                        tr.smcode = "";
+                                        tr.smname = "";
+                                        tr.status = WorkerStatus.Revice;
+                                        ts.inuse = true;
+                                        r.TaskRecvers.Add(tr);
+
+                                        TCom.EF.TaskPress tp = new TaskPress();
+                                        tp.idpress = Pub.ID();
+                                        tp.idrecver = tr.mcode;
+                                        tp.idtask = ts.idtask;
+                                        tp.cretime = DateTime.Now;
+                                        tp.ptext = "派单";
+                                        tp.pdesc = "商品:" + os.merc + ",规格:" + os.spec;
+                                        tp.ptype = TaskPressType.DisTask;
+                                        tp.inuse = true;
+                                        r.TaskPresses.Add(tp);
+                                        MsgMgr.SetupOrder(ts.idtask, os, uo, mo, r);
+                                    }
+                                    r.MyOrders.Attach(os);
+                                    os.idtask = ts.idtask;
+
+                                    if (r.SaveChanges() > 0)
+                                    {
+                                        MsgMgr.Post();
+                                        result.Code = R.Ok;
+                                        result.Data = ts.idtask;
+                                        result.Msg = "派单成功";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                result.Msg = "订单用户不存在";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    result.Msg = "工人不能为空";
+                }
+            }
+            catch (Exception e)
+            {
+                result.Msg = "派单发生错误";
+
+            }
+            return result;
+
+        }
         public Result<string> Finish(TaskFinishData data)
         {
             Result<string> result = new Result<string>();
@@ -67,7 +185,7 @@ namespace TNet.Service.Task
                             if (to != null)
                             {
                                 var mro = db.TaskRecvers.Where(m => m.mcode == data.mgcode && m.inuse == true).OrderByDescending(m => m.cretime).FirstOrDefault();
-                                var tp = db.TaskPresses.Where(m => m.idrecver == mro.idrecver && m.inuse == true && m.ptype == TaskPressType.Start).OrderByDescending(m => m.cretime).FirstOrDefault();
+                                var tp = db.TaskPresses.Where(m => m.idrecver == mro.idrecver && m.inuse == true && m.ptype == TaskPressType.Doing).OrderByDescending(m => m.cretime).FirstOrDefault();
                                 db.Tasks.Attach(to);
 
                                 //变更接受工人信息
@@ -109,7 +227,7 @@ namespace TNet.Service.Task
 
                         if (db.SaveChanges() > 0)
                         {
-                          //  result.Data = u.issue1;
+                            //  result.Data = u.issue1;
                             result.Code = R.Ok;
                             result.Msg = "提交成功,我们会尽快处理";
                         }

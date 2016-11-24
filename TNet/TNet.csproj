@@ -204,6 +204,7 @@
     <Compile Include="BLL\Statistic\TaskStatisticService.cs" />
     <Compile Include="BLL\Statistic\UserStatisticService.cs" />
     <Compile Include="Models\Mgr\WorkerItem.cs" />
+    <Compile Include="Models\Mgr\WorkerStatus.cs" />
     <Compile Include="Models\Statistic\IssuesStatisticByDateViewModel.cs" />
     <Compile Include="Models\Statistic\StatisticBaseViewModel.cs" />
     <Compile Include="Models\Statistic\TaskStatisticByDateViewModel.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="Models\Issue\IssueData.cs" />
     <Compile Include="Models\Statistic\OrderStatisticByDateViewModel.cs" />
     <Compile Include="Models\Statistic\UserStatisticByDateViewModel.cs" />
+    <Compile Include="Models\Task\DisTaskOrderData.cs" />
     <Compile Include="Models\Task\TaskFinishData.cs" />
     <Compile Include="Models\Task\TaskItem.cs" />
     <Compile Include="Models\User\UserData.cs" />

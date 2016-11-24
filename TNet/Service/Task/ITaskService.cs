@@ -28,11 +28,18 @@ namespace TNet.Service.Task
         Result<List<TaskItem>> List(string mgcode);
 
         /// <summary>
+        /// 订单派单
+        /// </summary>
+        /// <returns></returns>
+        [WebInvoke(Method = "POST", UriTemplate = "Dis/Order", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<string> DisTask(DisTaskOrderData data);
+
+        /// <summary>
         /// 完工
         /// </summary>
         /// <returns></returns>
         [WebInvoke(Method = "POST", UriTemplate = "Finish", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
         Result<string> Finish(TaskFinishData data);
-        
+
     }
 }

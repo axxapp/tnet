@@ -8,27 +8,45 @@ namespace TCom.Model.Task
 {
     public class TaskPressType
     {
+
+        /// <summary>
+        /// 派单
+        /// </summary>
+        public readonly static int DisTask = 100;
+
+
+        /// <summary>
+        /// 抢单
+        /// </summary>
+        public readonly static int Rob = 200;
+
         /// <summary>
         /// 开始
         /// </summary>
-        public readonly static int Start = 100;
+        public readonly static int Doing = 300;
 
 
         /// <summary>
         /// 暂停
         /// </summary>
-        public readonly static int Pause = 200;
+        public readonly static int Pause = 400;
 
         /// <summary>
         /// 完工
         /// </summary>
-        public readonly static int Finish = 300;
+        public readonly static int Finish = 500;
 
 
         public static Dictionary<int, string> s = new Dictionary<int, string>()
         {
             {
-                Start,"开始"
+                DisTask,"派单"
+            },
+            {
+                Rob,"抢单"
+            },
+            {
+                Doing,"开始工作"
             },
             {
                 Pause,"暂停"
