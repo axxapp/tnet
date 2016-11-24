@@ -2253,14 +2253,14 @@ namespace TNet.Controllers
                 if (taskType == TaskType.Setup)
                 {
                     taskViewModel = MadeUpSetupTask(bindOrderNo, notes);
-                    successMesage = "报装订单指派工人成功";
-                    errorMessage = "报装订单指派工人失败";
+                    successMesage = "报装订单指派职员成功";
+                    errorMessage = "报装订单指派职员失败";
                 }
                 else if (taskType == TaskType.Complaint)
                 {
                     taskViewModel = MadeUpComplaintTask(bindOrderNo, notes);
-                    successMesage = "投诉指派工人成功";
-                    errorMessage = "投诉指派工人失败";
+                    successMesage = "投诉指派职员成功";
+                    errorMessage = "投诉指派职员失败";
                 }
                 resultEntity.Message = successMesage;
 

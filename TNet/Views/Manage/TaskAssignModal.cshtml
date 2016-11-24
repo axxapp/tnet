@@ -40,7 +40,7 @@
     function assignTask() {
         var selectedManageUsers = $('input[name="chkManageUser"]:checked');
         if (selectedManageUsers.length == 0) {
-            alert("还没选中任何工人,请先选中。");
+            alert("还没选中任何职员,请先选中。");
             return;
         }
         var selectedManageUserIds = "";
@@ -76,11 +76,11 @@
     }
     function openModal(bindOrderNo) {
         if("@taskType"=="@(TaskType.Setup)"){
-            $("#currentSetManageUser").text("为订单:" + bindOrderNo + "指派工人");
+            $("#currentSetManageUser").text("为订单:" + bindOrderNo + "指派职员");
         }
         else if ("@taskType"=="@(TaskType.Complaint)")
         {
-            $("#currentSetManageUser").text("为投诉单:" + bindOrderNo + "指派工人");
+            $("#currentSetManageUser").text("为投诉单:" + bindOrderNo + "指派职员");
         }
        
         $("#currentSetOrderNo").val(bindOrderNo);

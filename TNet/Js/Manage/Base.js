@@ -57,14 +57,63 @@ function updateSetResize() {
 $(document.body).ready(initParam);
 
 function ajax_del(delUrl, postData) {
-    $.post(delUrl, postData, function (returndata) {
-        returndata = eval("(" + returndata + ")");
-        if (returndata.Code == "1") {
-            alert(returndata.Message);
-            window.location.href = window.location.href;
-        }
-        else {
-            alert(returndata.Message);
+    var manageLoginUrl = Pub.url("Manage/Login");
+    Pub.post({
+        url: delUrl,
+        loadingMsg: "删除中...",
+        noAttHead: true,
+        data: postData,
+        success: function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == "3") {
+                alert(returndata.Message);
+                window.Location.href = manageLoginUrl;
+            } else if (returndata.Code == "1") {
+                alert(returndata.Message);
+                window.location.href = window.location.href;
+            } else {
+                alert("系统出错，请稍后再试。");
+            }
+        }, error: function (xhr, status, e) {
+            alert("系统出错，请稍后再试。");
         }
     });
 }
+
+function enableRecord(postUrl) {
+    var manageLoginUrl = Pub.url("Manage/Login");
+    Pub.post({
+        url: postUrl,
+        loadingMsg: "保存中...",
+        noAttHead: true,
+        success: function (returndata) {
+            returndata = eval("(" + returndata + ")");
+            if (returndata.Code == "3") {
+                alert(returndata.Message);
+                window.Location.href = manageLoginUrl;
+            } else if (returndata.Code == "1") {
+                //alert("操作成功.");
+                window.location.href = window.location.href;
+            } else {
+                alert("系统出错，请稍后再试。");
+            }
+        }, error: function (xhr, status, e) {
+            alert("系统出错，请稍后再试。");
+        }
+    });
+}
+
+function bindDatetimePicker(){
+    $('.form_datetime').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        format: 'yyyy-mm-dd'
+    });
+}
+

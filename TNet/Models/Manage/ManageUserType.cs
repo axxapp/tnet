@@ -19,9 +19,9 @@ namespace TNet.Models
         ManageUser=0,
 
         /// <summary>
-        /// 工人
+        /// 职员
         /// </summary>
-        [Display(Name = "工人")]
+        [Display(Name = "职员")]
         Worker =1
 
     }
