@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "工单明细";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head{
+    <link href="~/Css/Task/Base.css?v=20161121" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Task/Detail.css?v=20161121" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/Js/Task/Base.js?v=20161121">
+
+    </script>
+    <script type="text/javascript" src="~/Js/Task/Detail.js?v=20161121">
+
+    </script>
+
+}
+<div id="task_host" class="task_host">
+    <div class="order_item">
+
+        <div class="order">
+
+            <div class="no">工单：<span id="idtask"></span></div>
+            <div class="status"><span id="status"></span> </div>
+
+        </div>
+
+
+        <div class="titem_host">
+
+            <div class="ttitle">任务:</div>
+            <div class="tvalue"><span id="task"></span></div>
+
+        </div>
+
+        <div class="titem_host">
+
+            <div class="ttitle">客户:</div>
+            <div class="tvalue"><span id="contact"></span></div>
+
+        </div>
+
+
+        <div class="titem_host">
+
+            <div class="ttitle">电话:</div>
+            <div class="tvalue"><span id="phone"></span> </div>
+
+        </div>
+
+
+        <div class="titem_host">
+
+            <div class="ttitle">地址:</div>
+            <div class="tvalue"><span id="addr"></span> </div>
+
+        </div>
+
+
+        <div class="taskPress" id="taskPress">
+
+
+        </div>
+
+
+    </div>
+    <div class="mercHosr">
+        <div class="vline"></div>
+        <div class="title">商品信息：</div>
+        <a href="#" id="merc" class="merc">
+            <div class="merc_l">
+                <img id="ico" />
+            </div>
+            <div class="merc_c">
+
+                <span id="merc_title">商品...</span>
+                <span id="merc_spec">规格...</span>
+            </div>
+            <div class="merc_r">
+
+                <span id="merc_price">￥0</span>
+                <span id="merc_count">x0</span>
+            </div>
+        </a>
+    </div>
+    <div class="vline"></div>
+    <div class="title">处理记录:</div>
+    <div class="taskDoPress"></div>
+    @*<div class="vline"></div>
+        <div class="title">工人信息:</div>
+        <div class="worker"></div>*@
+    <div class="task_ops">
+        <div class="buy_r ops" id="ops"></div>
+    </div>
+
+</div>

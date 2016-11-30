@@ -45,7 +45,7 @@ namespace TCom.Msg
             jo["touser"] = muser.idweixin;
             jo["template_id"] = "_5rsT-d9H1iLDHr8B7IN5IYo4QftrnNxNofEeTn4EyI";
 
-            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
+            jo["url"] = Pub.baseUrl + "order/detail/" + mo.orderno + "?iduser=" + user.iduser
                 + "&updateUser=1";
             JObject jdo = new JObject();
             jdo["first"] = getJob(mo.merc + "(" + mo.spec + ")");
@@ -79,7 +79,7 @@ namespace TCom.Msg
             JObject jo = new JObject();
             jo["touser"] = muser.idweixin;
             jo["template_id"] = "GeHNTXa7V_S5Q4uGaFYq1vzXmZZTAfy8wKJyT4muV28";
-            jo["url"] = "http://app.i5shang.com/tnet/Task/Detail?idtask=" + idtask + "&updateUser=1";
+            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + idtask + "&updateUser=1";
             JObject jdo = new JObject();
             jdo["first"] = getJob(mo.merc + "(" + mo.spec + ")");
             jdo["keyword1"] = getJob("报装");
@@ -118,7 +118,7 @@ namespace TCom.Msg
             JObject jo = new JObject();
             jo["touser"] = muser.idweixin;
             jo["template_id"] = "i72ctUGg8ILHaZaYJrp1NvCYZFZoRicS7sC_Ozzmhqs";
-            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
+            jo["url"] = Pub.baseUrl + "order/detail/" + mo.orderno + "?iduser=" + user.iduser
                 + "&updateUser=1";
             JObject jdo = new JObject();
             jdo["first"] = getJob("请审核以下订单");
@@ -150,7 +150,7 @@ namespace TCom.Msg
             JObject jo = new JObject();
             jo["touser"] = user.idweixin;
             jo["template_id"] = "OdL2roc-Xpyp_zQHlk7JdNIcxT1tCVyRqnuX-syxQSw";
-            jo["url"] = "http://app.i5shang.com/tnet/order/detail/" + mo.orderno + "?iduser=" + user.iduser
+            jo["url"] = Pub.baseUrl + "order/detail/" + mo.orderno + "?iduser=" + user.iduser
                 + "&updateUser=1";
             JObject jdo = new JObject();
             jdo["first"] = getJob("您的订单有审核通知了");

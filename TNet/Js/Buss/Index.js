@@ -9,7 +9,7 @@ function initData() {
 //获取周边商圈
 function getData(city) {
     var c = city ? city.code : "";
-   
+
     Pub.get({
         url: "Service/Buss/List/" + c,
 
@@ -25,9 +25,9 @@ function getData(city) {
                                 // html += '<div class="vline"></div>';
                             }
                             var img = o.imgs;
-                            var ur = " src='" + Pub.url(img,"Images/default_bg.png") + "' ";
-                             
-                            var ba = Pub.rootUrl() + "/Buss/Detail/" + o.idbuss;
+                            var ur = " src='" + Pub.url(img, "Images/default_bg.png") + "' ";
+
+                            var ba = Pub.url("Buss/Detail/" + o.idbuss);
                             html += '<div class="buss_item">';
                             html += '<a href="' + ba + '" id="buss" class="buss">';
                             html += '<div class="buss_l">';

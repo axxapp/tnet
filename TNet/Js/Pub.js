@@ -49,7 +49,7 @@
 
 
     };
-    var full_root_url = "http://app.i5shang.com/tnet/";
+    var full_root_url = "http://wx.tnetwork.cn/";
     var default_root_url = "";
     var showCount = 0;
     /*****进度条******/
@@ -467,10 +467,12 @@
             var reg = /[&]updateUser=1/;
             realu = realu.replace(reg, '');
             up = true;
+           // realu = realu.replace("http://", "");
             //alert(realu);
             //return;
         }
-        uurl = encodeURIComponent(full_root_url + "user?ru=" + encodeURIComponent(realu));
+        uurl = full_root_url + "user?ru=" + encodeURIComponent(realu);
+        uurl = encodeURIComponent(uurl);
         u = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc530ec3ce6a52233&redirect_uri=' + uurl + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
         if (isSetUserLink) {
             $(".Top_User").attr("href", u);

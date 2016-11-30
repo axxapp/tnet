@@ -85,6 +85,7 @@
     <Compile Include="EF\SetupAddr.cs" />
     <Compile Include="EF\Spec.cs" />
     <Compile Include="EF\Task.cs" />
+    <Compile Include="EF\TaskMonitor.cs" />
     <Compile Include="EF\TaskPress.cs" />
     <Compile Include="EF\TaskRecver.cs" />
     <Compile Include="EF\TN.cs" />

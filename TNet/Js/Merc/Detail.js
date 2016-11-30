@@ -158,7 +158,7 @@ function save() {
         mercData.Data.Merc.imgs = mercData.Data.Imgs[0];
     }
     if (Pub.setCache("order_cart", { Merc: mercData.Data.Merc, Spec: selectSpec, Img: mercData.Data.Merc.imgs, Count: sepcCount })) {
-        window.location.href = Pub.rootUrl() + "Order/Submit";
+        window.location.href = Pub.url("Order/Submit");
         return;
     }
     alert("亲！保存订单失败");

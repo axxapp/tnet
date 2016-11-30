@@ -3,11 +3,20 @@
 
 .Jump {
     display: none;
-    height: 160px;
-    line-height: 160px;
+    height: 300px;
+    width: 100%;
+    vertical-align: middle;
+    line-height: 300px;
     text-align: center;
     color: #222222;
 }
+
+    .Jump a {
+        display: block;
+        height: 100%;
+        width: 100%;
+        color: #757575;
+    }
 
 
 .InfoBox {
@@ -18,9 +27,9 @@
     display: block;
     height: auto;
     padding: 50px 0px 50px 0px;
-    background-image:url(../../Images/Com/me_bg.jpg);
-    background-repeat:no-repeat;
-    background-size:cover;
+    background-image: url(../../Images/Com/me_bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .avatar {
@@ -31,7 +40,7 @@
     border-radius: 40px;
     background-color: #d9d9d9;
     background-size: cover;
-    border:solid 2px #eeeeee;
+    border: solid 2px #eeeeee;
 }
 
 .name {
@@ -55,11 +64,12 @@
     border-bottom: dotted #d6d6d6 1px;
     color: #757575;
 }
-.weui_cells{
-     font-size:unset;
+
+.weui_cells {
+    font-size: unset;
 }
 
-div.Title_Cells { 
+div.Title_Cells {
     height: 50px;
     padding: 0px 0px 0px 8px;
     font-weight: bold;
@@ -67,14 +77,12 @@ div.Title_Cells {
     color: #757575;
 }
 
-    .Title_Cells p {
-        line-height: 50px;
-    }
+.Title_Cells p {
+    line-height: 50px;
+}
 
-    
+
 .Title_Cells .weui_cell_ft {
-    
-    
     float: right;
     margin-right: 16px;
 }
@@ -110,10 +118,10 @@ div.Title_Cells {
     padding-bottom: 80px;
 }
 
-.update{
-     display:block;
-     height:100%;
-     line-height:50px;
-     text-decoration:none;
-     color:#757575;
+.update {
+    display: block;
+    height: 100%;
+    line-height: 50px;
+    text-decoration: none;
+    color: #757575;
 }

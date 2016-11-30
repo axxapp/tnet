@@ -99,11 +99,12 @@ namespace TCom.Util
         private string echoNews(WXEvent m)
         {
             string responseContent = string.Empty;
-            responseContent = ReplyType.NewsItem("你好", "北京", "http://app.i5shang.com/tnet/Images/Home/2.jpg", "http://app.i5shang.com/tnet");
+            responseContent = ReplyType.NewsItem("你好", "北京", Pub.baseUrl + "Images/Home/2.jpg", Pub.baseUrl);
             for (int i = 0; i < 5; i++)
             {
-                responseContent += ReplyType.NewsItem("201"+i+"年", "2016年", "http://app.i5shang.com/tnet/Images/Com/user.png", "http://app.i5shang.com/tnet");
-                 
+                responseContent += ReplyType.NewsItem("201"+i+"年", "2016年", Pub.baseUrl + "Images/Com/user.png", Pub.baseUrl);
+
+
             }
 
             responseContent = ReplyType.News(m.FromUserName, m.ToUserName,6, responseContent);

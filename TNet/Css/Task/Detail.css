@@ -1,0 +1,201 @@
+﻿
+.task_host {
+    display: block;
+    height: auto;
+    padding:0px 0px 100px 0px;
+}
+
+
+
+.order_item {
+    display: block;
+    height: auto;
+    position: relative;
+}
+
+.order {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: dotted #cbcbcb 1px;
+}
+
+.no {
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    color: #222222;
+    padding: 0px 0px 0px 10px;
+}
+
+.status {
+    float: right;
+    height: 40px;
+    line-height: 40px;
+    color: #222222;
+    padding: 0px 10px 0px 0px;
+    color: #ff6a00;
+}
+
+
+
+.task {
+    display: block;
+    height: auto;
+    padding: 5px 0px 5px 0px;
+}
+
+.titem_host {
+    display: block;
+    height: 20px;
+    line-height: 20px;
+    padding: 8px 8px 8px 8px;
+}
+
+.ttitle {
+    float: left;
+    width: 50px;
+    height: 20px;
+    line-height: 20px;
+    color: #757575;
+}
+
+.tvalue {
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    color: #222222;
+}
+
+
+
+
+.taskDoPress {
+    display: block;
+    height: auto;
+    padding: 20px 10px 30px 10px;
+}
+
+    .taskDoPress .p_item_host {
+        display: block;
+        height: auto;
+        color: #757575;
+        border-bottom: dotted 1px #d6d6d6;
+    }
+
+    .taskDoPress .p_item {
+        display: block;
+        height: auto;
+        line-height: 30px;
+        color: #757575;
+    }
+
+    .taskDoPress .p_item_desc {
+        display: block;
+        height: auto;
+        border-top: dotted 1px #d9d9d9;
+        margin: 2px 10px 2px 20px;
+        padding: 5px;
+        white-space: pre-wrap;
+        line-height: 25px;
+        color: #ff6a00;
+    }
+
+    .taskDoPress .p_item span.p_time {
+        display: inline-block;
+        width: 140px;
+    }
+
+
+    .taskDoPress .p_item span.ptext {
+        display: inline-block;
+        padding: 0px 0px 0px 0px;
+    }
+
+
+    .taskDoPress .p_item span.p_oper {
+        display: inline-block;
+        padding: 0px 10px 0px 10px;
+    }
+
+
+.mercHosr {
+    display: none;
+}
+
+
+.merc {
+    display: block;
+    height: 90px;
+    padding: 15px 8px 0px 8px;
+    position: relative;
+}
+
+    .merc .merc_l {
+        display: inline-block;
+        float: left;
+        width: 60px;
+        height: 60px;
+    }
+
+        .merc .merc_l img {
+            border: solid #d6d6d6 1px;
+            width: 60px;
+            height: 60px;
+        }
+
+    .merc .merc_c {
+        display: block;
+        float: left;
+        padding: 0px 10px 0px 10px;
+    }
+
+#merc_title, #merc_spec {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    color: #222222;
+    font-weight: bold;
+}
+
+
+#merc_spec {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    color: #757575;
+}
+
+.merc .merc_r {
+    position: absolute;
+    top: 0px;
+    right: 8px;
+    width: 60px;
+    height: 100%;
+    padding: 0px 8px 0px 0px;
+    text-align: right;
+}
+
+#merc_price, #merc_count {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    color: #222222;
+}
+
+
+
+.task_ops {
+    height: 60px;
+    position: fixed;
+    display: block;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: #ffffff;
+    border-top: solid #cbcbcb 1px;
+    padding: 0px;
+    background: #FAFAFA;
+    background: linear-gradient(#FAFAFA,#F4F4F4);
+    box-shadow: 0 -1px 0 rgba(0,0,0,.1) inset,0 -2px 8px rgba(0,0,0,.06);
+}

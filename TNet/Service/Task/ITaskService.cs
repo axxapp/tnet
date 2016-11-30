@@ -27,6 +27,10 @@ namespace TNet.Service.Task
         [WebInvoke(Method = "GET", UriTemplate = "List/{mgcode}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
         Result<List<TaskItem>> List(string mgcode);
 
+
+        [WebInvoke(Method = "GET", UriTemplate = "Detail/{idtask}/{mgcode}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<TaskDetail> Detail(string idtask, string mgcode);
+
         /// <summary>
         /// 订单派单
         /// </summary>

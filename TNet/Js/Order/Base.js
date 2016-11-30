@@ -74,7 +74,7 @@ function getOps(status, order, isList) {
                 if (iduser && (uo == null || iduser != uo.iduser)) {
                     continue;
                 }
-                var pu = Pub.rootUrl() + "Order/Pay/?orderno=" + order.orderno;
+                var pu = Pub.url("Order/Pay/?orderno=" + order.orderno);
                 html += '<a class="pay" href="' + pu + '">支付</a>';
             } else if (p == "reviewOrder") {
                 if (uo && uo.mu && uo.mu.recvReview) {

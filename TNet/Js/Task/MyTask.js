@@ -1,6 +1,6 @@
 ﻿
 
-//获取订单
+//工单列表
 function getData() {
     var u = Pub.getUser();
     if (u != null && u.mu) {
@@ -19,12 +19,11 @@ function getData() {
                                     html += '<div class="vline"></div>';
                                 }
                                 //var otype = (o.otype == 2) ? "<div class='setup_tag'></div> " : "";
-                                html += '<div class="order_item">';
+                                html += '<div class="order_item" onclick="goDetail(\'' + o.idtask + '\')">';
                                 html += '<div class="order">';
-                                html += '<div class="no">工单：' + o.orderno + "  (" + o.tasktype_t + ")" + '</div>';
+                                html += '<div class="no">工单：' + o.idtask + "  (" + o.tasktype_t + ")" + '</div>';
                                 html += '<div class="status">' + so.text + '</div>';
                                 html += '</div>';
-                                var da = Pub.rootUrl() + "/Order/Detail/" + o.orderno;
                                 // html += '<a href="' + da + '"   class="task">';
 
                                 html += '<div class="titem_host">';
@@ -61,9 +60,9 @@ function getData() {
 
                                 //html += '</a>';
                                 html += '<div class="task_ops">';
-                                html += '<div class="time_num">耗时:' + getTimeNum(o.workTime) + '</div>';
-                                
-                                html += '<div class="ops">' + getOps(so,o) + '</div>';
+                                html += '<div class="time_num"><span style="color:#757575;">耗时：</span>' + getTimeNum(o.workTime) + '</div>';
+
+                                html += '<div class="ops">' + getOps(so, o) + '</div>';
                                 html += '</div>';
                                 html += '</div>';
                             }
@@ -87,45 +86,12 @@ function getData() {
     }
 }
 
-function getPress(ts) {
-    //alert(ts.join(','));
-    var html = "";
-    html += '<div class="p_item_box"></div>';
-
-    for (var i = 0; i < ts.length; i++) {
-        var lcss = "", rcss = "", ptcss = "";
-        if (ts[i].v) {
-            lcss = " p_select";
-            ptcss = 'p_t_select';
-        }
-        if ((i + 1) < ts.length && ts[i + 1].v) {
-            rcss = " p_select";
-            lcss = " p_select";
-
-        }
-        html += '<div class="p_item_box">';
-
-        html += '<div class="p_item_time">';
-        html += '<div class="p_start ' + lcss + '"></div>';
-        if ((i + 1) < ts.length) {
-            html += '<div class="p_line_l ' + lcss + '"></div>';
-            html += '<div class="p_line_r ' + rcss + '"></div>';
-        }
-        html += '</div>';
-        //if (i == 0) 
-
-        html += '<div class="p_item_text ' + ptcss + '">' + ts[i].t + "<br/>" + getTime(ts[i].v) + '</div>';
-        //}
-        html += '</div>';
+function goDetail(idtask) {
+    var u = Pub.getUser();
+    if (idtask && u != null && u.mu) {
+        window.location.href = Pub.url("Task/Detail?idtask=" + idtask);
     }
-
-    // alert(html);
-
-    return html;
-
 }
-
-
 
 $(document).ready(getData);
 

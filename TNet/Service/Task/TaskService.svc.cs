@@ -51,6 +51,85 @@ namespace TNet.Service.Task
             return result;
         }
 
+        public Result<TaskDetail> Detail(string idtask, string mgcode)
+        {
+            Result<TaskDetail> result = new Result<TaskDetail>();
+            result.Msg = "暂无工单";
+            if (!string.IsNullOrWhiteSpace(idtask) && !string.IsNullOrWhiteSpace(mgcode))
+            {
+                try
+                {
+                    using (TCom.EF.TN db = new TCom.EF.TN())
+                    {
+                        result.Data = new TaskDetail();
+                        TCom.EF.Task ts = (from t in db.Tasks where t.inuse == true && t.idtask == idtask select t).FirstOrDefault();
+                        if (ts != null)
+                        {
+                            result.Data.task = TaskItem.get(ts);
+                            List<TCom.EF.TaskPress> ps = (from t in db.TaskPresses where t.inuse == true && t.idtask == idtask orderby t.cretime select t).ToList();
+                            result.Data.press = TaskPressItem.gets(ps);
+                            List<TCom.EF.TaskRecver> tr = (from t in db.TaskRecvers where t.inuse == true && t.idtask == idtask orderby t.cretime select t).ToList();
+                            result.Data.recver = TaskRecverItem.gets(tr);
+                            var pm = (from m in db.Imgs
+                                      where m.inuse == true && m.outpro2 == ts.idtask
+                                      select new TaskImg()
+                                      {
+                                          path = m.path,
+                                          outkey = m.outkey,
+                                          outpro = m.outpro,
+                                          type = "press"
+                                      }).ToList();
+                            result.Data.imgs = new List<TaskImg>();
+                            result.Data.imgs.AddRange(pm);
+
+                            if (ts.tasktype == TaskType.Complaint)//投诉业务-问题图片
+                            {
+                                var om = (from m in db.Imgs
+                                          where m.inuse == true && m.outkey == ts.orderno
+                                          select new TaskImg()
+                                          {
+                                              path = m.path,
+                                              outkey = m.outkey,
+                                              outpro = m.outpro,
+                                              type = "issue"
+                                          }).ToList();
+                                result.Data.imgs.AddRange(om);
+                            }
+                            else if (ts.tasktype == TaskType.Setup)//报装业务-订单信息
+                            {
+                                result.Data.order = (from m in db.MyOrders
+                                                     where m.inuse == true && m.orderno == ts.orderno
+                                                     select new TaskOrder()
+                                                     {
+                                                         idmerc = m.idmerc,
+                                                         merc = m.merc,
+                                                         spec = m.spec,
+                                                         price = m.price != null ? m.price.Value : 0,
+                                                         count = m.count,
+                                                         img = m.img
+                                                     }).FirstOrDefault();
+
+                            }
+                        }
+                        result.Code = R.Ok;
+                        result.Msg = "检索到数据";
+                    }
+                }
+                catch (Exception)
+                {
+                    result.Code = R.Error;
+                    result.Msg = "拉取工单出错";
+
+                }
+            }
+            else
+            {
+                result.Msg = "工单、职员编号不能为空";
+            }
+            return result;
+        }
+
+
         public Result<string> DisTask(DisTaskOrderData data)
         {
             Result<string> result = new Result<string>();
@@ -159,7 +238,7 @@ namespace TNet.Service.Task
                     result.Msg = "工人不能为空";
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 result.Msg = "派单发生错误";
 

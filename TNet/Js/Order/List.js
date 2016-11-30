@@ -25,7 +25,8 @@ function getData() {
                                 html += '<div class="no">' + o.orderno + '</div>';
                                 html += '<div class="status">' + so.text + '</div>';
                                 html += '</div>';
-                                var da = Pub.rootUrl() + "/Order/Detail/" + o.orderno;
+                                var da = Pub.url("Order/Detail/" + o.orderno);
+                                 
                                 html += '<a href="' + da + '" id="merc" class="merc">';
                                 html += '<div class="merc_l">';
 

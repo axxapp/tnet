@@ -259,8 +259,8 @@ a.reviewOrder_Fail {
 .work_host {
     display: block;
     padding-bottom: 50px;
-    background-color:transparent;
-    z-index:999;
+    background-color: transparent;
+    z-index: 999;
 }
 
 .work_List {
@@ -269,8 +269,8 @@ a.reviewOrder_Fail {
 }
 
 
-.weui_cells{
-     font-size:unset;
+.weui_cells {
+    font-size: unset;
 }
 
 
@@ -279,8 +279,8 @@ a.reviewOrder_Fail {
     margin-top: 0px;
 }
 
-.weui_cell_bd p{
-     padding:8px 0px 8px 0px;
+.weui_cell_bd p {
+    padding: 8px 0px 8px 0px;
 }
 
 

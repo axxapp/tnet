@@ -47,7 +47,9 @@ function getData() {
                                 }
 
                             }
-                            $("#merc").attr("href", Pub.rootUrl() + "Merc/Detail/" + o.idmerc + tag);
+                            var url = Pub.url("Merc/Detail/" + o.idmerc + tag);
+                            
+                            $("#merc").attr("href", url);
                             $("#contacts").html(o.contact);
                             $("#phones").html(o.phone);
                             $("#realAddr").html(o.addr);

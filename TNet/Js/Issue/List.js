@@ -29,8 +29,7 @@ function getData() {
                                     html += '<div class="no">受理号：' + uo.issue1 + '</div>';//"  (" + uo.tasktype + ")"
                                     html += '<div class="status">' + (so ? so.text : "等待派工") + '</div>';
                                     html += '</div>';
-                                    //var da = Pub.rootUrl() + "/Order/Detail/" + o.orderno;
-                                    // html += '<a href="' + da + '"   class="task">';
+                                    
 
                                     html += '<div class="titem_host">';
                                     html += '<div class="ttitle">电话:</div>';

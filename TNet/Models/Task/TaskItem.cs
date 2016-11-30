@@ -60,16 +60,15 @@ namespace TNet.Models.Task
             this.idtask = data.idtask;
             this.iduser = data.iduser;
             this.name = data.name;
-            this.idsend = data.idtask;
-            this.orderno = data.idtask;
-            this.send = data.idtask;
+            this.idsend = data.idsend;
+            this.send = data.send;
+            this.orderno = data.orderno;
             this.accpeptime = data.accpeptime;
             this.cretime = data.cretime;
             this.revctime = data.revctime;
             this.dotime = data.dotime;
             this.finishtime = data.finishtime;
             this.echotime = data.echotime;
-            this.notes = data.notes;
             this.status = data.status;
             this.contact = data.contact;
             this.addr = data.addr;
@@ -78,11 +77,9 @@ namespace TNet.Models.Task
             this.text = data.text;
             this.tasktype = data.tasktype;
             this.score = data.score;
+            this.notes = data.notes;
             this.inuse = data.inuse;
         }
-
-
-       
 
         public static List<TaskItem> gets(List<TCom.EF.Task> data)
         {
@@ -96,6 +93,14 @@ namespace TNet.Models.Task
                 return t;
             }
             return null;
+        }
+
+
+
+
+        public static TaskItem get(TCom.EF.Task data)
+        {
+            return data != null ? new TaskItem(data) : null;
         }
     }
 }

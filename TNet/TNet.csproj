@@ -295,8 +295,13 @@
     <Compile Include="Models\Statistic\OrderStatisticByDateViewModel.cs" />
     <Compile Include="Models\Statistic\UserStatisticByDateViewModel.cs" />
     <Compile Include="Models\Task\DisTaskOrderData.cs" />
+    <Compile Include="Models\Task\TaskDetail.cs" />
     <Compile Include="Models\Task\TaskFinishData.cs" />
+    <Compile Include="Models\Task\TaskImg.cs" />
     <Compile Include="Models\Task\TaskItem.cs" />
+    <Compile Include="Models\Task\TaskOrder.cs" />
+    <Compile Include="Models\Task\TaskPressItem.cs" />
+    <Compile Include="Models\Task\TaskRecverItem.cs" />
     <Compile Include="Models\User\UserData.cs" />
     <Compile Include="Models\User\UserInfo.cs" />
     <Compile Include="Models\User\UserViewModel.cs" />
@@ -537,6 +542,7 @@
     <Content Include="Css\Notice\List.css" />
     <Content Include="Css\Order\Edit.css" />
     <Content Include="Css\Task\Base.css" />
+    <Content Include="Css\Task\Detail.css" />
     <Content Include="Css\Task\Finish.css" />
     <Content Include="Css\User\Update.css" />
     <Content Include="Css\zoom.js\zoom.css" />
@@ -911,6 +917,7 @@
     <Content Include="Css\Bootstrap\bootstrap-theme.css.map" />
     <Content Include="Css\Bootstrap\bootstrap.css.map" />
     <Content Include="Css\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Js\Task\Detail.js" />
     <Content Include="Js\Task\Finish.js" />
     <Content Include="Js\User\Index.js" />
     <Content Include="Js\User\Update.js" />
@@ -1359,6 +1366,7 @@
     <Content Include="Swiper\js\maps\swiper.min.js.map" />
     <Content Include="Views\Manage\Register.cshtml" />
     <Content Include="Views\Task\Finish.cshtml" />
+    <Content Include="Views\Task\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />
@@ -1418,7 +1426,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>44454</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/TNet</IISUrl>
+          <IISUrl>http://localhost</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

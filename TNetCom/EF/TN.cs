@@ -35,6 +35,7 @@ namespace TCom.EF
         public virtual DbSet<SetupAddr> SetupAddrs { get; set; }
         public virtual DbSet<Spec> Specs { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<TaskMonitor> TaskMonitors { get; set; }
         public virtual DbSet<TaskPress> TaskPresses { get; set; }
         public virtual DbSet<TaskRecver> TaskRecvers { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -515,11 +516,11 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<Task>()
-                .Property(e => e.orderno)
+                .Property(e => e.send)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Task>()
-                .Property(e => e.send)
+                .Property(e => e.orderno)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Task>()
@@ -532,6 +533,22 @@ namespace TCom.EF
 
             modelBuilder.Entity<Task>()
                 .Property(e => e.phone)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TaskMonitor>()
+                .Property(e => e.idmonitor)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TaskMonitor>()
+                .Property(e => e.idtask)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TaskMonitor>()
+                .Property(e => e.mgcode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TaskMonitor>()
+                .Property(e => e.rmgcode)
                 .IsUnicode(false);
 
             modelBuilder.Entity<TaskPress>()

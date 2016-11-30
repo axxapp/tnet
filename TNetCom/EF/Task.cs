@@ -30,8 +30,6 @@ namespace TCom.EF
         [StringLength(60)]
         public string orderno { get; set; }
 
-        
-
         public DateTime? accpeptime { get; set; }
 
         public DateTime? cretime { get; set; }

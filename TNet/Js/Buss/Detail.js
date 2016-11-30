@@ -30,7 +30,6 @@ function getData() {
                                 initBase();
                                 for (var i = 0; i < imgs.length; i++) {
                                     var ur = Pub.url(imgs[i], "Images/default_bg.png");
-                                    //var bur = Pub.rootUrl() + "Images/default_bg.png";
                                     imgHtml = "";
                                     imgHtml += "<div class='swiper-slide'><img data-src='" + ur + "'  onclick='lookImg(this)'  class='swiper-lazy' /><div class='swiper-lazy-preloader swiper-lazy-preloader-white'></div></div>";
                                     g_Swiper_Obj.appendSlide(imgHtml);

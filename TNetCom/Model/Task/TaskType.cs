@@ -17,14 +17,10 @@ namespace TCom.Model.Task
         public readonly static int Setup = 10;
 
         /// <summary>
-        /// 投诉
+        /// 投诉报修
         /// </summary>
         public readonly static int Complaint = 20;
 
-        /// <summary>
-        /// 建议
-        /// </summary>
-        public readonly static int Suggest = 30;
 
 
         public static Dictionary<int, string> s = new Dictionary<int, string>()
@@ -33,10 +29,7 @@ namespace TCom.Model.Task
                 Setup,"报装"
             },
             {
-                Complaint,"投诉"
-            },
-            {
-                Suggest,"建议"
+                Complaint,"投诉建议"
             },
             {
                 0,"未知"

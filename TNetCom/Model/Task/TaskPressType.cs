@@ -59,9 +59,9 @@ namespace TCom.Model.Task
             }
         };
 
-        public static string get(int? tasktype)
+        public static string get(int? type)
         {
-            return tasktype != null && s.ContainsKey(tasktype.Value) ? s[tasktype.Value] : s[0];
+            return type != null && s.ContainsKey(type.Value) ? s[type.Value] : s[0];
         }
     }
 }

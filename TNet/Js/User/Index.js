@@ -6,6 +6,7 @@ function initParam() {
     } else {
         $("#base").show();
         if (tn_u) {
+            $(".InfoHost").show();
             $(".avatar").css("background-image", "url(" + tn_u.avatar + ")");
             $(".name").html(tn_u.name);
             setV("phone", tn_u.phone);
@@ -39,11 +40,10 @@ function initParam() {
                 }
             }
         } else {
+            $(".InfoHost").hide();
             $(".Jump").show();
-            $(".Jump").html("拉取用户信息失败,点击刷新!");
-            $(".Jump").click(function () {
-                Pub.goUser(false, true, false);
-            });
+            $(".Jump").html("<a href='#' onclick='{Pub.goUser(false, false, false);}'>拉取用户信息失败,点击刷新!</a>");
+
         }
 
     }

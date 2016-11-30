@@ -120,7 +120,7 @@ function finishPay() {
                     }
                     if (ok) {
                         //alert("完成");
-                        var da = Pub.rootUrl() + "/Order/Detail/" + orderno;
+                        var da = Pub.url("Order/Detail/" + orderno);
                         window.location.href = da;
                     } else {
                         alert("更新等待失败");

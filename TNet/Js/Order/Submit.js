@@ -4,14 +4,14 @@
 function init() {
     var order_cart = Pub.getCache("order_cart");
     if (order_cart && order_cart.Merc && order_cart.Spec) {
-        $("#merc").attr("href", Pub.rootUrl() + "Merc/Detail/" + order_cart.Merc.idmerc);
+        $("#merc").attr("href", Pub.url("Merc/Detail/" + order_cart.Merc.idmerc));
         $("#merc_title").html(order_cart.Merc.merc1);
         $("#merc_spec").html(order_cart.Spec.spec1);
         $("#merc_price").html("￥" + order_cart.Spec.price);
         $("#merc_count").html("x" + order_cart.Count);
         $("#buy_att_month").html("送:" + order_cart.Spec.attmonth + " 月");
         $("#amount").html("￥ " + (order_cart.Spec.price * order_cart.Count));
-        var ur = Pub.rootUrl() + "Images/default_bg.png";
+        var ur = Pub.url("Images/default_bg.png");
         var imgs = order_cart.Img;
         if (imgs) {
             ur = Pub.url(imgs, "Images/default_bg.png");
@@ -87,7 +87,7 @@ function submit() {
                 idmerc: order_cart.Merc.idmerc,
                 merc: order_cart.Merc.merc1,
                 idspec: order_cart.Spec.idspec,
-                spec: order_cart.Spec.spec1,               
+                spec: order_cart.Spec.spec1,
                 count: order_cart.Count,
                 month: order_cart.Spec.month,
                 attmonth: order_cart.Spec.attmonth,

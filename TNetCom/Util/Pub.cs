@@ -41,6 +41,26 @@ namespace TCom.Util
                 return t + "" + Thread.CurrentThread.ManagedThreadId + "" + un;
             }
         }
+
+
+
+        public static string baseUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["baseUrl"];
+            }
+        }
+
+        public static string wxTokeyUrl
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["wxTokeyUrl"];
+            }
+        }
+
+
         /// <summary>
         /// 微信公众号Token
         /// </summary>
@@ -105,7 +125,7 @@ namespace TCom.Util
         {
             get
             {
-                return ConfigurationManager.AppSettings["r_notify_url_weixin"];
+                return Pub.baseUrl + ConfigurationManager.AppSettings["r_notify_url_weixin"];
             }
         }
 
@@ -175,7 +195,7 @@ namespace TCom.Util
             AccessToken m = null;
             try
             {
-                string s = Get("http://127.0.0.1/TNet/Service/Tokey/WeiXin");
+                string s = Get(wxTokeyUrl);
                 if (!string.IsNullOrWhiteSpace(s))
                 {
                     JavaScriptSerializer Serializer = new JavaScriptSerializer();
@@ -430,11 +450,11 @@ namespace TCom.Util
         //}
 
         /// <summary>
-		/// Base64解密
-		/// </summary>
-		/// <param name="str">加密字符串</param>
-		/// <returns>原字符串</returns>
-		public static string DeBase64(string str)
+        /// Base64解密
+        /// </summary>
+        /// <param name="str">加密字符串</param>
+        /// <returns>原字符串</returns>
+        public static string DeBase64(string str)
         {
             //调用FromBase64String()返回解密后的byte数组
             byte[] temps = Convert.FromBase64String(str);
