@@ -29,7 +29,7 @@
                 <div class="col-xs-2">
                     @Html.DropDownList("idcity", new SelectList(citySelects, "DisplayValue", "DisplayText"), new { @class = "form-control", Value = idcity })
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-4">
                     <input type="submit" value="搜索" class="btn btn-primary" placeholder="" />
                     <a class="btn btn-primary" href="@Url.Action("NoticeEdit","Manage")">新增</a>
                     <a class="btn btn-danger" href="javascript:void(0);" id="btn_del_selected">删除</a>
