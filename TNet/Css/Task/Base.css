@@ -141,3 +141,53 @@ a.pause, a.finish {
     .taskPress .p_t_select {
         color: #84a3e3;
     }
+
+
+
+
+.order {
+    display: block;
+    height: 60px;
+    line-height: 60px;
+    border-bottom: dotted #cbcbcb 1px;
+}
+
+    .order .no {
+        float: left;
+        height: 60px;
+        line-height: 60px;
+        color: #222222;
+        padding: 0px 0px 0px 10px;
+    }
+
+.task_status {
+    float: right;
+    height: 60px;
+    line-height: 30px;
+    color: #222222;
+    padding: 0px 0px 0px 0px;
+    color: #ff6a00;
+}
+
+
+    .task_status .gstatus {
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        color: #222222;
+        padding: 0px 15px 0px 15px;
+        text-align:center;
+        color: #efac33;
+        border-bottom: dotted 1px #d6d6d6;
+    }
+
+
+    .task_status .rstatus {
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        text-align:center;
+        color: #222222;
+        padding: 0px 15px 0px 15px;
+        color: #ff6a00;
+    }

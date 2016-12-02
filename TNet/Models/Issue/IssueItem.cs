@@ -8,7 +8,6 @@ using TNet.Models.Task;
 
 namespace TNet.Models.Issue
 {
-    //[DataContract]
     public class IssueItem
     {
         public IssueItem()
@@ -18,7 +17,7 @@ namespace TNet.Models.Issue
 
         public TCom.EF.Issue Issue { get; set; }
 
-     
+
         [IgnoreDataMember]
         public TCom.EF.Task _Task
         {
@@ -28,10 +27,14 @@ namespace TNet.Models.Issue
             }
             set
             {
-                if(value != null){
-                    Task = new TaskItem(value);
+                if (value != null)
+                {
+                    Task = new TaskItem()
+                    {
+                        _task = value
+                    };
                 }
-                
+
             }
         }
 

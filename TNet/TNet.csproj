@@ -295,11 +295,14 @@
     <Compile Include="Models\Statistic\OrderStatisticByDateViewModel.cs" />
     <Compile Include="Models\Statistic\UserStatisticByDateViewModel.cs" />
     <Compile Include="Models\Task\DisTaskOrderData.cs" />
+    <Compile Include="Models\Task\StartData.cs" />
     <Compile Include="Models\Task\TaskDetail.cs" />
+    <Compile Include="Models\Task\TaskDetailItem.cs" />
     <Compile Include="Models\Task\TaskFinishData.cs" />
     <Compile Include="Models\Task\TaskImg.cs" />
     <Compile Include="Models\Task\TaskItem.cs" />
     <Compile Include="Models\Task\TaskOrder.cs" />
+    <Compile Include="Models\Task\TaskPauseData.cs" />
     <Compile Include="Models\Task\TaskPressItem.cs" />
     <Compile Include="Models\Task\TaskRecverItem.cs" />
     <Compile Include="Models\User\UserData.cs" />
@@ -919,6 +922,7 @@
     <Content Include="Css\Fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Js\Task\Detail.js" />
     <Content Include="Js\Task\Finish.js" />
+    <Content Include="Js\Task\Pause.js" />
     <Content Include="Js\User\Index.js" />
     <Content Include="Js\User\Update.js" />
     <Content Include="Js\zoom.js\zoom.js" />
@@ -1367,6 +1371,7 @@
     <Content Include="Views\Manage\Register.cshtml" />
     <Content Include="Views\Task\Finish.cshtml" />
     <Content Include="Views\Task\Detail.cshtml" />
+    <Content Include="Views\Task\Pause.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

@@ -142,7 +142,7 @@ namespace TComCoreService
                                 {
                                     for (int i = 0; i < ms.Count; i++)
                                     {
-                                        TCom.EF.Msg m = ms[i]; 
+                                        TCom.EF.Msg m = ms[i];
                                         TCom.EF.MyOrder mo = db.MyOrders.Where(moo => moo.orderno == m.orderno).FirstOrDefault();
 
                                         if (mo != null)
@@ -181,7 +181,7 @@ namespace TComCoreService
                                                 }
                                                 else if (m.type == MsgType.PayFinishOrder ||
                                                     m.type == MsgType.SetupOrder || m.type == MsgType.PostWaitReviewOrder ||
-                                                    m.type == MsgType.WaitReviewOrder)
+                                                    m.type == MsgType.WaitReviewOrder || m.type == MsgType.PauseTask || m.type == MsgType.FinishTask)
                                                 {
                                                     for (int g = 0; g < 2; g++)
                                                     {

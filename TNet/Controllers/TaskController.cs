@@ -19,6 +19,12 @@ namespace TNet.Controllers
             return View();
         }
 
+
+        public ActionResult Pause()
+        {
+            return View();
+        }
+
         public ActionResult Detail()
         {
             return View();

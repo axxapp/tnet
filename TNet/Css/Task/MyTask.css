@@ -10,32 +10,6 @@
     position: relative;
 }
 
-.order {
-    display: block;
-    height: 40px;
-    line-height: 40px;
-    border-bottom: dotted #cbcbcb 1px;
-}
-
-.no {
-    float: left;
-    height: 40px;
-    line-height: 40px;
-    color: #222222;
-    padding: 0px 0px 0px 10px;
-}
-
-.status {
-    float: right;
-    height: 40px;
-    line-height: 40px;
-    color: #222222;
-    padding: 0px 10px 0px 0px;
-    color: #ff6a00;
-}
-
-
-
 .task {
     display: block;
     height: auto;

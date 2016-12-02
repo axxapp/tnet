@@ -3,19 +3,48 @@
 function getData() {
     var u = Pub.getUser();
     var idtask = Pub.urlParam("idtask");
+    var idrecver = Pub.urlParam("idrecver");
     if (u != null && u.mu && idtask) {
+        var _idrecver = "";
+        if (!idrecver) {
+            _idrecver = "null";
+            $(".task_ops").hide();
+        }
         Pub.get({
-            url: "Service/Task/Detail/" + idtask + "/" + u.mu.code,
+            url: "Service/Task/Detail/" + idtask + "/" + _idrecver + "/" + u.mu.code,
             loadingMsg: "加载中...",
             success: function (data) {
-                //alert(JSON.stringify(data));
+                alert(JSON.stringify(data));
                 if (Pub.wsCheck(data)) {
                     if (data.Data) {
+                        __G_TASK_DATA_CACHE = data.Data;
                         var html = "";
                         try {
                             var task = data.Data.task;
+                            var rso = null;
+                            var recver = data.Data.recver;
+                            if (recver != null) {
+                                for (var i = 0; i < recver.length; i++) {
+                                    var ro = recver[i];
+                                    if (ro.mcode == u.mu.code && ro.idrecver == idrecver) {
+                                        rso = ro.statusObj;
+                                    }
+                                }
+                            }
+                            var so = task.statusObj;
                             $("#idtask").html(task.idtask + " (" + task.tasktype_t + ")");
-                            $("#status").html(task.statusObj.text);
+                            $(".gstatus").html(so.text);
+                            if (rso != null) {
+                                $(".rstatus").html(rso.text);
+                            } else {
+                                $(".order").css("height", "40px").css("line-height", "40px");
+                                $(".no").css("height", "40px").css("line-height", "40px");
+                                $(".task_status").css("height", "40px").css("line-height", "40px");
+                                $(".rstatus").hide();
+                                $(".gstatus").css("height", "40px").css("line-height", "40px").css("border", "none");
+
+                            }
+
                             $("#task").html(task.title);
                             $("#contact").html(task.contact);
                             $("#phone").html(task.phone);
@@ -33,8 +62,8 @@ function getData() {
                             setPress(data);
                             //setRecver(data);
                             setMerc(data);
-                            var so = task.statusObj;
-                            $("#ops").html(getOps(so, task));
+
+                            $("#ops").html(getROps(rso, task));
 
                             return;
                         } catch (e) {
@@ -58,6 +87,7 @@ function setPress(data) {
     var task = data.Data.task;
     var press = data.Data.press;
     var recver = data.Data.recver;
+    var imgs = data.Data.imgs;
     var phtml = "";
     if (press) {
         for (var i = 0; i < press.length; i++) {
@@ -70,7 +100,7 @@ function setPress(data) {
                 for (var j = 0; j < recver.length; j++) {
                     var ro = recver[j];
                     if (ro.idrecver == po.idrecver) {
-                        phtml += "<span class='p_oper'>" + ro.recver + "</span>";
+                        phtml += "<span class='p_oper'>" + ro.mname + "</span>";
                         break;
                     }
                 }
@@ -78,6 +108,19 @@ function setPress(data) {
             phtml += "<span class='pcretime'>" + getTime(po.cretime) + "</span></div>";
             if (po.pdesc) {
                 phtml += "<div class='p_item_desc'>" + po.pdesc + "</div>";
+            }
+            if (imgs) {
+                var mh = "";
+
+                for (var z = 0; z < imgs.length; z++) {
+                    var mo = imgs[z];
+                    if (mo.outkey == po.idpress) {
+                        mh += '<a href="javascript:void(0)" onclick="lookImg(this)" ><img src="' + Pub.url(mo.path) + '"/></a>';
+                    }
+                }
+                if (mh) {
+                    phtml += '<div class="taskImg">' + mh + '</div>';
+                }
             }
             phtml += "</div></div>";
         }

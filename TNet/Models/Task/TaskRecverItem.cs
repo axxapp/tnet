@@ -11,7 +11,7 @@ namespace TNet.Models.Task
     public class TaskRecverItem : TCom.EF.TaskRecver
     {
 
-        public string status_t
+        public TaskRecverStatusItem statusObj
         {
             get
             {

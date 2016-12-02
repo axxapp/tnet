@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TNet.Models.Task
 {
-    public class TaskFinishData
+    public class TaskPauseData
     {
         public string idtask { get; set; }
         public string idrecver { get; set; }

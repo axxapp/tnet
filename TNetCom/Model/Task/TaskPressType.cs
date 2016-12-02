@@ -23,7 +23,7 @@ namespace TCom.Model.Task
         /// <summary>
         /// 开始
         /// </summary>
-        public readonly static int Doing = 300;
+        public readonly static int Start = 300;
 
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace TCom.Model.Task
                 Rob,"抢单"
             },
             {
-                Doing,"开始工作"
+                Start,"开工"
             },
             {
                 Pause,"暂停"

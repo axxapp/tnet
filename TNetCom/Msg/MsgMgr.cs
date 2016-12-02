@@ -44,7 +44,6 @@ namespace TCom.Msg
             JObject jo = new JObject();
             jo["touser"] = muser.idweixin;
             jo["template_id"] = "_5rsT-d9H1iLDHr8B7IN5IYo4QftrnNxNofEeTn4EyI";
-
             jo["url"] = Pub.baseUrl + "order/detail/" + mo.orderno + "?iduser=" + user.iduser
                 + "&updateUser=1";
             JObject jdo = new JObject();
@@ -57,7 +56,7 @@ namespace TCom.Msg
             jdo["remark"] = getJob("欢迎再次购买");
             jo["data"] = jdo;
 
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PayFinishOrder, mo.orderno + "", otype, db);
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PayFinishOrder, mo.orderno, otype, db);
 
         }
 
@@ -89,7 +88,43 @@ namespace TCom.Msg
             jdo["keyword5"] = getJob("已线上缴费,现场无需收费.");
             jdo["remark"] = getJob("用户希望服务人员到达" + mo.addr + "进行服务，点击查看详情...");
             jo["data"] = jdo;
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno, otype, db);
+
+        }
+
+
+        public static bool PauseTask(EF.Task mo, EF.ManageUser muser, TCom.EF.TN db)
+        {
+            JObject jo = new JObject();
+            jo["touser"] = muser.idweixin;
+            jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
+            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
+            JObject jdo = new JObject();
+            jdo["first"] = getJob("工单暂结通知");
+            jdo["keyword1"] = getJob(mo.idtask);
+            jdo["keyword2"] = getJob("暂结");
+            jdo["keyword3"] = getJob(muser.UserName);
+            jdo["remark"] = getJob("工单已经暂结.详情...");
+            jo["data"] = jdo;
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
+
+        }
+
+
+        public static bool FinishTask(EF.Task mo, EF.ManageUser muser, TCom.EF.TN db)
+        {
+            JObject jo = new JObject();
+            jo["touser"] = muser.idweixin;
+            jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
+            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
+            JObject jdo = new JObject();
+            jdo["first"] = getJob("工单完工通知");
+            jdo["keyword1"] = getJob(mo.idtask);
+            jdo["keyword2"] = getJob("完工");
+            jdo["keyword3"] = getJob(muser.UserName);
+            jdo["remark"] = getJob("工单已经完工.详情...");
+            jo["data"] = jdo;
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.FinishTask, mo.orderno, 0, db);
 
         }
 

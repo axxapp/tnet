@@ -253,7 +253,7 @@ function load_worker_fail(msg) {
 
 function dispTask(orderno) {
     var u = Pub.getUser();
-    if (u == null || !u.iduser) {
+    if (u == null || !u.mu) {
         alert("您无权派单");
         return;
     }
@@ -267,7 +267,7 @@ function dispTask(orderno) {
         if (ws.length > 0) {
             Pub.post({
                 url: "Service/Task/Dis/Order",
-                data: { orderno: orderno, iduser: u.iduser, uname: u.name, works: ws },
+                data: { orderno: orderno, mcode: u.mu.code, mname: u.mu.name, works: ws },
                 loadingMsg: "派单中...",
                 success: function (data) {
                     if (Pub.wsCheck(data)) {

@@ -54,15 +54,26 @@ namespace TCom.Msg
         /// </summary>
         public readonly static int SetupOrder = 300;
 
+        /// <summary>
+        /// 暂结工单
+        /// </summary>
+        public readonly static int PauseTask = 400;
+
+
+        /// <summary>
+        /// 完工工单
+        /// </summary>
+        public readonly static int FinishTask = 500;
+
 
         /// <summary>
         /// 快过期订单
         /// </summary>
-        public readonly static int ExpirePreOrder = 400;
+        public readonly static int ExpirePreOrder = 600;
 
         /// <summary>
         /// 过期订单
         /// </summary>
-        public readonly static int ExpireOrder = 500;
+        public readonly static int ExpireOrder = 700;
     }
 }

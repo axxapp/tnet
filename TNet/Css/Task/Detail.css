@@ -2,7 +2,7 @@
 .task_host {
     display: block;
     height: auto;
-    padding:0px 0px 100px 0px;
+    padding: 0px 0px 100px 0px;
 }
 
 
@@ -11,30 +11,6 @@
     display: block;
     height: auto;
     position: relative;
-}
-
-.order {
-    display: block;
-    height: 40px;
-    line-height: 40px;
-    border-bottom: dotted #cbcbcb 1px;
-}
-
-.no {
-    float: left;
-    height: 40px;
-    line-height: 40px;
-    color: #222222;
-    padding: 0px 0px 0px 10px;
-}
-
-.status {
-    float: right;
-    height: 40px;
-    line-height: 40px;
-    color: #222222;
-    padding: 0px 10px 0px 0px;
-    color: #ff6a00;
 }
 
 
@@ -73,14 +49,13 @@
 .taskDoPress {
     display: block;
     height: auto;
-    padding: 20px 10px 30px 10px;
+    padding: 8px 10px 30px 10px;
 }
 
     .taskDoPress .p_item_host {
         display: block;
         height: auto;
         color: #757575;
-        border-bottom: dotted 1px #d6d6d6;
     }
 
     .taskDoPress .p_item {
@@ -88,6 +63,7 @@
         height: auto;
         line-height: 30px;
         color: #757575;
+        border-bottom: dotted 1px #d6d6d6;
     }
 
     .taskDoPress .p_item_desc {
@@ -118,6 +94,29 @@
         padding: 0px 10px 0px 10px;
     }
 
+    .taskDoPress .taskImg {
+        display: block;
+        height: 80px;
+        padding: 0px 0px 0px 20px;
+    }
+
+        .taskDoPress .taskImg a {
+            float: left;
+            border: dotted #d6d6d6 1px;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+            .taskDoPress .taskImg a, .taskDoPress .taskImg a img {
+                display: block;
+                width: 60px;
+                height: 60px;
+            }
+
+                .taskDoPress .taskImg a img {
+                    border: none;
+                    outline: none;
+                }
 
 .mercHosr {
     display: none;

@@ -10,9 +10,9 @@ namespace TNet.Models.Task
     {
         public string orderno { get; set; }
 
-        public string iduser { get; set; }
+        public string mcode { get; set; }
 
-        public string uname { get; set; }
+        public string mname { get; set; }
 
         public List<string> works { get; set; }
     }

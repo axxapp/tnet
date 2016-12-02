@@ -775,7 +775,11 @@
 //错误
 window.onerror = function (errorMessage, scriptURI, lineNumber, columnNumber, errorObj) {
     if (errorMessage) {
-        //alert(errorMessage + "," + scriptURI + ",lineNumber=" + lineNumber);
+        var u = Pub.getUser();
+        if ( u && u.iduser == "636083726396093750") {
+            alert(errorMessage + "," + scriptURI + ",lineNumber=" + lineNumber);
+        }
+      
     }
     return false;
 };

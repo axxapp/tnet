@@ -92,6 +92,7 @@ function autoShowTopMenu() {
         }, 80);
     }
 }
+
 function setTopMenuEvent(func, css) {
     if (!func) {
         func = autoShowTopMenu;

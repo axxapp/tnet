@@ -28,8 +28,8 @@ namespace TNet.Service.Task
         Result<List<TaskItem>> List(string mgcode);
 
 
-        [WebInvoke(Method = "GET", UriTemplate = "Detail/{idtask}/{mgcode}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
-        Result<TaskDetail> Detail(string idtask, string mgcode);
+        [WebInvoke(Method = "GET", UriTemplate = "Detail/{idtask}/{idrecver}/{mgcode}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<TaskDetail> Detail(string idtask, string idrecver, string mgcode);
 
         /// <summary>
         /// 订单派单
@@ -38,12 +38,29 @@ namespace TNet.Service.Task
         [WebInvoke(Method = "POST", UriTemplate = "Dis/Order", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
         Result<string> DisTask(DisTaskOrderData data);
 
+
+        /// <summary>
+        /// 开工
+        /// </summary>
+        /// <returns></returns>
+        [WebInvoke(Method = "POST", UriTemplate = "Start", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<string> Start(StartData data);
+
+        /// <summary>
+        /// 暂结
+        /// </summary>
+        /// <returns></returns>
+        [WebInvoke(Method = "POST", UriTemplate = "Pause", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<string> Pause(TaskPauseData data);
+
         /// <summary>
         /// 完工
         /// </summary>
         /// <returns></returns>
         [WebInvoke(Method = "POST", UriTemplate = "Finish", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
         Result<string> Finish(TaskFinishData data);
+
+
 
     }
 }

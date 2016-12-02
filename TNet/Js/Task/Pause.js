@@ -27,7 +27,7 @@ function Save() {
             imgs: imgs
         };
         Pub.post({
-            url: "Service/Task/Finish",
+            url: "Service/Task/Pause",
             data: data,
             loadingMsg: "保存中...",
             success: function (data) {

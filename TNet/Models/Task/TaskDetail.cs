@@ -7,7 +7,7 @@ namespace TNet.Models.Task
 {
     public class TaskDetail
     {
-        public TaskItem task { get; set; }
+        public TaskDetailItem task { get; set; }
 
         public TaskOrder order { get; set; }
 

@@ -8,6 +8,14 @@ namespace TCom.Model.Task
 {
     public class TaskRecverStatus
     {
+
+
+        /// <summary>
+        /// 正常
+        /// </summary>
+        public readonly static int Normal = 1;
+
+
         /// <summary>
         /// 暂结
         /// </summary>
@@ -24,25 +32,74 @@ namespace TCom.Model.Task
         public readonly static int Cancel = 300;
 
 
-        public static Dictionary<int, string> s = new Dictionary<int, string>()
+        /// <summary>
+        /// 工作中
+        /// </summary>
+        public readonly static int Doing = 400;
+
+
+
+        public static Dictionary<int, TaskRecverStatusItem> s = new Dictionary<int, TaskRecverStatusItem>()
         {
             {
-                Pause,"暂结"
+                Normal,
+                new TaskRecverStatusItem()
+                {
+
+                    text = "等待开工",
+                    ops = "srartwork"
+                }
             },
             {
-                Finish,"完工"
+                Pause,
+                new TaskRecverStatusItem()
+                {
+
+                    text = "暂结",
+                    ops = "srartwork"
+                }
             },
             {
-                Cancel,"取消"
+                Finish,
+                new TaskRecverStatusItem()
+                {
+
+                    text = "完工",
+                    ops = ""
+                }
             },
             {
-                0,"未知"
-            }
+                Cancel,
+                new TaskRecverStatusItem()
+                {
+
+                    text = "取消",
+                    ops = ""
+                }
+            },
+            {
+                Doing,
+                new TaskRecverStatusItem()
+                {
+
+                    text = "工作中",
+                    ops = "pause|finish"
+                }
+            },
+            {
+                0,
+                new TaskRecverStatusItem()
+                {
+
+                    text = "未知",
+                    ops = ""
+                }
+            },
         };
 
-        public static string get(int? tasktype)
+        public static TaskRecverStatusItem get(int? sv)
         {
-            return tasktype != null && s.ContainsKey(tasktype.Value) ? s[tasktype.Value] : s[0];
+            return sv != null && s.ContainsKey(sv.Value) ? s[sv.Value] : s[0];
         }
     }
 }

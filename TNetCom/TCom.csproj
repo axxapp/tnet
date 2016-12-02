@@ -93,6 +93,7 @@
     <Compile Include="EF\WeiXinModule.cs" />
     <Compile Include="Model\Task\TaskPressType.cs" />
     <Compile Include="Model\Task\TaskRecverStatus.cs" />
+    <Compile Include="Model\Task\TaskRecverStatusItem.cs" />
     <Compile Include="Model\Task\TaskStatusItem.cs" />
     <Compile Include="Model\Task\TaskStatus.cs" />
     <Compile Include="Model\Task\TaskType.cs" />
