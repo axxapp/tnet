@@ -61,7 +61,11 @@ namespace TCom.EF
 
         public int? tasktype { get; set; }
 
-        public int? score { get; set; }
+        public int disnum { get; set; }
+
+        public int finishnum { get; set; }
+
+        public int score { get; set; }
 
         [StringLength(50)]
         public string notes { get; set; }

@@ -119,7 +119,7 @@ namespace TCom.Model.Task
                 DoFinish,
                 new TaskStatusItem()
                 {
-                    text = "完成处理,等待验收",
+                    text = "完成",
                     ops = ""
                 }
             },

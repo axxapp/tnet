@@ -72,13 +72,13 @@ namespace TCom.Msg
         /// <param name="db"></param>
         /// <returns></returns>
 
-        public static bool SetupOrder(string idtask, EF.MyOrder mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
+        public static bool DisOrder(EF.TaskRecver recver, EF.MyOrder mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
         {
             int otype = mo.otype != null ? mo.otype.Value : 0;
             JObject jo = new JObject();
             jo["touser"] = muser.idweixin;
             jo["template_id"] = "GeHNTXa7V_S5Q4uGaFYq1vzXmZZTAfy8wKJyT4muV28";
-            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + idtask + "&updateUser=1";
+            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + recver.idtask + "&idrecver=" + recver.idrecver + "&updateUser=1";
             JObject jdo = new JObject();
             jdo["first"] = getJob(mo.merc + "(" + mo.spec + ")");
             jdo["keyword1"] = getJob("报装");
@@ -86,43 +86,106 @@ namespace TCom.Msg
             jdo["keyword3"] = getJob(user.name);
             jdo["keyword4"] = getJob(user.phone);
             jdo["keyword5"] = getJob("已线上缴费,现场无需收费.");
-            jdo["remark"] = getJob("用户希望服务人员到达" + mo.addr + "进行服务，点击查看详情...");
+            jdo["remark"] = getJob("用户希望服务人员到达" + mo.addr + "进行服务.");
             jo["data"] = jdo;
             return crateMsg(muser.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno, otype, db);
 
         }
 
-
-        public static bool PauseTask(EF.Task mo, EF.ManageUser muser, TCom.EF.TN db)
+        /// <summary>
+        /// 暂结-消息发给用户
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="uweixin"></param>
+        /// <param name="muser"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        public static bool PauseTaskToUser(EF.Task mo, string uweixin, EF.ManageUser muser, TCom.EF.TN db)
         {
             JObject jo = new JObject();
-            jo["touser"] = muser.idweixin;
+            jo["touser"] = uweixin;
             jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
             jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
             JObject jdo = new JObject();
-            jdo["first"] = getJob("工单暂结通知");
+            jdo["first"] = getJob("工单" + mo.title + "暂结");
             jdo["keyword1"] = getJob(mo.idtask);
             jdo["keyword2"] = getJob("暂结");
-            jdo["keyword3"] = getJob(muser.UserName);
-            jdo["remark"] = getJob("工单已经暂结.详情...");
+            jdo["keyword3"] = getJob(muser.UserName + "(" + muser.phone + ")");
+            jdo["remark"] = getJob("工单于" + DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分") + "暂结了.");
             jo["data"] = jdo;
             return crateMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
 
         }
 
 
-        public static bool FinishTask(EF.Task mo, EF.ManageUser muser, TCom.EF.TN db)
+        /// <summary>
+        /// 暂结-消息发给职员
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="muser"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        public static bool PauseTaskToMgr(EF.Task mo, EF.ManageUser muser, TCom.EF.TN db)
         {
             JObject jo = new JObject();
             jo["touser"] = muser.idweixin;
             jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
             jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
             JObject jdo = new JObject();
-            jdo["first"] = getJob("工单完工通知");
+            jdo["first"] = getJob("工单" + mo.title + "暂结通知");
+            jdo["keyword1"] = getJob(mo.idtask);
+            jdo["keyword2"] = getJob("暂结");
+            jdo["keyword3"] = getJob(muser.UserName);
+            jdo["remark"] = getJob("工单于" + DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分") + "暂结了.");
+            jo["data"] = jdo;
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
+
+        }
+
+        /// <summary>
+        /// 完工-消息发给用户
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="uweixin"></param>
+        /// <param name="muser"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        public static bool FinishTaskToUser(EF.Task mo, string uweixin, EF.ManageUser muser, TCom.EF.TN db)
+        {
+            JObject jo = new JObject();
+            jo["touser"] = uweixin;
+            jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
+            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
+            JObject jdo = new JObject();
+            jdo["first"] = getJob("工单" + mo.title + "完工");
+            jdo["keyword1"] = getJob(mo.idtask);
+            jdo["keyword2"] = getJob("完工");
+            jdo["keyword3"] = getJob(muser.UserName + "(" + muser.phone + ")");
+            jdo["remark"] = getJob("工单于" + DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分") + "完工了.");
+            jo["data"] = jdo;
+            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
+
+        }
+
+        /// <summary>
+        /// 完工-消息发给职员
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="muser"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        public static bool FinishTaskToMgr(EF.Task mo, EF.ManageUser muser, TCom.EF.TN db)
+        {
+            JObject jo = new JObject();
+            jo["touser"] = muser.idweixin;
+            jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
+            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
+            JObject jdo = new JObject();
+            jdo["first"] = getJob("工单" + mo.title + "完工");
             jdo["keyword1"] = getJob(mo.idtask);
             jdo["keyword2"] = getJob("完工");
             jdo["keyword3"] = getJob(muser.UserName);
-            jdo["remark"] = getJob("工单已经完工.详情...");
+            jdo["remark"] = getJob("工单于" + DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分") + "完工了.");
             jo["data"] = jdo;
             return crateMsg(muser.idweixin, jo.ToString(), MsgType.FinishTask, mo.orderno, 0, db);
 

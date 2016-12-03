@@ -229,7 +229,7 @@ namespace TNet.Service.Task
                                         tp.ptype = TaskPressType.DisTask;
                                         tp.inuse = true;
                                         r.TaskPresses.Add(tp);
-                                        MsgMgr.SetupOrder(ts.idtask, os, uo, mo, r);
+                                        MsgMgr.DisOrder(tr, os, uo, mo, r);
                                     }
                                     r.MyOrders.Attach(os);
                                     os.idtask = ts.idtask;
@@ -285,9 +285,23 @@ namespace TNet.Service.Task
                                 result.Msg = "您不是该工单的维修工人、无法处理.";
                                 return result;
                             }
+                            db.Tasks.Attach(to);
+                            if (to.dotime == null)
+                            {
+                                to.dotime = DateTime.Now;
+                            }
+                            if (to.status != TaskStatus.Pressing)
+                            {
+                                to.status = TaskStatus.Pressing;
+                            }
+
+
                             db.TaskRecvers.Attach(mro);
                             mro.status = TaskRecverStatus.Doing;
-                            mro.stime = DateTime.Now;
+                            if (mro.stime == null)
+                            {
+                                mro.stime = DateTime.Now;
+                            }
 
                             //记录工单处理
                             TCom.EF.TaskPress p = new TCom.EF.TaskPress();
@@ -332,7 +346,6 @@ namespace TNet.Service.Task
                         var mo = db.ManageUsers.Where(m => m.ManageUserId == data.mgcode && m.inuse == true).FirstOrDefault();
                         if (mo != null)
                         {
-
                             var to = db.Tasks.Where(m => m.idtask == data.idtask && m.inuse == true).FirstOrDefault();
                             if (to != null)
                             {
@@ -348,12 +361,11 @@ namespace TNet.Service.Task
                                     result.Msg = "请先开始工作";
                                     return result;
                                 }
-                                db.Tasks.Attach(to);
 
                                 //变更接受工人信息
                                 db.TaskRecvers.Attach(mro);
                                 DateTime dt = tp.cretime != null ? tp.cretime.Value : DateTime.Now;
-                                mro.works += (dt - DateTime.Now).TotalMinutes;
+                                mro.works += (int)(dt - DateTime.Now).TotalMinutes;
                                 mro.status = TaskRecverStatus.Pause;
                                 mro.donum++;
 
@@ -385,10 +397,17 @@ namespace TNet.Service.Task
                                         db.Imgs.Add(mgo);
                                     }
                                 }
+
+                                var uo = db.Users.Where(m => m.iduser == to.iduser && m.inuse == true).Select(m => m.idweixin).FirstOrDefault();
+                                if (!string.IsNullOrWhiteSpace(uo))
+                                {
+                                    MsgMgr.PauseTaskToUser(to, uo, mo, db);
+                                }
                                 var mmo = db.ManageUsers.Where(m => m.ManageUserId == to.idsend && m.inuse == true).FirstOrDefault();
                                 if (mmo != null)
                                 {
-                                    MsgMgr.PauseTask(to, mmo, db);
+                                    MsgMgr.PauseTaskToMgr(to, mmo, db);
+
                                 }
                             }
                         }
@@ -405,7 +424,7 @@ namespace TNet.Service.Task
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     result.Code = R.Error;
                     result.Msg = "出现异常";
@@ -432,7 +451,31 @@ namespace TNet.Service.Task
                             var to = db.Tasks.Where(m => m.idtask == data.idtask && m.inuse == true).FirstOrDefault();
                             if (to != null)
                             {
-                                var mro = db.TaskRecvers.Where(m => m.mcode == data.mgcode && m.inuse == true && m.idrecver == data.idrecver).OrderByDescending(m => m.cretime).FirstOrDefault();
+                                var mros = db.TaskRecvers.Where(m => m.idtask == data.idtask && m.inuse == true).OrderByDescending(m => m.cretime).ToList();
+                                TCom.EF.TaskRecver mro = null;
+                                bool isfinish = true;
+                                if (mros != null && mros.Count > 0)
+                                {
+                                    for (int i = 0; i < mros.Count; i++)
+                                    {
+                                        TCom.EF.TaskRecver _mro = mros[i];
+                                        if (_mro.mcode == data.mgcode && _mro.idrecver == data.idrecver)
+                                        {
+                                            mro = _mro;
+                                        }
+                                        else
+                                        {
+                                            if (_mro.status != TaskRecverStatus.Finish)
+                                            {
+                                                isfinish = false;
+                                                if (mro != null)
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                                 if (mro == null)
                                 {
                                     result.Msg = "您不是该工单的维修工人、无法处理.";
@@ -445,14 +488,19 @@ namespace TNet.Service.Task
                                     return result;
                                 }
                                 db.Tasks.Attach(to);
-
+                                if (isfinish)
+                                {
+                                    to.finishtime = DateTime.Now;
+                                    to.status = TaskStatus.Finish;
+                                }
+                                to.finishnum++;
                                 //变更接受工人信息
                                 db.TaskRecvers.Attach(mro);
                                 DateTime dt = tp.cretime != null ? tp.cretime.Value : DateTime.Now;
-                                mro.works += (dt - DateTime.Now).TotalMinutes;
+                                mro.works += (int)(dt - DateTime.Now).TotalMinutes;
                                 mro.status = TaskRecverStatus.Finish;
                                 mro.donum++;
-
+                                mro.entime = DateTime.Now;
                                 //记录工单处理
                                 TCom.EF.TaskPress p = new TCom.EF.TaskPress();
                                 p.idpress = Pub.ID();
@@ -474,16 +522,24 @@ namespace TNet.Service.Task
                                         mgo.idimg = Pub.ID();
                                         mgo.outkey = p.idpress;
                                         mgo.outpro = p.idtask;
+                                        mgo.outpro2 = p.idtask;
                                         mgo.path = data.imgs[i];
                                         mgo.sortno = i;
                                         mgo.inuse = true;
                                         db.Imgs.Add(mgo);
                                     }
                                 }
+
+
+                                var uo = db.Users.Where(m => m.iduser == to.iduser && m.inuse == true).Select(m => m.idweixin).FirstOrDefault();
+                                if (!string.IsNullOrWhiteSpace(uo))
+                                {
+                                    MsgMgr.FinishTaskToUser(to, uo, mo, db);
+                                }
                                 var mmo = db.ManageUsers.Where(m => m.ManageUserId == to.idsend && m.inuse == true).FirstOrDefault();
                                 if (mmo != null)
                                 {
-                                    MsgMgr.PauseTask(to, mmo, db);
+                                    MsgMgr.FinishTaskToMgr(to, mmo, db);
                                 }
                             }
                         }
@@ -494,6 +550,7 @@ namespace TNet.Service.Task
                         if (db.SaveChanges() > 0)
                         {
                             //  result.Data = u.issue1;
+                            MsgMgr.Post();
                             result.Code = R.Ok;
                             result.Msg = "保存成功";
                         }

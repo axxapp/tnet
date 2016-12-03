@@ -34,7 +34,7 @@ function Save() {
                 //alert(JSON.stringify(data));
                 if (Pub.wsCheck(data)) {
                     alert("保存成功");
-                    window.location.href = Pub.url("Task/Detail");
+                    window.location.href = Pub.url("Task/Detail?idtask=" + idtask + "&idrecver=" + idrecver);
                     return;
                 }
                 //alert("保存失败,请稍后重试");

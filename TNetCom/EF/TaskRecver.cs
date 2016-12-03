@@ -25,11 +25,11 @@ namespace TCom.EF
 
         public DateTime? cretime { get; set; }
 
-        public DateTime stime { get; set; }
+        public DateTime? stime { get; set; }
 
         public DateTime? entime { get; set; }
 
-        public double? works { get; set; }
+        public int works { get; set; }
 
         public int donum { get; set; }
 

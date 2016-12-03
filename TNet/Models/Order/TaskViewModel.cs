@@ -84,7 +84,7 @@ namespace TNet.Models
         public new int? tasktype { get; set; }
 
         [Display(Name = "分数")]
-        public new int? score { get; set; }
+        public new int score { get; set; }
 
         [Display(Name = "备注")]
         [StringLength(50)]

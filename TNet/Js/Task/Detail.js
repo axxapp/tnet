@@ -1,12 +1,13 @@
 ﻿
+
 //工单明细
 function getData() {
     var u = Pub.getUser();
     var idtask = Pub.urlParam("idtask");
     var idrecver = Pub.urlParam("idrecver");
     if (u != null && u.mu && idtask) {
-        var _idrecver = "";
-        if (!idrecver) {
+        var _idrecver = idrecver;
+        if (!_idrecver || _idrecver == "") {
             _idrecver = "null";
             $(".task_ops").hide();
         }
@@ -14,7 +15,7 @@ function getData() {
             url: "Service/Task/Detail/" + idtask + "/" + _idrecver + "/" + u.mu.code,
             loadingMsg: "加载中...",
             success: function (data) {
-                alert(JSON.stringify(data));
+              //  alert(JSON.stringify(data));
                 if (Pub.wsCheck(data)) {
                     if (data.Data) {
                         __G_TASK_DATA_CACHE = data.Data;
@@ -27,7 +28,7 @@ function getData() {
                                 for (var i = 0; i < recver.length; i++) {
                                     var ro = recver[i];
                                     if (ro.mcode == u.mu.code && ro.idrecver == idrecver) {
-                                        rso = ro.statusObj;
+                                        rso = ro;
                                     }
                                 }
                             }
@@ -35,8 +36,15 @@ function getData() {
                             $("#idtask").html(task.idtask + " (" + task.tasktype_t + ")");
                             $(".gstatus").html(so.text);
                             if (rso != null) {
-                                $(".rstatus").html(rso.text);
+                                $(".rstatus").html(rso.statusObj.text);
+                                var sh = getROps(rso.statusObj, rso);
+                                if (sh && sh != "") {
+                                    $("#ops").html(sh);
+                                } else {
+                                    $(".task_ops").hide();
+                                }
                             } else {
+                                $(".task_ops").hide();
                                 $(".order").css("height", "40px").css("line-height", "40px");
                                 $(".no").css("height", "40px").css("line-height", "40px");
                                 $(".task_status").css("height", "40px").css("line-height", "40px");
@@ -63,7 +71,7 @@ function getData() {
                             //setRecver(data);
                             setMerc(data);
 
-                            $("#ops").html(getROps(rso, task));
+
 
                             return;
                         } catch (e) {
@@ -76,7 +84,7 @@ function getData() {
                 load_fail("亲,您暂无工单");
             },
             error: function (xhr, status, e) {
-                load_fail("加载工单失败");
+                load_fail("加载工单失败" + e.message);
             }
         });
     }

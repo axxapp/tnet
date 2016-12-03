@@ -62,7 +62,8 @@ namespace TNet.Controllers
         [HttpPost]
         public ActionResult Register(ManageUserViewModel model)
         {
-            if (model.ClearPassword!=model.ConfirmPassword) {
+            if (model.ClearPassword != model.ConfirmPassword)
+            {
                 ModelState.AddModelError("", "密码与确认密码必须一致.");
                 return View(model);
             }
@@ -80,16 +81,17 @@ namespace TNet.Controllers
             model.recv_setup = false;
             model.recv_review = false;
             model.send_setup = false;
-            
+
             string md5Password = string.Empty;
             string md5Salt = string.Empty;
-            Crypto.GetPwdhashAndSalt(model.ClearPassword,out md5Salt,out md5Password);
+            Crypto.GetPwdhashAndSalt(model.ClearPassword, out md5Salt, out md5Password);
             model.Password = md5Password;
             model.MD5Salt = md5Salt;
 
             ManageUser manageUser = new ManageUser();
             model.CopyToBase(manageUser);
-            if (ManageUserService.Add(manageUser) == null) {
+            if (ManageUserService.Add(manageUser) == null)
+            {
                 ModelState.AddModelError("", "注册失败，请稍微重试.");
                 return View(model);
             }
@@ -283,21 +285,25 @@ namespace TNet.Controllers
 
 
         [ManageLoginValidation]
-        public ActionResult IssuesStatisticByDay(bool isAjax, DateTime? date, long days = 7) {
+        public ActionResult IssuesStatisticByDay(bool isAjax, DateTime? date, long days = 7)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<IssuesStatisticByDateViewModel> resultEntity = new ResultModel<IssuesStatisticByDateViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
 
-            if (date == null) {
+            if (date == null)
+            {
                 date = DateTime.Now;
             }
 
-            try {
+            try
+            {
                 List<IssuesStatisticByDateViewModel> entities = IssuesStatisticService.StatisticByDayForwardDays(date.Value, days);
                 resultEntity.Content = entities;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "失败";
@@ -308,21 +314,25 @@ namespace TNet.Controllers
         }
 
         [ManageLoginValidation]
-        public ActionResult IssuesStatisticByMonth(bool isAjax, DateTime? date, long months = 12) {
+        public ActionResult IssuesStatisticByMonth(bool isAjax, DateTime? date, long months = 12)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<IssuesStatisticByDateViewModel> resultEntity = new ResultModel<IssuesStatisticByDateViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
 
-            if (date == null) {
+            if (date == null)
+            {
                 date = DateTime.Now;
             }
 
-            try {
+            try
+            {
                 List<IssuesStatisticByDateViewModel> entities = IssuesStatisticService.StatisticByMonthForwardMonths(date.Value, months);
                 resultEntity.Content = entities;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "失败";
@@ -334,21 +344,25 @@ namespace TNet.Controllers
 
 
         [ManageLoginValidation]
-        public ActionResult IssuesStatisticByYear(bool isAjax, DateTime? date, long years = 5) {
+        public ActionResult IssuesStatisticByYear(bool isAjax, DateTime? date, long years = 5)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<IssuesStatisticByDateViewModel> resultEntity = new ResultModel<IssuesStatisticByDateViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "成功";
 
-            if (date == null) {
+            if (date == null)
+            {
                 date = DateTime.Now;
             }
 
-            try {
+            try
+            {
                 List<IssuesStatisticByDateViewModel> entities = IssuesStatisticService.StatisticByYearForwardYears(date.Value, years);
                 resultEntity.Content = entities;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error(ex.ToString());
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "失败";
@@ -505,7 +519,7 @@ namespace TNet.Controllers
                 }
             }
             BusinessService.SetDefaultBussImage(business.idbuss);
-            return RedirectToAction("BusinessList","Manage");
+            return RedirectToAction("BusinessList", "Manage");
         }
 
 
@@ -516,19 +530,22 @@ namespace TNet.Controllers
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult BusinessDelete(string[] idbusses) {
+        public ActionResult BusinessDelete(string[] idbusses)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<BusinessViewModel> resultEntity = new ResultModel<BusinessViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "商铺删除成功";
 
-            if (idbusses == null || idbusses.Count() == 0) {
+            if (idbusses == null || idbusses.Count() == 0)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "商铺删除失败，参数错误。";
                 return Content(resultEntity.SerializeToJson());
             }
-            
-            if (!BusinessService.Delete(idbusses.ToList())) {
+
+            if (!BusinessService.Delete(idbusses.ToList()))
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "商铺删除失败。";
                 return Content(resultEntity.SerializeToJson());
@@ -1285,7 +1302,7 @@ namespace TNet.Controllers
 
             MercService.SetDefaultMercImage(merc.idmerc);
 
-            return RedirectToAction("MercList","Manage");
+            return RedirectToAction("MercList", "Manage");
         }
 
         /// <summary>
@@ -1409,7 +1426,7 @@ namespace TNet.Controllers
                 mercType = MercTypeService.Edit(mercType);
             }
 
-            return RedirectToAction("MercTypeList","Manage");
+            return RedirectToAction("MercTypeList", "Manage");
         }
 
         /// <summary>
@@ -1588,19 +1605,22 @@ namespace TNet.Controllers
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult SetupAddrDelete(string[] idaddrs) {
+        public ActionResult SetupAddrDelete(string[] idaddrs)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<NoticeViewModel> resultEntity = new ResultModel<NoticeViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "报装地址删除成功";
 
-            if (idaddrs == null || idaddrs.Count() == 0) {
+            if (idaddrs == null || idaddrs.Count() == 0)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "报装地址删除失败，参数错误。";
                 return Content(resultEntity.SerializeToJson());
             }
-            
-            if (!SetupAddrService.Delete(idaddrs.ToList())) {
+
+            if (!SetupAddrService.Delete(idaddrs.ToList()))
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "报装地址删除失败。";
                 return Content(resultEntity.SerializeToJson());
@@ -1705,7 +1725,7 @@ namespace TNet.Controllers
                 spec = SpecService.Edit(spec);
             }
 
-            return RedirectToAction("SpecList","Manage");
+            return RedirectToAction("SpecList", "Manage");
         }
 
         /// <summary>
@@ -2101,12 +2121,14 @@ namespace TNet.Controllers
         [HttpPost]
         public ActionResult ManageUserEdit(ManageUserViewModel model)
         {
-            if (model.ClearPassword != model.ConfirmPassword) {
+            if (model.ClearPassword != model.ConfirmPassword)
+            {
                 ModelState.AddModelError("", "密码与确认密码必须一致.");
                 return View(model);
             }
             ManageUser user = ManageUserService.GetManageUserByUserName(model.UserName);
-            if (user != null) {
+            if (user != null)
+            {
                 ModelState.AddModelError("", "用户名已经存在，请使用其它用户名.");
                 return View(model);
             }
@@ -2277,21 +2299,21 @@ namespace TNet.Controllers
                     {
                         ManageUser muser = manageUsers.Where(en => en.ManageUserId == userArray[i]).First();
                         //musers.Add(muser);
-                        
-                        if (taskType == TaskType.Setup) {
-                            MsgMgr.SetupOrder(task.idtask,taskViewModel.Order, taskViewModel.user, muser, null);
-                        }
-                        DateTime nowDate= DateTime.Now;
-                        taskRecvers.Add(new TaskRecver()
+                        TaskRecver tro = new TaskRecver()
                         {
                             idrecver = Pub.ID(),
                             idtask = newTask.idtask,
                             mcode = userArray[i],
                             mname = muser == null ? "" : muser.UserName,
-                            cretime = nowDate,
-                            stime= nowDate,
+                            cretime = DateTime.Now,
+                            stime = DateTime.Now,
                             inuse = true
-                        });
+                        };
+                        if (taskType == TaskType.Setup)
+                        {
+                            MsgMgr.DisOrder(tro, taskViewModel.Order, taskViewModel.user, muser, null);
+                        }
+                        taskRecvers.Add(tro);
                     }
                     TaskRecverService.AddMuil(taskRecvers);
                 }
@@ -2481,19 +2503,22 @@ namespace TNet.Controllers
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult NoticeDelete(string[] idnotices) {
+        public ActionResult NoticeDelete(string[] idnotices)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<NoticeViewModel> resultEntity = new ResultModel<NoticeViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "公告删除成功";
 
-            if (idnotices == null || idnotices.Count() == 0) {
+            if (idnotices == null || idnotices.Count() == 0)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "公告删除失败，参数错误。";
                 return Content(resultEntity.SerializeToJson());
             }
-            
-            if (!NoticeService.Delete(idnotices.ToList())) {
+
+            if (!NoticeService.Delete(idnotices.ToList()))
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "公告删除失败。";
                 return Content(resultEntity.SerializeToJson());
@@ -2739,19 +2764,22 @@ namespace TNet.Controllers
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpPost]
-        public ActionResult AdvertiseDelete(string[] idavs) {
+        public ActionResult AdvertiseDelete(string[] idavs)
+        {
             ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
             ResultModel<AdvertiseViewModel> resultEntity = new ResultModel<AdvertiseViewModel>();
             resultEntity.Code = ResponseCodeType.Success;
             resultEntity.Message = "广告删除成功";
 
-            if (idavs==null|| idavs.Count()==0) {
+            if (idavs == null || idavs.Count() == 0)
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "广告删除失败，参数错误。";
                 return Content(resultEntity.SerializeToJson());
             }
-            
-            if (!AdvertiseService.Delete(idavs.ToList())) {
+
+            if (!AdvertiseService.Delete(idavs.ToList()))
+            {
                 resultEntity.Code = ResponseCodeType.Fail;
                 resultEntity.Message = "广告删除失败。";
                 return Content(resultEntity.SerializeToJson());

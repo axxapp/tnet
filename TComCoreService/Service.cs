@@ -143,75 +143,68 @@ namespace TComCoreService
                                     for (int i = 0; i < ms.Count; i++)
                                     {
                                         TCom.EF.Msg m = ms[i];
-                                        TCom.EF.MyOrder mo = db.MyOrders.Where(moo => moo.orderno == m.orderno).FirstOrDefault();
 
-                                        if (mo != null)
+                                        if (m.type == MsgType.PostPayFinishOrder || m.type == MsgType.PostWaitReviewOrder)//订单支付完成，等待派发通知
                                         {
-                                            TCom.EF.User uo = (from u in db.Users
-                                                               where (u.iduser == mo.iduser)
-                                                               select u).FirstOrDefault();
-                                            if (uo != null)
+                                            isPub = true;
+                                            m.status = 1;
+                                            TCom.EF.MyOrder mo = db.MyOrders.Where(moo => moo.orderno == m.orderno).FirstOrDefault();
+                                            if (mo != null)
                                             {
-                                                if (m.type == MsgType.PostPayFinishOrder)//订单支付完成，等待派发通知
+                                                TCom.EF.User uo = (from u in db.Users
+                                                                   where (u.iduser == mo.iduser)
+                                                                   select u).FirstOrDefault();
+                                                if (uo != null)
                                                 {
-                                                    isPub = true;
-                                                    m.status = 1;
                                                     for (int j = 0; j < mus.Count; j++)
                                                     {
                                                         var mu = mus[j];
-                                                        if (mu.recv_order)
+                                                        if (m.type == MsgType.PostPayFinishOrder && mu.recv_order)
                                                         {
                                                             MsgMgr.FinishPay(mo, uo, mu, db);
                                                         }
-
-                                                    }
-                                                }
-                                                else if (m.type == MsgType.PostWaitReviewOrder)
-                                                {
-                                                    isPub = true;
-                                                    m.status = 1;
-                                                    for (int j = 0; j < mus.Count; j++)
-                                                    {
-                                                        var mu = mus[j];
-                                                        if (mu.recv_review)
+                                                        else if (m.type == MsgType.PostWaitReviewOrder && mu.recv_review)
                                                         {
                                                             MsgMgr.WaitReviewOrder(mo, uo, mu, db);
                                                         }
-                                                    }
-                                                }
-                                                else if (m.type == MsgType.PayFinishOrder ||
-                                                    m.type == MsgType.SetupOrder || m.type == MsgType.PostWaitReviewOrder ||
-                                                    m.type == MsgType.WaitReviewOrder || m.type == MsgType.PauseTask || m.type == MsgType.FinishTask)
-                                                {
-                                                    for (int g = 0; g < 2; g++)
-                                                    {
-                                                        JObject j = Msg.Send(m.msg1);
-                                                        errcode = j != null ? j.Value<int>("errcode") : -1;
-                                                        if (errcode == 0)
-                                                        {
-                                                            m.status = 1;
-                                                            break;
-                                                        }
-                                                        else if (errcode == 40001)
-                                                        {
-                                                            isPub = true;
-                                                            Pub.delAccessToken();
-                                                        }
-                                                    }
 
+                                                    }
                                                 }
-                                                if (db.SaveChanges() > 0)
+                                            }
+                                        }
+                                        else if (m.type == MsgType.PayFinishOrder || m.type == MsgType.SetupOrder ||
+                                            m.type == MsgType.PostWaitReviewOrder || m.type == MsgType.WaitReviewOrder ||
+                                            m.type == MsgType.PauseTask || m.type == MsgType.FinishTask)
+                                        {
+                                            for (int g = 0; g < 2; g++)
+                                            {
+                                                JObject j = Msg.Send(m.msg1);
+                                                errcode = j != null ? j.Value<int>("errcode") : -1;
+                                                if (errcode == 0)
                                                 {
-                                                    Pub.e("Msg-SaveChanges:" + 1);
+                                                    m.status = 1;
+                                                    break;
                                                 }
-                                                else
+                                                else if (errcode == 40001)
                                                 {
-                                                    isPub = false;
-                                                    Pub.e("Msg-SaveChanges:" + 0);
+                                                    isPub = true;
+                                                    Pub.delAccessToken();
                                                 }
                                             }
 
                                         }
+                                        if (db.SaveChanges() > 0)
+                                        {
+                                            Pub.e("Msg-SaveChanges:" + 1);
+                                        }
+                                        else
+                                        {
+                                            isPub = false;
+                                            Pub.e("Msg-SaveChanges:" + 0);
+                                        }
+
+
+
                                     }
                                 }
 
