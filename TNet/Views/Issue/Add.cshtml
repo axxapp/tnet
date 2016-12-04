@@ -52,17 +52,12 @@
     <script src="~/Js/Mobiscroll/mobiscroll.wp-light.js"></script>
     <script src="~/Js/Mobiscroll/mobiscroll.mobiscroll-dark.js"></script>
     <script src="~/Js/Mobiscroll/i18n/mobiscroll.i18n.zh.js"></script>
-
-
-
-    <script type="text/javascript" src="~/Js/Issue/Add.js?v=20161121">
-
-    </script>
+    <script type="text/javascript" src="~/Js/Issue/Add.js?v=20161121"></script>
 
 }
 
 
-<div class="Addr_Edit">
+<div id="OC" class="Issue_Add_Host">
     <div class="Context_Host">
         <textarea id="context" maxlength="200" placeholder="输入您的问题吧..."></textarea>
     </div>
@@ -73,49 +68,50 @@
         <div class="resource_img">
             <div>
                 <a href="javascript:void(0)">
-                    <img id="idc_img1" src="@Url.Content("~/Images/default_bg.png")" />
+                    <img id="idc_img1" src="~/Images/default_bg.png" />
                     <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img1', this)">
                 </a>
                 <a href="javascript:void(0)">
-                    <img id="idc_img2" src="@Url.Content("~/Images/default_bg.png")" />
+                    <img id="idc_img2" src="~/Images/default_bg.png" />
                     <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img2', this)">
                 </a>
                 <a href="javascript:void(0)">
-                    <img id="idc_img3" src="@Url.Content("~/Images/default_bg.png")" />
+                    <img id="idc_img3" src="~/Images/default_bg.png" />
                     <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img3', this)">
                 </a>
             </div>
             <div>
                 <a href="javascript:void(0)">
-                    <img id="idc_img4" src="@Url.Content("~/Images/default_bg.png")" />
+                    <img id="idc_img4" src="~/Images/default_bg.png" />
                     <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img4', this)">
                 </a>
                 <a href="javascript:void(0)">
-                    <img id="idc_img5" src="@Url.Content("~/Images/default_bg.png")" />
+                    <img id="idc_img5" src="~/Images/default_bg.png" />
                     <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img5', this)">
                 </a>
                 <a href="javascript:void(0)">
-                    <img id="idc_img6" src="@Url.Content("~/Images/default_bg.png")" />
+                    <img id="idc_img6" src="~/Images/default_bg.png" />
                     <input type="file" value="" accept="image/*" onchange="__FileSelectImg('idc_img6', this)">
                 </a>
             </div>
         </div>
     </div>
+    <div class="vline"></div>
+    <div class="title">联系人:</div>
+    <div class="addr">
+        <a href="javascript:void(0)" id="addr" onclick="selectAddr()">
+            <i class="iconfont">&#xe615</i>
+            <span>请选择地址...</span>
+            <span class="choice"></span>
+        </a>
+    </div>
 
     <div class="vline"></div>
     <div class="title">预约:</div>
     <div class="book_host">
-        <div class="Edit_Item">
-            <div class="Edit_Name">电话:</div>
-            <div class="Edit_Value">
-                <div class="in">
-                    <input id="phone" type="tel" maxlength="13" placeholder="输入电话..." />
-                </div>
-            </div>
-        </div>
 
         <div class="Edit_Item">
-            <div class="Edit_Name">预约:</div>
+            <div class="Edit_Name">时间:</div>
             <div class="Edit_Value">
                 <div class="in">
                     <input id="booktime" type="text" maxlength="10" readonly required placeholder="预约时间..." />
@@ -139,3 +135,11 @@
 
 
 
+
+
+<div id="Addr_Host" class="Addr_Host">
+
+    @Html.Partial("~/Views/Addr/Addr.cshtml")
+
+
+</div>

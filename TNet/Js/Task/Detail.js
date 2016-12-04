@@ -15,10 +15,9 @@ function getData() {
             url: "Service/Task/Detail/" + idtask + "/" + _idrecver + "/" + u.mu.code,
             loadingMsg: "加载中...",
             success: function (data) {
-              //  alert(JSON.stringify(data));
+                //alert(JSON.stringify(data));
                 if (Pub.wsCheck(data)) {
                     if (data.Data) {
-                        __G_TASK_DATA_CACHE = data.Data;
                         var html = "";
                         try {
                             var task = data.Data.task;
@@ -63,16 +62,38 @@ function getData() {
                                     { t: "完工", v: task.finishtime },
                                     { t: "回访", v: task.echotime }
                             ];
-                            html += getPress(ts);
+                            html += setTaskPresBar(ts);
                             if (html) {
                                 $('#taskPress').html(html);
+                            }
+                            var img = data.Data.imgs;
+                            __G_IMG_DATA_CACHE = img;
+                            html = "";
+                            if (img && img.length > 0) {
+                                html = '<div  class="taskimg">';
+                                var z = 0;
+                                for (var j = 0; j < img.length; j++) {
+                                    var om = img[j];
+                                    if (om.type == "main") {
+                                        if (z++ == 0) {
+                                            html += '<div class="taskimg_box">';
+                                        }
+                                        html += '<a href="javascript:void(0)" onclick="lookImg(this)" ><img src="' + Pub.url(om.path, "Images/default_bg.png") + '""/></a>';
+                                        if (z == 4) {
+                                            z = 0;
+                                            html += "</div>";
+                                        }
+                                    }
+                                }
+                                if (z != 0) {
+                                    html += '</div>';
+                                }
+                                html += '</div>';
+                                $(".taskimg").html(html);
                             }
                             setPress(data);
                             //setRecver(data);
                             setMerc(data);
-
-
-
                             return;
                         } catch (e) {
                             $('#task_host').html("加载异常" + e.message);
@@ -90,79 +111,6 @@ function getData() {
     }
 }
 
-//处理进度
-function setPress(data) {
-    var task = data.Data.task;
-    var press = data.Data.press;
-    var recver = data.Data.recver;
-    var imgs = data.Data.imgs;
-    var phtml = "";
-    if (press) {
-        for (var i = 0; i < press.length; i++) {
-            var po = press[i];
-            phtml += "<div class='p_item_host'><div class='p_item'>";
-            phtml += "<div class='p_item_topic'><span class='ptext'>" + po.ptext + "</span>";
-            if (po.ptype == 100) {
-                phtml += "<span class='p_oper'>" + task.send + "</span>";
-            } else {
-                for (var j = 0; j < recver.length; j++) {
-                    var ro = recver[j];
-                    if (ro.idrecver == po.idrecver) {
-                        phtml += "<span class='p_oper'>" + ro.mname + "</span>";
-                        break;
-                    }
-                }
-            }
-            phtml += "<span class='pcretime'>" + getTime(po.cretime) + "</span></div>";
-            if (po.pdesc) {
-                phtml += "<div class='p_item_desc'>" + po.pdesc + "</div>";
-            }
-            if (imgs) {
-                var mh = "";
-
-                for (var z = 0; z < imgs.length; z++) {
-                    var mo = imgs[z];
-                    if (mo.outkey == po.idpress) {
-                        mh += '<a href="javascript:void(0)" onclick="lookImg(this)" ><img src="' + Pub.url(mo.path) + '"/></a>';
-                    }
-                }
-                if (mh) {
-                    phtml += '<div class="taskImg">' + mh + '</div>';
-                }
-            }
-            phtml += "</div></div>";
-        }
-    }
-    if (phtml) {
-        $(".taskDoPress").html(phtml);
-    } else {
-        Pub.noData("#taskDoPress", "暂无处理进度");
-    }
-}
-
-
-//工人
-function setRecver(data) {
-    var press = data.Data.press;
-    var recver = data.Data.recver;
-    var phtml = "";
-    if (recver) {
-        for (var i = 0; i < recver.length; i++) {
-            var ro = recver[i];
-            phtml += "<div class='p_item_host'><div class='p_item'>";
-            phtml += "<div class='p_item_topic'><span class='ptext'>" + ro.mname + "</span>";
-
-            phtml += "</div></div>";
-        }
-    }
-    if (phtml) {
-        $(".worker").html(phtml);
-    } else {
-        Pub.noData("#worker", "暂无工人");
-    }
-}
-
-
 //商品
 function setMerc(data) {
     var o = data.Data.order;
@@ -178,43 +126,6 @@ function setMerc(data) {
     }
 }
 
-function getPress(ts) {
-    //alert(ts.join(','));
-    var html = "";
-    html += '<div class="p_item_box"></div>';
-
-    for (var i = 0; i < ts.length; i++) {
-        var lcss = "", rcss = "", ptcss = "";
-        if (ts[i].v) {
-            lcss = " p_select";
-            ptcss = 'p_t_select';
-        }
-        if ((i + 1) < ts.length && ts[i + 1].v) {
-            rcss = " p_select";
-            lcss = " p_select";
-
-        }
-        html += '<div class="p_item_box">';
-
-        html += '<div class="p_item_time">';
-        html += '<div class="p_start ' + lcss + '"></div>';
-        if ((i + 1) < ts.length) {
-            html += '<div class="p_line_l ' + lcss + '"></div>';
-            html += '<div class="p_line_r ' + rcss + '"></div>';
-        }
-        html += '</div>';
-        //if (i == 0) 
-
-        html += '<div class="p_item_text ' + ptcss + '">' + ts[i].t + "<br/>" + getTime(ts[i].v) + '</div>';
-        //}
-        html += '</div>';
-    }
-
-    // alert(html);
-
-    return html;
-
-}
 
 
 

@@ -146,8 +146,7 @@ namespace TComCoreService
 
                                         if (m.type == MsgType.PostPayFinishOrder || m.type == MsgType.PostWaitReviewOrder)//订单支付完成，等待派发通知
                                         {
-                                            isPub = true;
-                                            m.status = 1;
+
                                             TCom.EF.MyOrder mo = db.MyOrders.Where(moo => moo.orderno == m.orderno).FirstOrDefault();
                                             if (mo != null)
                                             {
@@ -156,6 +155,8 @@ namespace TComCoreService
                                                                    select u).FirstOrDefault();
                                                 if (uo != null)
                                                 {
+                                                    isPub = true;
+                                                    m.status = 1;
                                                     for (int j = 0; j < mus.Count; j++)
                                                     {
                                                         var mu = mus[j];
@@ -172,9 +173,33 @@ namespace TComCoreService
                                                 }
                                             }
                                         }
+                                        else if (m.type == MsgType.PostCreateIssue)
+                                        {
+                                            TCom.EF.Issue mo = db.Issues.Where(moo => moo.issue1 == m.orderno).FirstOrDefault();
+                                            if (mo != null)
+                                            {
+                                                TCom.EF.User uo = (from u in db.Users
+                                                                   where (u.iduser == mo.iduser)
+                                                                   select u).FirstOrDefault();
+                                                if (uo != null)
+                                                {
+
+                                                    isPub = true;
+                                                    m.status = 1;
+                                                    for (int j = 0; j < mus.Count; j++)
+                                                    {
+                                                        var mu = mus[j];
+                                                        if (mu.send_setup)
+                                                        {
+                                                            MsgMgr.Issue(mo, uo, mu, db);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                         else if (m.type == MsgType.PayFinishOrder || m.type == MsgType.SetupOrder ||
                                             m.type == MsgType.PostWaitReviewOrder || m.type == MsgType.WaitReviewOrder ||
-                                            m.type == MsgType.PauseTask || m.type == MsgType.FinishTask)
+                                            m.type == MsgType.PauseTask || m.type == MsgType.FinishTask || m.type == MsgType.Issue)
                                         {
                                             for (int g = 0; g < 2; g++)
                                             {

@@ -105,7 +105,7 @@ function getData(callFunc) {
 
 function goDetail(idtask, idrecver) {
     var u = Pub.getUser();
-    if (idtask && idrecver && u != null && u.mu) {
+    if (idtask && idrecver && u != null) {
         window.location.href = Pub.url("Task/Detail?idtask=" + idtask + "&idrecver=" + idrecver);
     }
 }

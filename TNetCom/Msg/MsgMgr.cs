@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using TCom.Model.Task;
 using TCom.Util;
 
 namespace TCom.Msg
@@ -13,6 +14,52 @@ namespace TCom.Msg
     //发送消息
     public sealed class MsgMgr
     {
+
+
+
+
+
+        /// <summary>
+        /// 投递-问题新增
+        /// </summary>
+        /// <param name="orderno"></param>
+        /// <param name="otype"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        public static bool PostCreateIssue(string issue, TCom.EF.TN db)
+        {
+            return createMsg("", "", MsgType.PostCreateIssue, issue, 0, db);
+        }
+
+        /// <summary>
+        /// 问题新增
+        /// </summary>
+        /// <param name="idweixin"></param>
+        /// <param name="mo"></param>
+        /// <param name="iduser"></param>
+        /// <param name="uname"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+
+        public static bool Issue(EF.Issue mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
+        {
+            JObject jo = new JObject();
+            jo["touser"] = muser.idweixin;
+            jo["template_id"] = "ctPzfecHj0P9jHjyrQhrV9VDNoceVc8nNjhqo1yg9sU";
+            jo["url"] = Pub.baseUrl + "Issue/Detail?issue=" + mo.issue1 + "?iduser=" + user.iduser
+                + "&updateUser=1";
+            JObject jdo = new JObject();
+            jdo["first"] = getJob("新投诉建议通知");
+            jdo["keyword1"] = getJob(mo.contact);
+            jdo["keyword2"] = getJob(mo.phone);
+            jdo["keyword3"] = getJob(mo.context);
+            jdo["keyword4"] = getJob(mo.issue1);
+            jdo["remark"] = getJob("用户对您有投诉建议,请尽快联系用户处理.");
+            jo["data"] = jdo;
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.Issue, mo.issue1, 0, db);
+
+        }
+
 
         /// <summary>
         /// 发送支付订单消息
@@ -23,7 +70,7 @@ namespace TCom.Msg
         /// <returns></returns>
         public static bool PostFinishPay(string orderno, int otype, TCom.EF.TN db)
         {
-            return crateMsg("", "", MsgType.PostPayFinishOrder, orderno, otype, db);
+            return createMsg("", "", MsgType.PostPayFinishOrder, orderno, otype, db);
 
         }
 
@@ -56,10 +103,45 @@ namespace TCom.Msg
             jdo["remark"] = getJob("欢迎再次购买");
             jo["data"] = jdo;
 
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PayFinishOrder, mo.orderno, otype, db);
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.PayFinishOrder, mo.orderno, otype, db);
 
         }
 
+
+        /// <summary>
+        /// 投诉建议派单
+        /// </summary>
+        /// <param name="idweixin"></param>
+        /// <param name="mo"></param>
+        /// <param name="iduser"></param>
+        /// <param name="uname"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+
+        public static bool DisIssue(EF.TaskRecver recver, EF.Issue mo, EF.User user, EF.ManageUser muser, TCom.EF.TN db)
+        {
+            JObject jo = new JObject();
+            jo["touser"] = muser.idweixin;
+            jo["template_id"] = "GeHNTXa7V_S5Q4uGaFYq1vzXmZZTAfy8wKJyT4muV28";
+            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + recver.idtask + "&idrecver=" + recver.idrecver + "&updateUser=1";
+            JObject jdo = new JObject();
+            string ct = mo.context;
+            if (!string.IsNullOrWhiteSpace(ct) && ct.Length > 80)
+            {
+                ct = ct.Substring(0, 80);
+            }
+            ct = ct.Replace("\r\n", "");
+            jdo["first"] = getJob("投诉报修" + ct);
+            jdo["keyword1"] = getJob("投诉报修");
+            jdo["keyword2"] = getJob(mo.issue1);
+            jdo["keyword3"] = getJob(user.name);
+            jdo["keyword4"] = getJob(user.phone);
+            jdo["keyword5"] = getJob("投诉报修,现场无需收产品费,如产生材料费另计.");
+            jdo["remark"] = getJob("用户希望服务人员到达" + mo.addr + "进行服务.");
+            jo["data"] = jdo;
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.SetupOrder, mo.issue1, 0, db);
+
+        }
 
 
         /// <summary>
@@ -88,7 +170,7 @@ namespace TCom.Msg
             jdo["keyword5"] = getJob("已线上缴费,现场无需收费.");
             jdo["remark"] = getJob("用户希望服务人员到达" + mo.addr + "进行服务.");
             jo["data"] = jdo;
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno, otype, db);
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno, otype, db);
 
         }
 
@@ -105,15 +187,27 @@ namespace TCom.Msg
             JObject jo = new JObject();
             jo["touser"] = uweixin;
             jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
-            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
+            string url = "", msgText = "";
+
+            if (mo.tasktype == TaskType.Setup)
+            {
+                url = Pub.baseUrl + "Order/Detail/" + mo.orderno;
+                msgText = "您的订单：";
+            }
+            else
+            {
+                url = Pub.baseUrl + "Issue/Detail?issue=" + mo.orderno;
+                msgText = "您的投诉建议：";
+            }
+            jo["url"] = url;
             JObject jdo = new JObject();
-            jdo["first"] = getJob("工单" + mo.title + "暂结");
+            jdo["first"] = getJob(msgText + mo.title + "暂结");
             jdo["keyword1"] = getJob(mo.idtask);
             jdo["keyword2"] = getJob("暂结");
             jdo["keyword3"] = getJob(muser.UserName + "(" + muser.phone + ")");
             jdo["remark"] = getJob("工单于" + DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分") + "暂结了.");
             jo["data"] = jdo;
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
 
         }
 
@@ -132,13 +226,13 @@ namespace TCom.Msg
             jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
             jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
             JObject jdo = new JObject();
-            jdo["first"] = getJob("工单" + mo.title + "暂结通知");
+            jdo["first"] = getJob("工单" + mo.title + "暂结");
             jdo["keyword1"] = getJob(mo.idtask);
             jdo["keyword2"] = getJob("暂结");
             jdo["keyword3"] = getJob(muser.UserName);
             jdo["remark"] = getJob("工单于" + DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分") + "暂结了.");
             jo["data"] = jdo;
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
 
         }
 
@@ -155,15 +249,27 @@ namespace TCom.Msg
             JObject jo = new JObject();
             jo["touser"] = uweixin;
             jo["template_id"] = "5qUMd1eQHjqP-eVD_x_1HFjzLR64nF3iGuXeRe64iVs";
-            jo["url"] = Pub.baseUrl + "Task/Detail?idtask=" + mo.idtask + "&updateUser=1";
+            string url = "", msgText = "";
+
+            if (mo.tasktype == TaskType.Setup)
+            {
+                url = Pub.baseUrl + "Order/Detail/" + mo.orderno;
+                msgText = "您的订单：";
+            }
+            else
+            {
+                url = Pub.baseUrl + "Issue/Detail?issue=" + mo.orderno;
+                msgText = "您的投诉建议：";
+            }
+            jo["url"] = url;
             JObject jdo = new JObject();
-            jdo["first"] = getJob("工单" + mo.title + "完工");
+            jdo["first"] = getJob(msgText + mo.title + "完工");
             jdo["keyword1"] = getJob(mo.idtask);
             jdo["keyword2"] = getJob("完工");
             jdo["keyword3"] = getJob(muser.UserName + "(" + muser.phone + ")");
             jdo["remark"] = getJob("工单于" + DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分") + "完工了.");
             jo["data"] = jdo;
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.PauseTask, mo.orderno, 0, db);
 
         }
 
@@ -187,17 +293,15 @@ namespace TCom.Msg
             jdo["keyword3"] = getJob(muser.UserName);
             jdo["remark"] = getJob("工单于" + DateTime.Now.ToString("yyyy年MM月dd日 HH时mm分") + "完工了.");
             jo["data"] = jdo;
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.FinishTask, mo.orderno, 0, db);
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.FinishTask, mo.orderno, 0, db);
 
         }
 
         public static bool PostReviewOrder(string orderno, int otype, TCom.EF.TN db)
         {
-            return crateMsg("", "", MsgType.PostWaitReviewOrder, orderno, otype, db);
+            return createMsg("", "", MsgType.PostWaitReviewOrder, orderno, otype, db);
 
         }
-
-
 
 
         /// <summary>
@@ -226,7 +330,7 @@ namespace TCom.Msg
             jdo["keyword4"] = getJob("用户 [" + user.name + "]");
             jdo["remark"] = getJob("请尽快审核！");
             jo["data"] = jdo;
-            return crateMsg(muser.idweixin, jo.ToString(), MsgType.WaitReviewOrder, mo.orderno + "", otype, db);
+            return createMsg(muser.idweixin, jo.ToString(), MsgType.WaitReviewOrder, mo.orderno + "", otype, db);
 
         }
 
@@ -261,12 +365,12 @@ namespace TCom.Msg
             }
             jdo["remark"] = getJob("审核意见：" + content);
             jo["data"] = jdo;
-            return crateMsg(user.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
+            return createMsg(user.idweixin, jo.ToString(), MsgType.SetupOrder, mo.orderno + "", otype, db);
 
         }
 
 
-        public static bool crateMsg(string idweixin, string msg, int msgType, string orderno, int otype, TCom.EF.TN db)
+        public static bool createMsg(string idweixin, string msg, int msgType, string orderno, int otype, TCom.EF.TN db)
         {
             TCom.EF.Msg mo = new TCom.EF.Msg();
             mo.idweixin = idweixin;

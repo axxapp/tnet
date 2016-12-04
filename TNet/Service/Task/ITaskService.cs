@@ -32,11 +32,18 @@ namespace TNet.Service.Task
         Result<TaskDetail> Detail(string idtask, string idrecver, string mgcode);
 
         /// <summary>
+        /// 投诉报修派单
+        /// </summary>
+        /// <returns></returns>
+        [WebInvoke(Method = "POST", UriTemplate = "Dis/issue", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<string> DisIssue(DisTaskIssueData data);
+
+        /// <summary>
         /// 订单派单
         /// </summary>
         /// <returns></returns>
         [WebInvoke(Method = "POST", UriTemplate = "Dis/Order", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
-        Result<string> DisTask(DisTaskOrderData data);
+        Result<string> DisOrder(DisTaskOrderData data);
 
 
         /// <summary>

@@ -37,6 +37,7 @@ function getROps(so, o) {
 
 
 function getTimeNum(workTime, unit) {
+     
     if (!unit) {
         unit = "分";
     }
@@ -55,14 +56,13 @@ function getTimeNum(workTime, unit) {
             } else {
                 tt = wt + "时";
             }
-
             wt = (workTime % 60);
             if (wt) {
                 tt += wt + "分";
             }
         }
     } else {
-        tt = wt + "分";
+        tt = workTime + "分";
     }
     return tt;
 }
@@ -149,22 +149,3 @@ function startWork(idtask, idrecver, e) {
 
 
 
-
-
-function lookImg(obj) {
-    var imgs = __G_TASK_DATA_CACHE.imgs;
-    var ms = [];
-    if (!imgs || imgs.length <= 0) {
-        imgs = ["Images/default_bg.png"];
-    }
-    if (imgs) {
-        for (var i = 0; i < imgs.length; i++) {
-            ms.push(Pub.fullUrl(imgs[i].path));
-        }
-    }
-    var img = Pub.fullUrl($(obj).children().first().attr('src'));
-    PreviewImage({
-        current: img,
-        urls: ms
-    });
-}

@@ -13,6 +13,7 @@ using TCom.Msg;
 using TCom.Util;
 using TNet.Models.Order;
 using TNet.Models.Service.Com;
+using TNet.Models.Task;
 using TNet.Util;
 
 namespace TNet.Service.Order
@@ -252,6 +253,50 @@ namespace TNet.Service.Order
                         result.Data = new MyOrderDetail();
                         result.Data.Order = o;
                         result.Data.Presses = db.MyOrderPresses.Where(m => m.inuse == true && m.orderno == orderno).ToList();
+                        if (o != null && o.otype == OrderType.Setup)
+                        {
+
+                            string idtask = o.idtask;
+                            if (!string.IsNullOrWhiteSpace(idtask))
+                            {
+                                result.Data.task = (from u in db.Tasks
+                                                    where u.idtask == idtask && u.inuse == true
+                                                    select new TaskDetailItem()
+                                                    {
+                                                        _task = u
+                                                    }).FirstOrDefault();
+                                if (result.Data.task != null)
+                                {
+                                    var ps = (from u in db.TaskPresses
+                                              where (u.idtask == idtask && u.inuse == true)
+                                              orderby u.cretime
+                                              select u).ToList();
+                                    result.Data.press = TaskPressItem.gets(ps);
+                                    var tr = (from u in db.TaskRecvers
+                                              where (u.idtask == idtask && u.inuse == true)
+                                              orderby u.cretime
+                                              select u).ToList();
+                                    result.Data.recver = TaskRecverItem.gets(tr);
+                                    if (result.Data.press != null && result.Data.press.Count > 0)
+                                    {
+                                        result.Data.imgs = (from m in db.Imgs
+                                                            where m.outpro2 == idtask
+                                                            orderby m.sortno
+                                                            select new TaskImg()
+                                                            {
+                                                                path = m.path,
+                                                                outkey = m.outkey,
+                                                                outpro = m.outpro,
+                                                                type = "press"
+                                                            }).ToList();
+
+                                    }
+
+
+                                }
+                            }
+                        }
+
                         result.Code = R.Ok;
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿var idAddr = "";
 var addr_data_cache = null;
 var update_Addr_ing = false;
+var __ADRR_Y_CAHCE_V = 0;
 function getAddrList() {
     var u = Pub.getUser();
     if (u != null) {
@@ -198,6 +199,7 @@ function showAdrBox() {
     $("#delAddr").hide();
     setAddrOp();
     getAddrList();
+    __ADRR_Y_CAHCE_V = $(document.body).scrollTop();
     setTopMenuEvent(autoAddrBack, "Top_Menu_Back");
 }
 
@@ -206,6 +208,10 @@ function hiddenAddrBox() {
     $("#Addr_Host").hide();
     $("#delAddr").hide();
     setTopMenuEvent();
+    if (__ADRR_Y_CAHCE_V != -10000) {
+        $(document).scrollTop(__ADRR_Y_CAHCE_V);
+        __ADRR_Y_CAHCE_V = -10000;
+    }
 }
 
 function setAddrOp() {

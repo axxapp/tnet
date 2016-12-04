@@ -78,7 +78,7 @@ namespace TNet.Models
             this.booktime = issue.booktime;
             this.lng = issue.lng;
             this.lat = issue.lat;
-            this.address = issue.address;
+            this.addr = issue.addr;
             this.phone = issue.phone;
             this.notes = issue.notes;
             this.tasktype = issue.tasktype;
@@ -95,7 +95,7 @@ namespace TNet.Models
             issue.booktime = this.booktime;
             issue.lng = this.lng;
             issue.lat = this.lat;
-            issue.address = this.address;
+            issue.addr = this.addr;
             issue.phone = this.phone;
             issue.notes = this.notes;
             issue.tasktype = this.tasktype;

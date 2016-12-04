@@ -1,0 +1,165 @@
+﻿
+.issue_host {
+    display: block;
+    height: auto;
+    padding: 0px 0px 100px 0px;
+}
+
+
+
+.issue_item {
+    display: block;
+    height: auto;
+    position: relative;
+}
+
+
+
+.issue {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: dotted #cbcbcb 1px;
+}
+
+    .issue .no {
+        float: left;
+        height: 40px;
+        line-height: 40px;
+        color: #222222;
+        padding: 0px 0px 0px 10px;
+    }
+
+.issue_status {
+    float: right;
+    height: 40px;
+    line-height: 40px;
+    color: #222222;
+    padding: 0px 0px 0px 0px;
+    color: #ff6a00;
+}
+
+
+    .issue_status .status {
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        color: #222222;
+        padding: 0px 15px 0px 15px;
+        text-align: center;
+        color: #efac33;
+        border-bottom: dotted 1px #d6d6d6;
+    }
+
+
+
+.titem_host {
+    display: block;
+    height: 20px;
+    line-height: 20px;
+    padding: 8px 8px 8px 8px;
+}
+
+.ttitle {
+    float: left;
+    width: 50px;
+    height: 20px;
+    line-height: 20px;
+    color: #757575;
+}
+
+.tvalue {
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    color: #222222;
+}
+
+
+
+
+
+.taskPress {
+    display: none;
+}
+
+
+
+
+
+.task_ops {
+    display: none;
+    height: 60px;
+    line-height:60px;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: #ffffff;
+    border-top: solid #cbcbcb 1px;
+    padding: 0px;
+    background: #FAFAFA;
+    background: linear-gradient(#FAFAFA,#F4F4F4);
+    box-shadow: 0 -1px 0 rgba(0,0,0,.1) inset,0 -2px 8px rgba(0,0,0,.06);
+}
+
+
+
+
+
+.work_host {
+    display: block;
+    padding-bottom: 50px;
+    background-color: transparent;
+    z-index: 999;
+}
+
+.work_List {
+    display: block;
+    padding-bottom: 50px;
+}
+
+
+.weui_cells {
+    font-size: unset;
+}
+
+
+.weui_cells {
+    background-color: transparent;
+    margin-top: 0px;
+}
+
+.weui_cell_bd p {
+    padding: 8px 0px 8px 0px;
+}
+
+
+.worker_op {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+    z-index: 9999;
+    background-color: #ffffff;
+    border-top: solid #cbcbcb 1px;
+    padding: 0px;
+    background: #FAFAFA;
+    background: linear-gradient(#FAFAFA,#F4F4F4);
+    box-shadow: 0 -1px 0 rgba(0,0,0,.1) inset,0 -2px 8px rgba(0,0,0,.06);
+}
+
+    .worker_op a.task {
+        padding: 0px;
+        margin: 0px;
+        display: block;
+        width: 100%;
+        height: 100%;
+        line-height: 60px;
+        text-align: center;
+        text-decoration: none;
+        color: #222222;
+        font-weight: bold;
+        float: left;
+    }

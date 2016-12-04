@@ -8,14 +8,20 @@ function Save() {
         alert("请输入内容");
         //$("#context").focus();
         return;
+    } 
+    var contact = "";
+    var addr = "";
+    var phone = "";
+    var ao = Pub.getCache("Addr");
+    if (ao) {
+        contact = ao.contact;
+        addr = ao.province + ao.city + ao.district + ao.street;
+        phone = ao.phone;
     }
-    var phone = Pub.str($("#phone").val(), true);
-    if (!phone || phone == "") {
-        alert("请输入电话号码");
-        //$("#phone").focus();
+    if (!addr) {
+        alert("请选择联系人");
         return;
     }
-
     var booktime = Pub.str($("#booktime").val(), true);
     var notes = Pub.str($("#notes").val());
     var _n = $.trim(notes);
@@ -35,7 +41,9 @@ function Save() {
             iduser: u.iduser,
             context: context,
             booktime: booktime,
+            contact: contact,
             phone: phone,
+            addr: addr,
             notes: notes,
             imgs: imgs
         };
@@ -71,4 +79,34 @@ $(document.body).ready(function () {
         minDate: minDate,
         maxDate: maxDate
     });
+    loadAddr();
 });
+
+var _g_set_addr_tag = false;
+function loadAddr() {
+    _g_set_addr_tag = true;
+    var ao = Pub.getCache("Addr");
+    if (ao) {
+        var real_addr = ao.province + ao.city + ao.district + ao.street;
+        var html = '<i class="iconfont">&#xe615</i>';
+        html += '<div class="addrInfo">';
+        html += '<div class="npHost">';
+        html += '<span class="contacts">' + ao.contact + '</span>';
+        html += '<span class="phones">' + ao.phone + '</span>';
+        html += '</div>';
+        html += '<div class="realAddr">' + real_addr + '</div>';
+        html += '</div>';
+        html += '<span class="choice"></span>';
+        $("#addr").html(html);
+    } else {
+        var html = '<i class="iconfont">&#xe615</i>';
+        html += '<span>请选择地址...</span>';
+        html += '<span class="choice"></span>';
+        $("#addr").html(html);
+    }
+}
+
+function selectAddr() {
+    $("#OC").toggle();
+    showAdrBox();
+}

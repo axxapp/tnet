@@ -46,77 +46,6 @@
 
 
 
-.taskDoPress {
-    display: block;
-    height: auto;
-    padding: 8px 10px 30px 10px;
-}
-
-    .taskDoPress .p_item_host {
-        display: block;
-        height: auto;
-        color: #757575;
-    }
-
-    .taskDoPress .p_item {
-        display: block;
-        height: auto;
-        line-height: 30px;
-        color: #757575;
-        border-bottom: dotted 1px #d6d6d6;
-    }
-
-    .taskDoPress .p_item_desc {
-        display: block;
-        height: auto;
-        border-top: dotted 1px #d9d9d9;
-        margin: 2px 10px 2px 20px;
-        padding: 5px;
-        white-space: pre-wrap;
-        line-height: 25px;
-        color: #ff6a00;
-    }
-
-    .taskDoPress .p_item span.p_time {
-        display: inline-block;
-        width: 140px;
-    }
-
-
-    .taskDoPress .p_item span.ptext {
-        display: inline-block;
-        padding: 0px 0px 0px 0px;
-    }
-
-
-    .taskDoPress .p_item span.p_oper {
-        display: inline-block;
-        padding: 0px 10px 0px 10px;
-    }
-
-    .taskDoPress .taskImg {
-        display: block;
-        height: 80px;
-        padding: 0px 0px 0px 20px;
-    }
-
-        .taskDoPress .taskImg a {
-            float: left;
-            border: dotted #d6d6d6 1px;
-            text-decoration: none;
-            margin-right: 10px;
-        }
-
-            .taskDoPress .taskImg a, .taskDoPress .taskImg a img {
-                display: block;
-                width: 60px;
-                height: 60px;
-            }
-
-                .taskDoPress .taskImg a img {
-                    border: none;
-                    outline: none;
-                }
 
 .mercHosr {
     display: none;
@@ -186,6 +115,7 @@
 
 .task_ops {
     height: 60px;
+    line-height:60px;
     position: fixed;
     display: block;
     bottom: 0px;

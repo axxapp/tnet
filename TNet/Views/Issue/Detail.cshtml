@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "投诉建议详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section Head{
+    <link href="~/Css/Task/Comm.css?v=20161121" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Issue/Base.css?v=20161121" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Issue/Detail.css?v=20161121" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/Js/Issue/Base.js?v=20161121"></script>
+    <script type="text/javascript" src="~/Js/Task/Comm.js?v=20161121"></script>
+    <script type="text/javascript" src="~/Js/Issue/Detail.js?v=20161121"></script>
+
+}
+
+<div id="OC" class="issue_host">
+    <div class="issue_item">
+
+        <div class="issue">
+
+            <div class="no">受理：<span id="issue"></span></div>
+            <div class="issue_status">
+                <div class="status" id="status"></div>
+            </div>
+
+        </div>
+
+
+        <div class="titem_host">
+
+            <div class="ttitle">姓名:</div>
+            <div class="tvalue"><span id="contact"></span></div>
+
+        </div>
+        <div class="titem_host">
+
+            <div class="ttitle">电话:</div>
+            <div class="tvalue"><span id="phone"></span></div>
+
+        </div>
+
+        <div class="titem_host">
+
+            <div class="ttitle">受理:</div>
+            <div class="tvalue"><span id="cretime"></span></div>
+
+        </div>
+
+
+        <div class="titem_host">
+
+            <div class="ttitle">预约:</div>
+            <div class="tvalue"><span id="booktime"></span> </div>
+
+        </div>
+
+
+        <div class="titem_host">
+
+            <div class="ttitle">内容:</div>
+            <div class="tvalue"><span id="context"></span> </div>
+
+        </div>
+
+        <div class="taskimg">
+
+        </div>
+        <div class="taskPress" id="taskPress">
+
+
+        </div>
+
+        
+    </div>
+
+    <div class="vline"></div>
+    <div class="title">工单记录:</div>
+    <div class="taskDoPress"></div>
+
+    <div class="task_ops">
+        <div class="buy_r ops" id="ops"></div>
+    </div>
+
+</div>

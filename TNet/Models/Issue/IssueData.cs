@@ -18,8 +18,9 @@ namespace TNet.Models.Task
 
         public double lat { get; set; }
 
+        public string contact { get; set; }
 
-        public string address { get; set; }
+        public string addr { get; set; }
 
 
         public string phone { get; set; }

@@ -28,6 +28,8 @@ function initBase() {
 
     }
 
+    window.title = document.title;
+
 }
 
 

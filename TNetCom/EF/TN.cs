@@ -200,7 +200,19 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<Issue>()
+                .Property(e => e.idtask)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Issue>()
                 .Property(e => e.iduser)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Issue>()
+                .Property(e => e.contact)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Issue>()
+                .Property(e => e.addr)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Issue>()
@@ -209,10 +221,6 @@ namespace TCom.EF
 
             modelBuilder.Entity<Issue>()
                 .Property(e => e.notes)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Issue>()
-                .Property(e => e.idtask)
                 .IsUnicode(false);
 
             modelBuilder.Entity<ManageUser>()

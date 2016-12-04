@@ -92,12 +92,29 @@
         z-index: 999;
     }
 
-.Addr_Edit {
+.Issue_Add_Host {
     padding: 0px 0px 0px 0px;
     background-color: #ffffff;
-    padding:0px 0px 100px 0px;
+    padding: 0px 0px 100px 0px;
 }
 
+
+
+.choice {
+    border-right: 1px solid #6c6c6c;
+    border-top: 1px solid #6c6c6c;
+    display: inline-block;
+    height: 10px;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    width: 10px;
+    margin: 25px 0 0 10px;
+    position: absolute;
+    right: 0.625em;
+}
 .Edit_Item {
     display: block;
     height: 60px;
@@ -283,7 +300,7 @@
         }
 
 
-        
+
 .TaskOps {
     position: fixed;
     bottom: 0px;
@@ -313,3 +330,61 @@
         font-weight: bold;
         float: left;
     }
+
+
+.addr {
+    display: block;
+    height: 60px;
+    position: relative;
+}
+
+    .addr a {
+        display: block;
+        height: 60px;
+        line-height: 60px;
+        color: #222222;
+        text-decoration: none;
+        padding: 0px 10px 0px 10px;
+    }
+
+        .addr a i {
+            font-size: 20px;
+        }
+
+
+
+    .addr .addrInfo {
+        display: block;
+        position: absolute;
+        left: 36px;
+        right: 40px;
+        height: 60px;
+        top: 0px;
+        float: left;
+    }
+
+        .addr .addrInfo .npHost {
+            height: 30px;
+            display: block;
+            line-height: 30px;
+        }
+
+            .addr .addrInfo .npHost .contacts {
+                float: left;
+                font-weight: bold;
+            }
+
+            .addr .addrInfo .npHost .phones {
+                float: right;
+                text-align: right;
+                font-weight: bold;
+            }
+
+        .addr .addrInfo .realAddr {
+            height: 30px;
+            display: block;
+            line-height: 30px;
+            overflow: hidden;
+            font-size: 12px;
+            color: #757575;
+        }
