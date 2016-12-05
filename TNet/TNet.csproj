@@ -1394,6 +1394,7 @@
     <Content Include="Views\Buss\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="doc\" />
     <Folder Include="Images\Addr\" />
     <Folder Include="Resource\Images\Ue\" />
     <Folder Include="ueditor\net\upload\image\" />

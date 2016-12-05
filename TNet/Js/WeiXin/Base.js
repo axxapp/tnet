@@ -27,11 +27,29 @@ function initBase() {
         }
 
     }
-
-    window.title = document.title;
+    
 
 }
 
+function wxSetTitle(title) {
+    document.title = title;
+    var mobile = navigator.userAgent.toLowerCase();
+    if (/iphone|ipad|ipod/.test(mobile)) {
+        var iframe = document.createElement('iframe');
+        iframe.style.visibility = 'hidden';
+        iframe.setAttribute('src', Pub.url('favicon.ico'));
+        var iframeCallback = function () {
+            setTimeout(function () {
+                iframe.removeEventListener('load', iframeCallback);
+                document.body.removeChild(iframe);
+                document.title = title;
+
+            }, 0);
+        };
+        iframe.addEventListener('load', iframeCallback);
+        document.body.appendChild(iframe);
+    }
+}
 
 function autoShowCity() {
     if (g_base_x_v == 0) {
@@ -207,7 +225,7 @@ function loadAd(pos) {
 
 
 }
- 
+
 
 //选择图片
 function __FileSelectImg(id, e) {
@@ -257,7 +275,7 @@ function FileUploadImg(imgData, id) {
 
 
 function PreviewImage(imgs) {
-    wx.previewImage(imgs); 
+    wx.previewImage(imgs);
     //{ 
     //    current: '', // 当前显示图片的http链接
 
