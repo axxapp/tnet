@@ -4,14 +4,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Head{
-    <link href="@Url.Content("~/Css/Home/Index.css?v=20161121")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Merc/List.css?v=20161121")" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Home/Index.css?v=20161123" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Merc/List.css?v=20161123" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="@Url.Content("~/Js/Home/Home.js?v=20161121")">
+    <script type="text/javascript" src="~/Js/Home/Home.js?v=20161123">
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/Base.js?v=20161121")">
+    <script type="text/javascript" src="~/Js/Merc/Base.js?v=20161123">
     </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Merc/BaseList.js?v=20161121")">
+    <script type="text/javascript" src="~/Js/Merc/BaseList.js?v=20161123">
     </script>
 
 }
@@ -43,27 +43,27 @@
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <td>
-                    <a href="@Url.Content("~/Notice/List")"><i class="tongzhi"></i><span>公告通知</span> </a>
+                    <a href="~/Notice/List"><i class="tongzhi"></i><span>公告通知</span> </a>
                 </td>
                 <td>
                     <a href="javascript:void(0)"><i class="baoxiu"></i><span>集市</span> </a>
                 </td>
                 <td>
-                    <a href="@Url.Content("~/Merc/List/List")"><i class="toushu"></i><span>网络服务</span> </a>
+                    <a href="~/Merc/List/List"><i class="toushu"></i><span>网络服务</span> </a>
                 </td>
                 <td>
-                    <a href="@Url.Content("~/Buss/Index")"><i class="jiaofei"></i><span>家门口</span> </a>
+                    <a href="~/Buss/Index"><i class="jiaofei"></i><span>家门口</span> </a>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <a href="@Url.Content("~/Issue/List")"><i class="suishoupai"></i><span>投诉建议</span> </a>
+                    <a href="~/Issue/List"><i class="suishoupai"></i><span>投诉建议</span> </a>
                 </td>
                 <td>
-                    <a href="@Url.Content("~/Order/List")"><i class="juece"></i><span>我的订单</span> </a>
+                    <a href="~/Order/List"><i class="juece"></i><span>我的订单</span> </a>
                 </td>
                 <td>
-                    <a id="Task" href="@Url.Content("~/Task/MyTask")"><i class="zhinan"></i><span>我的工单</span> </a>
+                    <a id="Task" href="~/Task/MyTask"><i class="zhinan"></i><span>我的工单</span> </a>
                 </td>
                 <td>
                     @*<a href="#"><i class="diaocha"></i><span>报修申请</span> </a>*@

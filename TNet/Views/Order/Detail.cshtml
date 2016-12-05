@@ -8,14 +8,13 @@
 
 
 @section Head{
-    <link href="@Url.Content("~/Css/Order/Base.css?v=20161121")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Css/Order/Detail.css?v=20161121")" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="@Url.Content("~/Js/Order/Base.js?v=20161121")">
-
-    </script>
-    <script type="text/javascript" src="@Url.Content("~/Js/Order/Detail.js?v=20161121")">
-    </script>
+    <link href="~/Css/Task/Comm.css?v=20161123" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Order/Base.css?v=20161123" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Order/Detail.css?v=20161123" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/Js/Order/Base.js?v=20161123"></script>
+    <script type="text/javascript" src="~/Js/Task/Comm.js?v=20161123"></script>
+    <script type="text/javascript" src="~/Js/Order/Detail.js?v=20161123"></script>
 
 }
 
@@ -74,21 +73,27 @@
         <div class="title">身份证照片：</div>
         <div>
             <a href="javascript:void(0)">
-                <img id="idc_img1" src="@Url.Content("~/Images/default_bg.png")" />
+                <img id="idc_img1" src="~/Images/default_bg.png" />
 
             </a>
             <a href="javascript:void(0)">
-                <img id="idc_img2" src="@Url.Content("~/Images/default_bg.png")" />
+                <img id="idc_img2" src="~/Images/default_bg.png" />
             </a>
             <a href="javascript:void(0)">
-                <img id="idc_img3" src="@Url.Content("~/Images/default_bg.png")" />
+                <img id="idc_img3" src="~/Images/default_bg.png" />
             </a>
         </div>
 
     </div>
     <div class="vline"></div>
-    <div class="title">处理进度：</div>
+    <div class="title">订单记录：</div>
     <div class="Presses" id="Presses"></div>
+
+    <div class="taskDoPressHost">
+        <div class="vline"></div>
+        <div class="title">报装记录:</div>
+        <div class="taskDoPress"></div>
+    </div>
     <div class="vline"></div>
     <div class="title">留言信息：</div>
     <div class="notes">

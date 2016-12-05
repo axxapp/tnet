@@ -29,7 +29,7 @@ namespace TNet.Models.Issue
             {
                 if (value != null)
                 {
-                    Task = new TaskItem()
+                    Task = new TaskDetailItem()
                     {
                         _task = value
                     };
@@ -38,7 +38,7 @@ namespace TNet.Models.Issue
             }
         }
 
-        public TaskItem Task { get; set; }
+        public TaskDetailItem Task { get; set; }
 
         public List<string> Imgs { get; set; }
     }

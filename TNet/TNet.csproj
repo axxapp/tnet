@@ -203,6 +203,7 @@
     <Compile Include="BLL\Statistic\StatisticHelper.cs" />
     <Compile Include="BLL\Statistic\TaskStatisticService.cs" />
     <Compile Include="BLL\Statistic\UserStatisticService.cs" />
+    <Compile Include="Models\Issue\IssueDetail.cs" />
     <Compile Include="Models\Mgr\WorkerItem.cs" />
     <Compile Include="Models\Mgr\WorkerStatus.cs" />
     <Compile Include="Models\Statistic\IssuesStatisticByDateViewModel.cs" />
@@ -294,6 +295,7 @@
     <Compile Include="Models\Issue\IssueData.cs" />
     <Compile Include="Models\Statistic\OrderStatisticByDateViewModel.cs" />
     <Compile Include="Models\Statistic\UserStatisticByDateViewModel.cs" />
+    <Compile Include="Models\Task\DisTaskIssueData.cs" />
     <Compile Include="Models\Task\DisTaskOrderData.cs" />
     <Compile Include="Models\Task\StartData.cs" />
     <Compile Include="Models\Task\TaskDetail.cs" />
@@ -518,6 +520,8 @@
     <Content Include="Css\iCheck\skins\square\yellow.png" />
     <Content Include="Css\iCheck\skins\square\_all.css" />
     <Content Include="Css\Issue\Add.css" />
+    <Content Include="Css\Issue\Base.css" />
+    <Content Include="Css\Issue\Detail.css" />
     <Content Include="Css\Issue\List.css" />
     <Content Include="Css\Mobiscroll\mobiscroll.android-holo-light.css" />
     <Content Include="Css\Mobiscroll\mobiscroll.animation.css" />
@@ -545,6 +549,7 @@
     <Content Include="Css\Notice\List.css" />
     <Content Include="Css\Order\Edit.css" />
     <Content Include="Css\Task\Base.css" />
+    <Content Include="Css\Task\Comm.css" />
     <Content Include="Css\Task\Detail.css" />
     <Content Include="Css\Task\Finish.css" />
     <Content Include="Css\User\Update.css" />
@@ -767,6 +772,8 @@
     <Content Include="Js\iCheck\icheck.js" />
     <Content Include="Js\iCheck\icheck.min.js" />
     <Content Include="Js\Issue\Add.js" />
+    <Content Include="Js\Issue\Base.js" />
+    <Content Include="Js\Issue\Detail.js" />
     <Content Include="Js\Issue\List.js" />
     <Content Include="Js\Lrz\1.chunk.js" />
     <Content Include="Js\Lrz\2.chunk.js" />
@@ -920,6 +927,7 @@
     <Content Include="Css\Bootstrap\bootstrap-theme.css.map" />
     <Content Include="Css\Bootstrap\bootstrap.css.map" />
     <Content Include="Css\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Js\Task\Comm.js" />
     <Content Include="Js\Task\Detail.js" />
     <Content Include="Js\Task\Finish.js" />
     <Content Include="Js\Task\Pause.js" />
@@ -935,6 +943,8 @@
     <Content Include="Css\Fonts\font_1469444055_0424716.ttf" />
     <Content Include="Css\Fonts\font_1469444055_0424716.woff" />
     <Content Include="Css\Fonts\font_1469444055_0424716_iefix.eot" />
+    <Content Include="doc\T网租生活-软件使用说明-v1.4.1.doc" />
+    <Content Include="doc\T网租生活-软件使用说明-v1.4.1.pdf" />
     <None Include="Js\Com\jquery.validate-vsdoc.js" />
     <Content Include="Js\Com\jquery.validate.js" />
     <Content Include="Js\Com\jquery.validate.min.js" />
@@ -1372,6 +1382,7 @@
     <Content Include="Views\Task\Finish.cshtml" />
     <Content Include="Views\Task\Detail.cshtml" />
     <Content Include="Views\Task\Pause.cshtml" />
+    <Content Include="Views\Issue\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

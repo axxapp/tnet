@@ -8,7 +8,7 @@ function getData() {
             url: "Service/Issue/List/" + u.iduser,
             loadingMsg: "加载中...",
             success: function (data) {
-                //alert(JSON.stringify(data))
+               // alert(JSON.stringify(data))
                 if (Pub.wsCheck(data)) {
                     if (data.Data) {
                         var html = "";
@@ -24,16 +24,25 @@ function getData() {
                                     if (html) {
                                         html += '<div class="vline"></div>';
                                     }
-                                    html += '<div class="order_item">';
+                                    html += '<div class="order_item"  onclick="goDetail(\'' + uo.issue1 + '\')">';
                                     html += '<div class="order">';
-                                    html += '<div class="no">受理号：' + uo.issue1 + '</div>';//"  (" + uo.tasktype + ")"
+                                    html += '<div class="no">受理：' + uo.issue1 + '</div>';//"  (" + uo.tasktype + ")"
                                     html += '<div class="status">' + (so ? so.text : "等待派工") + '</div>';
                                     html += '</div>';
-                                    
+
+                                    html += '<div class="titem_host">';
+                                    html += '<div class="ttitle">姓名:</div>';
+                                    html += '<div class="tvalue">' + uo.contact + '</div>';
+                                    html += '</div>';
 
                                     html += '<div class="titem_host">';
                                     html += '<div class="ttitle">电话:</div>';
                                     html += '<div class="tvalue">' + uo.phone + '</div>';
+                                    html += '</div>';
+
+                                    html += '<div class="titem_host">';
+                                    html += '<div class="ttitle">地址:</div>';
+                                    html += '<div class="tvalue">' + uo.addr + '</div>';
                                     html += '</div>';
 
                                     html += '<div class="titem_host">';
@@ -57,7 +66,7 @@ function getData() {
                                             if (z++ == 0) {
                                                 html += '<div class="taskimg_box">';
                                             }
-                                            html += '<img src="' + Pub.url(o.Imgs[j], "Images/default_bg.png") + '" onclick="lookImg(this,' + i + ')"/>';
+                                            html += '<img src="' + Pub.url(o.Imgs[j], "Images/default_bg.png") + '" onclick="lookImg(this,' + i + ',event)"/>';
                                             if (z == 4) {
                                                 z = 0;
                                                 html += "</div>";
@@ -77,7 +86,7 @@ function getData() {
                                             { t: "完工", v: to.finishtime },
                                             { t: "回访", v: to.echotime }
                                         ];
-                                        html += getPress(ts);
+                                        html += setTaskPresBar(ts);
                                         html += '</div>';
                                     }
                                     html += '</div>';
@@ -113,52 +122,22 @@ $(document.body).ready(getData);
 
 
 
-function getPress(ts) {
-    //alert(ts.join(','));
-    var html = "";
-    html += '<div class="p_item_box"></div>';
-
-    for (var i = 0; i < ts.length; i++) {
-        var lcss = "", rcss = "", ptcss = "";
-        if (ts[i].v) {
-            lcss = " p_select";
-            ptcss = 'p_t_select';
-        }
-        if ((i + 1) < ts.length && ts[i + 1].v) {
-            rcss = " p_select";
-            lcss = " p_select";
-
-        }
-        html += '<div class="p_item_box">';
-
-        html += '<div class="p_item_time">';
-        html += '<div class="p_start ' + lcss + '"></div>';
-        if ((i + 1) < ts.length) {
-            html += '<div class="p_line_l ' + lcss + '"></div>';
-            html += '<div class="p_line_r ' + rcss + '"></div>';
-        }
-        html += '</div>';
-        //if (i == 0) 
-
-        html += '<div class="p_item_text ' + ptcss + '">' + ts[i].t + "<br/>" + getTime(ts[i].v) + '</div>';
-        //}
-        html += '</div>';
-    }
-
-    // alert(html);
-
-    return html;
-
-}
-
-
 function load_fail(msg) {
     Pub.noData("#order_host", msg, getData);
 }
 
 
+function goDetail(issue) {
+    var u = Pub.getUser();
+    if (issue) {
+        window.location.href = Pub.url("Issue/Detail?issue=" + issue);
+    }
+}
 
-function lookImg(obj, j) {
+
+
+function lookImg(obj, j, e) {
+    e.stopPropagation();
     var imgs = issue_data[j].Imgs;
     var ms = [];
     if (!imgs || imgs.length <= 0) {

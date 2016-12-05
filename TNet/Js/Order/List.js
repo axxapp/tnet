@@ -1,5 +1,5 @@
 ﻿Pub.checkUser(true);
- 
+
 //获取订单
 function getData() {
     var u = Pub.getUser();
@@ -25,8 +25,8 @@ function getData() {
                                 html += '<div class="no">' + o.orderno + '</div>';
                                 html += '<div class="status">' + so.text + '</div>';
                                 html += '</div>';
-                                var da = Pub.url("Order/Detail/" + o.orderno);
-                                 
+                                var da = Pub.url("Order/Detail/" + o.orderno + "?iduser=" + u.iduser);
+
                                 html += '<a href="' + da + '" id="merc" class="merc">';
                                 html += '<div class="merc_l">';
 
@@ -48,7 +48,7 @@ function getData() {
                                 html += '</a>';
                                 html += '<div class="order_ops">';
                                 html += '<div class="amont">￥' + o.totalfee + '</div>';
-                                html += '<div class="ops">' + getOps(so, o,true) + '</div>';
+                                html += '<div class="ops">' + getOps(so, o, true) + '</div>';
                                 html += '</div>';
                                 html += '</div>';
                             }

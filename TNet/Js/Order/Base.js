@@ -92,11 +92,11 @@ function getOps(status, order, isList) {
                 html += '<a class="pay" href="' + Pub.url("Order/Edit/?orderno=" + order.orderno) + '" >编辑</a>';
 
             } else if (p == "dispTask") {
-                if (uo && uo.iduser == "636083726396093750" && uo.mu && uo.mu.sendSetup && !order.idtask) {
+                if (uo && uo.mu && uo.mu.sendSetup && !order.idtask) {
                     if (isList) {
                         html += '<a class="pay" href="' + Pub.url("Order/Detail/" + order.orderno) + '">去派单</a>';
                     } else {
-                        html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">发起抢单</a>';
+                        // html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">发起抢单</a>';
                         html += '<a class="pay" href="javascript:void(0)" onclick="showWorkHost(\'' + order.orderno + '\')">派单</a>';
 
                     }
@@ -176,79 +176,8 @@ function reviewOrder(review, event) {
         alert("订单有误");
     }
 }
-var __title_var = document.title;
-//显示工人-派工
-function showWorkHost(orderno) {
-    var workHost = $(".work_host");
-    if (workHost.length <= 0) {
-        __title_var = document.title;
-        var html = '<div class="work_host">';
-        html += '<div class="work_List">';
-        html += '<span class="loading_c">加载中...</span>';
-        html += '</div>';
-        html += '<div class="worker_op">';
-        html += '<a id="worker_op_add" class="task" href="javascript:void(0)" onclick="dispTask(\'' + orderno + '\')">派单</a>';
-        html += '</div>';
-        html += '</div>';
-        $(document.body).append(html);
-        workHost = $(".work_host");
-        getWorker();
-    } else {
-        workHost.toggle();
-    }
-    $("#OC").toggle();
-    if (!workHost.is(":hidden")) {
-        document.title = "派单";
-        setTopMenuEvent(showWorkHost, "Top_Menu_Back");
-    } else {
-        document.title = __title_var;
-        setTopMenuEvent();
-    }
-
-}
 
 
-var g_worker_data = null;
-//获取工人
-function getWorker() {
-    Pub.get({
-        url: "Service/Mgr/Work/List",
-        loadingMsg: "获取工人中...",
-        success: function (data) {
-            if (Pub.wsCheck(data)) {
-                g_worker_data = data.Data;
-                var html = "";
-                for (var i = 0; i < data.Data.length; i++) {
-                    var mg = data.Data[i];
-                    html += '<label class="weui_cell weui_check_label" for="worker_' + i + '">';
-                    html += '<div class="weui_cell_hd">';
-                    html += '<input value="' + mg.mgcode + '" class="weui_check"  id="worker_' + i + '"  type="checkbox">';
-                    html += '<i class="weui_icon_checked"></i>';
-                    html += '</div>';
-                    html += '<div class="weui_cell_bd weui_cell_primary">';
-                    html += '<p>' + mg.mgname + '</p>';
-                    html += '</div>';
-                    html += '</label>';
-                }
-                if (html) {
-                    html = '<div class="weui_cells weui_cells_checkbox">' + html + '</div>';
-                    $(".work_List").html(html);
-                    return;
-                }
-            }
-            load_worker_fail("暂无工人");
-        },
-        error: function (xhr, status, e) {
-            load_worker_fail("获取工人失败");
-        }
-    });
-
-}
-
-
-function load_worker_fail(msg) {
-    Pub.noData(".work_List", msg, getWorker);
-}
 
 
 function dispTask(orderno) {
@@ -272,7 +201,7 @@ function dispTask(orderno) {
                 success: function (data) {
                     if (Pub.wsCheck(data)) {
                         alert("派单成功,工单号：" + data.Data);
-                        //window.location.href = Pub.url("Task/MyTask");
+                        window.location.href = window.location.href + "";//Pub.url("Task/MyTask");
                     }
                 },
                 error: function (xhr, status, e) {

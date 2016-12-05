@@ -308,3 +308,10 @@
     .Presses .p_item_topic .pcretime {
         margin: 0px 0px 0px 6px;
     }
+
+
+
+
+    .taskDoPressHost{
+        display:none;
+    }

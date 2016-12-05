@@ -7,6 +7,7 @@ using System.ServiceModel.Activation;
 using System.Text;
 using TCom.EF;
 using TCom.Model.Task;
+using TCom.Msg;
 using TCom.Util;
 using TNet.Models.Issue;
 using TNet.Models.Service.Com;
@@ -19,7 +20,6 @@ namespace TNet.Service.Issue
     [AspNetCompatibilityRequirementsAttribute(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class IssueService : IIssueService
     {
-
 
         public Result<string> Create(IssueData data)
         {
@@ -52,7 +52,8 @@ namespace TNet.Service.Issue
                         u.booktime = bt;
                         u.lng = data.lng;
                         u.lat = data.lng;
-                        u.address = data.address;
+                        u.contact = data.contact;
+                        u.addr = data.addr;
                         u.phone = data.phone;
                         u.notes = data.notes;
                         u.tasktype = TaskType.Complaint;
@@ -72,9 +73,10 @@ namespace TNet.Service.Issue
                                 db.Imgs.Add(mo);
                             }
                         }
-
+                        MsgMgr.PostCreateIssue(u.issue1,db);
                         if (db.SaveChanges() > 0)
                         {
+                            MsgMgr.Post();
                             result.Data = u.issue1;
                             result.Code = R.Ok;
                             result.Msg = "提交成功,我们会尽快处理";
@@ -134,7 +136,7 @@ namespace TNet.Service.Issue
                                         break;
                                     }
                                 }
-                                if(imgs.Count <= 0)
+                                if (imgs.Count <= 0)
                                 {
                                     break;
                                 }
@@ -153,6 +155,91 @@ namespace TNet.Service.Issue
             return result;
 
         }
+
+
+        public Result<IssueDetail> Detail(string issue)
+        {
+            Result<IssueDetail> result = new Result<IssueDetail>();
+            try
+            {
+                using (TCom.EF.TN db = new TCom.EF.TN())
+                {
+                    result.Data = new IssueDetail();
+                    result.Data.issue = (from u in db.Issues
+                                         where (u.issue1 == issue && u.inuse == true)
+                                         select u).FirstOrDefault();
+
+                    if (result.Data.issue != null)
+                    {
+
+                        var img = (from m in db.Imgs
+                                   where m.outkey == issue
+                                   orderby m.sortno
+                                   select new TaskImg()
+                                   {
+                                       path = m.path,
+                                       outkey = m.outkey,
+                                       outpro = m.outpro,
+                                       type = "main"
+                                   }).ToList();
+
+                        result.Data.imgs = new List<TaskImg>();
+                        result.Data.imgs.AddRange(img);
+                        string idtask = result.Data.issue.idtask;
+                        if (!string.IsNullOrWhiteSpace(idtask))
+                        {
+                            result.Data.task = (from u in db.Tasks
+                                                where u.idtask == result.Data.issue.idtask && u.inuse == true
+                                                select new TaskDetailItem()
+                                                {
+                                                    _task = u
+                                                }
+                                                ).FirstOrDefault();
+                            if (result.Data.task != null)
+                            { 
+                                var ps = (from u in db.TaskPresses
+                                          where (u.idtask == result.Data.issue.idtask && u.inuse == true)
+                                          orderby u.cretime
+                                          select u).ToList();
+                                result.Data.press = TaskPressItem.gets(ps);
+
+                                var tr = (from u in db.TaskRecvers
+                                          where (u.idtask == result.Data.issue.idtask && u.inuse == true)
+                                          orderby u.cretime
+                                          select u).ToList();
+                                result.Data.recver = TaskRecverItem.gets(tr);
+
+                                if (result.Data.press != null && result.Data.press.Count > 0)
+                                {
+                                    var pimgs = (from m in db.Imgs
+                                                 where m.outpro2 == idtask
+                                                 orderby m.sortno
+                                                 select new TaskImg()
+                                                 {
+                                                     path = m.path,
+                                                     outkey = m.outkey,
+                                                     outpro = m.outpro,
+                                                     type = "press"
+                                                 }).ToList();
+                                    result.Data.imgs.AddRange(pimgs); 
+                                } 
+                            }
+
+                        }
+                        result.Code = R.Ok;
+                        result.Msg = "检索到到数据";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                result.Code = R.Error;
+                result.Msg = "出现异常";
+            }
+            return result;
+
+        }
+
 
 
 

@@ -1,0 +1,203 @@
+﻿
+
+.taskPress {
+    display: block;
+    height: 60px;
+    margin: 30px 0px 30px 0px;
+}
+
+
+
+    .taskPress .p_item_box {
+        width: 20%;
+        height: 60px;
+        float: left;
+        position: relative;
+    }
+
+    .taskPress .p_item_time {
+        display: block;
+        width: 100%;
+        height: 8px;
+        position: relative;
+    }
+
+
+    .taskPress .p_item_text {
+        display: block;
+        width: 100%;
+        height: 40px;
+        line-height: 20px;
+        text-align: center;
+        /*margin-left: -50%;*/
+        position: absolute;
+        top: 16px;
+        left: -50%;
+        color: #cbcbcb;
+    }
+
+    .taskPress .p_item_time .p_start {
+        position: absolute;
+        left: -4px;
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: #dbdbdb;
+        z-index: 99;
+    }
+
+
+
+    .taskPress .p_item_time .p_line_l {
+        position: absolute;
+        top: 3.5px;
+        display: block;
+        width: 50%;
+        height: 1px;
+        background-color: #d9d9d9;
+    }
+
+    .taskPress .p_item_time .p_line_r {
+        position: absolute;
+        top: 3.5px;
+        right: 0px;
+        display: block;
+        width: 50%;
+        height: 1px;
+        background-color: #d9d9d9;
+    }
+
+
+    .taskPress .p_item_time div.p_select {
+        background-color: forestgreen;
+    }
+
+    .taskPress .p_t_select {
+        color: #84a3e3;
+    }
+
+
+
+.taskDoPress {
+    display: block;
+    height: auto;
+    padding: 8px 10px 30px 10px;
+}
+
+    .taskDoPress .p_item_host {
+        display: block;
+        height: auto;
+        color: #757575;
+    }
+
+    .taskDoPress .p_item {
+        display: block;
+        height: auto;
+        line-height: 30px;
+        color: #757575;
+        border-bottom: dotted 1px #d6d6d6;
+    }
+
+    .taskDoPress .p_item_desc {
+        display: block;
+        height: auto;
+        border-top: dotted 1px #d9d9d9;
+        margin: 2px 10px 2px 20px;
+        padding: 5px;
+        white-space: pre-wrap;
+        line-height: 25px;
+        color: #ff6a00;
+    }
+
+    .taskDoPress .p_item span.p_time {
+        display: inline-block;
+        width: 140px;
+    }
+
+
+    .taskDoPress .p_item span.ptext {
+        display: inline-block;
+        padding: 0px 0px 0px 0px;
+    }
+
+
+    .taskDoPress .p_item span.p_oper {
+        display: inline-block;
+        padding: 0px 10px 0px 10px;
+    }
+
+    .taskDoPress .taskImg {
+        display: block;
+        height: 80px;
+        padding: 0px 0px 0px 20px;
+    }
+
+        .taskDoPress .taskImg a {
+            float: left;
+            border: dotted #d6d6d6 1px;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+            .taskDoPress .taskImg a, .taskDoPress .taskImg a img {
+                display: block;
+                width: 60px;
+                height: 60px;
+            }
+
+                .taskDoPress .taskImg a img {
+                    border: none;
+                    outline: none;
+                }
+
+.ops {
+    display: block;
+    float: right;
+    width: auto;
+}
+
+
+a.pay, a.cancel {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 20px 0px 20px;
+    margin: 5px 10px 5px 10px;
+    border: solid #d6d6d6 1px;
+    border-radius: 5px;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+a.pay {
+    color: #ffffff;
+    background: #ce2828;
+    background: linear-gradient(#ce2828,#ce2228);
+}
+
+
+a.cancel {
+    color: #757575;
+}
+
+
+
+.taskimg {
+    display: block;
+    height: auto;
+}
+
+.taskimg_box {
+    display: block;
+    height: 100px;
+    padding:10px 20px 0px 20px;
+}
+
+.taskimg img {
+    border: dotted #d6d6d6 1px;
+    outline: none;
+    float: left;
+    width: 80px;
+    height: 80px;
+    margin: 10px 10px 10px 0px;
+}

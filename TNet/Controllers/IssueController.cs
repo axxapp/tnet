@@ -17,7 +17,10 @@ namespace TNet.Controllers
         {
             return View();
         }
+        public ActionResult Detail()
+        {
+            return View();
+        }
 
-        
     }
 }

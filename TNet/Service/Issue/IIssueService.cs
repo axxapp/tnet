@@ -38,6 +38,11 @@ namespace TNet.Service.Issue
         Result<List<IssueItem>> GetList(string iduser);
 
 
-
+        /// <summary>
+        /// 明细
+        /// </summary>
+        /// <returns></returns>
+        [WebInvoke(Method = "GET", UriTemplate = "Detail/{issue}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<IssueDetail> Detail(string issue);
     }
 }

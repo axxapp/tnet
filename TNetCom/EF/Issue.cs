@@ -13,6 +13,9 @@ namespace TCom.EF
         [StringLength(60)]
         public string issue1 { get; set; }
 
+        [StringLength(60)]
+        public string idtask { get; set; }
+
         [Required]
         [StringLength(60)]
         public string iduser { get; set; }
@@ -28,19 +31,19 @@ namespace TCom.EF
 
         public double? lat { get; set; }
 
-        [StringLength(180)]
-        public string address { get; set; }
+        [StringLength(50)]
+        public string contact { get; set; }
+
+        [StringLength(100)]
+        public string addr { get; set; }
 
         [StringLength(13)]
         public string phone { get; set; }
 
-        [StringLength(50)]
-        public string notes { get; set; }
-
         public int? tasktype { get; set; }
 
-        [StringLength(60)]
-        public string idtask { get; set; }
+        [StringLength(50)]
+        public string notes { get; set; }
 
         public bool? inuse { get; set; }
     }

@@ -75,5 +75,18 @@ namespace TCom.Msg
         /// 过期订单
         /// </summary>
         public readonly static int ExpireOrder = 700;
+
+
+
+        /// <summary>
+        /// 投递问题
+        /// </summary>
+        public readonly static int PostCreateIssue = 800;
+
+
+        /// <summary>
+        /// 问题
+        /// </summary>
+        public readonly static int Issue = 900;
     }
 }
