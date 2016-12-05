@@ -943,6 +943,8 @@
     <Content Include="Css\Fonts\font_1469444055_0424716.ttf" />
     <Content Include="Css\Fonts\font_1469444055_0424716.woff" />
     <Content Include="Css\Fonts\font_1469444055_0424716_iefix.eot" />
+    <Content Include="doc\T网租生活-软件使用说明-v1.4.1.doc" />
+    <Content Include="doc\T网租生活-软件使用说明-v1.4.1.pdf" />
     <None Include="Js\Com\jquery.validate-vsdoc.js" />
     <Content Include="Js\Com\jquery.validate.js" />
     <Content Include="Js\Com\jquery.validate.min.js" />
@@ -1394,7 +1396,6 @@
     <Content Include="Views\Buss\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="doc\" />
     <Folder Include="Images\Addr\" />
     <Folder Include="Resource\Images\Ue\" />
     <Folder Include="ueditor\net\upload\image\" />
