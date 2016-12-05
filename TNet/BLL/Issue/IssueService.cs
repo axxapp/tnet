@@ -94,7 +94,7 @@ namespace TNet.BLL
             //oldIssue.booktime = issue.booktime;
             oldIssue.lng = issue.lng;
             oldIssue.lat = issue.lat;
-            oldIssue.address = issue.address;
+            oldIssue.addr = issue.addr;
             oldIssue.phone = issue.phone;
             oldIssue.notes = issue.notes;
             oldIssue.tasktype = issue.tasktype;
