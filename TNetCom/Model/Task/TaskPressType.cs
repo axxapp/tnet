@@ -37,6 +37,13 @@ namespace TCom.Model.Task
         public readonly static int Finish = 500;
 
 
+        /// <summary>
+        /// 回访
+        /// </summary>
+        public readonly static int Echo = 600;
+
+
+
         public static Dictionary<int, string> s = new Dictionary<int, string>()
         {
             {
@@ -53,6 +60,9 @@ namespace TCom.Model.Task
             },
             {
                 Finish,"完工"
+            },
+            {
+                Echo,"回访"
             },
             {
                 0,"未知"

@@ -11,8 +11,13 @@ function __init(city) {
 
 function initPageParam() {
     var u = Pub.getUser();
-    if (u && u.mu && (u.mu.recvSetup || u.mu.sendSetup)) {
-        $("#Task").show().css("display", "block");
+    if (u && u.mu) {
+        if (u.mu.recvSetup) {
+            $("#Task").show().css("display", "block");
+        }
+        if (u.mu.sendSetup) {
+            $("#Dis").show().css("display", "block");
+        }
     }
     Pub.onCity(function (city) {
         __init(city);

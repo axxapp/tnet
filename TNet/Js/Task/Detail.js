@@ -5,6 +5,7 @@ function getData() {
     var u = Pub.getUser();
     var idtask = Pub.urlParam("idtask");
     var idrecver = Pub.urlParam("idrecver");
+    var dis = Pub.urlParam("dis");
     if (u != null && u.mu && idtask) {
         var _idrecver = idrecver;
         if (!_idrecver || _idrecver == "") {
@@ -34,22 +35,27 @@ function getData() {
                             var so = task.statusObj;
                             $("#idtask").html(task.idtask + " (" + task.tasktype_t + ")");
                             $(".gstatus").html(so.text);
+                            var sh = "";
                             if (rso != null) {
                                 $(".rstatus").html(rso.statusObj.text);
-                                var sh = getROps(rso.statusObj, rso);
-                                if (sh && sh != "") {
-                                    $("#ops").html(sh);
-                                } else {
-                                    $(".task_ops").hide();
-                                }
+                                sh = getROps(rso.statusObj, rso);
+
                             } else {
-                                $(".task_ops").hide();
+                                if (dis) {
+                                    sh = getOps(so, task, false);
+                                }
                                 $(".order").css("height", "40px").css("line-height", "40px");
                                 $(".no").css("height", "40px").css("line-height", "40px");
                                 $(".task_status").css("height", "40px").css("line-height", "40px");
                                 $(".rstatus").hide();
                                 $(".gstatus").css("height", "40px").css("line-height", "40px").css("border", "none");
+                            }
 
+                            if (sh && sh != "") {
+                                $(".task_ops").show();
+                                $("#ops").html(sh);
+                            } else {
+                                $(".task_ops").hide();
                             }
 
                             $("#task").html(task.title);
@@ -96,7 +102,7 @@ function getData() {
                             setMerc(data);
                             return;
                         } catch (e) {
-                            $('#task_host').html("加载异常" + e.message);
+                            $('#task_host').html("加载异常");
                             return;
                         }
 
@@ -105,7 +111,7 @@ function getData() {
                 load_fail("亲,您暂无工单");
             },
             error: function (xhr, status, e) {
-                load_fail("加载工单失败" + e.message);
+                load_fail("加载工单失败");
             }
         });
     }
@@ -134,4 +140,6 @@ $(document).ready(getData);
 function load_fail(msg) {
     Pub.noData("#task_host", msg, getData);
 }
+
+
 

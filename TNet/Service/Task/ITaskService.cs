@@ -27,6 +27,12 @@ namespace TNet.Service.Task
         [WebInvoke(Method = "GET", UriTemplate = "List/{mgcode}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
         Result<List<TaskItem>> List(string mgcode);
 
+        /// <summary>
+        /// 我的派单
+        /// </summary>
+        /// <returns></returns>
+        [WebInvoke(Method = "GET", UriTemplate = "DisList/{mgcode}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<List<TaskDetailItem>> DisList(string mgcode);
 
         [WebInvoke(Method = "GET", UriTemplate = "Detail/{idtask}/{idrecver}/{mgcode}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
         Result<TaskDetail> Detail(string idtask, string idrecver, string mgcode);
@@ -68,6 +74,11 @@ namespace TNet.Service.Task
         Result<string> Finish(TaskFinishData data);
 
 
-
+        /// <summary>
+        /// 回访
+        /// </summary>
+        /// <returns></returns>
+        [WebInvoke(Method = "POST", UriTemplate = "Echo", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare)]
+        Result<string> Echo(EchoTaskData data);
     }
 }

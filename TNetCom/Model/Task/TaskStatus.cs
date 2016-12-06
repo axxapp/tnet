@@ -120,7 +120,7 @@ namespace TCom.Model.Task
                 new TaskStatusItem()
                 {
                     text = "完成",
-                    ops = ""
+                    ops = "echoTask"
                 }
             },
             {

@@ -29,5 +29,11 @@ namespace TNet.Controllers
         {
             return View();
         }
+
+
+        public ActionResult DisList()
+        {
+            return View();
+        }
     }
 }

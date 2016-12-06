@@ -62,6 +62,40 @@ namespace TNet.Service.Task
             return result;
         }
 
+
+        public Result<List<TaskDetailItem>> DisList(string mgcode)
+        {
+            Result<List<TaskDetailItem>> result = new Result<List<TaskDetailItem>>();
+            result.Msg = "暂无派单";
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(mgcode))
+                {
+
+                    using (TN db = new TN())
+                    {
+                        result.Data = (from p in db.Tasks
+                                       where p.idsend == mgcode
+                                       orderby p.idtask descending
+                                       select new TaskDetailItem()
+                                       {
+                                           _task = p
+                                       }).ToList();
+                        result.Msg = "检索到派单";
+                        result.Code = R.Ok;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                result.Code = R.Error;
+                result.Msg = "出现异常";
+            }
+            return result;
+        }
+
+
+
         public Result<TaskDetail> Detail(string idtask, string idrecver, string mgcode)
         {
             if (idrecver == "null")
@@ -89,9 +123,9 @@ namespace TNet.Service.Task
                             result.Data.press = TaskPressItem.gets(ps);
                             List<TCom.EF.TaskRecver> tr = (from t in db.TaskRecvers where t.inuse == true && t.idtask == idtask orderby t.cretime select t).ToList();
                             result.Data.recver = TaskRecverItem.gets(tr);
-                            
+
                             result.Data.imgs = new List<TaskImg>();
-                            
+
 
                             if (ts.tasktype == TaskType.Complaint)//投诉业务-问题图片
                             {
@@ -535,18 +569,20 @@ namespace TNet.Service.Task
                                     MsgMgr.PauseTaskToMgr(to, mmo, db);
 
                                 }
+
+                                if (db.SaveChanges() > 0)
+                                {
+                                    //  result.Data = u.issue1;
+                                    MsgMgr.Post();
+                                    result.Code = R.Ok;
+                                    result.Msg = "保存成功";
+                                }
                             }
                         }
                         else
                         {
                             result.Msg = "工单不存在";
-                        }
-                        if (db.SaveChanges() > 0)
-                        {
-                            //  result.Data = u.issue1;
-                            MsgMgr.Post();
-                            result.Code = R.Ok;
-                            result.Msg = "保存成功";
+
                         }
                     }
                 }
@@ -667,19 +703,21 @@ namespace TNet.Service.Task
                                 {
                                     MsgMgr.FinishTaskToMgr(to, mmo, db);
                                 }
+
+                                if (db.SaveChanges() > 0)
+                                {
+                                    //  result.Data = u.issue1;
+                                    MsgMgr.Post();
+                                    result.Code = R.Ok;
+                                    result.Msg = "保存成功";
+                                }
                             }
                         }
                         else
                         {
                             result.Msg = "工单不存在";
                         }
-                        if (db.SaveChanges() > 0)
-                        {
-                            //  result.Data = u.issue1;
-                            MsgMgr.Post();
-                            result.Code = R.Ok;
-                            result.Msg = "保存成功";
-                        }
+
                     }
                 }
                 catch (Exception)
@@ -690,5 +728,66 @@ namespace TNet.Service.Task
             }
             return result;
         }
+
+
+
+        public Result<string> Echo(EchoTaskData data)
+        {
+            Result<string> result = new Result<string>();
+            result.Msg = "回访失败";
+            if (data != null)
+            {
+                try
+                {
+                    using (TCom.EF.TN db = new TCom.EF.TN())
+                    {
+                        var mo = db.ManageUsers.Where(m => m.ManageUserId == data.mgcode && m.inuse == true).FirstOrDefault();
+                        if (mo != null)
+                        {
+
+                            var to = db.Tasks.Where(m => m.idtask == data.idtask && m.idsend == data.mgcode && m.inuse == true).FirstOrDefault();
+                            if (to != null)
+                            {
+
+                                db.Tasks.Attach(to);
+                                to.echotime = DateTime.Now;
+                                to.status = TaskStatus.Close;
+
+                                //记录工单处理
+                                TCom.EF.TaskPress p = new TCom.EF.TaskPress();
+                                p.idpress = Pub.ID();
+                                p.idtask = data.idtask;
+                                p.idrecver = data.iduser;
+                                p.cretime = DateTime.Now;
+                                p.ptext = "回访";
+                                p.pdesc = data.content;
+                                p.ptype = TaskPressType.Echo;
+                                p.inuse = true;
+                                db.TaskPresses.Add(p);
+                                if (db.SaveChanges() > 0)
+                                {
+                                    result.Data = p.idpress;
+                                    result.Code = R.Ok;
+                                    result.Msg = "回访成功";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.Msg = "工单不存在 或 您不是派单者";
+                        }
+
+                    }
+                }
+                catch (Exception)
+                {
+                    result.Code = R.Error;
+                    result.Msg = "出现异常";
+                }
+            }
+            return result;
+        }
+
+
     }
 }

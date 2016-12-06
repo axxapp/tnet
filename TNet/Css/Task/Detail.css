@@ -115,7 +115,7 @@
 
 .task_ops {
     height: 60px;
-    line-height:60px;
+    line-height: 60px;
     position: fixed;
     display: block;
     bottom: 0px;
@@ -127,4 +127,142 @@
     background: #FAFAFA;
     background: linear-gradient(#FAFAFA,#F4F4F4);
     box-shadow: 0 -1px 0 rgba(0,0,0,.1) inset,0 -2px 8px rgba(0,0,0,.06);
+}
+
+
+
+.reviewOrderHost {
+    display: none;
+    height: 100%;
+    background-color: #222222;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    position: fixed;
+    top: 0px;
+    left: 00px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.reviewOrderBox_Host {
+    position: fixed;
+    top: 0px;
+    left: 20px;
+    right: 20px;
+    bottom: 0px;
+}
+
+.reviewOrderBox_Host {
+    display: none;
+    align-items: center;
+    z-index: 999;
+}
+
+
+.reviewOrderBox {
+    display: block;
+    width: 100%;
+    background-color: #ffffff;
+    /*position: fixed;
+    top: 80px;
+    left: 20px;
+    right: 20px;*/
+    height: 260px;
+    overflow: hidden;
+    border-radius: 10px;
+    z-index: 999;
+}
+
+.reviewOrderTitle {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 10px 0px 10px;
+    color: #222222;
+    border-bottom: dotted 1px #d6d6d6;
+    background-color: #d9d9d9;
+}
+
+
+.reviewOrderContent {
+    display: block;
+    width: 100%;
+    height: 155px;
+    /*position: absolute;
+    top: 51px;
+    left: 0px;
+    right: 0px;
+    bottom: 61px;*/
+    padding: 5px;
+}
+
+
+
+    .reviewOrderContent textarea {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        font-size: 12pt;
+    }
+
+
+.reviewOrderOps {
+    display: block;
+    /* position: absolute;
+left: 0px;
+    right: 0px;
+    bottom: 0px;*/
+    height: 60px;
+    line-height: 60px;
+    color: #222222;
+    border-top: dotted 1px #d6d6d6;
+    background-color: #ffffff;
+    text-align: center;
+    z-index: 99;
+    padding: 0px;
+}
+
+
+
+a.reviewOrder_Ok, a.reviewOrder_Fail {
+    display: block;
+    width: 50%;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 20px 0px 20px;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+a.reviewOrder_Ok {
+    padding: 0px 40px 0px 40px;
+    color: #5079d9;
+    border-right: dotted 1px #d6d6d6;
+    /*background: #a2eecb;
+    background: linear-gradient(#5079d9,#5079d9);*/
+}
+
+
+a.reviewOrder_Fail {
+    padding: 0px 40px 0px 40px;
+    color: #ce2828;
+    /*background: #ce2828;
+    background: linear-gradient(#ce2828,#ce2828);*/
+}
+
+.review_msg_host {
+    display: none;
+    color: #ff6a00;
+    display: none;
+}
+
+
+.review_msg {
+    display: block;
+    line-height: 30px;
+    padding: 8px 10px 8px 20px;
 }

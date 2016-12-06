@@ -128,7 +128,7 @@ function setPress(data) {
             var po = press[i];
             phtml += "<div class='p_item_host'><div class='p_item'>";
             phtml += "<div class='p_item_topic'><span class='ptext'>" + po.ptext + "</span>";
-            if (po.ptype == 100) {
+            if (po.ptype == 100 || po.ptype == 600) {
                 phtml += "<span class='p_oper'>" + task.send + "</span>";
             } else {
                 for (var j = 0; j < recver.length; j++) {
@@ -202,7 +202,7 @@ function lookImg(obj) {
         }
     }
     var img = Pub.fullUrl($(obj).children().first().attr('src'));
-    
+
     PreviewImage({
         current: img,
         urls: ms

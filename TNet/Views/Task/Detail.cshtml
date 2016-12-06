@@ -4,12 +4,12 @@
 }
 
 @section Head{
-    <link href="~/Css/Task/Base.css?v=20161123" rel="stylesheet" type="text/css" />
-    <link href="~/Css/Task/Comm.css?v=20161123" rel="stylesheet" type="text/css" />
-    <link href="~/Css/Task/Detail.css?v=20161123" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="~/Js/Task/Base.js?v=20161123"></script>
-    <script type="text/javascript" src="~/Js/Task/Comm.js?v=20161123"></script>
-    <script type="text/javascript" src="~/Js/Task/Detail.js?v=20161123"></script>
+    <link href="~/Css/Task/Base.css?v=20161124" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Task/Comm.css?v=20161124" rel="stylesheet" type="text/css" />
+    <link href="~/Css/Task/Detail.css?v=20161124" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/Js/Task/Base.js?v=20161124"></script>
+    <script type="text/javascript" src="~/Js/Task/Comm.js?v=20161124"></script>
+    <script type="text/javascript" src="~/Js/Task/Detail.js?v=20161124"></script>
 
 }
 <div id="task_host" class="task_host">
@@ -95,4 +95,18 @@
         <div class="buy_r ops" id="ops"></div>
     </div>
 
+    <div class="reviewOrderHost" onclick="showEchtTaskHost()">
+
+    </div>
+    <div class="reviewOrderBox_Host" onclick="showEchtTaskHost()">
+        <div class="reviewOrderBox">
+            <div class="reviewOrderTitle">回访</div>
+            <div class="reviewOrderContent">
+                <textarea id="reviewOrderCValue" maxlength="200" placeholder="输入您回访意见吧..." onclick="{ event.cancelBubble = true; }"></textarea>
+            </div>
+            <div class="reviewOrderOps">
+                <a class="reviewOrder_Ok" href="javascript:void(0)" onclick="echoTask(event)">提交</a><a class="reviewOrder_Fail" href="javascript:void(0)">取消</a>
+            </div>
+        </div>
+    </div>
 </div>
