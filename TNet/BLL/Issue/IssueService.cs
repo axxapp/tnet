@@ -90,6 +90,7 @@ namespace TNet.BLL
             oldIssue.issue1 = issue.issue1;
             oldIssue.iduser = issue.iduser;
             oldIssue.context = issue.context;
+            oldIssue.contact = issue.contact;
             //oldIssue.cretime = issue.cretime;
             //oldIssue.booktime = issue.booktime;
             oldIssue.lng = issue.lng;

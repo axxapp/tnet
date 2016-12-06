@@ -62,7 +62,8 @@
                         <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.context))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, DateTime?>(en => en.cretime))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, DateTime?>(en => en.booktime))</th>
-                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.address))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.contact))</th>
+                        <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.addr))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.phone))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<IssueViewModel, string>(en => en.notes))</th>
                         <th>@(AttributeHelper.DisplayAttributeFor<MyOrderViewModel, bool>(en => en.inuse))</th>
@@ -82,7 +83,8 @@
                             <td>@item.context</td>
                             <td>@(item.cretime == null ? "" : item.cretime.Value.ToString("yyyy-MM-dd"))</td>
                             <td>@(item.booktime == null ? "" : item.booktime.Value.ToString("yyyy-MM-dd"))</td>
-                            <td>@item.address</td>
+                            <td>@item.contact</td>
+                            <td>@item.addr</td>
                             <td>@item.phone</td>
                             <td>@item.notes</td>
                             <td>
