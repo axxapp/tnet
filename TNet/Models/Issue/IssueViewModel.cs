@@ -38,7 +38,7 @@ namespace TNet.Models
 
         [Display(Name = "地址")]
         [StringLength(180)]
-        public new string address { get; set; }
+        public new string addr { get; set; }
 
         [Display(Name = "电话")]
         [StringLength(13)]
@@ -57,6 +57,9 @@ namespace TNet.Models
         
         [Display(Name = "启用")]
         public new bool? inuse { get; set; }
+
+        [Display(Name ="联系人")]
+        public new string contact { get; set; }
 
         [Display(Name = "用户")]
         /// <summary>
@@ -84,6 +87,7 @@ namespace TNet.Models
             this.tasktype = issue.tasktype;
             this.idtask = issue.idtask;
             this.inuse = issue.inuse;
+            this.contact = issue.contact;
         }
 
         public void CopyToBase(TCom.EF.Issue issue)
@@ -101,6 +105,7 @@ namespace TNet.Models
             issue.tasktype = this.tasktype;
             issue.idtask = this.idtask;
             issue.inuse = this.inuse;
+            issue.contact = this.contact;
         }
     }
 }
