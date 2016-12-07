@@ -203,6 +203,7 @@
     <Compile Include="BLL\Statistic\StatisticHelper.cs" />
     <Compile Include="BLL\Statistic\TaskStatisticService.cs" />
     <Compile Include="BLL\Statistic\UserStatisticService.cs" />
+    <Compile Include="Models\Image\CommonImageViewModel.cs" />
     <Compile Include="Models\Issue\IssueDetail.cs" />
     <Compile Include="Models\Mgr\WorkerItem.cs" />
     <Compile Include="Models\Mgr\WorkerStatus.cs" />
@@ -1386,6 +1387,7 @@
     <Content Include="Views\Task\Pause.cshtml" />
     <Content Include="Views\Issue\Detail.cshtml" />
     <Content Include="Views\Task\DisList.cshtml" />
+    <Content Include="Views\Manage\ManageUserPasswordEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Order\Submit.cshtml" />

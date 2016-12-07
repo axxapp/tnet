@@ -22,6 +22,7 @@ using TCom.Msg;
 using TNet.Models.Order;
 using TNet.Models.Statistic;
 using TNet.BLL.Statistic;
+using TNet.Models.Image;
 
 namespace TNet.Controllers
 {
@@ -2091,7 +2092,7 @@ namespace TNet.Controllers
         /// <summary>
         /// 创建/编辑管理员
         /// </summary>
-        /// <param name="idmerc"></param>
+        /// <param name="manageUserId"></param>
         /// <returns></returns>
         [ManageLoginValidation]
         [HttpGet]
@@ -2121,23 +2122,33 @@ namespace TNet.Controllers
         [HttpPost]
         public ActionResult ManageUserEdit(ManageUserViewModel model)
         {
-            if (model.ClearPassword != model.ConfirmPassword)
+            if (string.IsNullOrEmpty(model.ManageUserId))
             {
-                ModelState.AddModelError("", "密码与确认密码必须一致.");
-                return View(model);
+                if (model.ClearPassword != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("", "密码与确认密码必须一致.");
+                    return View(model);
+                }
+                ManageUser user = ManageUserService.GetManageUserByUserName(model.UserName);
+                if (user != null)
+                {
+                    ModelState.AddModelError("", "用户名已经存在，请使用其它用户名.");
+                    return View(model);
+                }
             }
-            ManageUser user = ManageUserService.GetManageUserByUserName(model.UserName);
-            if (user != null)
-            {
-                ModelState.AddModelError("", "用户名已经存在，请使用其它用户名.");
-                return View(model);
-            }
+
+           
             ManageUser manageUser = new ManageUser();
             model.CopyToBase(manageUser);
             if (string.IsNullOrWhiteSpace(manageUser.ManageUserId))
             {
                 //新增
                 manageUser.ManageUserId = Pub.ID();
+                string md5Password = string.Empty;
+                string md5Salt = string.Empty;
+                Crypto.GetPwdhashAndSalt(model.ClearPassword, out md5Salt, out md5Password);
+                manageUser.Password = md5Password;
+                manageUser.MD5Salt = md5Salt;
                 manageUser = ManageUserService.Add(manageUser);
             }
             else
@@ -2148,6 +2159,57 @@ namespace TNet.Controllers
 
             return RedirectToAction("ManageUserList", "Manage");
         }
+
+
+        /// <summary>
+        /// 修改管理员密码
+        /// </summary>
+        /// <param name="manageUserId"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        [HttpGet]
+        public ActionResult ManageUserPasswordEdit(string manageUserId)
+        {
+            ManageUserViewModel model = new ManageUserViewModel();
+
+            ManageUser manageUser = ManageUserService.Get(manageUserId);
+
+            if (manageUser != null) { model.CopyFromBase(manageUser); }
+
+            model.Password = "";
+            model.ConfirmPassword = "";
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// 修改管理员密码
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [ManageLoginValidation]
+        [HttpPost]
+        public ActionResult ManageUserPasswordEdit(ManageUserViewModel model)
+        {
+            if (model.ClearPassword != model.ConfirmPassword)
+            {
+                ModelState.AddModelError("", "密码与确认密码必须一致.");
+                return View(model);
+            }
+            ManageUser manageUser = new ManageUser();
+            model.CopyToBase(manageUser);
+            string md5Password = string.Empty;
+            string md5Salt = string.Empty;
+            Crypto.GetPwdhashAndSalt(model.ClearPassword, out md5Salt, out md5Password);
+            manageUser.Password = md5Password;
+            manageUser.MD5Salt = md5Salt;
+
+            //修改密码
+            manageUser = ManageUserService.PasswordEdit(manageUser);
+            
+            return RedirectToAction("ManageUserList", "Manage");
+        }
+
 
         /// <summary>
         /// 搜索工人
@@ -3164,6 +3226,150 @@ namespace TNet.Controllers
             }
 
             return RedirectToAction("WeiXinModuleList", "Manage");
+        }
+
+        [ManageLoginValidation]
+        public ActionResult UploadCommonImage(ModuleType moduleType)
+        {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<CommonImageViewModel> resultEntity = new ResultModel<CommonImageViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "文件上传成功";
+            string GUID = System.Guid.NewGuid().ToString();
+            string path = "~/Resource/Images/";
+            if (moduleType == ModuleType.Advertise)
+            {
+                path += "Advertise/";
+            }
+            else if (moduleType == ModuleType.Bussiness)
+            {
+                path += "Buss/";
+            }
+            else if (moduleType == ModuleType.Merc)
+            {
+                path += "Merc/";
+            }
+            else if (moduleType == ModuleType.Notice)
+            {
+                path += "Notice/";
+            }
+            else if (moduleType == ModuleType.WeiXinModule)
+            {
+                path += "WeiXinModule/";
+            }
+
+            string filename = string.Empty;
+            string message = string.Empty;
+            try
+            {
+                if (Request.Files != null && Request.Files.Count > 0)
+                {
+                    //if (Request.Files.Count > 1)
+                    //{
+                    //    resultEntity.Code = ResponseCodeType.Fail;
+                    //    resultEntity.Message = "请选择文件.";
+                    //    return Content(resultEntity.SerializeToJson());
+                    //}
+                    resultEntity.Content = new List<CommonImageViewModel>();
+                    int i = 0;
+                    foreach (string upload in Request.Files)
+                    {
+                        GUID = System.Guid.NewGuid().ToString();
+                        if (!Request.Files[i].HasFile())
+                        {
+                            resultEntity.Code = ResponseCodeType.Fail;
+                            resultEntity.Message = "文件大小不能0.";
+                            return Content(resultEntity.SerializeToJson());
+                        }
+
+
+                        if (!CheckFileType((HttpPostedFileWrapper)((HttpFileCollectionWrapper)Request.Files)[i]))
+                        {
+                            resultEntity.Code = ResponseCodeType.Fail;
+                            resultEntity.Message = "文件类型只能是jpg,bmp,gif,PNG..";
+                            return Content(resultEntity.SerializeToJson());
+                        }
+
+                        //获取文件后缀名
+                        string originFileName = Request.Files[i].FileName;
+                        string originFileNameSuffix = string.Empty;
+                        int lastIndex = originFileName.LastIndexOf(".");
+                        if (lastIndex < 0)
+                        {
+                            resultEntity.Code = ResponseCodeType.Fail;
+                            resultEntity.Message = "文件类型只能是jpg,bmp,gif,PNG..";
+                            return Content(resultEntity.SerializeToJson());
+                        }
+                        originFileNameSuffix = originFileName.Substring(lastIndex, originFileName.Length - lastIndex);
+
+                        filename = GUID + originFileNameSuffix;
+                        if (!Directory.Exists(Server.MapPath(path)))
+                        {
+                            Directory.CreateDirectory(Server.MapPath(path));
+                        }
+
+                        Request.Files[i].SaveAs(Path.Combine(Server.MapPath(path), filename));
+                        CommonImageViewModel model = new CommonImageViewModel()
+                        {
+                            idmodule = "",
+                            path = path + filename,
+                            sortno = 0
+                        };
+
+                        resultEntity.Content.Add(model);
+                        i++;
+                        StringBuilder initialPreview = new StringBuilder();
+                        StringBuilder initialPreviewConfig = new StringBuilder();
+                        initialPreviewConfig.Append(",\"initialPreviewConfig\":[");
+                        initialPreview.Append("{\"initialPreview\":[");
+                        for (int k = 0; k < resultEntity.Content.Count; k++)
+                        {
+                            if (k == 0)
+                            {
+                                initialPreview.AppendFormat("\"{0}\"", Url.Content(resultEntity.Content[k].path));
+                                initialPreviewConfig.Append("{\"url\":\"" + Url.Action("DeleteCommonImage", "Manage") + "\"}");
+                            }
+                            else
+                            {
+                                initialPreview.AppendFormat("\",{0}\"", Url.Content(resultEntity.Content[k].path));
+                                initialPreviewConfig.Append(",{\"url\":\"" + Url.Action("DeleteCommonImage", "Manage") + "\"}");
+                            }
+                        }
+                        initialPreview.Append("]");
+                        initialPreviewConfig.Append("]");
+                        initialPreview.Append(initialPreviewConfig.ToString());
+                        initialPreview.Append("}");
+                        return Content(initialPreview.ToString());
+                    }
+
+                }
+                else
+                {
+                    resultEntity.Code = ResponseCodeType.Fail;
+                    resultEntity.Message = "文件上传失败.";
+                    return Content(resultEntity.SerializeToJson());
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.ToString());
+                resultEntity.Code = ResponseCodeType.Fail;
+                resultEntity.Message = "没有选择要上传的文件.";
+                return Content(resultEntity.SerializeToJson());
+            }
+            return Content(resultEntity.SerializeToJson());
+
+
+        }
+
+        [ManageLoginValidation]
+        public ActionResult DeleteCommonImage()
+        {
+            ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            ResultModel<CommonImageViewModel> resultEntity = new ResultModel<CommonImageViewModel>();
+            resultEntity.Code = ResponseCodeType.Success;
+            resultEntity.Message = "文件删除成功";
+            return Content(resultEntity.SerializeToJson());
         }
 
         /// <summary>

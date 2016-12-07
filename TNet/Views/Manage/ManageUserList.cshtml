@@ -62,6 +62,7 @@
                             </td>
                             <td>
                                 <a href="@Url.Action("ManageUserEdit","Manage",new {ManageUserId=item.ManageUserId })" class="btn btn-primary">编辑</a>
+                                <a href="@Url.Action("ManageUserPasswordEdit","Manage",new {manageUserId=item.ManageUserId })" class="btn btn-primary">修改密码</a>
                                 <a href="javascript:void(0);" onclick='openModal("@item.ManageUserId","@item.UserName");' class="btn btn-primary">@(!string.IsNullOrEmpty(item.idweixin) ? "重新" : "")绑定微信</a>
                             </td>
                         </tr>

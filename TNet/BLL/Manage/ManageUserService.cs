@@ -60,6 +60,19 @@ namespace TNet.BLL
             return oldManageUser;
         }
 
+        public static ManageUser PasswordEdit(ManageUser manageUser)
+        {
+            TN db = new TN();
+            ManageUser oldManageUser = db.ManageUsers.Where(en => en.ManageUserId == manageUser.ManageUserId).FirstOrDefault();
+
+            oldManageUser.ManageUserId = manageUser.ManageUserId;
+            oldManageUser.MD5Salt = manageUser.MD5Salt;
+            oldManageUser.Password = manageUser.Password;
+
+            db.SaveChanges();
+            return oldManageUser;
+        }
+
         public static List<ManageUser> SearchByUserName(string userName) {
             List<ManageUser> entities = new List<ManageUser>();
             TN db = new TN();

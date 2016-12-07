@@ -64,6 +64,7 @@
     <Compile Include="EF\BussImage.cs" />
     <Compile Include="EF\City.cs" />
     <Compile Include="EF\CityRelation.cs" />
+    <Compile Include="EF\CommonImage.cs" />
     <Compile Include="EF\Discount.cs" />
     <Compile Include="EF\Ext\AdvertiseEqualityComparer.cs" />
     <Compile Include="EF\Ext\CityRelationEqualityComparer.cs" />

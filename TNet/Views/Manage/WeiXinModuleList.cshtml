@@ -46,7 +46,7 @@
                             <td>@item.title</td>
                             <td>
                                 @if (!string.IsNullOrEmpty(item.ico)) {
-                                    <img src="@Url.Content(item.ico)" alt="@item.title" />
+                                    <img src="@Url.Content(item.ico)" alt="@item.title" class="smallMercImage" />
                                 }
                             </td>
                             <td>@(item.cretime == null ? "" : item.cretime.Value.ToString("yyyy-MM-dd"))</td>

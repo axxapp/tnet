@@ -18,6 +18,7 @@ namespace TCom.EF
         public virtual DbSet<BussImage> BussImages { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<CityRelation> CityRelations { get; set; }
+        public virtual DbSet<CommonImage> CommonImages { get; set; }
         public virtual DbSet<Discount> Discounts { get; set; }
         public virtual DbSet<Img> Imgs { get; set; }
         public virtual DbSet<Issue> Issues { get; set; }
@@ -160,6 +161,18 @@ namespace TCom.EF
                 .IsUnicode(false);
 
             modelBuilder.Entity<CityRelation>()
+                .Property(e => e.idmodule)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CommonImage>()
+                .Property(e => e.idimg)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CommonImage>()
+                .Property(e => e.path)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CommonImage>()
                 .Property(e => e.idmodule)
                 .IsUnicode(false);
 

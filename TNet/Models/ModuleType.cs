@@ -34,6 +34,12 @@ namespace TNet.Models
         /// 通知
         /// </summary>
         [Display(Name = "通知")]
-        Notice =4
+        Notice =4,
+
+        /// <summary>
+        /// 微信模块
+        /// </summary>
+        [Display(Name = "微信模块")]
+        WeiXinModule =5
     }
 }
